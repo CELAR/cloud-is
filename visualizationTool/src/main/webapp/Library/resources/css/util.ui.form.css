@@ -1,0 +1,33 @@
+form {
+	
+}
+
+
+form > .formContent {
+	
+}
+
+form > .formControls {
+	margin-right: 10px;
+    margin-top: 10px;
+}
+
+form.inline > .formContent, form.inline > .formControls {
+	display: inline-block;
+}
+
+form.inline > .formContent > div, form.inline > .formControls > div{
+	display: inline-block;
+}
+
+form option.active {
+	color:green;
+}
+
+form option.inactive {
+	color:grey;
+}
+
+form .formRow {
+	padding: 5px 0;
+}

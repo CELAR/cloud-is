@@ -1,0 +1,71 @@
+.beanBoxHolder {
+	
+}
+
+.beanBoxHolder.seperator{
+	
+}
+
+.beanBoxHolder.seperator .header, .beanBoxHolder.seperator .body{
+	margin-left: 3px;	
+}
+
+.beanBoxHolder.seperator .beanBox {
+	border-left: 1px solid lightgray;
+}
+
+.beanBoxHolder.seperator .beanBox:first-child{
+	border-left: auto;
+}
+
+
+.beanBox {
+	min-height: 50px;
+	min-width: 100px;
+	position: relative;
+	border: 1px solid white;
+	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	
+	line-height: 15px;
+	font-size: 80%;
+}
+
+.beanBox.inline {
+	display: inline-block;
+}
+
+.beanBox > .header{
+    height: 20px;
+    left: 0;
+    position: absolute;
+    right: 0;
+}
+
+.beanBox > .header > .inner{
+	padding: 5px;
+	text-align: center;
+}
+
+.beanBox > .header .title{
+	height: 20px;
+}
+
+.beanBox > .body{
+	background: none repeat scroll 0 0 white;
+    border-top: 1px solid lightgray;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    position: absolute;
+    right: 0;
+    top: 20px;	
+}
+
+.beanBox > .body > .inner{
+	padding: 5px 8px;
+	text-align: center;
+	font-style: italic;
+}

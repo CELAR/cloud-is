@@ -1,0 +1,13 @@
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <title>tasksIco</title>
+ <g>
+  <title>Layer 1</title>
+  <path id="svg_4" d="m43.055534,363.75c0,-16.301392 9.193298,-30 20.13332,-30l513.400013,0c10.940063,0 20.133423,13.698608 20.133423,30l0,54c0,16.301392 -9.193359,30 -20.133423,30l-513.400013,0c-10.940022,0 -20.13332,-13.698608 -20.13332,-30l0,-54z" stroke-linecap="null" stroke-linejoin="null" stroke-width="5" stroke="#303030" fill="#3f3f3f"/>
+  <path id="svg_11" d="m43.055565,213.75c0,-16.301392 9.193298,-30 20.133324,-30l513.399979,0c10.940063,0 20.133362,13.698608 20.133362,30l0,54c0,16.301392 -9.193298,30 -20.133362,30l-513.399979,0c-10.940025,0 -20.133324,-13.698608 -20.133324,-30l0,-54z" stroke-linecap="null" stroke-linejoin="null" stroke-width="5" stroke="#303030" fill="#3f3f3f"/>
+  <path id="svg_12" d="m43.055565,63.75c0,-16.301392 9.193298,-30 20.133324,-30l513.399979,0c10.940063,0 20.133362,13.698608 20.133362,30l0,54c0,16.301392 -9.193298,30 -20.133362,30l-513.399979,0c-10.940025,0 -20.133324,-13.698608 -20.133324,-30l0,-54z" stroke-linecap="null" stroke-linejoin="null" stroke-width="5" stroke="#303030" fill="#3f3f3f"/>
+  <rect ry="2" rx="2" id="svg_5" height="80" width="160" y="50" x="400" stroke-linecap="null" stroke-linejoin="null" stroke-width="5" stroke="#ffffff" fill="#ffffff"/>
+  <rect id="svg_13" ry="2" rx="2" height="80" width="90" y="350" x="470" stroke-linecap="null" stroke-linejoin="null" stroke-width="5" stroke="#ffffff" fill="#ffffff"/>
+  <rect id="svg_14" ry="2" rx="2" height="80" width="260" y="200" x="300" stroke-linecap="null" stroke-linejoin="null" stroke-width="5" stroke="#ffffff" fill="#ffffff"/>
+ </g>
+</svg>

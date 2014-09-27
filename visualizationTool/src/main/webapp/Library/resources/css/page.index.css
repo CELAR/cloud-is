@@ -1,0 +1,210 @@
+.pageMainContainer.index {
+	
+}
+
+.pageMainContainer.index .mainContentHolder {
+	top: 10px;
+}
+
+button.close {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    cursor: pointer;
+    padding: 0;
+}
+button.close {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    cursor: pointer;
+    padding: 0;
+}
+.close {
+    color: #000;
+    float: right;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 20px;
+    opacity: 0.2;
+    text-shadow: 0 1px 0 #fff;
+}
+
+button, input, select, textarea {
+    font-size: 100%;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.pageMainContainer.index .paneHolder {
+    border-right-width: 0;
+    bottom: 0;
+    margin-right: 40px;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.pageMainContainer.index .paneHolder .pane {   
+    margin:5px;
+    vertical-align: top;
+    min-height: 0;
+}
+
+.pageMainContainer.index .dashPaneRow {
+	
+}
+
+.pageMainContainer.index .dashPaneRow > div{
+	display: inline-block;
+}
+
+
+.ui-widget {
+    font-size: 0.8em;
+}
+
+.pageMainContainer.index .contentBox {
+	-moz-box-shadow: 2px 2px 4px lightblue;
+    -webkit-box-shadow: 2px 2px 4px lightblue;
+    box-shadow: 2px 2px 4px lightblue;
+    
+    border-top: 1px solid #dee7ea;
+    border-right: none;
+    border-bottom: none;
+    border-left: 1px solid #dee7ea;
+}
+
+.pageMainContainer.index .contentBox > div{
+	margin: 0px 4px;
+}
+
+.pageMainContainer.index .contentBox > .header{
+	background: none repeat scroll 0 0 white;
+}
+
+.pageMainContainer.index .contentBox > .body{
+    border-top: 1px solid lightgray;   
+    bottom: auto;/* resetting property is not totally crossbrowser*/
+}
+
+.pageMainContainer.index .deploymentBean {
+	/*border-bottom: 1px solid lightgray;  */
+}
+
+.pageMainContainer.index .deploymentBean:last-child {
+	border-bottom: none;  
+}
+
+.pageMainContainer.index .deploymentBean .statusBar {
+	font-size: 85%;
+	padding: 0px 2px;
+}
+
+.pageMainContainer.index .deploymentBean .statusBar > .status {
+}
+
+.pageMainContainer.index .deploymentBean .statusBar > .status.online{
+	color: green;
+}
+
+.pageMainContainer.index .deploymentBean .statusBar > .status.offline{
+	color: red;
+}
+
+.pageMainContainer.index .deploymentBean .title {
+	
+}
+
+.pageMainContainer.index .deploymentBean .info {
+	padding: 0px 6px;
+	font-size: 75%;
+	color:grey;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.pageMainContainer.index .deploymentBean .control span{
+	color: blue;
+}
+
+.pageMainContainer.index .deploymentBean .control span:hover{
+	text-decoration: underline;
+}
+
+.pageMainContainer.index .deploymentBean .separator {
+	heigh: 1px;
+	margin: 5px 15px;
+	border: 1px solid lightblue;
+}
+
+.pageMainContainer.index .deploymentBean:last-child .separator {
+	heigh: 1px;
+	margin: 5px 15px;
+	border: none;
+}
+
+
+.expander {
+	margin-top: 10px;
+	clear: both;
+}
+
+.expander > .expanderSeparator {
+	
+}
+
+.expander > .expanderControl{
+	line-height: initial;	
+}
+
+.expander > .expanderControl > .button{
+	/*
+	width: 70%;
+	background:rgba(170,218,227,0.2);
+	border: 2px solid lightblue;
+    border-radius: 25px;
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+    */
+    margin: auto;
+    text-align: center;
+    font-size: 80%;
+    color: blue
+}
+
+.expander > .expanderControl > .button:hover{
+	text-decoration: underline;
+}
+
+.expander.clps > .expanderControl > .button span.expand{
+	display: block;
+}
+
+.expander.clps > .expanderControl > .button span.collapse{
+	display: none;
+}
+
+.expander.expd > .expanderControl > .button span.collapse{
+	display: block;
+}
+
+.expander.expd > .expanderControl > .button span.expand{
+	display: none;
+}
+
+.expander > .expanderContent{
+	margin: auto;
+}
+
+
+.expander.clps > .expanderContent{
+	display: none;
+}
+
+.expander.expd > .expanderContent{
+	display: block;
+}
+
+
+

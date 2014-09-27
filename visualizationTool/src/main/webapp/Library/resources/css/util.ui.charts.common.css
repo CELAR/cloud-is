@@ -1,0 +1,79 @@
+.chart {
+	background-color: white;
+    border-color: gray;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px 2px;
+	
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+.chart .header {
+	height: 30px;
+	background-color: lightgray;
+    border-bottom: 1px solid;
+    color: darkgray;
+}
+
+.chart .header > .precisionBar{
+	float: left;
+}
+
+.chart .header > .precisionBar > .item{
+	display:inline-block;
+	border-right: 1px solid gray;	
+    padding: 5px;
+}
+
+.chart .header > .precisionBar > .item:first-child{
+	border-right: none;
+}
+
+.chart .header > .precisionBar > .item.selected{
+	background-color: gray;
+}
+
+.chart .header > .moreInfoBar{
+	float:right;
+}
+
+.chart .header > .moreInfoBar > .item{
+	display:inline-block;
+	border-left: 1px solid gray;	
+    padding: 5px;
+}
+
+.chart .header > .moreInfoBar > .item:last-child{
+	border-left: none;
+}
+
+.chart .header > .moreInfoBar > .item.selected{
+	background-color: gray;
+}
+
+
+.chart .inlineInfo{
+	
+}
+
+
+.chart .chartHolder {
+	
+}
+
+.chart .footer {
+	background-color: lightgray;
+    border-top: 1px solid;
+    color: darkgray;
+    padding: 5px 2px 2px;
+}
+
+.chart .footer > .inner{
+	text-align: right;
+}
+
+.chart .footer > .inner > div{
+	display:inline-block;
+}

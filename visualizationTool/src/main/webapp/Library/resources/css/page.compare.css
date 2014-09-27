@@ -1,0 +1,77 @@
+.pageMainContainer.compare {
+	
+}
+
+.pageMainContainer.compare > .objectSelectorWrapper {
+	height: 100px;
+	background-color: lightgrey;
+}
+
+.pageMainContainer.compare .objectSelectorWrapper > .inner {
+	padding: 8px 2px;
+	border-bottom: 2px solid grey;
+	height: 82px;
+}
+
+.pageMainContainer.compare .objectSelectorWrapper .inner > div {
+	display: inline-block;
+	float: left;
+}
+
+.pageMainContainer.compare .comparissonRibbon .ribbonItem {	
+	height: 80px;	
+}
+
+.pageMainContainer.compare .objectSelectorWrapper .addNewControl {
+	width: 50px;
+	margin: auto;
+	border: 1px solid gray;
+}
+
+.pageMainContainer.compare .objectSelectorWrapper .addNewControl:hover {
+	border: 1px solid black;
+}
+
+.pageMainContainer.compare .comparissonRibbon .well {
+	height: 80px;
+    margin: auto;
+}
+
+.pageMainContainer.compare .comparissonRibbon .wellContentHolder > .wellItem {
+	min-width : 200px;
+	display: inline-block;
+}
+
+.pageMainContainer.compare .comparissonRibbon .wellItem > .inner {
+	border: 1px solid black;
+	margin: 0px 5px;
+}
+
+.pageMainContainer.compare .comparissonRibbon .compItemHead {
+	
+}
+
+.pageMainContainer.compare .comparissonRibbon .compItemMain {
+	
+}
+
+.pageMainContainer.compare .comparissonRibbon .compItemFooter {
+	
+}
+
+.pageMainContainer.compare .contentMainHolder {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 100px;
+    overflow-y: auto;
+}
+
+.pageMainContainer.compare.navOn .innerNavMenu {
+    top: 100px;
+}
+
+.pageMainContainer.compare.navOn .contentMainHolder {
+	top: 140px;
+}

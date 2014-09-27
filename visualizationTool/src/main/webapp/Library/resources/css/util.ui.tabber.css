@@ -1,0 +1,85 @@
+.tabber {
+}
+
+.tabber .navBar {
+	border: 1px solid rgba(166, 166, 166, 0.5);
+    border-radius: 5px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.tabber .navBar > .navTile {
+    border-bottom: 3px solid rgba(192, 4, 3, 0);
+    box-sizing: border-box;
+    color: #999999;
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    padding: 5px;
+    text-align: center;
+    /*width: 20%;*/
+}
+
+.tabber .navBar > .navTile.selected, .tabber > .navBar > .navTile:hover {
+    background-color: rgba(166, 166, 166, 0.1);
+    border-bottom: 3px solid #C00403;
+    color: #C00403;
+}
+
+.tabber .navBar > .navTile.disabled, .tabber > .navBar > .navTile.disabled:hover {
+	cursor: auto;
+	color: grey;
+}
+
+.tabber .pagesContainer {
+	
+}
+
+.tabber .pagesContainer > .tabPage {
+	overflow-y:scroll;
+}
+
+.tabber .navBar > .navTile:before {
+	content: " |  ";
+}
+
+.tabber .navBar > .navTile:first-child:before {
+	content: none;
+}
+
+/**/
+
+.tabber .tabberNav {
+	display:block;
+	height:30px;
+}
+
+.tabber .tabberNav > .navTile {
+    border-bottom: 3px solid rgba(192, 4, 3, 0);
+    box-sizing: border-box;
+    color: #999999;
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    padding: 5px;
+    text-align: center;
+    /*width: 20%;*/
+}
+
+
+.tabber .tabberNav > .navTile.editable > .tabMenuItemText {
+    padding-right: 23px;
+    line-height: 29px;
+}
+
+.tabber .tabberNav > .navTile.editable > .closeBtn {
+    display: block;
+    position: absolute;
+    top: 7px;
+    right: 0px;
+    width: 16px;
+    height: 16px;
+    background: url('/Library/media/closeX.svg') no-repeat scroll 0px -16px / cover transparent;
+    opacity: 0.5;
+    cursor: pointer;
+}

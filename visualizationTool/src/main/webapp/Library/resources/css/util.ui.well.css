@@ -1,0 +1,27 @@
+.well {
+	
+}
+
+.well > .wellItemTemplate {
+	display: none;
+}
+
+.well > .wellContentHolder {
+	
+}
+
+.well > .wellContentHolder > .placeHolder.msgOn{
+	display: block;
+}
+
+.well > .wellContentHolder > .placeHolder.msgOff{
+	display: none;
+}
+
+.well > .wellContentHolder > .wellItem{
+	
+}
+
+.well > .wellContentHolder > .wellItem.selected{
+	background-color: cyan;
+}

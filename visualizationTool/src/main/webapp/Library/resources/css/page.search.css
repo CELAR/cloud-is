@@ -1,0 +1,132 @@
+.pageMainContainer.search {
+	
+}
+
+.pageMainContainer.search .mainContentHolder {
+	top: 10px;
+}
+
+button.close {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    cursor: pointer;
+    padding: 0;
+}
+button.close {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    cursor: pointer;
+    padding: 0;
+}
+.close {
+    color: #000;
+    float: right;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 20px;
+    opacity: 0.2;
+    text-shadow: 0 1px 0 #fff;
+}
+
+button, input, select, textarea {
+    font-size: 100%;
+    margin: 0;
+    vertical-align: middle;
+    
+    float: right;
+}
+
+.paneHolder {
+    border-right-width: 0;
+    bottom: 0;
+    margin-right: 40px;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.pane {
+    border: 1px solid black;
+    height: 300px;
+    width: 300px;
+    margin:5px;
+}
+
+.ui-widget {
+    font-size: 0.8em;
+}
+
+
+.pageMainContainer.search .side {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	width: 349px;
+	border-right: 1px solid lightblue;
+	
+}
+
+.pageMainContainer.search .side > .inner{
+	padding: 0px 8px;
+}
+
+.pageMainContainer.search .side > .inner .content {
+	padding: 0px 4px;
+}
+
+
+.pageMainContainer.search .side .searchControl .navTile.selected {
+	color: black;
+}
+
+.pageMainContainer.search .searchControl > .titleBar {
+	border-bottom: 1px solid lightblue;
+	padding: 8px 0px;
+}
+
+.pageMainContainer.search .searchControl > .titleBar .title{
+	font-size:110%;
+	text-align:center;
+}
+
+.pageMainContainer.search .searchControl .formContent {
+	
+}
+
+.pageMainContainer.search .searchResultsPanel {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 350px;
+	right: 0px;
+}
+
+.pageMainContainer.search .searchResultsPanel > .resultsHolder {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+}
+
+.pageMainContainer.search .searchResultsPanel > .promptHolder{
+	color: lightgray;
+    font-size: 140%;
+    left: 45%;
+    line-height: 40px;
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    top: 35%;
+}
+
+.pageMainContainer.search .resultsHolder > .titleBar {
+	padding: 8px 0px;
+}
+
+.pageMainContainer.search .resultsHolder > .titleBar .title{
+	font-size:110%;
+}

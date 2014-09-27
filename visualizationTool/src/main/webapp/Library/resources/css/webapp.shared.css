@@ -1,0 +1,123 @@
+html {
+    font-size: 100%;
+}
+html, button, input, select, textarea {
+    font-family: sans-serif;
+}
+
+body {
+    background: none repeat scroll 0 0 #eeeef0;
+    min-height: 100%;
+    font-weight: 300;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0;
+}
+
+strong {
+    font-weight: 700;
+}
+
+.noDisplay {
+	display:none;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.small {
+    font-size: 85%;
+}
+
+
+.scrollY {
+	overflow-y: auto;
+}
+
+.page {
+	position: absolute;
+	overflow: hidden;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	height:100%;
+	width:100%;
+}
+
+
+.page > .navbar.topLevelMenu {
+	position: absolute;
+	background: none repeat scroll 0 0 #c7c7cd;
+    top: 0px;
+    left: 0;
+    right: 0;
+}
+
+.page > .navbar.topLevelMenu .navbar-inner > div{
+	margin-top: 16px;
+}
+
+.navbar-inner {
+	 border-bottom-style: solid;
+     border-bottom-width: 2px;
+	 border-bottom-color: #898996;
+	 height: 48px;
+}
+
+.page .nav .navTile{
+	display: inline-block;
+	font-size: 120%;
+	padding: 5px;
+	border-bottom-style: solid;
+    border-bottom-width: 2px;
+	border-bottom-color: #c7c7cd; /*same as navbar background color*/
+}
+
+.page .nav .navTile:hover{
+	border-bottom-color: #898996; 
+}
+
+.page .nav .navTile.selected{
+	border-bottom-color: #898996; 
+}
+
+.page.notice > .navbar.topLevelMenu {
+   top: 20px;
+}
+
+
+.page .navbar.topLevelMenu .nav {
+    display: block;
+    left: 0;
+    position: relative;
+}
+
+.page > .mainContainer {
+	position: absolute;
+	top: 50px;
+	bottom:0px;
+	width: 100%;
+}
+
+.page.notice > .mainContainer {
+	top: 70px;
+}
+
+.navbar.topLevelMenu {
+	
+}
+
+.navbar.topLevelMenu .navTile a:link, .navbar.topLevelMenu .navTile a:visited, .navbar.topLevelMenu .navTile a:hover, .navbar.topLevelMenu .navTile a:active {
+	text-decoration: none;
+	color: inherit;
+}
+
+
+

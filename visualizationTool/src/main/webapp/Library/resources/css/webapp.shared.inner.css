@@ -1,0 +1,92 @@
+.pageMainContainer {
+	
+}
+
+.pageMainContainer.navOn {
+	
+}
+
+.pageMainContainer.navOn .innerNavMenu{
+	position: absolute;
+	/*background: none repeat scroll 0 0 #c7c7cd;*/
+	background: none repeat scroll 0 0 #ffffff;
+    top: 0px;
+    left: 0;
+    right: 20px;
+    height: 40px;
+}
+
+.pageMainContainer.navOn .contentMainHolder{
+	top: 40px;
+}
+
+.pageMainContainer .contentMainHolder{
+	position: absolute;
+	top: 0px;
+	left: 0;
+    right: 0;
+    bottom:0px;
+}
+
+.pageMainContainer.navOn .innerNavMenu > .inner{
+	/*float: right;*/
+}
+
+.pageMainContainer.navOn .innerNavMenu > .inner.pull-left{
+	width: 60px;
+}
+
+.pageMainContainer.navOn .innerNavMenu > .inner.pull-right{
+	padding-left: 60px;
+}
+
+.pageMainContainer.navOn .innerNavMenu > .inner > div {
+	display: inline-block;
+}
+
+.pageMainContainer.navOn .innerNavMenu .navTile {
+	border-bottom: none;
+    border-top: 3px solid rgba(192, 4, 3, 0);    
+}
+
+.pageMainContainer.navOn .innerNavMenu .navTile.selected {
+	border-bottom: none;
+    border-top: 3px solid #898996;
+    color: black;
+}
+
+.pageMainContainer.navOn .innerNavMenu .navTile:hover {
+	border-bottom: none;
+    border-top: 3px solid #898996;    
+}
+
+.pageMainContainer .anchor {
+	text-decoration:underline;
+	color: blue;
+	cursor: pointer;
+}
+
+.pageMainContainer .anchor:hover{
+	color: lightblue;
+}
+
+.pageMainContainer .contentMainHolder {
+	bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.pageMainContainer .contentMainHolder > .mainContentHolder {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.pageMainContainer .contentMainHolder > .sideContentHolder {
+	}
+
+

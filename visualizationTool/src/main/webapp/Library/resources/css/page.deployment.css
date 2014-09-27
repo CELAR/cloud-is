@@ -1,0 +1,179 @@
+.pageMainContainer.deployment {
+	
+}
+
+
+.pageMainContainer.deployment .frameHolder{
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 30px;
+    width: 100%;
+}
+
+.pageMainContainer.deployment iframe {
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    border:none;
+}
+
+.pageMainContainer.deployment .tabber .pagesContainer {
+	bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    overflow-y: auto;
+}
+
+.pageMainContainer.deployment .connectionToolbar {
+	font-style: italic;
+    text-align: center;
+    height: 30px
+}
+
+.pageMainContainer.deployment .connectionToolbar > .inner{
+    padding: 5px 0;
+}
+
+.pageMainContainer.deployment .generatedReportsTabPage{
+	bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+.pageMainContainer.deployment .topologyLayoutSideBar {
+	bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 300;
+    top: 0;
+    padding: 0 10px 10px;
+}
+
+.pageMainContainer.deployment .appComponentList {
+	border: 2px solid lightblue;
+	border-radius: 10px;
+	width: 270px;
+	position: relative;
+	min-height:300px;
+}
+
+.pageMainContainer.deployment .appComponentList > .header{
+    height: 30px;
+    left: 0;
+    position: absolute;
+    right: 0;
+}
+
+.pageMainContainer.deployment .appComponentList > .header > .inner{
+	padding: 5px;
+	padding-bottom: 4px;
+	border-bottom: 1px solid lightblue;
+	margint: 0px 5px;
+}
+
+.pageMainContainer.deployment .appComponentList > .header .title{
+	height: 20px;
+}
+
+.pageMainContainer.deployment .appComponentList > .body{    
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    position: absolute;
+    right: 0;
+    top: 30px;	
+}
+
+.pageMainContainer.deployment .appComponentList > .body > .inner{
+	padding: 5px 8px;	
+	background: none repeat scroll 0 0 white;
+}
+
+.pageMainContainer.deployment .analyticsReports {
+	bottom: 0;
+    left: 300px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+.pageMainContainer.deployment .analyticsReportHolder {
+	bottom: 0px;    
+    position: absolute;
+    right: 0;
+    top: 0;
+    width:100%;
+    left:0px;
+    overflow-x: auto;
+    white-space:nowrap;
+    padding-bottom: 15px;
+}
+
+.pageMainContainer.deployment .analyticsReportHolder > div{
+	display: inline-block;
+	vertical-align: middle; /* Since it is display: inline-block, we need this hack to remove parent y-overflow/scroll */
+	*display: inline;/*For IE7*/
+    *zoom:1;/*For IE7*/
+}
+
+.pageMainContainer.deployment .analyticsReportHolder > .singleReport {
+	overflow-y: auto;
+	height:100%;
+	margin-right: 15px;
+	min-width: 600px;
+}
+
+.pageMainContainer.deployment .analyticsReportHolder > .singleReport.expanded {
+	height:100%;
+	width: 100%;
+	margin-right: 0px;
+}
+
+.pageMainContainer.deployment .analyticsReportHolder > .singleReport > .header .title{
+	float: left;
+}
+
+.pageMainContainer.deployment .analyticsReportHolder > .singleReport > .header .controls{
+	float:right
+}
+
+
+.pageMainContainer.deployment .analyticsReportHolder > .singleReport .body > .inner{
+	
+	overflow-x: hidden; /*temporary*/
+	overflow-y: hidden; /*temporary*/
+}
+
+
+.test {
+	overflow-y:scroll; 
+	height: inherit;
+}
+
+.pageMainContainer.deployment .analyticsReportHolder > .singleReport .beanBox {
+    font-size: 100%;
+}
+
+.pageMainContainer.deployment .analyticsReportHolder > .singleReport .beanBox .body{
+    border:none;
+}
+
+
+.graphInfo > div {
+	display:inline-block;
+	text-align: center;
+	font-style: italic;
+}
+
+
+

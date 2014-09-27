@@ -1,4 +1,9 @@
-cloud-is
-========
+#cloud-is
 
-Cloud Information System
+
+##Cloud Information System
+
+
+##Licensing - Copyrights
+
+	Please see the file called LICENSE.

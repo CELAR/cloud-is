@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns="http://java.sun.com/xml/ns/javaee" 
+		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+		version="2.5">  
+  <display-name>visTool</display-name>
+  
+   <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <security-constraint>
+    <display-name>Restrict direct access to certain folders</display-name>
+    <web-resource-collection>
+      <web-resource-name>Restricted folders</web-resource-name>
+      <url-pattern>/hPages/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint/>
+  </security-constraint>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>All Access</web-resource-name>
+      <url-pattern>/Library/*</url-pattern>
+      <http-method>GET</http-method>
+    </web-resource-collection>
+  </security-constraint>
+  <listener>
+    <listener-class>eu.celarcloud.cloud_is.visualizationTool.configuration.ContextInitializer</listener-class>
+  </listener>
+  <servlet>
+    <description></description>
+    <display-name>MainPage</display-name>
+    <servlet-name>MainPage</servlet-name>
+    <servlet-class>eu.celarcloud.cloud_is.visualizationTool.servlet.pages.HomePage</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>Compare Versions</display-name>
+    <servlet-name>Compare</servlet-name>
+    <servlet-class>eu.celarcloud.cloud_is.visualizationTool.servlet.pages.Compare</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>Deployment Info</display-name>
+    <servlet-name>Deployment</servlet-name>
+    <servlet-class>eu.celarcloud.cloud_is.visualizationTool.servlet.pages.DeplInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>Version Info</display-name>
+    <servlet-name>Version</servlet-name>
+    <servlet-class>eu.celarcloud.cloud_is.visualizationTool.servlet.pages.VersInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <description>
+  	</description>
+    <display-name>AppInfo</display-name>
+    <servlet-name>AppInfo</servlet-name>
+    <servlet-class>eu.celarcloud.cloud_is.visualizationTool.servlet.AppInfo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MainPage</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Version</servlet-name>
+    <url-pattern>/application/version/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Compare</servlet-name>
+    <url-pattern>/application/version/compare/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Deployment</servlet-name>
+    <url-pattern>/application/version/deployment/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AppInfo</servlet-name>
+    <url-pattern>/ajax/application/info</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/Library/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Change WebClient Configuration</description>
+    <display-name></display-name>
+    <servlet-name>Config</servlet-name>
+    <servlet-class>eu.celarcloud.cloud_is.visualizationTool.servlet.configuration.Config</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Config</servlet-name>
+    <url-pattern>/ajax/configuration/isendpoint</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Get a analytics report template</description>
+    <display-name></display-name>
+    <servlet-name>aReportTempl</servlet-name>
+    <servlet-class>eu.celarcloud.cloud_is.visualizationTool.servlet.AnalyticsTemplate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>aReportTempl</servlet-name>
+    <url-pattern>/ajax/analytics/reports/template</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Dashboard</display-name>
+    <servlet-name>Dashboard</servlet-name>
+    <servlet-class>eu.celarcloud.cloud_is.visualizationTool.servlet.pages.Dashboard</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Dashboard</servlet-name>
+    <url-pattern>/dashboard/</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Search</display-name>
+    <servlet-name>Search</servlet-name>
+    <servlet-class>eu.celarcloud.cloud_is.visualizationTool.servlet.pages.Search</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Search</servlet-name>
+    <url-pattern>/search/</url-pattern>
+  </servlet-mapping>
+  
+</web-app>

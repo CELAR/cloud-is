@@ -1,0 +1,272 @@
+.pageMainContainer.version {
+	
+}
+
+.pageMainContainer.version .versOverviewPage{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right:0px;
+}
+
+.pageMainContainer.version .versOverviewPage .generalInfoSidebar{
+	position: absolute;
+	width: 300px;
+}
+
+.pageMainContainer.version .generalInfoSidebar > .infoBox{
+	width: 248px;
+	height: 278px;
+	margin: 20px;
+	border: 1px solid black;
+	
+	-moz-box-shadow: 4px 4px 4px lightgray;
+    -webkit-box-shadow: 4px 4px 4px lightgray;
+    box-shadow: 4px 4px 4px lightgray;
+    
+    -webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+.pageMainContainer.version .versOverviewPage .mainPane{
+	position: absolute;
+	right: 0px;
+	left: 300px;
+}
+
+
+.pageMainContainer.version .versOverviewPage .inner{
+	padding: 8px;
+}
+
+.pageMainContainer.version .versOverviewPage .inner > .header {
+	color: black;
+	border-bottom: 1px solid black;
+	padding-left: 2px;
+	font-size: 110%;
+}
+
+.pageMainContainer.version .versOverviewPage .inner > .content{
+	padding-left: 4px;
+	text-align: justify
+}
+
+/* old staff*/
+
+.dashboard {
+	height: 100%;
+}
+
+.dashboard.collapsed {
+	width: 412px;
+	margin: auto;
+}
+
+.dashboard.expanded {
+	width: 100%;
+	margin: 0px;
+}
+
+/*applicationsHolder*/
+.applicationsHolder{
+	padding: 0 5px;
+}
+
+.dashboard.collapsed .applicationsHolder {
+	width: 400px;
+	border: 1px solid grey;
+	border-top: none;
+}
+
+.dashboard.expanded .applicationsHolder {
+	width: 200px;
+    float: left;
+    height: 100%;
+    width: 300px;
+    border: none;
+}
+
+/*versionsHolder*/
+.versionsHolder{}
+
+.dashboard.collapsed .versionsHolder {
+	display:none;
+}
+
+.dashboard.expanded .versionsHolder {
+	display:block;
+    float: left;
+    height: 100%;
+    width: 300px;
+}
+
+.versionsHolder .wellContentHolder > .wellItem.toCompare {
+	background-color:#CC5500;
+	color: white;
+}
+
+.applicationsHolder .header, .versionsHolder .header {
+	height: 40px;
+}
+
+.applicationsHolder .header > span {
+	display: block;
+	height: 20px;
+	padding: 10px 0px;
+}
+.versionsHolder .header > div {
+	height: 20px;
+	padding: 10px 0px;
+}
+
+/*versionInfoHolder*/
+.versionInfoHolder{}
+
+.dashboard.collapsed .versionInfoHolder {
+	display:none;
+}
+
+.dashboard.expanded .versionInfoHolder {
+	display:block;
+    height: 100%;
+    margin-left: 610px;
+}
+
+.versionInfoHolder .top {
+	height: 300px;
+}
+
+.versionInfoHolder .bottom {
+	margin-top: 5px;
+	padding-top: 5px;
+	border-top: 1px solid grey;
+}
+/*
+.inner {
+	border-left: 1px solid black;
+	height: 100%;
+    padding: 0 5px;	
+    overflow-y: scroll;
+}
+*/
+.versionInfoHolder .inner {
+	padding: 0;
+	padding-left: 5px;	
+    overflow-y: hidden;
+    height:auto;
+}
+
+.inner.placeholder {
+	height: 100%;
+}
+
+.versionInfoHolder .inner .header{
+	height:auto;
+}
+
+.inner .header > span, .inner .header > div{
+	display: inline-block;
+}
+
+.compareControl > div{
+	display: inline-block;
+}
+
+div.clickable {
+	cursor: pointer;
+	color: blue;
+}
+
+.appTopology, .appTopology > svg {
+	height:100%;
+	width:100%;
+}
+
+
+
+.page > .mainContent {
+	height: 100%;
+}
+.mainContent > .sidebar {
+    float: left;
+    height: 100%;
+    width: 30px;
+}
+.mainContent > .sidebar.open {
+	width: 300px;
+}
+
+.mainContent .sidebar > .contentCol {	
+	border-right: 1px solid black;
+}
+.mainContent .sidebar > .togglerCol {
+	border: 1px solid black;
+	width: 30px;
+	background-color: #FFC0CB;
+}
+.sidebar .togglerCol > .control {
+	display: block;
+    height: 30px;
+    margin: auto;
+    text-align: center;
+}
+.mainContent > .mainCol{
+	display: block;
+    height: 100%;
+    margin-left: 310px;
+}
+.mainContent > .mainCol.full{
+	margin-left: 30px;
+}
+
+.chartSeriesFrag {
+	display:inline-block;
+	width:48%;
+	margin: 0px;
+}
+
+.pieChartSeriesLegend {}
+
+.pieChartSeriesLegend.rowLegend {
+	
+}
+
+.rowLegend > .legendItem, .rowLegend > .legendItem > div {
+	display: inline-block;
+}
+
+.rowLegend .legendItem > .color {
+	width: 10px;
+	height: 10px;
+	content:" ";
+}
+.rowLegend .legendItem > .title {
+	
+}
+
+.lineGraphHeader {
+	margin: auto;
+    width: 400px;
+}
+
+.lineGraphHeader > .graphTitle {}
+
+.graphTitle span.value {
+	text-transform: uppercase;
+}
+
+.lineGraphHeader > .graphInfo {}
+
+.graphInfo > div {
+	display: inline-block;
+}
+
+.graphInfo span.label{
+	font-weight:bold;
+}
+
+.graphInfo span.value {
+	font-style:italic;
+}

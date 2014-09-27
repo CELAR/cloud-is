@@ -1,0 +1,15 @@
+.well > .wellContentHolder > .wellItem{
+	padding: 5px;
+	margin: 5px 0px;
+	border:1px solid black;
+	backgroud-color:white;
+}
+
+.well > .wellContentHolder > .wellItem:hover{
+	background-color: #FF9F00;
+	cursor: pointer;
+}
+
+.well > .wellContentHolder > .wellItem.selected{
+	background-color: #F58025;
+}
