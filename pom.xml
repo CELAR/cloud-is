@@ -8,8 +8,7 @@
    <parent>
     <groupId>eu.celar</groupId>
     <artifactId>distribution</artifactId>
-    <version>0.0.1-SNAPSHOT</version>       
-    <relativePath>..\celar-distribution</relativePath>
+    <version>0.0.1-SNAPSHOT</version>
    </parent>
 
    <modules>
