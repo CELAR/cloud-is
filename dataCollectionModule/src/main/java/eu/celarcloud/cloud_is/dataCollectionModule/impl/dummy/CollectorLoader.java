@@ -18,46 +18,39 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource;
+package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Interface IMonitoring.
- */
-public interface IMonitoring extends IDataSource{	
-	/**
-	 * Gets the agents.
-	 *
-	 * @param string
-	 *            the string
-	 * @param string2
-	 *            the string2
-	 * @return the agents
-	 */
-	public String getAgents(String string, String string2);
+public class CollectorLoader implements ISourceLoader {
+
 	
-	/**
-	 * Gets the agent metrics.
-	 *
-	 * @param agentId
-	 *            the agent id
-	 * @return the agent metrics
-	 */
-	public String getAgentMetrics(String agentId);
+	public IDataSource getDtCollectorInstance(String sourceType, String uri)
+	{
+		IDataSource DtCollectorInstance = null;		
+		if(sourceType.equals(TYPE_MONITORING))
+		{
+			DummyMonData temp = new DummyMonData();
+			temp.init(uri);
+			DtCollectorInstance = temp;			
+		}
+		else if(sourceType.equals(TYPE_RESOURCES))
+			DtCollectorInstance = null;
+		else if(sourceType.equals(TYPE_APPLICATION))
+		{
+			DummyAppData temp = new DummyAppData();
+			temp.init(uri);
+			DtCollectorInstance = temp;
+		}
+		else if(sourceType.equals(TYPE_ELASTICITY))
+			DtCollectorInstance = null;
+		else
+			DtCollectorInstance = null;
+		
+		
+		return DtCollectorInstance;
+	}
+
 	
-	/**
-	 * Gets the values for time range.
-	 *
-	 * @param string
-	 *            the string
-	 * @param string2
-	 *            the string2
-	 * @param object
-	 *            the object
-	 * @param object2
-	 *            the object2
-	 * @return the values for time range
-	 */
-	public String getValuesForTimeRange(String string, String string2,String object, String object2);
 }

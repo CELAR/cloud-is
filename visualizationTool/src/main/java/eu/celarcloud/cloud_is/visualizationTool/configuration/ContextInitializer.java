@@ -21,6 +21,7 @@
 package eu.celarcloud.cloud_is.visualizationTool.configuration;
 
 import java.io.File;
+import java.util.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -32,13 +33,15 @@ import javax.servlet.ServletContextListener;
  */
 public class ContextInitializer implements ServletContextListener{
 	
+	private ServletContext appContext = null;
 	 
 	
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
 	 */
 	public void contextDestroyed(ServletContextEvent sce) {
-		System.out.println("webClient context destroyed");
+		System.out.println("cloud-is-web: Context destroyed");
+		this.appContext = null;
 	}
  
 	
@@ -46,22 +49,41 @@ public class ContextInitializer implements ServletContextListener{
 	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
 	 */
 	public void contextInitialized(ServletContextEvent sce) {
-		System.out.println("webClient context started");
-		ServletContext context = sce.getServletContext();
+		System.out.println("cloud-is-web: Context started");
+		this.appContext = sce.getServletContext();
 		
 		String configPath = "config"+File.separator+"init.properties";		
-		String path = context.getRealPath(configPath);
+		String path = this.appContext.getRealPath(configPath);
 		
+		//
+		readConfigurationProps(path);
+		
+		// monitor a single file
+	    TimerTask task = new FileWatcher( new File(path) ) {
+	      protected void onChange( File file ) {
+	        // here we code the action on a change
+	        System.out.println("cloud-is-web: Reconfigure");
+	        readConfigurationProps(file.getPath());
+	      }
+	    };
+
+	    Timer timer = new Timer();
+	    // repeat the check every second
+	    timer.schedule( task , new Date(), 1000 );
+	}
+	
+	private void readConfigurationProps(String path)
+	{		
 		Config sysCnf = new Config(path);
 		String prop;
 		// Set Information System address to Servlet Context Properties		
 		prop = sysCnf.getProperty("isserver.ip") + sysCnf.getProperty("isserver.context");
-		context.setAttribute("isserver", prop);
+		this.appContext.setAttribute("isserver", prop);
 		
 		// Set Visualization Tool path to Servlet Context Properties for name resolving issues
 		// !Warning The following code gives the name of the deployed war file in some cases this may not represent the path shown in url
-		prop = new File(context.getRealPath("/")).getName();
-		context.setAttribute("vspath", prop);
-	}
+		prop = new File(this.appContext.getRealPath("/")).getName();
+		this.appContext.setAttribute("vspath", prop);
 	
+	}
 }

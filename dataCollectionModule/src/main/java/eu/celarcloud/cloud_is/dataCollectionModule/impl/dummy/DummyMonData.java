@@ -18,7 +18,7 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
+package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
 
@@ -26,15 +26,18 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
 /**
  * The Class Jcatascopia.
  */
-public class Jcatascopia implements IMonitoring {
+public class DummyMonData implements IMonitoring {
 
 	/** The monitor. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia monitor;
 	
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.monitoring.IMonitoring#init(java.lang.String)
+	
+	/**
+	 * Inits the.
+	 *
+	 * @param restApiUri
+	 *            the rest api uri
 	 */
-	@Override
 	public void init(String restApiUri) {
 		this.monitor = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia(restApiUri);		
 	}

@@ -1,9 +1,9 @@
 #cloud-is
 
 
-##Cloud Information System
+##CELAR Information System
 
+##License
 
-##Licensing - Copyrights
-
-	Please see the file called LICENSE.
+The CELAR Information System and its submodules are available to the community under the Apache 2.0 licence.
+For more information refer to LICENSE.txt

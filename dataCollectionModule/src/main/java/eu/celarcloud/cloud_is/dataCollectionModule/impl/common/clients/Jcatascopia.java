@@ -140,7 +140,7 @@ public class Jcatascopia  {
 		return client.getContent(response);
 	}
 	
-	//http://109.231.122.22:8080/JCatascopia-Web/restAPI/metrics/35a4d65b776041fb9320b886ef5aa7e5:cpuTotal/?interval=10000&tstrart=32278837562435
+	
 	/**
 	 * Gets the values for time range.
 	 *
@@ -156,6 +156,7 @@ public class Jcatascopia  {
 	 */
 	public String getValuesForTimeRange(String metricId, String interval, String tstart, String tend)
 	{	
+		// e.g. http://109.231.122.22:8080/JCatascopia-Web/restAPI/metrics/35a4d65b776041fb9320b886ef5aa7e5:cpuTotal/?interval=10000&tstrart=32278837562435
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "metrics/" + metricId;		
 	    builder.setPath(path);

@@ -21,24 +21,31 @@
 package eu.celarcloud.cloud_is.controllerModule.configuration;
 
 import java.io.File;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
+import eu.celarcloud.cloud_is.controllerModule.configuration.Config;
+import eu.celarcloud.cloud_is.controllerModule.configuration.FileWatcher;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ContextInitializer.
  */
 public class ContextInitializer implements ServletContextListener{
-	
+	private ServletContext appContext = null;
 	 
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
 	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		System.out.println("ServletContextListener destroyed");
+		System.out.println("cloud-is-core: Context destroyed");
+		this.appContext = null;
 	}
  
 	/* (non-Javadoc)
@@ -47,54 +54,17 @@ public class ContextInitializer implements ServletContextListener{
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		System.out.println("ServletContextListener started");
-		ServletContext context = sce.getServletContext();
+		this.appContext = sce.getServletContext();
 		
 		// Read the ad-hoc properties files
 		String configPath = "config"+File.separator+"config.properties";		
-		String path = context.getRealPath(configPath);
+		String path = this.appContext.getRealPath(configPath);
 		
-		Config sysCnf = new Config(path);
+		//
+		readConfigurationProps(path);
 		
-		// TODO
-		// - Temporary code
-		
-		// Get Collector Class Name and
-		// Set it as a context attribute
-		
-		String cName = "celar";
-		context.setAttribute("collectorName", cName);
-		
-		
-		
-		// -
-		
-		
-		
-		
-		
-		// Read services properties
-		String configPath2 = "config"+File.separator+"config.services.properties";		
-		String path2 = context.getRealPath(configPath2);
-		
-		Config servCnf = new Config(path2);		
-		
-		String serviceName = null;
-		String serviceEndpointConfigPath = null;
-		
-		serviceName = "monitoring";
-		serviceEndpointConfigPath = "config" + File.separator + "config.endpoint." +   servCnf.getProperty("endpoint." + serviceName) + ".properties";
-		context.setAttribute(serviceName, serviceEndpointConfigPath);
-		
-		serviceName = "historical";
-		serviceEndpointConfigPath = "config" + File.separator + "config.endpoint." +   servCnf.getProperty("endpoint." + serviceName) + ".properties";
-		context.setAttribute(serviceName, serviceEndpointConfigPath);
-		
-		serviceName = "application";
-		serviceEndpointConfigPath = "config" + File.separator + "config.endpoint." +   servCnf.getProperty("endpoint." + serviceName) + ".properties";
-		context.setAttribute(serviceName, serviceEndpointConfigPath);
-		
-		// Create a folder to store data
-		String warName = new File(context.getRealPath("/")).getName();
+		// Create a folder to store temporary data
+		String warName = new File(this.appContext.getRealPath("/")).getName();
 		String fileName = warName + ".data";
 		
 		File f = new File(fileName);
@@ -108,6 +78,20 @@ public class ContextInitializer implements ServletContextListener{
 		} catch(Exception e){
 		    e.printStackTrace();
 		} 
+				
+		
+		// monitor a single file
+	    TimerTask task = new FileWatcher( new File(path) ) {
+	      protected void onChange( File file ) {
+	        // here we code the action on a change
+	        System.out.println("cloud-is-web: Reconfigure");
+	        readConfigurationProps(file.getPath());
+	      }
+	    };
+
+	    Timer timer = new Timer();
+	    // repeat the check every second
+	    timer.schedule( task , new Date(), 1000 );
 	}
 	
 	/**
@@ -162,6 +146,49 @@ public class ContextInitializer implements ServletContextListener{
 		} catch (SecurityException  ex) {
 		    System.err.println("Delete is denied.");
 		}
+	}
+	
+	private void readConfigurationProps(String path)
+	{		
+		Config sysCnf = new Config(path);		
+		// Check in what mode the Information System is working
+		// in order to further config the dataCollection Module
+		
+		// Get Collector Class Name / system running mode and
+		// Set it as a context attribute		
+		String mode = sysCnf.getProperty("mode");
+		this.appContext.setAttribute("collectorName", mode);
+		
+		// TODO
+		// The code below reading some configuration properties,
+		// which are needed from the the dataCollection Module
+		// should be moved there
+		
+		// *hint the data collection module should take as
+		// initialization argument the path to the configuration files
+		
+		// Read services properties
+		// TODO Beware add-hoc path
+		String configPath2 = "config"+File.separator+"celar"+File.separator+"services.properties";		
+		String path2 = this.appContext.getRealPath(configPath2);
+		
+		Config servCnf = new Config(path2);		
+		
+		String serviceName = null;
+		String serviceEndpointConfigPath = null;
+		
+		serviceName = "monitoring";
+		serviceEndpointConfigPath = "config"+File.separator+"celar" + File.separator + "endpoint." +   servCnf.getProperty("endpoint." + serviceName) + ".properties";
+		this.appContext.setAttribute(serviceName, serviceEndpointConfigPath);
+		
+		serviceName = "historical";
+		serviceEndpointConfigPath = "config"+File.separator+"celar" + File.separator + "endpoint." +   servCnf.getProperty("endpoint." + serviceName) + ".properties";
+		this.appContext.setAttribute(serviceName, serviceEndpointConfigPath);
+		
+		serviceName = "application";
+		serviceEndpointConfigPath = "config"+File.separator+"celar" + File.separator + "endpoint." +   servCnf.getProperty("endpoint." + serviceName) + ".properties";
+		this.appContext.setAttribute(serviceName, serviceEndpointConfigPath);
+	
 	}
 	
 }

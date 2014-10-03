@@ -98,11 +98,11 @@ public class Config {
 		} 
 		catch (FileNotFoundException e)
 		{
-			throw new Exception("config file not found");
+			throw new Exception("Config file not found on \"" + path +"\"");
 		} 
 		catch (IOException e)
 		{
-			throw new Exception("config file parsing error");
+			throw new Exception("Config file parsing error on \"" + path +"\"");
 		}		
 		return config;
 	}

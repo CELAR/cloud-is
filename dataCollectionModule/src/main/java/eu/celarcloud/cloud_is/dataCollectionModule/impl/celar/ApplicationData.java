@@ -30,7 +30,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
 /**
  * The Class CelarApplication.
  */
-public class CelarApplication implements IApplication {
+public class ApplicationData implements IApplication {
 	
 	/** The app. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager app;

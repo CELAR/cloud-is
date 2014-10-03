@@ -22,8 +22,8 @@
         <inherited>true</inherited>        
   		<version>${maven-compiler-plugin.version}</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>${java-compiler.targetVersion}</source>
+          <target>${java-compiler.targetVersion}</target>
         </configuration>
       </plugin>
    </plugins>
@@ -71,5 +71,10 @@
 		<artifactId>sax</artifactId>
 		<version>2.0.1</version>
 	</dependency>
+    <dependency>
+    	<groupId>com.sun.jersey</groupId>
+    	<artifactId>jersey-core</artifactId>
+    	<version>${jersey.version}</version>
+    </dependency>
   </dependencies>
 </project>
