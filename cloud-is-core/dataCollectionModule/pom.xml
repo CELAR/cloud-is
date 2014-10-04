@@ -4,15 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>eu.celarcloud.cloud-is</groupId>
-    <artifactId>cloud-is-pom</artifactId>
+    <artifactId>cloud-is-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>..</relativePath>
   </parent>
-  <artifactId>analysisModule</artifactId>
-  <name>analysisModule</name>
+  <artifactId>dataCollectionModule</artifactId>
+  <name>dataCollectionModule</name>
   <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
   <build>
     <plugins>
       <plugin>
@@ -33,5 +31,26 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>${apache.httpcomponents.version}</version>
+	</dependency>
+	
+        <dependency>
+        	<groupId>org.json</groupId>
+        	<artifactId>json</artifactId>
+        	<version>20140107</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.apache.httpcomponents</groupId>
+        	<artifactId>httpcore</artifactId>
+        	<version>4.3.2</version>
+        </dependency>
+        <dependency>
+        	<groupId>commons-lang</groupId>
+        	<artifactId>commons-lang</artifactId>
+        	<version>2.6</version>
+        </dependency>
   </dependencies>
 </project>

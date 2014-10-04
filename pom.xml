@@ -8,15 +8,14 @@
    <parent>
     <groupId>eu.celar</groupId>
     <artifactId>distribution</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>       
+    <relativePath>..\celar-distribution</relativePath>
    </parent>
 
    <modules>
-    <module>controllerModule</module>
-    <module>analysisModule</module>
-    <module>dataCollectionModule</module>
-    <module>visualizationTool</module>
-  </modules>
+    <module>cloud-is-core</module>
+    <module>cloud-is-web</module>
+   </modules>
    
     <properties>
     	<!-- External Components Versions -->
