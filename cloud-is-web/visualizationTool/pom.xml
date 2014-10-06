@@ -16,7 +16,7 @@
     	<batik.version>1.7</batik.version>
   </properties>
   <build>
-  	<finalName>visualizationTool</finalName>
+  	<finalName>${is-web.war-packaging.name}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

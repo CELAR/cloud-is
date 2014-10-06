@@ -11,5 +11,6 @@
   <name>is-core-packaging</name>
   <modules>
     <module>cloud-is-core-tar</module>
+    <module>cloud-is-core-rpm</module>
   </modules>
 </project>

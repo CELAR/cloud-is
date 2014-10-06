@@ -11,5 +11,6 @@
   <name>is-web-packaging</name>
   <modules>
     <module>cloud-is-web-tar</module>
+    <module>cloud-is-web-rpm</module>
   </modules>
 </project>
