@@ -9,4 +9,7 @@
   <artifactId>is-core-packaging</artifactId>
   <packaging>pom</packaging>
   <name>is-core-packaging</name>
+  <modules>
+    <module>cloud-is-core-tar</module>
+  </modules>
 </project>
