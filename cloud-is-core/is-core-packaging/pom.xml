@@ -8,9 +8,23 @@
     </parent>
   <artifactId>is-core-packaging</artifactId>
   <packaging>pom</packaging>
-  <name>is-core-packaging</name>
+  <name>is-core-packaging</name>   
+  
   <modules>
-    <module>cloud-is-core-tar</module>
-    <module>cloud-is-core-rpm</module>
-  </modules>
+        <module>cloud-is-core-tar</module>
+   </modules>
+	<profiles>
+	  <profile>
+	      <id>rpms</id>
+	      <activation>
+	      	<os>
+	      		<family>linux</family>
+	      	</os>
+	      </activation>
+	      <modules>
+	    	<module>cloud-is-core-rpm</module>
+	      </modules>
+	    </profile>
+	  </profiles>
+  
 </project>

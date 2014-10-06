@@ -11,6 +11,20 @@
   <artifactId>controllerModule</artifactId>
   <packaging>war</packaging>
   <name>controllerModule Jersey Webapp</name>
+  <build>
+    <finalName>${is-core.war-packaging.name}</finalName>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <inherited>true</inherited>        
+  		<version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>${java-compiler.targetVersion}</source>
+          <target>${java-compiler.targetVersion}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
   	<dependency>
 	   	<groupId>javax.servlet</groupId>
@@ -58,19 +72,5 @@
      	<artifactId>httpcore</artifactId>
      	<version>4.3.2</version>
      </dependency>
-  </dependencies>
-  <build>
-    <finalName>${is-core.war-packaging.name}</finalName>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <inherited>true</inherited>        
-  		<version>${maven-compiler-plugin.version}</version>
-        <configuration>
-          <source>${java-compiler.targetVersion}</source>
-          <target>${java-compiler.targetVersion}</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+  </dependencies>  
 </project>

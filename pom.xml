@@ -27,6 +27,7 @@
         <java-compiler.targetVersion>1.7</java-compiler.targetVersion>
         <!-- Packaging Properties properties-->
         <is-core.war-packaging.name>cloud-is</is-core.war-packaging.name>
+        <is-web.war-packaging.name>cloud-is</is-web.war-packaging.name>
         <!-- Other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
