@@ -11,6 +11,13 @@
 			<includes>
 				<include>installer.sh</include>
 			</includes>
+		</fileSet>		
+		<fileSet>
+			<directory>${basedir}/extras</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>LICENSE.txt</include>
+			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>${basedir}/target/</directory>
