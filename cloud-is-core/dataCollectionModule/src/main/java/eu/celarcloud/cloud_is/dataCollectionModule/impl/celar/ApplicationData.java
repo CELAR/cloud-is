@@ -20,9 +20,17 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
 
 
@@ -33,13 +41,13 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
 public class ApplicationData implements IApplication {
 	
 	/** The app. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager app;
+	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager cmClient;
 	
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#init(java.lang.String)
 	 */
 	public void init(String restApiUri) {
-		this.app = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager(restApiUri);		
+		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager(restApiUri);		
 	}
 
 	/* (non-Javadoc)
@@ -203,7 +211,7 @@ public class ApplicationData implements IApplication {
 	 */
 	@Override
 	public String getApplicationInfo() {
-		return this.app.getApplicationInfo("0");
+		return this.cmClient.getApplicationInfo("0");
 	}
 	
 	
@@ -211,37 +219,66 @@ public class ApplicationData implements IApplication {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#searchApplications()
 	 */
 	@Override
-	public String searchApplications() {			    
-		return this.app.searchApplicationsByProperty(0, 0, "", 0, "", "", "");
+	public List<Application> searchApplications() {
+		String temp = this.cmClient.searchApplicationsByProperty(0, 0, "", 0, "", "", "");
+		System.out.println("test: " + temp);
+		
+		List<Application> applications = new ArrayList<Application>();
+    	if(temp == "")
+    		return applications;
+		
+    	// Parse response to List<Deployment>
+    	JSONArray json = new JSONArray(temp);
+    	for (int i = 0; i < json.length(); ++i) {
+    	    JSONObject a = json.getJSONObject(i);
+    	    Application appl = new Application();
+    	    	appl.id = a.getString("id");
+	    	    appl.description = a.getString("description");
+	    	    appl.submitted = new Date(a.getString("submitted"));
+	    	applications.add(appl);
+    	}
+		return applications;
 	}
 
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getRecentDeployments(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String getRecentDeployments(String limit, String status) {
-		// Build report	
-    	JSONArray json = new JSONArray();    	
-	    
-    	// TODO
-    	JSONObject deployment;
-    	// Dummy data
-    	deployment = new JSONObject();
-	    	deployment.put("id", "9876");
-	    	deployment.put("version", "123456");
-	    	deployment.put("application", "67890");
-	    	deployment.put("status", "online");    	
-    	json.put(deployment);
+	public List<Deployment> getRecentDeployments(String limit, String status) {
+    	String temp = this.cmClient.searchDeploymentsByProperty(0, 0, "", -1);
+    	System.out.println("test: " + temp);
     	
-    	deployment = new JSONObject();
-	    	deployment.put("id", "5678");
-	    	deployment.put("version", "574839");
-	    	deployment.put("application", "10293");
-	    	deployment.put("status", "offline");    	
-		json.put(deployment);
+    	List<Deployment> deployments = new ArrayList<Deployment>();
+    	if(temp == "")
+    		return deployments;
+        	
     	
+    	/*
+    	// Date format to parse date
+    	Date parsed = new Date();
+		try {
+		    SimpleDateFormat format =
+		        new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+		    parsed = format.parse(dateString);
+		}
+		catch(ParseException pe) {
+		    throw new IllegalArgumentException();
+		}
+    	*/
     	
-	    return json.toString();
+    	// Parse response to List<Deployment>
+    	JSONArray json = new JSONArray(temp);
+    	for (int i = 0; i < json.length(); ++i) {
+    	    JSONObject d = json.getJSONObject(i);
+    	    Deployment depl = new Deployment();
+	    	    depl.id = d.getString("id");
+	    	    depl.applicationId = d.getString("applicationId");
+	    	    depl.status = d.getString("status");
+	    	    depl.startTime = new Date(d.getString("id"));
+	    	    depl.endTime = new Date(d.getString("id"));
+    	    deployments.add(depl);
+    	}
+	    return deployments;
 	}
 
 }

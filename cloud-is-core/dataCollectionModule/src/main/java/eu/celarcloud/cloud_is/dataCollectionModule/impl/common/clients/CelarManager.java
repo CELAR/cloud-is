@@ -154,7 +154,7 @@ public class CelarManager {
 		
 		//
 		CloseableHttpResponse response = null;
-		RestClient client = new RestClient();
+		RestClient client = new RestClient(this.serverIp);
 		
 		try {
 			response = client.executeGet(builder.build());
@@ -210,7 +210,7 @@ public class CelarManager {
 		
 		//
 		CloseableHttpResponse response = null;
-		RestClient client = new RestClient();
+		RestClient client = new RestClient(this.serverIp);
 		
 		try {
 			response = client.executeGet(builder.build());
@@ -221,6 +221,36 @@ public class CelarManager {
 		
 		return client.getContent(response);
 		
+	}
+	
+	public String searchDeploymentsByProperty(long submitted_start, long submitted_end, String status, int application_id)
+	{
+		URIBuilder builder = new URIBuilder();
+		String path = this.serverIp + this.restPath + "deployment/search/";
+		
+		builder.setPath(path);	 
+		
+		if(submitted_start != 0)
+		builder.setParameter("submitted_start", String.valueOf(submitted_start));
+		if(submitted_end != 0)
+		builder.setParameter("submitted_end", String.valueOf(submitted_end));
+		if(status != null && !status.isEmpty())
+		builder.setParameter("status", status);
+		if(application_id != 0)
+		builder.setParameter("user_id", String.valueOf(application_id));	
+		
+		//
+		CloseableHttpResponse response = null;
+		RestClient client = new RestClient(this.serverIp);
+		
+		try {
+		response = client.executeGet(builder.build());
+		} catch (URISyntaxException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+		}
+		
+		return client.getContent(response);
 	}
 
 }

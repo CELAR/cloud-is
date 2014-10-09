@@ -29,7 +29,7 @@ public class CollectorLoader implements ISourceLoader {
 	public IDataSource getDtCollectorInstance(String sourceType, String uri)
 	{
 		// TODO
-		// uri as funtion parameter is temporary and should be moved to IDataSource Implementations
+		// uri as function parameter is temporary and should be moved to IDataSource Implementations
 		
 		// Get CELAR Manager uri from configuration
 		

@@ -48,6 +48,11 @@ import org.apache.http.impl.client.HttpClients;
  */
 public class RestClient {
 	
+	/**  
+	 * Meta data information, for debugging reasons
+	 * */
+	private String name;
+	
 	/** The httpclient. */
 	private CloseableHttpClient httpclient;
 	
@@ -67,8 +72,22 @@ public class RestClient {
 	            sslsf).build();
 		} catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
 			// TODO Auto-generated catch block
+			System.out.println("Rest Client " + this.name + " :" + "SSl Authendication Error");
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/**
+	 * Instantiates a new rest client.
+	 *
+	 * @param name
+	 *            the name
+	 */
+	public RestClient(String name) 
+	{
+		this();
+		this.name = name;
 	}
 	
 	/**
@@ -87,13 +106,12 @@ public class RestClient {
 		CloseableHttpResponse response = null;
 	    try {
 			response = this.httpclient.execute(httpGet);
-			
 			//System.out.println(response.getStatusLine());
-	        
-			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.out.println("Rest Client " + this.name + " :" + "Endpoint is not accessible");
+			return null;
 		}
 	    
 	    return response;				
@@ -108,6 +126,9 @@ public class RestClient {
 	 */
 	public String getContent(CloseableHttpResponse response)
 	{
+		if(response == null)
+			return "";
+		
 		StringBuffer result = new StringBuffer();
 		HttpEntity entity = response.getEntity();
         //EntityUtils.consume(entity); // consumes and closes
@@ -130,6 +151,7 @@ public class RestClient {
 	    } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "";
 		}
 	    finally {
 	        try {
@@ -137,6 +159,7 @@ public class RestClient {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return "";
 			}
 	    }
 	    

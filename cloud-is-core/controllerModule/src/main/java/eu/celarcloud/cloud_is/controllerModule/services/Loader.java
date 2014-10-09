@@ -32,17 +32,17 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader
  */
 public class Loader {
 	
+	/** The Data source loader. */
 	private ISourceLoader DataSourceLoader;
+	
+	/** The context. */
 	private ServletContext context;
 	
 	/**
 	 * Instantiates a new loader.
 	 *
-	 * @param collectorName
-	 *            The sub path of the Collector Impl Class that will be loaded
-	 *            e.g eu.celarcloud.cloud_is.dataCollectionModule.impl.{collectorName}.CollectorLoader
-	 * @param sourceType
-	 *            the source type
+	 * @param context
+	 *            the context
 	 */
 	public Loader(ServletContext context)
 	{
@@ -91,8 +91,8 @@ public class Loader {
 	/**
 	 * Gets the single instance of Loader.
 	 *
-	 * @param endpoint
-	 *            the endpoint
+	 * @param sourceType
+	 *            the source type
 	 * @return single instance of Loader
 	 */
 	public IDataSource getDtCollectorInstance(String sourceType)

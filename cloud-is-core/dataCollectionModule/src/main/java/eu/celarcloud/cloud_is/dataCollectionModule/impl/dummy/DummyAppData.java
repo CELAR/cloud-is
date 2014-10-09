@@ -20,9 +20,13 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
 
 
@@ -211,15 +215,21 @@ public class DummyAppData implements IApplication {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#searchApplications()
 	 */
 	@Override
-	public String searchApplications() {			    
-		return this.app.searchApplicationsByProperty(0, 0, "", 0, "", "", "");
+	public List<Application> searchApplications() {			    
+		String temp = this.app.searchApplicationsByProperty(0, 0, "", 0, "", "", "");
+		
+		
+		// Parse response to List<Deployment>
+    	List<Application> applications = null;
+    	
+	    return applications;
 	}
 
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getRecentDeployments(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String getRecentDeployments(String limit, String status) {
+	public List<Deployment> getRecentDeployments(String limit, String status) {
 		// Build report	
     	JSONArray json = new JSONArray();    	
 	    
@@ -241,7 +251,10 @@ public class DummyAppData implements IApplication {
 		json.put(deployment);
     	
     	
-	    return json.toString();
+		// Parse response to List<Deployment>
+    	List<Deployment> deployments = null;
+    	
+	    return deployments;
 	}
 
 }

@@ -20,6 +20,12 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -61,7 +67,7 @@ public interface IApplication extends IDataSource{
 	 *
 	 * @return the string
 	 */
-	public String searchApplications();
+	public List<Application> searchApplications();
 	
 	/**
 	 * Gets the application info.
@@ -79,5 +85,5 @@ public interface IApplication extends IDataSource{
 	 *            the status
 	 * @return the recent deployments
 	 */
-	public String getRecentDeployments(String limit, String status);
+	public List<Deployment> getRecentDeployments(String limit, String status);
 }

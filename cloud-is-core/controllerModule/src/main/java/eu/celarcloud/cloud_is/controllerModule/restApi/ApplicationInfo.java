@@ -20,6 +20,8 @@
  */
 package eu.celarcloud.cloud_is.controllerModule.restApi;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +34,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import eu.celarcloud.cloud_is.controllerModule.services.Loader;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 
@@ -41,7 +48,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader
  * The Class Application.
  */
 @Path("/application")
-public class Application 
+public class ApplicationInfo 
 {
 	
 	/** The http request. */
@@ -184,14 +191,15 @@ public class Application
 		Loader ld = new Loader(context);
 		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
 		
-		String response;
-		response = app.searchApplications();
-		//
-		
-		
+		List<Application> applications = app.searchApplications();
+		// Convert to json
+		JSONArray response = new JSONArray();
+		for (Application apll : applications) {
+			response.put(apll.toJSONObject());
+		}
 		
 		//return response;
-		return Response.ok(response, MediaType.APPLICATION_JSON).build();
+		return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
 	}
 	
 	/**
@@ -211,13 +219,14 @@ public class Application
 		Loader ld = new Loader(context);
 		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
 		
-		String response;
-		response = app.getRecentDeployments(limit, status);
-		//
-		
-		
+		List<Deployment> deployments = app.getRecentDeployments(limit, status);
+		// Convert to json
+		JSONArray response = new JSONArray();
+		for (Deployment depl : deployments) {
+			response.put(depl.toJSONObject());
+		}
 		
 		//return response;
-		return Response.ok(response, MediaType.APPLICATION_JSON).build();
+		return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
 	}
 }

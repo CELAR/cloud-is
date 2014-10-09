@@ -57,7 +57,7 @@
                 	<targetOS>linux</targetOS>
 	                <!--<classifier>${package.os}</classifier>-->
                     <!-- <release>${BUILD_NUMBER}.${package.os}</release>-->
-	                <summary>cloud-is-web</summary>
+	                <summary>The CELAR Information System core module</summary>
 	                <name>cloud-is-core</name>
 	                <group>cloud-is</group>
                     <vendor>CELAR</vendor>

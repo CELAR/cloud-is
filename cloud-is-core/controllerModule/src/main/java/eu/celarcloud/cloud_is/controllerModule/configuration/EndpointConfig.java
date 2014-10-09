@@ -43,6 +43,13 @@ public class EndpointConfig {
 	/** The base url. */
 	public String baseUrl;
 	
+	private String uri;
+	
+	public EndpointConfig()
+	{
+		
+	}
+	
 	/**
 	 * Instantiates a new endpoint config.
 	 *
@@ -50,6 +57,12 @@ public class EndpointConfig {
 	 *            the path
 	 */
 	public EndpointConfig(String path)
+	{
+		this();
+		this.loadConfigFile(path);
+	}
+	
+	public void loadConfigFile(String path)
 	{
 		String temp = null;
 		this.config = new Config(path);
@@ -76,6 +89,13 @@ public class EndpointConfig {
 		}
 		this.baseUrl =  temp;
 		temp = null;
+		//
+		temp = this.config.getProperty("uri");
+		if (temp.endsWith("/")) {
+			temp = temp.substring(0, temp.length() - 1);
+		}
+		this.uri =  temp;
+		temp = null;
 	}
 	
 	/**
@@ -85,15 +105,19 @@ public class EndpointConfig {
 	 */
 	public String getUri()
 	{
-		// check to remove trailing slashes before concat
-		String url = "";
-		if(this.address != null && !this.address.isEmpty())
-			url += this.address;
-		if(this.port != null && !this.port.isEmpty())
-			url +=  ":" + this.port;
-		if(this.baseUrl != null && !this.baseUrl.isEmpty())
-			url += "/" + this.baseUrl;
-		
+		String url = this.uri;
+		// Check full uri exists
+		if(url == "")		
+		{
+			// Calculate uri from its components
+			// check to remove trailing slashes before concat
+			if(this.address != null && !this.address.isEmpty())
+				url += this.address;
+			if(this.port != null && !this.port.isEmpty())
+				url +=  ":" + this.port;
+			if(this.baseUrl != null && !this.baseUrl.isEmpty())
+				url += "/" + this.baseUrl;
+		}		
 		return url;
 	}
 }
