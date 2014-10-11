@@ -10,8 +10,7 @@
   </parent>
   <artifactId>visualizationTool</artifactId>
   <packaging>war</packaging>
-  <name>visualizationTool Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+  <name>visualizationTool</name>
   <properties>
     	<batik.version>1.7</batik.version>
   </properties>

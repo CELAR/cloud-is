@@ -26,8 +26,8 @@
         <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
         <java-compiler.targetVersion>1.7</java-compiler.targetVersion>
         <!-- Packaging Properties properties-->
-        <is-core.war-packaging.name>cloud-is</is-core.war-packaging.name>
-        <is-web.war-packaging.name>cloud-is</is-web.war-packaging.name>
+        <is-core.war-packaging.name>cloud-is-core</is-core.war-packaging.name>
+        <is-web.war-packaging.name>celar-is</is-web.war-packaging.name>
         <!-- Other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

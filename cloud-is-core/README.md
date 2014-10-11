@@ -3,6 +3,33 @@
 
 ##CELAR Information System - Core
 
+###Prerequisites
+To successfully install and use the CELAR Information System - Core, Java (v1.7) and Apache Tomcat (v7) 
+should be installed on your system 
+
+For the  CELAR Information System - Core to operate correctly the CELAR Information System - core must be
+installed also and be accessible from the Visualization Tool.
+
+###Installation
+
+For installing using the rpm distribution, the repository must be defined first 
+under the /etc/yum.repos.d/ (e.g. CELAR.repo) with the following content:
+
+	[CELAR-snapshots]
+	name=CELAR-snapshots
+	baseurl=http://snf-175960.vm.okeanos.grnet.gr/nexus/content/repositories/snapshots
+	enabled=1
+	protect=0
+	gpgcheck=0
+	metadata_expire=30s
+	autorefresh=1
+	type=rpm-md
+
+To install or update the CELAR Information System - Core you have to issue
+the following command
+
+	yum update && yum install cloud-is-core
+
 ###Configuration
 To configure CELAR Information System Core (controllerModule) a user must alter the files in
 

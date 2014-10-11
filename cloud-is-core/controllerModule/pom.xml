@@ -10,7 +10,7 @@
   </parent>
   <artifactId>controllerModule</artifactId>
   <packaging>war</packaging>
-  <name>controllerModule Jersey Webapp</name>
+  <name>controllerModule</name>
   <build>
     <finalName>${is-core.war-packaging.name}</finalName>
     <plugins>
