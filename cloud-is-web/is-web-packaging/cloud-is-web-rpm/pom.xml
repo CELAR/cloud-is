@@ -77,7 +77,7 @@
 	                        <directoryIncluded>false</directoryIncluded>
 	                        <sources>
 	                            <source>
-	                                <location>${basedir}${file.separator}target${file.separator}dependency${file.separator}${api.war}</location>
+	                                <location>${basedir}${file.separator}target${file.separator}dependency${file.separator}${is-web.war-packaging.name}.war</location>
 	                            </source>
 	                        </sources>
 	                    </mapping>
@@ -96,7 +96,7 @@
 			          
 			          <postremoveScriptlet>
 	                    <script>
-							rm -f ${rpm.install.basedir}/webapps/${api.war}
+							rm -f ${rpm.install.basedir}/webapps/${is-web.war-packaging.name}.war
 	                    </script>
 	                </postremoveScriptlet>  
                </configuration>
