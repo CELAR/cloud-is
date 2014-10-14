@@ -45,14 +45,3 @@ var isServerValidation = function() {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-$('document').ready(function ()
-{	
-});

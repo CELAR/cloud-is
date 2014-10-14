@@ -53,7 +53,7 @@ public class ContextInitializer implements ServletContextListener{
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		System.out.println("ServletContextListener started");
+		System.out.println("cloud-is-core: Context started");
 		this.appContext = sce.getServletContext();
 		
 		// Read the ad-hoc properties files
@@ -85,7 +85,7 @@ public class ContextInitializer implements ServletContextListener{
 	    TimerTask task = new FileWatcher( new File(path) ) {
 	      protected void onChange( File file ) {
 	        // here we code the action on a change
-	        System.out.println("cloud-is-web: Reconfigure");
+	        System.out.println("cloud-is-core: Reconfigure");
 	        readConfigurationProps(file.getPath());
 	      }
 	    };

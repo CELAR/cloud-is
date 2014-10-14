@@ -8,17 +8,16 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/script.js"></script>
 	<script type="text/javascript">
 		var isserver = "<%=pageContext.findAttribute("isserver")%>";	
-		
-		var wcserver = window.location.protocol + "//" + window.location.host + "/";	
+		var wcserver = window.location.protocol + "//" + window.location.host + "<%=request.getContextPath()%>/";
+		/*
 		var path = window.location.pathname;
-		var dPath = "<%=pageContext.findAttribute("vspath")%>"; // path after the server address showing the webaoo root
+		var dPath = "<%=pageContext.findAttribute("vspath")%>"; // path after the server address showing the webapp root
 		if(path.indexOf(dPath) >= 0)
 		{
 			wcserver += dPath;
 		}
-		
-		isServerValidation();		
-		//var wcserver = "http://localhost:8080/webClient";	
+		*/		
+		isServerValidation();
 	</script>
 	<link href="<%=request.getContextPath()%>/Library/resources/js/ext/jquery-ui-timepicker-addon.css" rel="stylesheet">
 	<link rel="stylesheet" media="all" type="text/css" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />	
