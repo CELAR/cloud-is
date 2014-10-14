@@ -64,6 +64,7 @@ public class ContextInitializer implements ServletContextListener{
 		readConfigurationProps(path);
 		
 		// Create a folder to store temporary data
+		/*
 		String warName = new File(this.appContext.getRealPath("/")).getName();
 		String fileName = warName + ".data";
 		
@@ -78,7 +79,7 @@ public class ContextInitializer implements ServletContextListener{
 		} catch(Exception e){
 		    e.printStackTrace();
 		} 
-				
+		*/		
 		
 		// monitor a single file
 	    TimerTask task = new FileWatcher( new File(path) ) {
