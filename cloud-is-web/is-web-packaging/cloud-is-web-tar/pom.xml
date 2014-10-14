@@ -30,7 +30,7 @@
 									<artifactId>visualizationTool</artifactId>
 									<type>war</type>
 									<version>${project.version}</version>
-									<destFileName>cloud-is-web.war</destFileName>
+									<destFileName>${is-web.war-packaging.name}.war</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>

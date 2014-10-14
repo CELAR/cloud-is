@@ -11,7 +11,6 @@
   <name>cloud-is-core-rpm</name>
   <properties>
   		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<api.war>cloud-is-core.war</api.war>
 		<rpm.install.basedir>/usr/share/tomcat/</rpm.install.basedir>
 	</properties>
 
@@ -41,7 +40,7 @@
                                     <groupId>eu.celarcloud.cloud-is</groupId>
 									<artifactId>controllerModule</artifactId>
                                     <type>war</type>
-                                    <destFileName>${api.war}</destFileName>
+                                    <destFileName>${is-core.war-packaging.name}.war</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

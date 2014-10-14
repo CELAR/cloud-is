@@ -29,7 +29,7 @@
 									<artifactId>controllerModule</artifactId>
 									<type>war</type>
 									<version>${project.version}</version>
-									<destFileName>cloud-is-core.war</destFileName>
+									<destFileName>${is-core.war-packaging.name}.war</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
