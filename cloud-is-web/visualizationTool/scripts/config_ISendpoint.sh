@@ -50,7 +50,7 @@ fi
 # Check if path was set 
 # if not set the default
 if [ -z "$WAPP_PATH" ]; then
-	$WAPP_PATH=$CATALINA_BASE"\webapps\visualizationTool"
+	$WAPP_PATH=$CATALINA_BASE"\webapps\cloud-is-web"
 fi
 
 CNF_PATH=$WAPP_PATH"/"$FILE

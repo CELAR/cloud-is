@@ -5,6 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>CELAR IS | DashBoard</title>
 	<!--bootstrap script -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/script.js"></script>
 	<script type="text/javascript">
 		var isserver = "<%=pageContext.findAttribute("isserver")%>";	
 		
@@ -16,6 +17,7 @@
 			wcserver += dPath;
 		}
 		
+		isServerValidation();
 		//var wcserver = "http://localhost:8080/webClient";	
 	</script>
 	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.contentBox.css" rel="stylesheet">
@@ -25,8 +27,7 @@
 	<link href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.inner.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/Library/resources/css/page.index.css" rel="stylesheet">
 	
-	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/script.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/page.index.js"></script>   
 </head>
 

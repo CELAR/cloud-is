@@ -5,6 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>CELAR IS | Compare</title>
 	<!--bootstrap script -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/script.js"></script>
 	<script type="text/javascript">
 		var isserver = "<%=pageContext.findAttribute("isserver")%>";	
 		
@@ -16,6 +17,7 @@
 			wcserver += dPath;
 		}
 		
+		isServerValidation();		
 		//var wcserver = "http://localhost:8080/webClient";	
 	</script>	
 	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.tabber.css" rel="stylesheet">
@@ -24,7 +26,6 @@
 	<link href="<%=request.getContextPath()%>/Library/resources/css/page.compare.css" rel="stylesheet">
 	
 	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/script.js">	</script>	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/util.ui.tabber.js"></script>	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/page.compare.js">	</script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>

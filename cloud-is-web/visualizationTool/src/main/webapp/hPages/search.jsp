@@ -5,6 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>CELAR IS | Search</title>
 	<!--bootstrap script -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/script.js"></script>
 	<script type="text/javascript">
 		var isserver = "<%=pageContext.findAttribute("isserver")%>";	
 		
@@ -16,6 +17,7 @@
 			wcserver += dPath;
 		}
 		
+		isServerValidation();		
 		//var wcserver = "http://localhost:8080/webClient";	
 	</script>
 	<link href="<%=request.getContextPath()%>/Library/resources/js/ext/jquery-ui-timepicker-addon.css" rel="stylesheet">
@@ -29,8 +31,6 @@
 	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/ext/jquery-ui-timepicker-addon.js"></script>
-	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/script.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/util.ui.tabber.js"></script>	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/page.search.js">	</script>
    
