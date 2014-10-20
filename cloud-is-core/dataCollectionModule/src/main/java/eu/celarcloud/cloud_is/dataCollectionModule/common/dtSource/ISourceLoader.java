@@ -8,6 +8,9 @@ public interface ISourceLoader {
 	/** The Constant TYPE_MONITORING. */
 	public final static String TYPE_MONITORING = "monitoring";
 	
+	/** The Constant TYPE_MONITORING. */
+	public final static String TYPE_MONITORING_HISTORY = "monitoringHistory";
+	
 	/** The Constant TYPE_APPLICATION. */
 	public final static String TYPE_APPLICATION = "application";
 	
@@ -15,4 +18,7 @@ public interface ISourceLoader {
 	public final static String TYPE_ELASTICITY = "elasticity";
 	
 	public IDataSource getDtCollectorInstance(String sourceType, String uri);
+	
+	// TODO
+	// Add getter for each supported type
 }

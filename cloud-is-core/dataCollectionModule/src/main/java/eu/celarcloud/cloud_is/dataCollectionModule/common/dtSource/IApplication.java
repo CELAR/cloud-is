@@ -20,7 +20,6 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
@@ -86,4 +85,6 @@ public interface IApplication extends IDataSource{
 	 * @return the recent deployments
 	 */
 	public List<Deployment> getRecentDeployments(String limit, String status);
+	
+	public Deployment getDeployment(String deplId);
 }

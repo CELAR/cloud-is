@@ -20,6 +20,9 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 
+import java.util.List;
+
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
 
 // TODO: Auto-generated Javadoc
@@ -28,18 +31,20 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
  */
 public class MonitoringData implements IMonitoring {
 
-	/** The monitor. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia monitor;
+	/* The JCatascopia Monitoring Client Class. */
+	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia jcClient;
+	/* The CELAR Manager Client Class. */
+	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager cmClient;
 	
 	
 	/**
-	 * Inits the.
+	 * Initializes the JCatascopia Rest Client
 	 *
 	 * @param restApiUri
 	 *            the rest api uri
 	 */
 	public void init(String restApiUri) {
-		this.monitor = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia(restApiUri);		
+		this.jcClient = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia(restApiUri);		
 	}
 	
 	/* (non-Javadoc)
@@ -47,7 +52,7 @@ public class MonitoringData implements IMonitoring {
 	 */
 	public String getAgents(String appId, String agentStatus)
 	{
-		return this.monitor.getAgents(appId, agentStatus);
+		return this.jcClient.getAgents(appId, agentStatus);
 	}
 	
 	/* (non-Javadoc)
@@ -55,16 +60,12 @@ public class MonitoringData implements IMonitoring {
 	 */
 	public String getAgentMetrics(String agentId)
 	{
-		return this.monitor.getAgentMetrics(agentId);
+		return this.jcClient.getAgentMetrics(agentId);
 	}
-
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.monitoring.IMonitoring#getValuesForTimeRange(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public String getValuesForTimeRange(String metricId, String interval, String tstart, String tend) {
-		//
-		return this.monitor.getValuesForTimeRange(metricId, interval, tstart, tend);		
+	
+	public List<Metric> getMetricValues(String name, String sTime, String eTime) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

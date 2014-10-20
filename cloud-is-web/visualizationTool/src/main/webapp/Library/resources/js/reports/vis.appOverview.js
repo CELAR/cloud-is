@@ -132,7 +132,7 @@ this.getAjaxStuff = function(onSuccess){
     	jQuery.ajax({
     		type: 'get',
     		dataype: "json",
-    		url: isserver + '/rest/analysis/stats/0/0/0',
+    		url: isserver + '/rest/analysis/stats/0',
     		success: onSuccess
     	});
     };

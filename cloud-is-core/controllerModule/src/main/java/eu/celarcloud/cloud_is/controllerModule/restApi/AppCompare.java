@@ -101,7 +101,7 @@ public class AppCompare
 		Loader ld = new Loader(context);
 		IMonitoring monitor = (IMonitoring) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING);
 		
-		monitor.getValuesForTimeRange("579c910e305d4119aeb410b3ef82e400:netBytesIN", "2000", null, null);
+		//monitor.getValuesForTimeRange("579c910e305d4119aeb410b3ef82e400:netBytesIN", "2000", null, null);
 		
 		return "Compare!!!";
 	}

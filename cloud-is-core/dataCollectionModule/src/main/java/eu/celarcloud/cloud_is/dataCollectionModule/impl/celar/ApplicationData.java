@@ -43,8 +43,11 @@ public class ApplicationData implements IApplication {
 	/** The app. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager cmClient;
 	
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#init(java.lang.String)
+	/**
+	 * Initializes the CELAR Manager Rest Client
+	 *
+	 * @param restApiUri
+	 *            the rest api uri
 	 */
 	public void init(String restApiUri) {
 		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager(restApiUri);		
@@ -234,7 +237,7 @@ public class ApplicationData implements IApplication {
     	    Application appl = new Application();
     	    	appl.id = a.getString("id");
 	    	    appl.description = a.getString("description");
-	    	    appl.submitted = new Date(a.getString("submitted"));
+	    	    appl.submitted = a.getString("submitted");
 	    	applications.add(appl);
     	}
 		return applications;
@@ -274,11 +277,20 @@ public class ApplicationData implements IApplication {
 	    	    depl.id = d.getString("id");
 	    	    depl.applicationId = d.getString("applicationId");
 	    	    depl.status = d.getString("status");
-	    	    depl.startTime = new Date(d.getString("id"));
-	    	    depl.endTime = new Date(d.getString("id"));
+	    	    depl.startTime = d.getString("startTime");
+	    	    depl.endTime = d.getString("endTime");
     	    deployments.add(depl);
     	}
 	    return deployments;
+	}
+
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication#getDeployment(java.lang.String)
+	 */
+	@Override
+	public Deployment getDeployment(String deplId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

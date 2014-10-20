@@ -20,6 +20,8 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -230,31 +232,50 @@ public class DummyAppData implements IApplication {
 	 */
 	@Override
 	public List<Deployment> getRecentDeployments(String limit, String status) {
-		// Build report	
-    	JSONArray json = new JSONArray();    	
-	    
-    	// TODO
-    	JSONObject deployment;
-    	// Dummy data
-    	deployment = new JSONObject();
-	    	deployment.put("id", "9876");
-	    	deployment.put("version", "123456");
-	    	deployment.put("application", "67890");
-	    	deployment.put("status", "online");    	
-    	json.put(deployment);
+		List<Deployment> deployments = new ArrayList<Deployment>();
+		Deployment deployment;
     	
-    	deployment = new JSONObject();
-	    	deployment.put("id", "5678");
-	    	deployment.put("version", "574839");
-	    	deployment.put("application", "10293");
-	    	deployment.put("status", "offline");    	
-		json.put(deployment);
+		/*
+		// Dummy data
+		//
+		int count = 100;
+		// dummy calculations
+		// Find the start and the end of the deployment
+		BigInteger tStart = new BigInteger("1413290766468");
+		int sRate = 500 * 1000; // to ms
+		BigInteger durration = new BigInteger(String.valueOf((sRate * count)));
+		BigInteger tEnd = tStart.add(durration);
+		//	
+		*/
+		
+    	deployment = new Deployment();
+    		deployment.id = "9768";
+			deployment.applicationId = "67890";
+			deployment.status = "online";
+			deployment.startTime = "1413290766468";
+			deployment.endTime = null;
+		deployments.add(deployment);
     	
-    	
-		// Parse response to List<Deployment>
-    	List<Deployment> deployments = null;
+		deployment = new Deployment();
+	    	deployment.id = "5678";
+	    	deployment.applicationId = "10293";
+			deployment.status = "offline";
+			deployment.startTime = "1413290766468";
+			deployment.endTime = "1413298766468";
+		deployments.add(deployment);
     	
 	    return deployments;
+	}
+
+	@Override
+	public Deployment getDeployment(String deplId) {
+		Deployment deployment = new Deployment();
+			deployment.id = deplId;
+			deployment.applicationId = "";
+			deployment.status = "offline";
+			deployment.startTime = "1413290766468";
+			deployment.endTime = "1413299766468";
+	    return deployment;
 	}
 
 }

@@ -62,7 +62,7 @@ public class Config {
 	 */
 	public String getProperty(String name)
 	{
-		return config.getProperty(name);		
+		return config.getProperty(name, "");		
 	}
 	
 	/**

@@ -12,11 +12,11 @@ var drawVisualization = function (repId, dtCollector, dtVisualize, cache) {
 	}
 	// Define the ajax data collection function
 	var ajaxCollector = function() {
-		dtCollector(function(ajxResponse) {
-			console.log(cache)
+		dtCollector(function(ajxResponse) {			
 			if (cache)
 			{	
 				// Cache data
+				console.log("Caching Data: " + repId);
 			    sessionStorage.setItem(repId, JSON.stringify(ajxResponse));			
 			}
 			dtVisualize(ajxResponse);
@@ -27,6 +27,7 @@ var drawVisualization = function (repId, dtCollector, dtVisualize, cache) {
 	if (cache)
 	{
 		if (sessionStorage.getItem(repId)) {
+			console.log("Loading from Cache: " + repId);
 			dtVisualize(sessionStorage.getItem(repId));
 		} else {
 			ajaxCollector();

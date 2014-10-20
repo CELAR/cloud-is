@@ -152,7 +152,7 @@ public class ApplicationInfo
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{appId}/{verId}/description")
+	@Path("/{appId}/{verId}/topology")
 	public Response getVersionTopology(@PathParam("appId") String appId, @PathParam("verId") String verId) 
 	{
 		Loader ld = new Loader(context);
@@ -160,6 +160,23 @@ public class ApplicationInfo
 		
 		String response;
 		response = app.getVersionTopology(verId);
+		
+		//return response;
+		return Response.ok(response, MediaType.APPLICATION_JSON).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/deployment/{deplId}/topology")
+	public Response getDeploymentTopology(@PathParam("deplId") String deplId) 
+	{
+		Loader ld = new Loader(context);
+		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		
+		Deployment dpl = app.getDeployment(deplId);
+		
+		String response;
+		response = app.getVersionTopology(dpl.applicationId);
 		
 		//return response;
 		return Response.ok(response, MediaType.APPLICATION_JSON).build();

@@ -71,13 +71,16 @@ var initScripts= {
 			    // Sorry! No Web Storage support..
 			}
 			
+			var deplId = 0;
+			if(("deplID" in urlParams))
+				deplId = urlParams.deplID;
 			
 			console.log('initAnalysis');
 			// Load App Structure Tree Navigator
 			jQuery.ajax({
 	    		type: 'get',
 	    		dataype: "json",
-	    		url: isserver + '/rest/application/0/0/description',
+	    		url: isserver + '/rest/application/deployment/' + deplId + '/topology',
 	    		success: function(jsonObj) {
 	    			// Build UI control According the response
 	    			$('.appComponentList').removeClass('noDisplay');

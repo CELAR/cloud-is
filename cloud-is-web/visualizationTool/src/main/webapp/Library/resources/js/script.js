@@ -11,7 +11,7 @@ var isServerValidation = function() {
 	if(isserver.indexOf("localhost") >= 0 || isserver.indexOf("127.0.0.1") >= 0)
 	{
 		// While Client's webapp url points elsewhere
-		if(wcserver.indexOf("localhost") <= 0 || wcserver.indexOf("127.0.0.1") <= 0)
+		if(wcserver.indexOf("localhost") <= 0 && wcserver.indexOf("127.0.0.1") <= 0)
 		{	
 			// Create the correct url
 			var parser = document.createElement('a');

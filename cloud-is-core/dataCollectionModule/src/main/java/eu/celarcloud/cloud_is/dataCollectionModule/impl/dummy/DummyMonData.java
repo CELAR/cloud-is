@@ -20,6 +20,10 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
 
 // TODO: Auto-generated Javadoc
@@ -28,43 +32,54 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
  */
 public class DummyMonData implements IMonitoring {
 
-	/** The monitor. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia monitor;
-	
-	
-	/**
-	 * Inits the.
-	 *
-	 * @param restApiUri
-	 *            the rest api uri
-	 */
-	public void init(String restApiUri) {
-		this.monitor = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia(restApiUri);		
-	}
-	
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.monitoring.IMonitoring#getAgents(java.lang.String, java.lang.String)
-	 */
-	public String getAgents(String appId, String agentStatus)
-	{
-		return this.monitor.getAgents(appId, agentStatus);
-	}
-	
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.monitoring.IMonitoring#getAgentMetrics(java.lang.String)
-	 */
-	public String getAgentMetrics(String agentId)
-	{
-		return this.monitor.getAgentMetrics(agentId);
-	}
-
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.monitoring.IMonitoring#getValuesForTimeRange(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-	 */
 	@Override
-	public String getValuesForTimeRange(String metricId, String interval, String tstart, String tend) {
-		//
-		return this.monitor.getValuesForTimeRange(metricId, interval, tstart, tend);		
+	public String getAgents(String string, String string2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
+	public String getAgentMetrics(String agentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Metric> getMetricValues(String name, String sTime, String eTime) {
+		List<Metric> list = new ArrayList<Metric>();
+		
+		//-		
+		int sRate = 15 * 1000; // to ms
+		int count = (int) (Long.parseLong(eTime) - Long.parseLong(sTime)) / sRate;		
+		
+		double randNum = 0.0;
+		int min = 15;
+		int max = 100;
+		
+		long currTime = Long.parseLong(sTime);
+		for(int i = 0; i < count; i++)
+		{
+			if(i == 0)
+			{
+				randNum = TestClass.randDouble(min, max);
+				//maxValue = randNum; minValue = randNum; averageValue  = randNum;
+			}
+			else
+			{
+				randNum = TestClass.randDoubleKnoledge((int) Math.round(randNum), min, max);
+				//averageValue = Average.incrementalAverage(averageValue, randNum);
+			}
+			
+			//rawData.put(randNum);
+			Metric m = new Metric(String.valueOf(currTime), String.valueOf(randNum));
+			list.add(m);
+			currTime += sRate;
+			//minValue = randNum < minValue ? randNum : minValue;
+			//maxValue = randNum > maxValue ? randNum : maxValue;
+		}
+		
+		return list;
+	}
+
+	
 }

@@ -20,6 +20,10 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource;
 
+import java.util.List;
+
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -46,18 +50,5 @@ public interface IMonitoring extends IDataSource{
 	 */
 	public String getAgentMetrics(String agentId);
 	
-	/**
-	 * Gets the values for time range.
-	 *
-	 * @param string
-	 *            the string
-	 * @param string2
-	 *            the string2
-	 * @param object
-	 *            the object
-	 * @param object2
-	 *            the object2
-	 * @return the values for time range
-	 */
-	public String getValuesForTimeRange(String string, String string2,String object, String object2);
+	public List<Metric> getMetricValues(String name, String sTime, String eTime);
 }

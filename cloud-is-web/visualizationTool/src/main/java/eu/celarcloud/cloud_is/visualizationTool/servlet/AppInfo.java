@@ -109,7 +109,7 @@ public class AppInfo extends HttpServlet {
     	*/
     	
     	// Issue the request
-		restResponse = service.path("application/"+appId+"/"+versId+"/description").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+		restResponse = service.path("application/"+appId+"/"+versId+"/topology").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
     	String descStr = restResponse.getEntity(String.class);
     	JSONObject temp = new JSONObject(descStr);
     	String desc = temp.getString("versTopology");
@@ -138,6 +138,8 @@ public class AppInfo extends HttpServlet {
         // Ask the test to render into the SVG Graphics2D implementation.
         try 
         {
+        	// TODO
+        	// desc is in xml ? can be done with json
 			this.paint(svgGenerator, desc);
 		} 
         catch (Exception e) 

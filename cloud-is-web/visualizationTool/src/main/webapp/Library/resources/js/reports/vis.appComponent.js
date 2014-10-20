@@ -41,9 +41,10 @@ function appComponent (reportID) {
 		
 	var inputData = function (dataObj, data, tStart, sRate) {
 		var timestamp = parseInt(tStart);
-	$.each(data, function(index, value){
-		var date = new Date(timestamp);
-		dataObj.addRow([date, null, null, parseFloat(value), null]);
+	$.each(data, function(index, metricObj){
+		//var date = new Date(timestamp);
+		var date = new Date(parseInt(metricObj.t));
+		dataObj.addRow([date, null, null, parseFloat(metricObj.v), null]);
 		timestamp += parseInt(sRate);
 	});
 	return dataObj;
@@ -136,7 +137,7 @@ function appComponent (reportID) {
 		jQuery.ajax({
 			type: 'get',
 			dataype: "json",
-			url: isserver + '/rest/analysis/stats/0/0/0',
+			url: isserver + '/rest/analysis/stats/0',
 			success: onSuccess
 		});
 	};

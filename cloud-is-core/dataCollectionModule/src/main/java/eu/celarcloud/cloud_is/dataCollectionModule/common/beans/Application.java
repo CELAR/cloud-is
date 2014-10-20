@@ -1,13 +1,12 @@
 package eu.celarcloud.cloud_is.dataCollectionModule.common.beans;
 
-import java.util.Date;
-
 import org.json.JSONObject;
 
 public class Application implements IBean{
 	public String id, description;
 	public String topology;
-	public Date submitted;
+	// Time in unix time stamp format (milliseconds since Jan 1, 1970)
+	public String submitted;
 	 
 	 public Application(){
 	        

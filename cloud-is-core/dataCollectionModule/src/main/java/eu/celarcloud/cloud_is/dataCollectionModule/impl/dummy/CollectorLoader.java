@@ -22,6 +22,7 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
+import eu.celarcloud.cloud_is.dataCollectionModule.impl.celar.MonitoringHistoricalData;
 
 public class CollectorLoader implements ISourceLoader {
 
@@ -31,9 +32,11 @@ public class CollectorLoader implements ISourceLoader {
 		IDataSource DtCollectorInstance = null;		
 		if(sourceType.equals(TYPE_MONITORING))
 		{
-			DummyMonData temp = new DummyMonData();
-			temp.init(uri);
-			DtCollectorInstance = temp;			
+			DtCollectorInstance = new DummyMonData();
+		}
+		else if(sourceType.equals(TYPE_MONITORING_HISTORY))
+		{
+			DtCollectorInstance = new DummyMonData();
 		}
 		else if(sourceType.equals(TYPE_RESOURCES))
 			DtCollectorInstance = null;
@@ -48,8 +51,13 @@ public class CollectorLoader implements ISourceLoader {
 		else
 			DtCollectorInstance = null;
 		
-		
 		return DtCollectorInstance;
+				
+		/*
+		 * Since Historical monitoring data is not supported
+		 * from this bundle of collectors, the controller uses the 
+		 * 'fall back' and returns the monitoring collector. 
+		 */
 	}
 
 	

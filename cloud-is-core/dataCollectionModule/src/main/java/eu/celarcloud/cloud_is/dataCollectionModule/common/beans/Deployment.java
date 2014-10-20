@@ -1,14 +1,13 @@
 package eu.celarcloud.cloud_is.dataCollectionModule.common.beans;
 
-import java.util.Date;
-
 import org.json.JSONObject;
 
 public class Deployment implements IBean{
 	 public String applicationId;
 	 public String id;
 	 public String status;
-	 public Date startTime, endTime;
+	// Time in unix time stamp format (milliseconds since Jan 1, 1970)
+	 public String startTime, endTime;
 	 
 	 public Deployment(){
 	        

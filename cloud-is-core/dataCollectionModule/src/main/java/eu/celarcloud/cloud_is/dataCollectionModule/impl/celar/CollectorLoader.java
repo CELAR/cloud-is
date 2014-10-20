@@ -43,6 +43,10 @@ public class CollectorLoader implements ISourceLoader {
 			temp.init(uri);
 			DtCollectorInstance = temp;			
 		}
+		else if(sourceType.equals(TYPE_MONITORING_HISTORY))
+		{
+			MonitoringHistoricalData temp = new MonitoringHistoricalData();
+		}
 		else if(sourceType.equals(TYPE_RESOURCES))
 			DtCollectorInstance = null;
 		else if(sourceType.equals(TYPE_APPLICATION))

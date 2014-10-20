@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>eu.celarcloud.cloud-is</groupId>
-  <artifactId>cloud-is-pom</artifactId>
-  <packaging>pom</packaging>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.celarcloud.cloud-is</groupId>
+	<artifactId>cloud-is-pom</artifactId>
+	<packaging>pom</packaging>
 
-   <parent>
-    <groupId>eu.celar</groupId>
-    <artifactId>distribution</artifactId>
-    <version>0.0.1-SNAPSHOT</version>       
-    <relativePath>..\celar-distribution</relativePath>
-   </parent>
+	<url>https://github.com/CELAR/cloud-is</url>
+	<description>CELAR Information System</description>
 
-   <modules>
-    <module>cloud-is-core</module>
-    <module>cloud-is-web</module>
-   </modules>
+	<parent>
+		<groupId>eu.celar</groupId>
+		<artifactId>distribution</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<modules>
+		<module>cloud-is-core</module>
+		<module>cloud-is-web</module>
+	</modules>
    
     <properties>
     	<!-- External Components Versions -->
@@ -31,5 +33,16 @@
         <!-- Other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+   
+	<repositories>
+		<repository>
+			<id>CELAR Nexus repository - SNAPSHOTS</id>
+			<url>http://snf-175960.vm.okeanos.grnet.gr/nexus/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
+			<id>CELAR Nexus repository - RELEASES</id>
+			<url>http://snf-175960.vm.okeanos.grnet.gr/nexus/content/repositories/releases/</url>
+		</repository>
+	</repositories>
    
 </project>

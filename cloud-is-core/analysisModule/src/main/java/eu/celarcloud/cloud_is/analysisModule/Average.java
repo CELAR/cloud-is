@@ -20,6 +20,8 @@
  */
 package eu.celarcloud.cloud_is.analysisModule;
 
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+
 // TODO: Auto-generated Javadoc
 //http://jvminside.blogspot.com/2010/01/incremental-average-calculation.html
 
@@ -111,5 +113,34 @@ public class Average {
     {
     	return ((av1 * cnt1) + (av2 * cnt2)) / (cnt1 + cnt2);
     }
+         
+    /**
+    * Simple Moving Average
+    *
+    * @param arg point series
+    * @param count number of points that was taken into consideration
+    */
+    public static double[] sma_2(double[] arg, int count) {
+	    double[] ret = new double[arg.length];
+	    double sum = 0;
+	    
+	    int l = 0;
+	    for(; l < arg.length && Double.isNaN(arg[l]); l++) {
+	    	ret[l] = Double.NaN;
+	    }
+	    
+	    int i = l;
+	    for(; i < l + count - 1 && i < arg.length; i++) {
+	    	ret[i] = Double.NaN;
+	    	sum += arg[i];
+	    }
+	    
+	    for(int j = l, k = i; k < arg.length; k++, j++) {
+	    	sum += arg[k];
+	    	ret[k] = sum/count;
+	    	sum -= arg[j];
+	    }
+	    return ret;
+    }  
 
 }

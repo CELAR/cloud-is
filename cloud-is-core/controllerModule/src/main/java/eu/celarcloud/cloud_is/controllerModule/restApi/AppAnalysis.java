@@ -20,15 +20,19 @@
  */
 package eu.celarcloud.cloud_is.controllerModule.restApi;
 
-import java.math.BigInteger;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -37,7 +41,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.analysisModule.Average;
+import eu.celarcloud.cloud_is.controllerModule.analyticsController.AnalyticsController;
 import eu.celarcloud.cloud_is.controllerModule.services.Loader;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
@@ -67,88 +74,89 @@ public class AppAnalysis
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("stats/{appId}/{verId}/{deplId}")
-	public Response getAppStats() 
+	@Path("stats/{deplId}")
+	public Response deploymentAnalyticsReport(@PathParam("deplId") String deplId, @QueryParam("compId") String compId, 
+											@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
+		// Load the appropriate Data Collectors
 		Loader ld = new Loader(context);
 		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
 		IMonitoring monitor = (IMonitoring) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING);
 		
-		String response;
-		JSONObject prop;
-		JSONArray rawData;
-		int min = 0, max = 0, count = 100;
-		double randNum, averageValue = 0.0, maxValue = 0.0, minValue=0.0;
+		// Get deployment informations
+		Deployment dpl = app.getDeployment(deplId);		
+		
+		// Specify the time windows for which
+		// the analysis will take place
+		if(sTime == null || sTime.trim().isEmpty())
+			sTime = dpl.startTime;
+		
+		if(eTime == null || eTime.trim().isEmpty())
+			eTime = dpl.endTime;
+		
+		//-		
+		int sRate = 500 * 1000; // to ms
+		int count = (int) (Long.parseLong(eTime) - Long.parseLong(sTime)) / sRate;		
+		
 		DecimalFormat df = new DecimalFormat("#.000"); 
 		JSONObject json = new JSONObject();
 		    
+		
 		String[] metricNames = {"cpu", "ram", "disk"};
 		for(int index = 0; index < metricNames.length; index++) 
 		{
-			rawData = new JSONArray();
-			randNum = 0.0;
-			min = 15;
-			max = 100;
-			for(int i = 0; i < count; i++)
+			// Init analysis object
+			AnalyticsController analysis = new AnalyticsController();
+			
+			// 
+			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(metricNames[index], sTime, eTime));		
+			JSONArray rawData = new JSONArray();
+			
+			for (String name: trend.keySet())
 			{
-				if(i == 0)
-				{
-					randNum = TestClass.randDouble(min, max);
-					maxValue = randNum; minValue = randNum; averageValue  = randNum;
-				}
-				else
-				{
-					randNum = TestClass.randDoubleKnoledge((int) Math.round(randNum), min, max);
-					averageValue = Average.incrementalAverage(averageValue, randNum);
-				}
-				
-				rawData.put(randNum);				
-				minValue = randNum < minValue ? randNum : minValue;
-				maxValue = randNum > maxValue ? randNum : maxValue;
+				JSONObject m = new JSONObject();
+				m.put("t", name.toString());
+				m.put("v", trend.get(name).toString());
+	            rawData.put(m);
 			}
+			
+			//
+			double averageValue = 0.0, maxValue = 0.0, minValue=0.0;			
 		
-			prop = new JSONObject();	
+			//
+			JSONObject prop = new JSONObject();	
 				prop.put("max", df.format(maxValue));
 				prop.put("min", df.format(minValue));
 				prop.put("avg", df.format(averageValue));
-				
-				//data = new JSONArray(rawData);
 				prop.put("data", rawData);
 			json.put(metricNames[index], prop);		
 		}
 		
-		//
-		
-		// dummy calculations
-		// Find the start and the end of the deployment
-		BigInteger tStart = new BigInteger("1401036023");
-		int sRate = 500 * 1000; // to ms
-		BigInteger durration = new BigInteger(String.valueOf((sRate * count)));
-		BigInteger tEnd = tStart.add(durration);
-		//	
 		
 		// actions
+		int min = 15;
+		int max = 100;
 		JSONObject actions = new JSONObject();
 			for(int i = 1; i < 4; i++)
 			{
-				BigInteger offset = new BigInteger(String.valueOf((sRate * TestClass.randInt(min + 1, max - 1))));
-				BigInteger time = tStart.add(offset);
+				long tStart = Long.parseLong(dpl.startTime);
+				long offset = sRate * TestClass.randInt(min + 1, max - 1);
+				long time = tStart + offset;
 				actions.put("Action " + i, time);
 			}		
 		json.put("actions", actions);
 		
-		// version data
+		// deployment data
 				
 		JSONObject versData = new JSONObject();
-			versData.put("tStart", tStart);
-			versData.put("tEnd", tEnd);
+			versData.put("tStart", dpl.startTime);
+			versData.put("tEnd", dpl.endTime);
 			versData.put("sRate", sRate);			
 		json.put("version", versData);
 		
 		
-    	response =  json.toString();
 		//return response;
-		return Response.ok(response, MediaType.APPLICATION_JSON).build();
+		return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
 	}
 	
 	/*
