@@ -20,7 +20,10 @@
  */
 package eu.celarcloud.cloud_is.controllerModule.restApi;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -205,10 +208,19 @@ public class ApplicationInfo
 	public Response searchApplications(@QueryParam("submitted_start") long submitted_start, @QueryParam("submitted_end") long submitted_end, @QueryParam("description") String description, 
 			@QueryParam("module_name") String module_name, @QueryParam("component_description") String component_description, @QueryParam("provided_resource_id") String provided_resource_id) 
 	{
+		/*
+		Date date = new Date(submitted_start*1000L); // *1000 is to convert seconds to milliseconds
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // the format of your date
+		//sdf.setTimeZone(TimeZone.getTimeZone("GMT-4"));
+		String formattedDate = sdf.format(date);
+		System.out.println(formattedDate);
+		*/
+		
+		
 		Loader ld = new Loader(context);
 		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
 		
-		List<Application> applications = app.searchApplications();
+		List<Application> applications = app.searchApplications(submitted_start, submitted_end, description, module_name, component_description, provided_resource_id);
 		// Convert to json
 		JSONArray response = new JSONArray();
 		for (Application apll : applications) {

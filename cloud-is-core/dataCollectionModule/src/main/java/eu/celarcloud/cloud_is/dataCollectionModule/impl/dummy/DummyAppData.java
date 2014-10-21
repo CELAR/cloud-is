@@ -209,6 +209,14 @@ public class DummyAppData implements IApplication {
 	 */
 	@Override
 	public String getApplicationInfo() {
+		Application application;    	
+		application = new Application();
+			application.id = "9768";
+			application.description = "";
+			application.topology = "online";
+			application.submitted = "1413290766468";
+		
+		//return application;
 		return this.app.getApplicationInfo("0");
 	}
 	
@@ -217,13 +225,24 @@ public class DummyAppData implements IApplication {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#searchApplications()
 	 */
 	@Override
-	public List<Application> searchApplications() {			    
-		String temp = this.app.searchApplicationsByProperty(0, 0, "", 0, "", "", "");
-		
-		
-		// Parse response to List<Deployment>
-    	List<Application> applications = null;
+	public List<Application> searchApplications(long submitted_start, long submitted_end, String description, String module_name, String component_description, String provided_resource_id) {			    
+		Application application;
+		List<Application> applications = new ArrayList<Application>();
     	
+		application = new Application();
+			application.id = "9768";
+			application.description = "";
+			application.topology = "online";
+			application.submitted = "1413290766468";
+		applications.add(application);
+		
+		application = new Application();
+			application.id = "10293";
+			application.description = "";
+			application.topology = "online";
+			application.submitted = "1413298766468";
+		applications.add(application);
+		
 	    return applications;
 	}
 

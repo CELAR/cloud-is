@@ -2,22 +2,68 @@ $(document).ready(function(){
 	// Init tabber controls
 	var myTabber = Object.create(ui.tabber);
 	myTabber.init("searchControl", false);
-		
-	$('input[name="submitted_start"]').datetimepicker({
+	
+	//-
+	$('input[name="submitted_start_dp"]').datetimepicker({
 		timeFormat: 'HH:mm:ss',
 	    beforeShow: function(input, inst)
 	    {
-	        inst.dpDiv.css({marginTop: -input.offsetHeight + 'px', marginLeft: input.offsetWidth + 'px'});
+	        //inst.dpDiv.css({marginTop: -input.offsetHeight + 'px', marginLeft: input.offsetWidth + 'px'});
+	    	var rect = input.getBoundingClientRect();
+	    	//console.log(rect.top, rect.right, rect.bottom, rect.left);
+	    	inst.dpDiv.css({marginTop: rect.top /2  + 'px', marginLeft: input.offsetWidth + 'px'});
 	    }
 	});
+	
+	$('input[name="submitted_end_dp"]').datetimepicker({
+		timeFormat: 'HH:mm:ss',
+	    beforeShow: function(input, inst)
+	    {
+	        //inst.dpDiv.css({marginTop: -input.offsetHeight + 'px', marginLeft: input.offsetWidth + 'px'});
+	    	var rect = input.getBoundingClientRect();
+	    	//console.log(rect.top, rect.right, rect.bottom, rect.left);
+	    	inst.dpDiv.css({marginTop: rect.top /2  + 'px', marginLeft: input.offsetWidth + 'px'});
+	    }
+	});
+	
+	//-
+	
+	$('input[name="start_time_dp"]').datetimepicker({
+		timeFormat: 'HH:mm:ss',
+	    beforeShow: function(input, inst)
+	    {
+	        //inst.dpDiv.css({marginTop: -input.offsetHeight + 'px', marginLeft: input.offsetWidth + 'px'});
+	    	var rect = input.getBoundingClientRect();
+	    	//console.log(rect.top, rect.right, rect.bottom, rect.left);
+	    	inst.dpDiv.css({marginTop: rect.top /2  + 'px', marginLeft: input.offsetWidth + 'px'});
+	    }
+	});
+	
+	$('input[name="end_time_dp"]').datetimepicker({
+		timeFormat: 'HH:mm:ss',
+	    beforeShow: function(input, inst)
+	    {
+	        //inst.dpDiv.css({marginTop: -input.offsetHeight + 'px', marginLeft: input.offsetWidth + 'px'});
+	    	var rect = input.getBoundingClientRect();
+	    	//console.log(rect.top, rect.right, rect.bottom, rect.left);
+	    	inst.dpDiv.css({marginTop: rect.top /2  + 'px', marginLeft: input.offsetWidth + 'px'});
+	    }
+	});
+	
 	
 	// Set close result button event
 	//$('.searchResultsPanel .resultsCloseBtn').off('click');
 	//$('.searchResultsPanel .resultsCloseBtn').on('click', newSearch);
 	
 	
+	
 	$('form[name="versionSearchForm"]').submit(function(){
 		console.log($(this).serialize());
+		
+		$('input[name="submitted_start_dp"]').attr('disabled', true);
+		$('input[name="submitted_start"]').val(Math.round(new Date($('input[name="submitted_start_dp"]').val()).getTime()/1000));
+		$('input[name="submitted_end_dp"]').attr('disabled', true);
+		$('input[name="submitted_end"]').val(Math.round(new Date($('input[name="submitted_end_dp"]').val()).getTime()/1000));
 		
 		$.ajax({
 			type: 'get',
@@ -65,13 +111,21 @@ $(document).ready(function(){
 						}				
 					});	 
 		 */
-		
+		$('input[name="submitted_start_dp"]').attr('disabled', false);
+		$('input[name="submitted_end_dp"]').attr('disabled', false);
 		return false;
 	});
 	
 	$('form[name="deploymentSearchForm"]').submit(function(){
 		console.log($(this).serialize());
 		
+		$('input[name="start_time_dp"]').attr('disabled', true);
+		$('input[name="start_time"]').val(Math.round(new Date($('input[name="start_time_dp"]').val()).getTime()/1000));
+		$('input[name="end_time_dp"]').attr('disabled', true);
+		$('input[name="end_time"]').val(Math.round(new Date($('input[name="end_time_dp"]').val()).getTime()/1000));
+		
+		$('input[name="start_time_dp"]').attr('disabled', false);
+		$('input[name="end_time_dp"]').attr('disabled', false);
 		return false;
 	});
 })

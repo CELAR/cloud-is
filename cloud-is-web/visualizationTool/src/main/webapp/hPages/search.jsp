@@ -100,33 +100,32 @@
 						    		<div data-tabber-page=true data-tabber-pageId="version">
 						    			<form name="versionSearchForm" method="post">
 						    				<div class="formContent">
-						    					<div>
-													<div class="formRow"><label>description</label><input name="description" data-type="string" type="text"/></div>
-												</div>					    						
-												<div>
-													<div>
-														<div>
-														</div>
-														<div>
-															<span>Specify "Submittion Time"</span>
-														</div>
+												<div class="searchParamsGroup">
+													<div class="groupTitle">
+														<span>Application Metadata Parameters</span>
 													</div>
-													<div>
+													<div class="groupContent">
+														<div class="formRow"><label>App Name</label><input name="description" data-type="string" type="text"/></div>
+													</div>
+						    					</div>		    						
+												<div class="searchParamsGroup">
+													<div class="groupTitle">
+														<span>Specify "Submittion Time"</span>
+													</div>
+													<div class="groupContent">
 							    						<div class="inputGroup">
-									    					<div class="formRow"><label>submitted_start</label><input name="submitted_start" data-type="long" type="text"/></div>
-									    					<div class="formRow"><label>submitted_end</label><input name="submitted_end" data-type="long" type="text"/></div>
+									    					<div class="formRow"><label>Start Point (date/time)</label><input name="submitted_start_dp" data-type="long" type="text"/>
+									    						<input name="submitted_start" data-type="long" type="hidden"/></div>
+									    					<div class="formRow"><label>End Point (date/time)</label><input name="submitted_end_dp" data-type="long" type="text"/>
+									    						<input name="submitted_end" data-type="long" type="hidden"/></div>
 														</div>
 													</div>
 												</div>	    					
-												<div>
-													<div>
-														<div>
-														</div>
-														<div>
-															<span>Specify Topology Parameters</span>
-														</div>
+												<div class="searchParamsGroup">
+													<div class="groupTitle">
+														<span>Specify Topology Parameters</span>
 													</div>
-													<div>
+													<div class="groupContent">
 														<div class="formRow"><label>Module Name</label><input name="module_name" data-type="string" type="text"/></div>
 														<div class="formRow"><label>Component Description</label><input name="component_description" data-type="string" type="text"/></div>
 						    						</div>
@@ -142,11 +141,27 @@
 						    			<form name="deploymentSearchForm" method="post">
 						    				<input type="hidden" name="appUUID">
 						    				<div class="formContent">
-								    			<div>
-							    					<div class="formRow"><label>start_time</label><input name="start_time" data-type="long" type="text"/></div>
-							    					<div class="formRow"><label>end_time</label><input name="end_time" data-type="long" type="text"/></div>
-												</div>
-												<div class="formRow"><label>status</label><input name="status" data-type="string" type="text"/></div>
+						    					<div class="searchParamsGroup">
+													<div class="groupTitle">
+														<span>Specify Time</span>
+													</div>
+													<div class="groupContent">
+														<div class="inputGroup">
+									    					<div class="formRow"><label>Start Point (date/time)</label><input name="start_time_dp" data-type="long" type="text"/>
+									    						<input name="start_time" data-type="long" type="hidden"/></div>
+									    					<div class="formRow"><label>End Point (date/time)</label><input name="end_time_dp" data-type="long" type="text"/>
+									    						<input name="end_time" data-type="long" type="hidden"/></div>
+														</div>
+						    						</div>
+						    					</div>						    					
+						    					<div class="searchParamsGroup">
+													<div class="groupTitle">
+														<span>Specify Status Parameter</span>
+													</div>
+													<div class="groupContent">
+														<div class="formRow"><label>Status</label><input name="status" data-type="string" type="text"/></div>
+						    						</div>
+						    					</div>
 											</div>
 						    				<div class="formControls">
 						    					<div><button type="submit">Search</button></div>

@@ -222,7 +222,7 @@ public class ApplicationData implements IApplication {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#searchApplications()
 	 */
 	@Override
-	public List<Application> searchApplications() {
+	public List<Application> searchApplications(long submitted_start, long submitted_end, String description, String module_name, String component_description, String provided_resource_id) {
 		String temp = this.cmClient.searchApplicationsByProperty(0, 0, "", 0, "", "", "");
 		System.out.println("test: " + temp);
 		

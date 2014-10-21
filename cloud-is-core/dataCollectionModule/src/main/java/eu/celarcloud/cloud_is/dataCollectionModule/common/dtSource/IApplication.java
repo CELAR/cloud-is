@@ -66,7 +66,7 @@ public interface IApplication extends IDataSource{
 	 *
 	 * @return the string
 	 */
-	public List<Application> searchApplications();
+	public List<Application> searchApplications(long submitted_start, long submitted_end, String description, String module_name, String component_description, String provided_resource_id);
 	
 	/**
 	 * Gets the application info.
