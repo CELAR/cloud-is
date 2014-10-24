@@ -110,7 +110,7 @@
 						    					</div>		    						
 												<div class="searchParamsGroup">
 													<div class="groupTitle">
-														<span>Specify "Submittion Time"</span>
+														<span>Specify "Submittion Time" Range</span>
 													</div>
 													<div class="groupContent">
 							    						<div class="inputGroup">
@@ -185,14 +185,29 @@
 		    				</div>
 		    			</div>
 		    			<div class="resultsPool well">
-							<div class="wellItemTemplate wellItem noDisplay">
-								<div><span>Application Id: </span><span data-name="appId"></span></div>
-								<div class="noDisplay"><span>App Description</span><span data-name="appDescription"></span></div>
-								<div><span>Version:  </span><span data-name="version"></span></div>
-								<div><span>Submited On: </span><span data-name="sumbited"></span></div>
+							<div class="wellItemTemplate wellItem sResAppRaw noDisplay">
+								<div class="titleRow">
+									<a class="spanify" data-ref="appId" href=""><span data-name="appDescription"></span></a>
+								</div>
+								<div class="infoRow">
+									<div class="subInfo">
+										<div><span>Submited On</span></div>
+										<div><span data-name="sumbited"></span></div>
+									</div>
+									
+									<div class="versInfo">
+										<div><span>Version: </span><span class="clickable" data-name="appId"></span></div>
+										<div class="versInfoExp noDisplay">
+											<div><span>App UID: </span><span data-name="uid"></span></div>
+											<div><span>Major</span><span data-name="vMajor"></span></div>
+											<div><span>Minnor</span><span data-name="vMinnor"></span></div>
+										</div>
+									</div>									
+								</div>
 							</div>
 							<div class="wellContentHolder"></div>
 		    			</div>
+		    			<div class="paginator"></div>
 		    		</div>
 		    	</div>
 	    	</div>

@@ -230,18 +230,34 @@ public class DummyAppData implements IApplication {
 		List<Application> applications = new ArrayList<Application>();
     	
 		application = new Application();
-			application.id = "9768";
-			application.description = "";
-			application.topology = "online";
+			application.id = "0000000013.000.000";
+			application.uid = "13";
+			application.vMajor = "0";
+			application.vMinnor = "0";
+			application.description = "test_application_1";
+			application.topology = "";
 			application.submitted = "1413290766468";
 		applications.add(application);
 		
 		application = new Application();
-			application.id = "10293";
-			application.description = "";
-			application.topology = "online";
-			application.submitted = "1413298766468";
+			application.id = "0000000014.000.000";
+			application.uid = "14";
+			application.vMajor = "0";
+			application.vMinnor = "0";
+			application.description = "test_application_2";
+			application.topology = "";
+			application.submitted = "1413298776468";
 		applications.add(application);
+		
+		application = new Application();
+		application.id = "0000000013.001.000";
+		application.uid = "13";
+		application.vMajor = "1";
+		application.vMinnor = "0";
+		application.description = "test_application_1";
+		application.topology = "";
+		application.submitted = "1413290767838";
+	applications.add(application);
 		
 	    return applications;
 	}
