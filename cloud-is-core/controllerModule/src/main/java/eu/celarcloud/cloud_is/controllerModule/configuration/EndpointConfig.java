@@ -107,7 +107,7 @@ public class EndpointConfig {
 	{
 		String url = this.uri;
 		// Check full uri exists
-		if(url == "")		
+		if(url == null || url.isEmpty())		
 		{
 			// Calculate uri from its components
 			// check to remove trailing slashes before concat

@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
@@ -227,19 +228,27 @@ public class ApplicationData implements IApplication {
 		System.out.println("test: " + temp);
 		
 		List<Application> applications = new ArrayList<Application>();
-    	if(temp == "")
+		if(temp == null || temp.isEmpty())	
     		return applications;
 		
     	// Parse response to List<Deployment>
-    	JSONArray json = new JSONArray(temp);
-    	for (int i = 0; i < json.length(); ++i) {
-    	    JSONObject a = json.getJSONObject(i);
-    	    Application appl = new Application();
-    	    	appl.id = a.getString("id");
-	    	    appl.description = a.getString("description");
-	    	    appl.submitted = a.getString("submitted");
-	    	applications.add(appl);
+    	try {
+	    	JSONArray json = new JSONArray(temp);
+	    	for (int i = 0; i < json.length(); ++i) {
+	    	    JSONObject a = json.getJSONObject(i);
+	    	    Application appl = new Application();
+	    	    	appl.id = a.getString("id");
+		    	    appl.description = a.getString("description");
+		    	    appl.submitted = a.getString("submitted");
+		    	applications.add(appl);
+	    	}
     	}
+    	catch(JSONException e) {
+    		System.out.println("Errot on parsing JSON Response : ");
+    		System.out.println("[" + temp + "]");
+            e.printStackTrace();    		
+    	}
+    	
 		return applications;
 	}
 
@@ -252,7 +261,7 @@ public class ApplicationData implements IApplication {
     	System.out.println("test: " + temp);
     	
     	List<Deployment> deployments = new ArrayList<Deployment>();
-    	if(temp == "")
+    	if(temp == null || temp.isEmpty())	
     		return deployments;
         	
     	
