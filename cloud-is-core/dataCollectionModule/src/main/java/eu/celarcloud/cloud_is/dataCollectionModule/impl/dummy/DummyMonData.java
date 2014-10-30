@@ -33,19 +33,19 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
 public class DummyMonData implements IMonitoring {
 
 	@Override
-	public String getAgents(String string, String string2) {
+	public String getAgents(String deplId, String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getAgentMetrics(String agentId) {
+	public String getAgentMetrics(String deplId, String agentId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Metric> getMetricValues(String name, String sTime, String eTime) {
+	public List<Metric> getMetricValues(String deplId, String name, String sTime, String eTime) {
 		List<Metric> list = new ArrayList<Metric>();
 		
 		//-		

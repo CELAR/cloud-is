@@ -27,7 +27,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.impl.celar.MonitoringHistoric
 public class CollectorLoader implements ISourceLoader {
 
 	
-	public IDataSource getDtCollectorInstance(String sourceType, String uri)
+	public IDataSource getDtCollectorInstance(String sourceType, String configPath)
 	{
 		IDataSource DtCollectorInstance = null;		
 		if(sourceType.equals(TYPE_MONITORING))
@@ -43,7 +43,6 @@ public class CollectorLoader implements ISourceLoader {
 		else if(sourceType.equals(TYPE_APPLICATION))
 		{
 			DummyAppData temp = new DummyAppData();
-			temp.init(uri);
 			DtCollectorInstance = temp;
 		}
 		else if(sourceType.equals(TYPE_ELASTICITY))
@@ -59,6 +58,8 @@ public class CollectorLoader implements ISourceLoader {
 		 * 'fall back' and returns the monitoring collector. 
 		 */
 	}
+
+	
 
 	
 }

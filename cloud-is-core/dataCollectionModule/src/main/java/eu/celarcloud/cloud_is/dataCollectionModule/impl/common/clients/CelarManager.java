@@ -252,5 +252,13 @@ public class CelarManager {
 		
 		return client.getContent(response);
 	}
+	
+	public String getOrchestationVm(String deplId)
+	{
+		// TODO 
+		// Remove Add Hoc variable assignment
+		
+		return "http://83.212.86.244:8080/JCatascopia-Web";		
+	}
 
 }

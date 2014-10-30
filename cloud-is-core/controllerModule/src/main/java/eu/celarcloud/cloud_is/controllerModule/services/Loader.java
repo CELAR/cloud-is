@@ -20,10 +20,11 @@
  */
 package eu.celarcloud.cloud_is.controllerModule.services;
 
+import java.io.File;
+
 import javax.servlet.ServletContext;
 
 import eu.celarcloud.cloud_is.controllerModule.configuration.EndpointConfig;
-
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 
@@ -86,7 +87,7 @@ public class Loader {
             e.printStackTrace();
         }
 		
-        this.DataSourceLoader = (ISourceLoader) classInstance;
+        this.DataSourceLoader = (ISourceLoader) classInstance;        
 	}	
 	
 	/**
@@ -102,6 +103,12 @@ public class Loader {
 		// The following if-then-else does not belong here
 		// This should go to ISourceLoader (implementation) classes ??
 		
+		       
+        String configPath = context.getRealPath("config"+File.separator);
+		
+		
+		
+		/*
 		String path = null;		
 		
 		if(sourceType.equals(ISourceLoader.TYPE_MONITORING))
@@ -123,7 +130,8 @@ public class Loader {
 				EndpointConfig applicationEndpoint = new EndpointConfig(path);
 				uri = applicationEndpoint.getUri();
 		}
+		*/
 		
-		return this.DataSourceLoader.getDtCollectorInstance(sourceType, uri);
+		return this.DataSourceLoader.getDtCollectorInstance(sourceType, configPath);
 	}
 }

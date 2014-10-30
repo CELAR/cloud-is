@@ -214,8 +214,13 @@ public class ApplicationData implements IApplication {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getApplicationInfo()
 	 */
 	@Override
-	public String getApplicationInfo() {
-		return this.cmClient.getApplicationInfo("0");
+	public Application getApplicationInfo() {
+		
+		// TODO
+		// Add missing code
+		
+		return null;
+		//return this.cmClient.getApplicationInfo("0");
 	}
 	
 	

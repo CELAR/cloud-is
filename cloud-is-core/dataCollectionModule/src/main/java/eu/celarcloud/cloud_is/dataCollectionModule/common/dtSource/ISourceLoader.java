@@ -17,7 +17,8 @@ public interface ISourceLoader {
 	/** The Constant TYPE_ELASTICITY. */
 	public final static String TYPE_ELASTICITY = "elasticity";
 	
-	public IDataSource getDtCollectorInstance(String sourceType, String uri);
+	public IDataSource getDtCollectorInstance(String sourceType, String configPath);
+	
 	
 	// TODO
 	// Add getter for each supported type

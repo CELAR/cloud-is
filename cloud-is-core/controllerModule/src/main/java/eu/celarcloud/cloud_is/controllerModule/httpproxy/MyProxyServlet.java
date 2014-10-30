@@ -20,11 +20,21 @@
  */
 package eu.celarcloud.cloud_is.controllerModule.httpproxy;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.client.utils.URIUtils;
+
+import eu.celarcloud.cloud_is.dataCollectionModule.common.EndpointConfig;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
+import eu.celarcloud.cloud_is.dataCollectionModule.impl.celar.CollectorLoader;
+import eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager;
 
 
 // TODO: Auto-generated Javadoc
@@ -35,14 +45,31 @@ import org.apache.http.client.utils.URIUtils;
  */
 public class MyProxyServlet extends ProxyServlet {
 	
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.controllerModule.httpproxy.ProxyServlet#initTarget()
-	 */
-	@Override
-	protected void initTarget() throws ServletException {
-	    targetUri = "http://83.212.86.244:8080/JCatascopia-Web";//getServletConfig().getInitParameter(P_TARGET_URI);
-	    //if (targetUri == null)
-	      //throw new ServletException(P_TARGET_URI+" is required.");
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7432911246743384504L;
+		
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String deplId = request.getParameter("deplId");
+		
+		// TODO
+		// The following is an ad hoc part of code
+		// assuming that the IS runs over CELAR
+		// In later version this should be change in a more unified solution
+		String path = "config"+File.separator+"celar" + File.separator + "endpoint.celarmanager.properties";		
+		String configPath = this.getServletContext().getRealPath(path);
+		
+		EndpointConfig applicationEndpoint = new EndpointConfig(configPath);			
+		String cmUri = applicationEndpoint.getUri();
+				
+		CelarManager cmClient = new CelarManager(cmUri);
+		String targetUri = cmClient.getOrchestationVm(deplId);
+		// - End
+		
+		// Initalize the proxy
+	    //targetUri = "http://83.212.86.244:8080/JCatascopia-Web";//getServletConfig().getInitParameter(P_TARGET_URI);
+	    if(targetUri == null || targetUri.isEmpty())	
+	      throw new ServletException(targetUri +" is required.");
+	    
 	    //test it's valid
 	    try {
 	      targetUriObj = new URI(targetUri);
@@ -50,5 +77,21 @@ public class MyProxyServlet extends ProxyServlet {
 	      throw new ServletException("Trying to process targetUri init parameter: "+e,e);
 	    }
 	    targetHost = URIUtils.extractHost(targetUriObj);
-	  }
+		
+		// Cann the parent service method
+	    try {
+	    	super.service(request, response);
+	    } catch (Exception e) {
+	    	throw new ServletException("Connection to " + targetUri + " failed with " + e,e );	    	
+	    }
+	}
+		
+	/* 
+	 * Omits the initTarget() function of the parent class
+	 * The needed configuration has been moved to service(), 
+	 * because it needs user defined parameters (taken from the request)
+	 * to initialize the proxy servlet
+	 */
+	@Override
+	protected void initTarget() throws ServletException {}
 }

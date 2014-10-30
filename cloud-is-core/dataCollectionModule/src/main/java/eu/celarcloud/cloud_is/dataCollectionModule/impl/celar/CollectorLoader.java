@@ -20,13 +20,23 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 
+import java.io.File;
+
+import eu.celarcloud.cloud_is.dataCollectionModule.common.EndpointConfig;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The ISourceLoader Implementation
+ * for the CELAR Collector Bundle / Classes
+ */
 public class CollectorLoader implements ISourceLoader {
-
 	
-	public IDataSource getDtCollectorInstance(String sourceType, String uri)
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#getDtCollectorInstance(java.lang.String, java.lang.String)
+	 */
+	public IDataSource getDtCollectorInstance(String sourceType, String configPath)
 	{
 		// TODO
 		// uri as function parameter is temporary and should be moved to IDataSource Implementations
@@ -34,23 +44,47 @@ public class CollectorLoader implements ISourceLoader {
 		// Get CELAR Manager uri from configuration
 		
 		
+		//
+		String path = configPath + File.separator + "celar";		
+		
 		
 		
 		IDataSource DtCollectorInstance = null;		
 		if(sourceType.equals(TYPE_MONITORING))
 		{
-			MonitoringData temp = new MonitoringData();
-			temp.init(uri);
-			DtCollectorInstance = temp;			
+			// Load the CELAR Manager endpoint address (uri) from the configuration
+			EndpointConfig applicationEndpoint = new EndpointConfig(path + File.separator + "endpoint.celarmanager.properties");			
+			String cmUri = applicationEndpoint.getUri();
+			
+			// Loaders passes to the IMonitoring implementation
+			// the CELAR Manager endpoint address (uri) in order for it to obtain
+			// the Monitoring Server endpoint (uri) from CM
+			// before contacting the monitoring server for the requested information
+						
+			//
+			System.out.println("This is the uri " + cmUri);
+			//
+			
+			// Initialise the appropriate dataSource Implementation
+			MonitoringData monitoringData = new MonitoringData();
+			monitoringData.init(cmUri);
+			
+			// 'Return' the loaded instance
+			DtCollectorInstance = monitoringData;			
 		}
 		else if(sourceType.equals(TYPE_MONITORING_HISTORY))
 		{
 			MonitoringHistoricalData temp = new MonitoringHistoricalData();
 		}
-		else if(sourceType.equals(TYPE_RESOURCES))
+		else if(sourceType.equals(TYPE_RESOURCES)) 
 			DtCollectorInstance = null;
 		else if(sourceType.equals(TYPE_APPLICATION))
 		{
+			EndpointConfig applicationEndpoint = new EndpointConfig(path + File.separator + "endpoint.celarmanager.properties");			
+			String uri = applicationEndpoint.getUri();		
+			System.out.println("This is the uri " + uri);
+			
+			
 			ApplicationData temp = new ApplicationData();
 			temp.init(uri);
 			DtCollectorInstance = temp;

@@ -109,7 +109,7 @@ public class AppAnalysis
 			AnalyticsController analysis = new AnalyticsController();
 			
 			// 
-			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(metricNames[index], sTime, eTime));		
+			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metricNames[index], sTime, eTime));		
 			JSONArray rawData = new JSONArray();
 			
 			for (String name: trend.keySet())

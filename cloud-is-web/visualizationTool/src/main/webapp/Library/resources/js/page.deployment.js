@@ -225,8 +225,12 @@ var connectToMonitoring = function() {
 	$('.connectionToolbar .notConnected').addClass('noDisplay');
 	$('.connectionToolbar .connected').removeClass('noDisplay');
 	
+	var deplId = 0;
+	if(("deplID" in urlParams))
+		deplId = urlParams.deplID;
+	
 	$('<iframe>', {
-		   src: isserver + '/monitoringProxy/',
+		   src: isserver + '/monitoringProxy/?deplId=' + deplId,
 		   sandbox: "allow-same-origin allow-forms allow-scripts",
 		   }).appendTo('#liveMonitorData > .frameHolder');
 	

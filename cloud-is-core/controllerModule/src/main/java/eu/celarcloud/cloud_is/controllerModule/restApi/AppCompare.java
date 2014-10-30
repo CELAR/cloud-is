@@ -83,7 +83,7 @@ public class AppCompare
 		Loader ld = new Loader(context);
 		IMonitoring monitor = (IMonitoring) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING);
 		
-		monitor.getAgentMetrics("579c910e305d4119aeb410b3ef82e400");
+		monitor.getAgentMetrics("", "579c910e305d4119aeb410b3ef82e400");
 		
 		return "Compare!!!";
 	}

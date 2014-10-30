@@ -44,28 +44,41 @@ public class MonitoringData implements IMonitoring {
 	 *            the rest api uri
 	 */
 	public void init(String restApiUri) {
-		this.jcClient = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia(restApiUri);		
+		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager(restApiUri);		
+	}
+	
+	private void loadMonitoringClient(String deplId)
+	{
+		String restApiUri = null;
+		restApiUri = this.cmClient.getOrchestationVm(deplId);
+				
+		this.jcClient = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia(restApiUri);
 	}
 	
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.monitoring.IMonitoring#getAgents(java.lang.String, java.lang.String)
 	 */
-	public String getAgents(String appId, String agentStatus)
+	public String getAgents(String deplId, String agentStatus)
 	{
-		return this.jcClient.getAgents(appId, agentStatus);
+		this.loadMonitoringClient(deplId);
+		return this.jcClient.getAgents(deplId, agentStatus);
 	}
 	
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.monitoring.IMonitoring#getAgentMetrics(java.lang.String)
 	 */
-	public String getAgentMetrics(String agentId)
+	public String getAgentMetrics(String deplId, String agentId)
 	{
+		this.loadMonitoringClient(deplId);
 		return this.jcClient.getAgentMetrics(agentId);
 	}
 	
-	public List<Metric> getMetricValues(String name, String sTime, String eTime) {
+	public List<Metric> getMetricValues(String deplId, String name, String sTime, String eTime) {
+		this.loadMonitoringClient(deplId);
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

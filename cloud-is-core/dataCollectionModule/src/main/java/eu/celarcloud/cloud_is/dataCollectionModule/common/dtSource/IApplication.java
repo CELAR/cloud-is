@@ -73,7 +73,7 @@ public interface IApplication extends IDataSource{
 	 *
 	 * @return the application info
 	 */
-	public String getApplicationInfo();
+	public Application getApplicationInfo();
 	
 	/**
 	 * Gets the recent deployments.

@@ -39,7 +39,7 @@ public interface IMonitoring extends IDataSource{
 	 *            the string2
 	 * @return the agents
 	 */
-	public String getAgents(String string, String string2);
+	public String getAgents(String deplId, String agentStatus);
 	
 	/**
 	 * Gets the agent metrics.
@@ -48,7 +48,7 @@ public interface IMonitoring extends IDataSource{
 	 *            the agent id
 	 * @return the agent metrics
 	 */
-	public String getAgentMetrics(String agentId);
+	public String getAgentMetrics(String deplId, String agentId);
 	
-	public List<Metric> getMetricValues(String name, String sTime, String eTime);
+	public List<Metric> getMetricValues(String deplId, String name, String sTime, String eTime);
 }

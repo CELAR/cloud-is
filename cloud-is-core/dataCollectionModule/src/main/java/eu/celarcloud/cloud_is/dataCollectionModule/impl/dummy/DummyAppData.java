@@ -38,16 +38,6 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
  */
 public class DummyAppData implements IApplication {
 	
-	/** The app. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager app;
-	
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#init(java.lang.String)
-	 */
-	public void init(String restApiUri) {
-		this.app = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager(restApiUri);		
-	}
-
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getUserApplications()
 	 */
@@ -208,7 +198,7 @@ public class DummyAppData implements IApplication {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getApplicationInfo()
 	 */
 	@Override
-	public String getApplicationInfo() {
+	public Application getApplicationInfo() {
 		Application application;    	
 		application = new Application();
 			application.id = "9768";
@@ -216,8 +206,7 @@ public class DummyAppData implements IApplication {
 			application.topology = "online";
 			application.submitted = "1413290766468";
 		
-		//return application;
-		return this.app.getApplicationInfo("0");
+		return application;
 	}
 	
 	
