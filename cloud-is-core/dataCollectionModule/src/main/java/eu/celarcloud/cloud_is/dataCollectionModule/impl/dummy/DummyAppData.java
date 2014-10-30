@@ -198,7 +198,7 @@ public class DummyAppData implements IApplication {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getApplicationInfo()
 	 */
 	@Override
-	public Application getApplicationInfo() {
+	public Application getApplicationInfo(String appId) {
 		Application application;    	
 		application = new Application();
 			application.id = "9768";

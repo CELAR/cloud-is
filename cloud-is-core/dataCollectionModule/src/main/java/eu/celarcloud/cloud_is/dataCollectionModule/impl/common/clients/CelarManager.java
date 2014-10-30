@@ -149,7 +149,7 @@ public class CelarManager {
 			return null;		
 		
 		URIBuilder builder = new URIBuilder();
-		String path = this.serverIp + this.restPath + "application/" + appId;		
+		String path = this.serverIp + this.restPath + "/application/" + appId;		
 	    builder.setPath(path);	
 		
 		//
@@ -157,7 +157,7 @@ public class CelarManager {
 		RestClient client = new RestClient(this.serverIp);
 		
 		try {
-			response = client.executeGet(builder.build());
+			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -189,7 +189,7 @@ public class CelarManager {
 												String module_name, String component_description, String provided_resource_id )
 	{
 		URIBuilder builder = new URIBuilder();
-		String path = this.serverIp + this.restPath + "application/search/";
+		String path = this.serverIp + this.restPath + "/application/search/";
 		
 	    builder.setPath(path);	 
 		
@@ -226,7 +226,7 @@ public class CelarManager {
 	public String searchDeploymentsByProperty(long submitted_start, long submitted_end, String status, int application_id)
 	{
 		URIBuilder builder = new URIBuilder();
-		String path = this.serverIp + this.restPath + "deployment/search/";
+		String path = this.serverIp + this.restPath + "/deployment/search/";
 		
 		builder.setPath(path);	 
 		

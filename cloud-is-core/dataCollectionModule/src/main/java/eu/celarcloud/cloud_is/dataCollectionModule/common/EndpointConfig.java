@@ -117,7 +117,13 @@ public class EndpointConfig {
 				url +=  ":" + this.port;
 			if(this.baseUrl != null && !this.baseUrl.isEmpty())
 				url += "/" + this.baseUrl;
-		}		
+		}
+		
+		// Remove trailing slash
+		if (url.endsWith("/")) {
+			url = url.substring(0, url.length() - 1);
+		}
+		
 		return url;
 	}
 }

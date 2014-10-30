@@ -20,11 +20,16 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +38,8 @@ import org.json.JSONObject;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
-
+import gr.ntua.cslab.celar.server.beans.structured.ApplicationInfo;
+import gr.ntua.cslab.celar.server.beans.structured.ModuleInfo;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -214,12 +220,33 @@ public class ApplicationData implements IApplication {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getApplicationInfo()
 	 */
 	@Override
-	public Application getApplicationInfo() {
+	public Application getApplicationInfo(String appId) {
+		String temp = this.cmClient.getApplicationInfo("0000000002.001.000");		
 		
-		// TODO
-		// Add missing code
+		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
+
+		 //unmarshal an ApplicationInfo Entity
+        ApplicationInfo inai = new ApplicationInfo();
+        try {
+			inai.unmarshal(stream);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        //print the entity in a structured manner
+        //you can observe all the field names and their values (in this example)
+        System.out.println(inai.toString(true));
+        
+        //gets the first module of an application and prints its name
+        //ModuleInfo mi = inai.modules.get(0);
+        //System.out.println("Module name:"+mi.name);
 		
-		return null;
+        // Parse response to IS bean
+        Application app = new Application();
+        
+		
+		return app;
 		//return this.cmClient.getApplicationInfo("0");
 	}
 	

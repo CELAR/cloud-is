@@ -85,6 +85,26 @@ public class ApplicationInfo
 	}
 	
 	/**
+	 * Gets the user applications.
+	 *
+	 * @return the user applications
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/info")
+	public Response getApplication() 
+	{
+		Loader ld = new Loader(context);
+		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		
+		Application response;
+		response = app.getApplicationInfo("");
+		
+		//return response;
+		return Response.ok(response.toJSONObject().toString(), MediaType.APPLICATION_JSON).build();
+	}
+	
+	/**
 	 * Gets the application versions.
 	 *
 	 * @return the application versions

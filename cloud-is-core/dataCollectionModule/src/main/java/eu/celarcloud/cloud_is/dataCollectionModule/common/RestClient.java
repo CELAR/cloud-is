@@ -48,6 +48,10 @@ import org.apache.http.impl.client.HttpClients;
  */
 public class RestClient {
 	
+	public final String ACCEPT_JSON = "application/json";
+	
+	public final String ACCEPT_XML = "text/xml";
+	
 	/**  
 	 * Meta data information, for debugging reasons
 	 * */
@@ -97,10 +101,10 @@ public class RestClient {
 	 *            the uri
 	 * @return the closeable http response
 	 */
-	public CloseableHttpResponse executeGet(URI uri)
+	public CloseableHttpResponse executeGet(URI uri, String acceptType)
 	{
 		HttpGet httpGet = new HttpGet(uri);
-	    httpGet.addHeader("accept", "application/json");
+	    httpGet.addHeader("accept", acceptType);
 	    
 
 		CloseableHttpResponse response = null;
@@ -115,6 +119,11 @@ public class RestClient {
 		}
 	    
 	    return response;				
+	}
+	
+	public CloseableHttpResponse executeGet(URI uri)
+	{
+		return this.executeGet(uri, ACCEPT_JSON);	
 	}
 	
 	/**
