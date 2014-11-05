@@ -20,12 +20,16 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients;
 
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.utils.URIBuilder;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.RestClient;
+import gr.ntua.cslab.celar.server.beans.Component;
+import gr.ntua.cslab.celar.server.beans.Metric;
+import gr.ntua.cslab.celar.server.beans.MyTimestamp;
 
 
 // TODO: Auto-generated Javadoc
@@ -125,14 +129,86 @@ public class CelarManager {
 	 *
 	 * @return the metrics
 	 */
-	public void getMetrics()
+	public String getMetrics(String compId, String metricId)
 	{
-//		ClientResponse response;
-//		// 
-//		response = this.service.path("/metrics/get").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-//		System.out.println(response.getEntity(String.class));
+		if(metricId == null || metricId.isEmpty())
+			return null;		
+		
+		URIBuilder builder = new URIBuilder();
+		String path = this.serverIp + this.restPath + "/metrics/get/" + metricId;		
+	    builder.setPath(path);	
+		
+		//
+		CloseableHttpResponse response = null;
+		RestClient client = new RestClient(this.serverIp);
+		
+		try {
+			response = client.executeGet(builder.build(), client.ACCEPT_XML);
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return client.getContent(response);
 	}
 	
+	
+	/**
+	 * Put metric.
+	 *
+	 * @param compId
+	 *            the component id
+	 * @param timestamp
+	 *            the timestamp
+	 * @param value
+	 *            the value
+	 * @return the string
+	 */
+	public String putMetric(String compId, String name)
+	{
+		if(compId == null || compId.isEmpty())
+			return null;		
+		
+		URIBuilder builder = new URIBuilder();
+		String path = this.serverIp + this.restPath + "/metrics/put/";		
+	    builder.setPath(path);	
+		
+	    //the output to the server
+		OutputStream  svrOutput = null;
+	    try {
+			Component c = new Component(Integer.parseInt(compId));			
+			Metric m = new Metric(c);
+			
+			//m.name = name;
+
+			//unmarshal the metric you created and write it to the output stream
+			m.marshal(svrOutput);
+			svrOutput.close();//maybe
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	    
+	    
+	    String body = svrOutput.toString();	    
+		//
+		CloseableHttpResponse response = null;
+		RestClient client = new RestClient(this.serverIp);
+		
+		try {
+			response = client.executePost(builder.build(), client.ACCEPT_XML, body);
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return client.getContent(response);
+	}
+	
+	public String putMetricValue(String compId, String metricId, String timestamp, String value)
+	{
+		return null;	
+	}
 	
 	// // // // //
 	// New Api

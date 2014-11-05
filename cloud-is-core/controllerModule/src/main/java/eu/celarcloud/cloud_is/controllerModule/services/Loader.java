@@ -24,7 +24,6 @@ import java.io.File;
 
 import javax.servlet.ServletContext;
 
-import eu.celarcloud.cloud_is.controllerModule.configuration.EndpointConfig;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 

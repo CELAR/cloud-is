@@ -23,6 +23,7 @@ package eu.celarcloud.cloud_is.dataCollectionModule.common;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
@@ -33,10 +34,12 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContextBuilder;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
@@ -48,13 +51,13 @@ import org.apache.http.impl.client.HttpClients;
  */
 public class RestClient {
 	
+	/** The accept json. */
 	public final String ACCEPT_JSON = "application/json";
 	
+	/** The accept xml. */
 	public final String ACCEPT_XML = "text/xml";
 	
-	/**  
-	 * Meta data information, for debugging reasons
-	 * */
+	/** Meta data information, for debugging reasons. */
 	private String name;
 	
 	/** The httpclient. */
@@ -99,12 +102,15 @@ public class RestClient {
 	 *
 	 * @param uri
 	 *            the uri
+	 * @param acceptType
+	 *            the accept type
 	 * @return the closeable http response
 	 */
 	public CloseableHttpResponse executeGet(URI uri, String acceptType)
 	{
 		HttpGet httpGet = new HttpGet(uri);
 	    httpGet.addHeader("accept", acceptType);
+	    httpGet.addHeader("Content-Type", "application/octet-stream");
 	    
 
 		CloseableHttpResponse response = null;
@@ -121,6 +127,54 @@ public class RestClient {
 	    return response;				
 	}
 	
+	/**
+	 * Execute post.
+	 *
+	 * @param uri
+	 *            the uri
+	 * @param acceptType
+	 *            the accept type
+	 * @param xmlString
+	 *            The body message to be send in string format
+	 * @return the closeable http response
+	 */
+	public CloseableHttpResponse executePost(URI uri, String acceptType, String xmlString)
+	{
+		HttpPost httpPost = new HttpPost(uri);
+		httpPost.addHeader("accept", acceptType);
+		httpPost.addHeader("Content-Type", "application/octet-stream");
+
+		
+		StringEntity xmlEntity = null;
+		try {
+			xmlEntity = new StringEntity(xmlString);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		httpPost.setEntity(xmlEntity);
+		
+		CloseableHttpResponse response = null;
+	    try {
+			response = this.httpclient.execute(httpPost);
+			//System.out.println(response.getStatusLine());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.out.println("Rest Client " + this.name + " :" + "Endpoint is not accessible");
+			return null;
+		}
+	    
+	    return response;				
+	}
+	
+	/**
+	 * Execute get.
+	 *
+	 * @param uri
+	 *            the uri
+	 * @return the closeable http response
+	 */
 	public CloseableHttpResponse executeGet(URI uri)
 	{
 		return this.executeGet(uri, ACCEPT_JSON);	

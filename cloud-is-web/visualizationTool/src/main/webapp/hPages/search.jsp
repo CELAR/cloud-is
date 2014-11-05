@@ -139,8 +139,14 @@
 						    		<div data-tabber-page=true data-tabber-pageId="deployment" class="noDisplay">
 						    			<div class="contextNotigier noDisplay"><span class="prompt">Search In: </span><span class="value"></span></div>
 						    			<form name="deploymentSearchForm" method="post">
-						    				<input type="hidden" name="appUUID">
+						    				<input type="hidden" name="appId">
 						    				<div class="formContent">
+						    					<div class="appIdRow noDisplay">
+						    						<span class="title">Application ID:</span>
+						    						<span class="title" data-name="appId"></span>
+						    						<span class="closeXBtn clickable" data-button="clearAppIdParam">
+						    							<img src="<%=request.getContextPath()%>/Library/media/closeX_1.svg"></span>
+				    							</div>
 						    					<div class="searchParamsGroup">
 													<div class="groupTitle">
 														<span>Specify Time</span>
@@ -190,19 +196,23 @@
 									<a class="spanify" data-ref="appId" href=""><span data-name="appDescription"></span></a>
 								</div>
 								<div class="infoRow">
-									<div class="subInfo">
-										<div><span>Submited On</span></div>
-										<div><span data-name="sumbited"></span></div>
-									</div>
-									
 									<div class="versInfo">
-										<div><span>Version: </span><span class="clickable" data-name="appId"></span></div>
+										<div><span>Application Version</span></div>
+										<div><span class="clickable" data-name="appId"></span></div>
 										<div class="versInfoExp noDisplay">
 											<div><span>App UID: </span><span data-name="uid"></span></div>
 											<div><span>Major</span><span data-name="vMajor"></span></div>
 											<div><span>Minnor</span><span data-name="vMinnor"></span></div>
 										</div>
-									</div>									
+									</div>								
+									<div class="subInfo">
+										<div><span>Submited On</span></div>
+										<div><span data-name="sumbited"></span></div>
+									</div>							
+								</div>
+								<div class="controlsRow">
+									<div><span class="clickable" data-button="showDepl">Show Deployments</span></div>
+									<div><span class="clickable" data-button="searchDepl">Search Deployments</span></div>
 								</div>
 							</div>
 							<div class="wellContentHolder"></div>

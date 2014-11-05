@@ -221,7 +221,7 @@ public class ApplicationData implements IApplication {
 	 */
 	@Override
 	public Application getApplicationInfo(String appId) {
-		String temp = this.cmClient.getApplicationInfo("0000000002.001.000");		
+		String temp = this.cmClient.getApplicationInfo(appId);		
 		
 		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
 
@@ -245,7 +245,11 @@ public class ApplicationData implements IApplication {
         // Parse response to IS bean
         Application app = new Application();
         
-		
+        app.id = inai.id;
+        app.description = inai.description;
+        app.submitted = inai.submitted.toString();
+        
+        
 		return app;
 		//return this.cmClient.getApplicationInfo("0");
 	}

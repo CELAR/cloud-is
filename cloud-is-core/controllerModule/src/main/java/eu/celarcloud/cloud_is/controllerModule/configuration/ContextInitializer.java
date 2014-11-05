@@ -168,10 +168,13 @@ public class ContextInitializer implements ServletContextListener{
 		// *hint the data collection module should take as
 		// initialization argument the path to the configuration files
 		
+		/*
+		
 		// Read services properties
 		// TODO Beware add-hoc path
 		String configPath2 = "config"+File.separator+"celar"+File.separator+"services.properties";		
 		String path2 = this.appContext.getRealPath(configPath2);
+		
 		
 		Config servCnf = new Config(path2);		
 		
@@ -189,6 +192,7 @@ public class ContextInitializer implements ServletContextListener{
 		serviceName = "application";
 		serviceEndpointConfigPath = "config"+File.separator+"celar" + File.separator + "endpoint." +   servCnf.getProperty("endpoint." + serviceName) + ".properties";
 		this.appContext.setAttribute(serviceName, serviceEndpointConfigPath);
+		*/
 	
 	}
 	

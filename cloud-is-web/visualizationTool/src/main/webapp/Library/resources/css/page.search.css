@@ -64,7 +64,7 @@ button, input, select, textarea {
 	top: 0px;
 	bottom: 0px;
 	left: 0px;
-	width: 349px;
+	width: 359px;
 	border-right: 1px solid lightblue;
 	
 }
@@ -97,6 +97,33 @@ button, input, select, textarea {
 	 margin-top: 5px;
 }
 
+.pageMainContainer.search .searchControl .formContent .appIdRow {
+	margin: 2px 0 4px;
+    padding: 5px;
+    text-align: center;
+    	
+	background: -webkit-gradient(radial, center center, 0, center center, 460, from(#e0e2e4), to(#ffffff)); /* Safari 4-5, Chrome 1-9 */
+	background: -webkit-radial-gradient(circle, #e0e2e4, #ffffff); /* Safari 5.1+, Chrome 10+ */
+	background: -moz-radial-gradient(circle, #e0e2e4, #ffffff); /* Firefox 3.6+ */
+	background: -ms-radial-gradient(circle, #e0e2e4, #ffffff); /* IE 10 */
+}
+
+.pageMainContainer.search .searchControl .formContent .appIdRow > span{
+	padding: 0 4px;
+}
+
+.pageMainContainer.search .searchControl .formContent .appIdRow > span.title{
+	
+}
+
+.pageMainContainer.search .searchControl .formContent .appIdRow > span.closeXBtn{
+	vertical-align: middle;
+}
+
+.pageMainContainer.search .searchControl .formContent .appIdRow > span.closeXBtn > img{
+	
+}
+
 .pageMainContainer.search .searchControl .searchParamsGroup > .groupTitle {
     background: none repeat scroll 0 0 #E1E1E1;
     padding: 3px 10px;
@@ -119,7 +146,7 @@ button, input, select, textarea {
 	position: absolute;
 	top: 0px;
 	bottom: 0px;
-	left: 350px;
+	left: 360px;
 	right: 0px;
 }
 
@@ -143,7 +170,7 @@ button, input, select, textarea {
 }
 
 .pageMainContainer.search .wellItem.sResAppRaw {
-	width: 500px;
+	width: 450px;
 	margin-bottom: 10px;
 }
 
@@ -179,12 +206,23 @@ button, input, select, textarea {
 }
 
 .pageMainContainer.search .wellItem.sResAppRaw > .infoRow > .subInfo{
-	width: 200px;
+	width: 235px;
 }
 
 .pageMainContainer.search .wellItem.sResAppRaw > .infoRow > .versInfo{
-	width: 285px;	
+	width: 200px;	
+	/*text-align: center;*/
+}
+
+.pageMainContainer.search .wellItem.sResAppRaw  .controlsRow {
+	
+}
+
+.pageMainContainer.search .wellItem.sResAppRaw  .controlsRow > div{
+	width: 200px;
+	margin: auto;
 	text-align: center;
+	display: inline-block;
 }
 
 .pageMainContainer.search .resultsHolder > .titleBar {

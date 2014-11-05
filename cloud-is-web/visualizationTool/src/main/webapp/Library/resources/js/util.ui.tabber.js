@@ -72,14 +72,17 @@ ui.tabber = {
 					
 					var targetId = tile.data('tabber-ref');
 					// Redundant check, a miss configuration may lead to error.
-					if(targetId != null && typeof targetId != 'undefined')
+					if(targetId != null && typeof targetId != 'undefined') {
 						tabberObj.tabberPages.find('[data-tabber-page]').each(function(){
 							var page = $(this);
 							page.addClass('noDisplay');
 							if(page.data('tabber-pageid') == targetId)
 								page.removeClass('noDisplay');
 						});
-				}
+						$(document).trigger('ui.tabber.change', {'tabberId':tabberId, 'targetId':targetId});
+					}
+				}				
+				
 			});	
 			
 			// Nav Tile onClose Click

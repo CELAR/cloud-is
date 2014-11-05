@@ -91,14 +91,16 @@ public class ApplicationInfo
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/info")
-	public Response getApplication() 
+	@Path("/{appId}")
+	public Response getApplication(@PathParam("appId") String appId) 
 	{
 		Loader ld = new Loader(context);
 		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
 		
+		//String.format("%010d", uniqueId)
+		
 		Application response;
-		response = app.getApplicationInfo("");
+		response = app.getApplicationInfo(appId); //0000000002.001.000
 		
 		//return response;
 		return Response.ok(response.toJSONObject().toString(), MediaType.APPLICATION_JSON).build();

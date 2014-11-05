@@ -48,6 +48,14 @@ span.clickable {
 	overflow-y: auto;
 }
 
+
+span.closeXBtn {
+	
+}
+span.closeXBtn:hover {
+	opacity:1;
+}
+
 .page {
 	position: absolute;
 	overflow: hidden;
