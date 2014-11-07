@@ -1,3 +1,16 @@
+var urlParams;
+(window.onpopstate = function () {
+    var match,
+        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query  = window.location.search.substring(1);
+
+    urlParams = {};
+    while (match = search.exec(query))
+       urlParams[decode(match[1])] = decode(match[2]);
+})();
+
 $(window).on('resize', function() {
     var md = $('body > .page .versionInfoHolder');
     var h = parseInt(md.height());
@@ -11,7 +24,172 @@ $(window).on('resize', function() {
     
 });
 
+/**
+ *	An array of script that initializes
+ *	the UI on the first start, filling it
+ *	with the appropriate content and assigning events
+ */
+var initScripts= {
+		'initOverview' : function() {
+			
+			var appId = 0;
+			if(("appId" in urlParams))
+				appId = urlParams.appId;
+			
+			jQuery.ajax({
+				type: 'get',
+				dataype: "json",
+				url: isserver + '/rest/application/' + appId +'/version',
+				success: function(jsonObj) {
+					var holder = $(".dashboard");
+					
+					
+					if(jQuery.type(jsonObj) === "string")
+						jsonObj = eval(jsonObj);
+					jQuery.each(jsonObj, function (index, vers)
+			        {
+						var context = $('.versionsHolder');
+						var wellHolder = context.find('.well > .wellContentHolder');
+						var wellItem = context.find('.well > .wellItemTemplate').clone();				
+						// remove unwanted classes
+						wellItem.removeClass('noDisplay');
+						wellItem.removeClass('wellItemTemplate');				
+						// Fill item properties
+						wellItem.find('span[data-name="versId"]').html(vers.versId);
+						wellItem.find('span[data-name="versName"]').html(vers.versName);
+						wellItem.find('span[data-name="sumbited"]').html(vers.sumbited);
+						
+						// Add events
+						wellItem.on('click', versWellItemEv.onSimpleClick);
+						
+						// Append item to well
+						wellHolder.append(wellItem);
+			        });
+				}
+			});
+			
+		},
+		'initDescription' : function() {
+			
+		},
+		'initDeployments' : function() {
+			
+			var appId = 0;
+			if(("appId" in urlParams))
+				appId = urlParams.appId;
+			
+			
+			jQuery.ajax({
+				type: 'get',
+				dataype: "json",
+				url: isserver + '/rest/application/' + appId +'/deployment',
+				success: function(jsonObj) {					
+					if(jQuery.type(jsonObj) === "string")
+						jsonObj = eval(jsonObj);
+					
+					// Clear Result Holder
+					$('.tabberPage.deploymentsPage .well > .wellContentHolder').empty();	
+					jQuery.each(jsonObj, function (index, depl)
+			        {
+						var context = $(".tabberPage.deploymentsPage");
+						var wellHolder = context.find('.well > .wellContentHolder');
+						var wellItem = context.find('.well > .wellItemTemplate').clone();				
+						// remove unwanted classes
+						wellItem.removeClass('noDisplay');
+						wellItem.removeClass('wellItemTemplate');				
+						// Fill item properties
+						wellItem.find('span[data-name="versId"]').html(depl.id);
+						wellItem.find('span[data-name="versName"]').html(depl.version);
+						wellItem.find('span[data-name="sTime"]').html(depl.sTime);
+						wellItem.find('span[data-name="eTime"]').html(depl.eTime);
+												
+						// Add events
+						wellItem.on('click', function() {
+							// TODO 
+							// Go to deployment page.
+						});
+						
+						// Append item to well
+						wellHolder.append(wellItem);
+			        });
+				}
+			});
+			
+		}
+};
 
+/**
+ *	An array which holds all the
+ *	events that are assigned (going to be assigned)
+ *	on Version Well Items
+ */
+//Define event function
+var versWellItemEv = {
+		onSimpleClick : function(event) {
+			wellItem = $(this);
+			
+			wellHolder = wellItem.closest('.wellContentHolder');
+			// Remove Previously
+			wellHolder.find('.wellItem').each(function(){
+				$(this).removeClass('selected');					
+			});
+			// Add Selected
+			wellItem.addClass('selected');
+			// TODO 
+			// Clear and the .versionInfoHolder
+			var versionInfoHolder = $('.versionInfoHolder');
+			
+			var data = Object();
+			data['appId'] = '0';
+			data['versId'] = wellItem.find('span[data-name="versId"]').html();				
+			
+			// Populate version description
+			jQuery.ajax({
+				type: 'get',
+				url: wcserver + '/ajax/application/info',
+				data: data,
+				dataType: "xml", 
+				success: function (responseText) {
+					var svgDoc = responseText;
+					//document.write(xmlDoc.xml);
+					
+					//import contents of the svg document into this document
+					var importedSVGRootElement = document.importNode(svgDoc.documentElement,true);
+					//append the imported SVG root element to the appropriate HTML element
+					//  $("#svg").append(importedSVGRootElement);
+					
+					var context = $('#versDescription');
+					//context.find('.appTopology').html(xmlDoc.xml);
+					context.find('.appTopology').html(importedSVGRootElement);
+					//console.log(context.find('.appTopology'));
+					//console.log(xmlDoc);
+				}
+			});
+			
+			
+			
+			// Populate Version Overview
+			buildOverviewPane();				
+			
+			// Populate Performance Overview
+			buildPerformanceAnalysisPane();
+			
+			// Populate Performance Overview
+			buildDeploymentsPane();
+			
+			// if needs toggle placeHolder
+			if(!versionInfoHolder.find('.placeholder').hasClass('noDisplay'))
+			{
+				versionInfoHolder.find('.placeholder').addClass('noDisplay');
+				versionInfoHolder.find('.placeholder').siblings('div').removeClass('noDisplay');
+			}
+			// Fix height
+			$(window).trigger('resize');
+		},
+		onCompareSelect : function(event) {
+			$(this).addClass("toCompare");
+		}			
+};
 
 $('document').ready(function ()
 {
@@ -20,80 +198,25 @@ $('document').ready(function ()
 	myTabber.init("innerNavMenu", false);
 	
 	
+	
+	var tab = 'overview';
+	if(("tab" in urlParams))
+		tab = urlParams.tab;
+	
+	// Open selected tab
+	// Hacky approach
+	// TODO
+	$('[data-tabber-ref="' + tab + '"] > span').trigger('click');
+	
+	
 	// Init parameters from helber
-	var appID = $('.pageHelper').find('span[data-appID]').html();
+	//var appID = $('.pageHelper').find('span[data-appID]').html();
 	
 	console.log("isserver: " + isserver);
 	console.log("wcserver: " + wcserver);
 	
-	// Define event function
-	var versWellItemEv = {
-			onSimpleClick : function(event) {
-				wellItem = $(this);
-				
-				wellHolder = wellItem.closest('.wellContentHolder');
-				// Remove Previously
-				wellHolder.find('.wellItem').each(function(){
-					$(this).removeClass('selected');					
-				});
-				// Add Selected
-				wellItem.addClass('selected');
-				// TODO 
-				// Clear and the .versionInfoHolder
-				var versionInfoHolder = $('.versionInfoHolder');
-				
-				var data = Object();
-				data['appId'] = '0';
-				data['versId'] = wellItem.find('span[data-name="versId"]').html();				
-				
-				// Populate version description
-				jQuery.ajax({
-					type: 'get',
-					url: wcserver + '/ajax/application/info',
-					data: data,
-					dataType: "xml", 
-					success: function (responseText) {
-						var svgDoc = responseText;
-						//document.write(xmlDoc.xml);
-						
-						//import contents of the svg document into this document
-						var importedSVGRootElement = document.importNode(svgDoc.documentElement,true);
-						//append the imported SVG root element to the appropriate HTML element
-						//  $("#svg").append(importedSVGRootElement);
-						
-						var context = $('#versDescription');
-						//context.find('.appTopology').html(xmlDoc.xml);
-						context.find('.appTopology').html(importedSVGRootElement);
-						//console.log(context.find('.appTopology'));
-						//console.log(xmlDoc);
-					}
-				});
-				
-				
-				
-				// Populate Version Overview
-				buildOverviewPane();				
-				
-				// Populate Performance Overview
-				buildPerformanceAnalysisPane();
-				
-				// Populate Performance Overview
-				buildDeploymentsPane();
-				
-				// if needs toggle placeHolder
-				if(!versionInfoHolder.find('.placeholder').hasClass('noDisplay'))
-				{
-					versionInfoHolder.find('.placeholder').addClass('noDisplay');
-					versionInfoHolder.find('.placeholder').siblings('div').removeClass('noDisplay');
-				}
-				// Fix height
-				$(window).trigger('resize');
-			},
-			onCompareSelect : function(event) {
-				$(this).addClass("toCompare");
-			}			
-	};
-	
+	initScripts.initOverview();
+	initScripts.initDeployments();
 	
 	// Get user applications
 	/*
@@ -137,37 +260,7 @@ $('document').ready(function ()
 					
 		*/
 					
-	jQuery.ajax({
-		type: 'get',
-		dataype: "json",
-		url: isserver + '/rest/application/' + appID +'/version',
-		success: function(jsonObj) {
-			var holder = $(".dashboard");
-			
-			
-			if(jQuery.type(jsonObj) === "string")
-				jsonObj = eval(jsonObj);
-			jQuery.each(jsonObj, function (index, vers)
-	        {
-				var context = $('.versionsHolder');
-				var wellHolder = context.find('.well > .wellContentHolder');
-				var wellItem = context.find('.well > .wellItemTemplate').clone();				
-				// remove unwanted classes
-				wellItem.removeClass('noDisplay');
-				wellItem.removeClass('wellItemTemplate');				
-				// Fill item properties
-				wellItem.find('span[data-name="versId"]').html(vers.versId);
-				wellItem.find('span[data-name="versName"]').html(vers.versName);
-				wellItem.find('span[data-name="sumbited"]').html(vers.sumbited);
-				
-				// Add events
-				wellItem.on('click', versWellItemEv.onSimpleClick);
-				
-				// Append item to well
-				wellHolder.append(wellItem);
-	        });
-		}
-	});		
+		
 				
 		
 	

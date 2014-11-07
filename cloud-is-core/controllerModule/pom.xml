@@ -23,6 +23,55 @@
           <target>${java-compiler.targetVersion}</target>
         </configuration>
       </plugin>
+      
+      <!-- Testing WADL creation, Run with goal com.sun.jersey.contribs:maven-wadl-plugin:generate
+      		only on development machine. This is binded with baseUri
+      -->
+      <plugin>
+           <groupId>com.sun.jersey.contribs</groupId>
+           <artifactId>maven-wadl-plugin</artifactId>
+           <version>1.18.1</version>
+           <executions>
+               <execution>
+                   <id>generate</id>
+                   <goals>
+                       <goal>generate</goal>
+                   </goals>
+                   <phase>${javadoc-phase}</phase>
+               </execution>
+           </executions>
+           <configuration>
+               <wadlFile>${project.build.outputDirectory}/application.wadl</wadlFile>
+               <formatWadlFile>true</formatWadlFile>
+               <baseUri>http://localhost:8880/cloud-is-core/rest/</baseUri>
+               <packagesResourceConfig>
+                   <param>eu.celarcloud.cloud_is.controllerModule.restApi</param>
+               </packagesResourceConfig>
+               <wadlGenerators>
+                   <wadlGeneratorDescription>
+                       <className>com.sun.jersey.server.wadl.generators.WadlGeneratorApplicationDoc
+                       </className>
+                       <properties>
+                           <property>
+                               <name>applicationDocsFile</name>
+                               <value>${basedir}/src/main/doc/application-doc.xml</value>
+                           </property>
+                       </properties>
+                   </wadlGeneratorDescription>
+                   <wadlGeneratorDescription>
+                       <className>com.sun.jersey.server.wadl.generators.WadlGeneratorGrammarsSupport
+                       </className>
+                       <properties>
+                           <property>
+                               <name>grammarsFile</name>
+                               <value>${basedir}/src/main/doc/application-grammars.xml</value>
+                           </property>
+                       </properties>
+                   </wadlGeneratorDescription>
+               </wadlGenerators>
+           </configuration>
+       </plugin>
+       
     </plugins>
   </build>
   <dependencies>

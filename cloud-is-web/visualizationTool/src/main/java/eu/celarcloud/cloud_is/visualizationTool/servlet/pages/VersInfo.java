@@ -68,11 +68,9 @@ public class VersInfo extends HttpServlet {
 	 *             Signals that an I/O exception has occurred.
 	 */
     private void doRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	String appID, versID, deplID;
+    	String appID;
     	
-    	appID = request.getParameter("appID") == null ? "" : request.getParameter("appID");
-    	versID = request.getParameter("versID") == null ? "" : request.getParameter("versID");
-    	//deplID = request.getParameter("deplID") == null ? "" : request.getParameter("deplID");
+    	appID = request.getParameter("appId") == null ? "" : request.getParameter("appId");
     	
     	// Build the rest client
     	//ClientResponse restResponse;

@@ -114,7 +114,7 @@ public class ApplicationInfo
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{appId}/version")
-	public Response getApplicationVersions() 
+	public Response getApplicationVersions(@PathParam("appId") String appId) 
 	{
 		Loader ld = new Loader(context);
 		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
@@ -133,7 +133,32 @@ public class ApplicationInfo
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{appId}/{verId}/deployment")
+	@Path("/{appId}/deployment")
+	public Response getApplicationDeployments(@PathParam("appId") String appId) 
+	{
+		Loader ld = new Loader(context);
+		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		
+		List<Deployment> deployments = app.getApplicationDeployments(appId);
+		// Convert to json
+		JSONArray response = new JSONArray();
+		for (Deployment depl : deployments) {
+			response.put(depl.toJSONObject());
+		}
+		
+		//return response;
+		return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
+	}
+	
+	
+	/**
+	 * Gets the application version deployments.
+	 *
+	 * @return the application version deployments
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{appId}/version/{verId}/deployment")
 	public Response getApplicationVersionDeployments() 
 	{
 		Loader ld = new Loader(context);

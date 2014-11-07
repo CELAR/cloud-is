@@ -329,6 +329,29 @@ public class CelarManager {
 		return client.getContent(response);
 	}
 	
+	public String getApplicationDeployments(String appId)
+	{
+		if(appId == null || appId.isEmpty())
+			return null;		
+		
+		URIBuilder builder = new URIBuilder();
+		String path = this.serverIp + this.restPath + "/application/" + appId + "deployments";		
+	    builder.setPath(path);	
+		
+		//
+		CloseableHttpResponse response = null;
+		RestClient client = new RestClient(this.serverIp);
+		
+		try {
+			response = client.executeGet(builder.build(), client.ACCEPT_XML);
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return client.getContent(response);
+	}
+	
 	public String getOrchestationVm(String deplId)
 	{
 		// TODO 

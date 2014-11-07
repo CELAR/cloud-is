@@ -239,14 +239,14 @@ public class DummyAppData implements IApplication {
 		applications.add(application);
 		
 		application = new Application();
-		application.id = "0000000013.001.000";
-		application.uid = "13";
-		application.vMajor = "1";
-		application.vMinnor = "0";
-		application.description = "test_application_1";
-		application.topology = "";
-		application.submitted = "1413290767838";
-	applications.add(application);
+			application.id = "0000000013.001.000";
+			application.uid = "13";
+			application.vMajor = "1";
+			application.vMinnor = "0";
+			application.description = "test_application_1";
+			application.topology = "";
+			application.submitted = "1413290767838";
+		applications.add(application);
 		
 	    return applications;
 	}
@@ -300,6 +300,30 @@ public class DummyAppData implements IApplication {
 			deployment.startTime = "1413290766468";
 			deployment.endTime = "1413299766468";
 	    return deployment;
+	}
+
+	@Override
+	public List<Deployment> getApplicationDeployments(String appId) {
+		List<Deployment> deployments = new ArrayList<Deployment>();
+		Deployment deployment;
+    			
+    	deployment = new Deployment();
+    		deployment.id = "9768";
+			deployment.applicationId = appId;
+			deployment.status = "online";
+			deployment.startTime = "1413290766468";
+			deployment.endTime = null;
+		deployments.add(deployment);
+    	
+		deployment = new Deployment();
+	    	deployment.id = "5678";
+	    	deployment.applicationId = appId;
+			deployment.status = "offline";
+			deployment.startTime = "1413290766468";
+			deployment.endTime = "1413298766468";
+		deployments.add(deployment);
+    	
+	    return deployments;
 	}
 
 }

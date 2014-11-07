@@ -338,4 +338,40 @@ public class ApplicationData implements IApplication {
 		return null;
 	}
 
+	@Override
+	public List<Deployment> getApplicationDeployments(String appId) {
+		String temp = this.cmClient.getApplicationDeployments(appId);		
+		
+		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
+
+		 //unmarshal an ApplicationInfo Entity
+		/*
+        ApplicationInfo inai = new ApplicationInfo();
+        try {
+			inai.unmarshal(stream);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        //print the entity in a structured manner
+        //you can observe all the field names and their values (in this example)
+        System.out.println(inai.toString(true));
+        
+        //gets the first module of an application and prints its name
+        //ModuleInfo mi = inai.modules.get(0);
+        //System.out.println("Module name:"+mi.name);
+		
+        // Parse response to IS bean
+        Application app = new Application();
+        
+        app.id = inai.id;
+        app.description = inai.description;
+        app.submitted = inai.submitted.toString();
+        */
+        
+		//return app;
+		return null;
+	}
+
 }

@@ -87,4 +87,6 @@ public interface IApplication extends IDataSource{
 	public List<Deployment> getRecentDeployments(String limit, String status);
 	
 	public Deployment getDeployment(String deplId);
+	
+	public List<Deployment> getApplicationDeployments(String appId);
 }

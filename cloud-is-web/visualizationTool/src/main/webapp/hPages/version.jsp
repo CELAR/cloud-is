@@ -21,18 +21,8 @@
 	</script>
 	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/util.ui.tabber.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/dashboard.functions.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/page.version.js"></script>
-	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-	<!--Load the AJAX Google Charts  API-->
-	<script type="text/javascript">
-	$(document).ready(function() {      	 	
-		google.load('visualization', '1', {
-			packages: ['corechart', 'piechart'],
-			callback : pageLoaded
-		});
-	});
-	</script>
+	
 	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.onoffswitch.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.well.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.tabber.css" rel="stylesheet">
@@ -44,7 +34,7 @@
 </head>
 <body>
 	<div class="pageHelper">
-		<span data-appID><%=pageContext.findAttribute("appID")%></span>
+		<span data-appID><%=pageContext.findAttribute("appId")%></span>
 	</div>
 	<div class="page">
 		<div class="headInfoBar">
@@ -104,13 +94,13 @@
 	    <div class="pageMainContainer navOn version" data-tabber-id="innerNavMenu">
 		  	<div class="innerNavMenu">
 		  		<div class="inner pull-left">
-					<span class="glyphicon glyphicon-tasks clickable"><img height="25px" width="35px" src="/webClient/Library/media/tasks.svg"/></span>
+					<span class="glyphicon glyphicon-tasks clickable"><img height="25px" width="35px" src="<%=request.getContextPath()%>/Library/media/tasks.svg"/></span>
 				</div>
 		  		<div class="inner tabber pull-right">
 					<div class="tabberNav" data-tabber-nav=true data-tabber-parentId="innerNavMenu">
-						<div class="navTile selected" data-tabber-navTile=true data-tabber-ref="versOverview"><span>Overview</span></div>
-						<div class="navTile disabled" data-tabber-navTile=true data-tabber-ref="versDescription"><span>Description</span></div>
-						<div class="navTile" data-tabber-navTile=true data-tabber-ref="versDeployments"><span>Deployments</span></div>
+						<div class="navTile selected" data-tabber-navTile=true data-tabber-ref="overview"><span>Overview</span></div>
+						<div class="navTile disabled" data-tabber-navTile=true data-tabber-ref="description"><span>Description</span></div>
+						<div class="navTile" data-tabber-navTile=true data-tabber-ref="deployments"><span>Deployments</span></div>
 						<!-- Ommited should go to deployment 
 						<div class="navTile disabled" data-tabber-navTile=true data-tabber-ref="versAnalysis"><span>Performance Analysis</span></div>
 						<div class="navTile disabled" data-tabber-navTile=true data-tabber-ref="desicionsTaken"><span>Resizing Actions</span></div> 
@@ -122,7 +112,7 @@
 	    		 <div class="sideContentHolder"></div>
 	    		 <div class="mainContentHolder tabber">
 	    		 	<div class="tabberPagesWhapper pagesContainer" data-tabber-pages=true data-tabber-parentId="innerNavMenu">
-						<div class="tabberPage versOverviewPage" data-tabber-page=true data-tabber-pageId="versOverview">
+						<div class="tabberPage versOverviewPage" data-tabber-page=true data-tabber-pageId="overview">
 							<div class="generalInfoSidebar">
 								<div class="infoBox">
 									<div class="inner">
@@ -151,10 +141,10 @@
 								<div class="section"></div>
 							</div>
 						</div>
-						<div id="versDescription" class="tabberPage noDisplay" data-tabber-page=true data-tabber-pageId="versDescription" style="overflow-y:scroll; height: inherit;">	
+						<div id="versDescription" class="tabberPage noDisplay" data-tabber-page=true data-tabber-pageId="description" style="overflow-y:scroll; height: inherit;">	
 							<div class="appTopology"></div>
 						</div>
-						<div id="versDeployments" class="tabberPage noDisplay" data-tabber-page=true data-tabber-pageId="versDeployments" style="overflow-y:scroll; height: inherit;">
+						<div id="versDeployments" class="tabberPage deploymentsPage noDisplay" data-tabber-page=true data-tabber-pageId="deployments" style="overflow-y:scroll; height: inherit;">
 							<div class="well">
 								<div class="wellItemTemplate wellItem noDisplay">
 									<div><span>Deployment Id: </span><span data-name="deplId"></span></div>
@@ -164,8 +154,8 @@
 								<div class="wellContentHolder">
 									<div class="tempItem wellItem">
 										<div><span>Deployment Id: </span><span data-name="deplId">1</span></div>
-										<div><span>Started On: </span><span data-name="strTime"> - </span></div>
-										<div><span>Ended On: </span><span data-name="endTime"> - </span></div>
+										<div><span>Started On: </span><span data-name="sTime"> - </span></div>
+										<div><span>Ended On: </span><span data-name="eTime"> - </span></div>
 									</div>
 								</div>
 							</div>								
