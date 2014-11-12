@@ -326,4 +326,28 @@ public class DummyAppData implements IApplication {
 	    return deployments;
 	}
 
+	@Override
+	public List<Deployment> searchDeployments(String appId, long tStart, long tEnd, String status) {
+		List<Deployment> deployments = new ArrayList<Deployment>();
+		Deployment deployment;
+    			
+    	deployment = new Deployment();
+    		deployment.id = "9768";
+			deployment.applicationId = appId;
+			deployment.status = "online";
+			deployment.startTime = "1413290766468";
+			deployment.endTime = null;
+		deployments.add(deployment);
+    	
+		deployment = new Deployment();
+	    	deployment.id = "5678";
+	    	deployment.applicationId = appId;
+			deployment.status = "offline";
+			deployment.startTime = "1413290766468";
+			deployment.endTime = "1413298766468";
+		deployments.add(deployment);
+    	
+	    return deployments;
+	}
+
 }

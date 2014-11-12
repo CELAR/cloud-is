@@ -39,7 +39,32 @@ var initScripts= {
 			jQuery.ajax({
 				type: 'get',
 				dataype: "json",
-				url: isserver + '/rest/application/' + appId +'/version',
+				url: isserver + '/rest/application/' + appId +'/info',
+				success: function(jsonObj) {
+					if(jQuery.type(jsonObj) === "string")
+						jsonObj = eval(jsonObj);
+					
+					jQuery.each(jsonObj, function (index, vers)
+			        {
+						var context = $('.tabberPage.versOverviewPage .infoBox .content');
+						// Fill item properties
+						context.find('span[data-name="versId"]').html(vers.versId);
+						context.find('span[data-name="versName"]').html(vers.versName);
+						context.find('span[data-name="sumbited"]').html(vers.sumbited);
+						
+						// Add events
+						//wellItem.on('click', versWellItemEv.onSimpleClick);
+			        });
+				}
+			});
+			
+			
+			// Fill in the versions
+			/*
+			jQuery.ajax({
+				type: 'get',
+				dataype: "json",
+				url: isserver + '/rest/application/' + appId +'/info',
 				success: function(jsonObj) {
 					var holder = $(".dashboard");
 					
@@ -67,6 +92,7 @@ var initScripts= {
 			        });
 				}
 			});
+			*/
 			
 		},
 		'initDescription' : function() {

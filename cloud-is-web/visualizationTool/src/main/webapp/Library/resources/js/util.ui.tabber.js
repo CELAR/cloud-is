@@ -30,7 +30,7 @@ ui.tabber = {
 		prototypes : new Object(),
 				
 		init : function(id, editable) {			
-			console.log("init tabber : " + id);
+			//console.log("init tabber : " + id);
 			
 			this.controlId = id;
 			if (this.prototypes[this.controlId] != null)

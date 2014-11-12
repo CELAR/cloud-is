@@ -293,7 +293,7 @@ public class ApplicationData implements IApplication {
 	 */
 	@Override
 	public List<Deployment> getRecentDeployments(String limit, String status) {
-    	String temp = this.cmClient.searchDeploymentsByProperty(0, 0, "", -1);
+    	String temp = this.cmClient.searchDeploymentsByProperty("", 0, 0, "");
     	System.out.println("test: " + temp);
     	
     	List<Deployment> deployments = new ArrayList<Deployment>();
@@ -372,6 +372,44 @@ public class ApplicationData implements IApplication {
         
 		//return app;
 		return null;
+	}
+
+	@Override
+	public List<Deployment> searchDeployments(String application_id, long start_time, long end_time, String status) {
+		String temp = this.cmClient.searchDeploymentsByProperty(application_id, start_time, end_time, status);
+    	System.out.println("test: " + temp);
+    	
+    	List<Deployment> deployments = new ArrayList<Deployment>();
+    	if(temp == null || temp.isEmpty())	
+    		return deployments;
+        	
+    	
+    	/*
+    	// Date format to parse date
+    	Date parsed = new Date();
+		try {
+		    SimpleDateFormat format =
+		        new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+		    parsed = format.parse(dateString);
+		}
+		catch(ParseException pe) {
+		    throw new IllegalArgumentException();
+		}
+    	*/
+    	
+    	// Parse response to List<Deployment>
+    	JSONArray json = new JSONArray(temp);
+    	for (int i = 0; i < json.length(); ++i) {
+    	    JSONObject d = json.getJSONObject(i);
+    	    Deployment depl = new Deployment();
+	    	    depl.id = d.getString("id");
+	    	    depl.applicationId = d.getString("applicationId");
+	    	    depl.status = d.getString("status");
+	    	    depl.startTime = d.getString("startTime");
+	    	    depl.endTime = d.getString("endTime");
+    	    deployments.add(depl);
+    	}
+	    return deployments;
 	}
 
 }

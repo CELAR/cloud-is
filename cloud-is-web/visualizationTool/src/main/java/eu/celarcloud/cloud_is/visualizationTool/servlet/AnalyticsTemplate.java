@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 // TODO: Auto-generated Javadoc
@@ -69,6 +70,8 @@ public class AnalyticsTemplate extends HttpServlet {
     	if (templateName.length() < 1)
     		templateName = "appOverview";
     	
+    	//String templateType = request.getParameter("type");    	
+    	
     	// Read the analytics report template
     	StringBuilder sb = new StringBuilder();
         BufferedReader br = new BufferedReader(new FileReader(getServletContext().getRealPath("/hPages/reportTemplates/" + templateName + ".html")));
@@ -83,6 +86,17 @@ public class AnalyticsTemplate extends HttpServlet {
 	    JSONObject json = new JSONObject();
 	    json.put("reportTemplate", sb.toString());
 	    
+	    // TODO
+	    // Temporary approach to make reportTemplate more flexible
+	    // here we are defining the metrics that are going to be displayed
+	    // The name of the metrics must be consistent with data-id attribute
+	    // in the .html report templates
+	    JSONArray ms = new JSONArray();
+	    	ms.put("cpu");
+	    	ms.put("ram");
+	    	ms.put("disk");
+	    json.put("metrics", ms);
+	    	
 	    response.setContentType("application/json");
 	    response.getWriter().write(json.toString());    	
     }

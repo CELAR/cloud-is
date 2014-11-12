@@ -299,7 +299,7 @@ public class CelarManager {
 		
 	}
 	
-	public String searchDeploymentsByProperty(long submitted_start, long submitted_end, String status, int application_id)
+	public String searchDeploymentsByProperty(String application_id, long submitted_start, long submitted_end, String status)
 	{
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/deployment/search/";
@@ -307,13 +307,13 @@ public class CelarManager {
 		builder.setPath(path);	 
 		
 		if(submitted_start != 0)
-		builder.setParameter("submitted_start", String.valueOf(submitted_start));
+			builder.setParameter("submitted_start", String.valueOf(submitted_start));
 		if(submitted_end != 0)
-		builder.setParameter("submitted_end", String.valueOf(submitted_end));
+			builder.setParameter("submitted_end", String.valueOf(submitted_end));
 		if(status != null && !status.isEmpty())
-		builder.setParameter("status", status);
-		if(application_id != 0)
-		builder.setParameter("user_id", String.valueOf(application_id));	
+			builder.setParameter("status", status);
+		if(application_id != null && !application_id.isEmpty())
+			builder.setParameter("user_id", String.valueOf(application_id));	
 		
 		//
 		CloseableHttpResponse response = null;

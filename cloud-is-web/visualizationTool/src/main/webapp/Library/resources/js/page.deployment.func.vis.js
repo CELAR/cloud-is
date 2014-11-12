@@ -1,4 +1,18 @@
-var drawVisualization = function (repId, dtCollector, dtVisualize, cache) {
+var drawVisualization = function (repId, dtCollector, dtVisualize, ajxParams, cache) {
+	// Define the ajax data collection function
+	var ajaxCollector = function(params) {
+		dtCollector(params, function(ajxResponse) {			
+			if (cache)
+			{	
+				// Cache data
+				console.log("Caching Data: " + repId);
+			    sessionStorage.setItem(repId, JSON.stringify(ajxResponse));			
+			}
+			dtVisualize(ajxResponse);
+		});
+	}
+	
+	//-	
 	if (cache)
 	{
 		// Check browser support for caching
@@ -10,19 +24,7 @@ var drawVisualization = function (repId, dtCollector, dtVisualize, cache) {
 			cache = false;
 		}
 	}
-	// Define the ajax data collection function
-	var ajaxCollector = function() {
-		dtCollector(function(ajxResponse) {			
-			if (cache)
-			{	
-				// Cache data
-				console.log("Caching Data: " + repId);
-			    sessionStorage.setItem(repId, JSON.stringify(ajxResponse));			
-			}
-			dtVisualize(ajxResponse);
-		});
-	}
-	
+	// TODO : Check the code below and the one above, maybe can merge.
 	// Check if cashing is enabled
 	if (cache)
 	{
@@ -30,13 +32,15 @@ var drawVisualization = function (repId, dtCollector, dtVisualize, cache) {
 			console.log("Loading from Cache: " + repId);
 			dtVisualize(sessionStorage.getItem(repId));
 		} else {
-			ajaxCollector();
+			ajaxCollector(ajxParams);
 		}
 	}
 	else
 	{
-		ajaxCollector();
+		ajaxCollector(ajxParams);
 	}
+	
+	
 }
 
 /* obsolete staff */

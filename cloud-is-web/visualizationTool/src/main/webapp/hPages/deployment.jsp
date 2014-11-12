@@ -125,17 +125,17 @@
 		    					<div class="body">
 		    						<div class="inner">
 		    							<div class="row">
-		    								<span class="clickable" data-id="overview" data-component="overview" data-template="appOverview">Overview</span>
+		    								<span class="clickable" data-id="overview" data-component="" data-templtype="overview" data-template="appOverview">Overview</span>
 		    							</div>
 		    							<div class="row treeView">
 		    								<div style="padding:2px 7px">
-			    								<span class="clickable" data-id="loadBalancer" data-component="loadBalancer" data-template="appComponent">Load Balancer</span>
+			    								<span class="clickable" data-id="loadBalancer" data-component="loadBalancer" data-templtype="loadBalancer" data-template="appComponent" >Load Balancer</span>
 			    							</div>
 			    							<div class="" style="padding:2px 7px">
-			    								<span  class="clickable" data-id="appServer" data-component="appServer" data-template="appCompositeComponent">App Server</span>			    								
+			    								<span  class="clickable" data-id="appServer" data-component="appServer" data-templtype="appServer" data-template="appCompositeComponent">App Server</span>			    								
 			    							</div>
 			    							<div class="" style="padding:2px 7px">
-			    								<span class="clickable" data-id="database" data-component="database" data-template="appCompositeComponent">Database</span>
+			    								<span class="clickable" data-id="database" data-component="database" data-templtype="database" data-template="appCompositeComponent">Database</span>
 			    							</div>
 		    							</div>
 		    						</div>

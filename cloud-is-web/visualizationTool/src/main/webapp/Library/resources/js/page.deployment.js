@@ -62,12 +62,21 @@ $(document).ready(function() {
 
 var initScripts= {
 		'initAnalysis' : function(){
-			console.log('initCache');
 			if(typeof(Storage) !== "undefined") {
-				console.log('supported');
+				console.log('Web Storage Supported');
 			    // Code for localStorage/sessionStorage.
+				
+				// Define Clear Cache Functionality
+				window.onbeforeunload = function(e) {
+					// Clear the whole cashe on windows reload
+					// TODO
+					// The best is to clear only the chart data
+					console.log("Clearing Cache / Charts Data");
+					sessionStorage.clear();
+				};
+								
 			} else {
-				console.log('notSupported');
+				console.log('Web Storage NOT Supported');
 			    // Sorry! No Web Storage support..
 			}
 			
@@ -255,12 +264,13 @@ var chartsApiLoaded = function() {
 	$('.analyticsReportHolder > .placeHolder').html("API is loaded");
 	//sleep(2); //sleep 2seconds
 	// Load the default
-	$('[data-component="overview"]').trigger('click');
+	$('[data-templtype="overview"]').trigger('click');
 }
 
 var onClick_component = function() {	
 	var component = $(this).data('component');
 	var template = $(this).data('template');
+	var templType = $(this).data('templtype');
 	var reportID = $(this).data('id');
 	var title = $(this).html();
 	
@@ -272,7 +282,7 @@ var onClick_component = function() {
 	
 	
 	data = {};
-	data['component'] = component;
+	data['type'] = templType;
 	data['template'] = template;
 	
 	jQuery.ajax({
@@ -297,7 +307,7 @@ var onClick_component = function() {
 			// TODO
 			// Build visualizations draw object
 			var visObject;
-			if(component == 'overview')
+			if(templType == 'overview')
 			{
 				var vis = new appOverview(reportID);				
 				//getAjaxStuff();		
@@ -321,8 +331,16 @@ var onClick_component = function() {
 			
 			// Fill the report with appropriate content
 		    	
+			// TODO
+			// Define rest call parameters such as metrics to analyze
+			if(("deplID" in urlParams))
+				deplId = urlParams.deplID;
 			
-			
+			ajxParams = {
+					'deplId' : deplId,
+					'compId' : component,
+					'metrics' : jsonObj.metrics
+			};			
 			
 			// Append Report
 			item.find('.innerReportHolder').append(reportTemplate);
@@ -349,7 +367,7 @@ var onClick_component = function() {
 				// Display current
 				$(this).closest('.singleReport').removeClass('noDisplay');				
 				// Rebuild charts according to the new width
-				drawVisualization(visObject.repId, visObject.dtCollector, visObject.dtVisualize, visObject.cache);				
+				drawVisualization(visObject.repId, visObject.dtCollector, visObject.dtVisualize, ajxParams, visObject.cache);				
 				// Change Button functionality to collapse
 				$(this).html('Collapse');
 				$(this).off('click');
@@ -361,7 +379,7 @@ var onClick_component = function() {
 					$(this).off('click');
 					$(this).on('click', expand);
 					// Rebuild charts according to the new width
-					drawVisualization(visObject.repId, visObject.dtCollector, visObject.dtVisualize, visObject.cache);					
+					drawVisualization(visObject.repId, visObject.dtCollector, visObject.dtVisualize, ajxParams, visObject.cache);					
 				});
 			}
 			expandBtn.on('click', expand);
@@ -374,7 +392,7 @@ var onClick_component = function() {
 			// Temporary Code
 			// Fill the report with appropriate content
 			// TODO 
-			drawVisualization(visObject.repId, visObject.dtCollector, visObject.dtVisualize, visObject.cache);
+			drawVisualization(visObject.repId, visObject.dtCollector, visObject.dtVisualize, ajxParams, visObject.cache);
 	    	
 	    	// Fix height
 			$(window).trigger('resize');

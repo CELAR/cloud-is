@@ -278,6 +278,34 @@ public class ApplicationInfo
 		return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
 	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/deployments/search")
+	public Response searchDeployments(@QueryParam("start_time") long start_time, @QueryParam("end_time") long end_time, 
+									@QueryParam("status") String status, @QueryParam("application_id") String application_id) 
+	{
+		/*
+		Date date = new Date(submitted_start*1000L); // *1000 is to convert seconds to milliseconds
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // the format of your date
+		//sdf.setTimeZone(TimeZone.getTimeZone("GMT-4"));
+		String formattedDate = sdf.format(date);
+		System.out.println(formattedDate);
+		*/
+		
+		Loader ld = new Loader(context);
+		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		
+		List<Deployment> deployments = app.searchDeployments(application_id, start_time, end_time, status);
+		// Convert to json
+		JSONArray response = new JSONArray();
+		for (Deployment depl : deployments) {
+			response.put(depl.toJSONObject());
+		}
+		
+		//return response;
+		return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
+	}
+	
 	/**
 	 * Recent deployments.
 	 *

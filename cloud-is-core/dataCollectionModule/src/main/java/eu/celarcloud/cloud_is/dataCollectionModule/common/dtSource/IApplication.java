@@ -68,6 +68,8 @@ public interface IApplication extends IDataSource{
 	 */
 	public List<Application> searchApplications(long submitted_start, long submitted_end, String description, String module_name, String component_description, String provided_resource_id);
 	
+	public List<Deployment> searchDeployments(String application_id, long start_time, long end_time, String  status);
+	
 	/**
 	 * Gets the application info.
 	 *

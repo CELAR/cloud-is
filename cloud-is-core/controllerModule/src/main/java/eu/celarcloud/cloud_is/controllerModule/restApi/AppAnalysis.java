@@ -21,6 +21,7 @@
 package eu.celarcloud.cloud_is.controllerModule.restApi;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -74,10 +75,27 @@ public class AppAnalysis
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("stats/{deplId}")
-	public Response deploymentAnalyticsReport(@PathParam("deplId") String deplId, @QueryParam("compId") String compId, 
-											@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
+	@Path("stats/{deplId}{compId : (/tier/[^/]+?)?}")
+	public Response deploymentAnalyticsReport(@PathParam("deplId") String deplId, @PathParam("compId") String compId, 
+											@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime,
+											@QueryParam("metrics") List<String> metrics) 
 	{
+		/*
+		 *	/tier/{cmponetId} is an optional parameter
+		 *	If it is function will return
+		 *	data regarding the specific component / tier
+		 *	In any other case this function will return 
+		 *	data regarding the whole deployment
+		 */
+		if (compId.equals("")) {
+			// Optional parameter not specified
+			// System.out.println("No format specified.");
+		} else {
+			 // Optional parameter has looks like "/tier/{cmponetId}" - need to get it's value only
+			 compId = compId.split("/")[2];
+			 //System.out.println("compId: " + compId);
+		}		
+		
 		// Load the appropriate Data Collectors
 		Loader ld = new Loader(context);
 		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
@@ -101,15 +119,25 @@ public class AppAnalysis
 		DecimalFormat df = new DecimalFormat("#.000"); 
 		JSONObject json = new JSONObject();
 		    
+		// Fallback code
+		// If metrics list is empty,
+		// create one with some default values
 		
-		String[] metricNames = {"cpu", "ram", "disk"};
-		for(int index = 0; index < metricNames.length; index++) 
+		System.out.println(metrics);		
+		
+		if(metrics.size() <= 0)
 		{
+			metrics = Arrays.asList("cpu", "ram", "disk");
+		}
+		
+		// Iterate through selected metrics
+		// and calculate analytics (trend)
+		for (String metric : metrics) {
 			// Init analysis object
 			AnalyticsController analysis = new AnalyticsController();
 			
 			// 
-			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metricNames[index], sTime, eTime));		
+			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, sTime, eTime));		
 			JSONArray rawData = new JSONArray();
 			
 			for (String name: trend.keySet())
@@ -129,11 +157,13 @@ public class AppAnalysis
 				prop.put("min", df.format(minValue));
 				prop.put("avg", df.format(averageValue));
 				prop.put("data", rawData);
-			json.put(metricNames[index], prop);		
+			json.put(metric, prop);		
 		}
 		
 		
-		// actions
+		// Add Information about
+		// Resizing Decisions Taken
+		// to the response
 		int min = 15;
 		int max = 100;
 		JSONObject actions = new JSONObject();
@@ -146,8 +176,8 @@ public class AppAnalysis
 			}		
 		json.put("actions", actions);
 		
-		// deployment data
-				
+		// Add Deployment Specific Data
+		// to the response
 		JSONObject versData = new JSONObject();
 			versData.put("tStart", dpl.startTime);
 			versData.put("tEnd", dpl.endTime);
@@ -155,7 +185,7 @@ public class AppAnalysis
 		json.put("version", versData);
 		
 		
-		//return response;
+		// Return the Response
 		return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
 	}
 	

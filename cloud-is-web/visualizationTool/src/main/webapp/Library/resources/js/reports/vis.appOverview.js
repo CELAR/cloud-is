@@ -111,30 +111,61 @@ function appOverview () {
 
 	
     
-this.onDataReady = function(jsonObj){
-	
-	// example copied from Google Visualization API playground,
-	// modified for category axis annotations
-		   
-	if(jQuery.type(jsonObj) === "string")
-		jsonObj = $.parseJSON(jsonObj);
-	
-	// Create and populate the data table.
-	
-	//drawLineChart(data, containerID);
-	//drawColChart(null, "chartHolder_Cols");
-	drawAreaChart(null, "chartHolder_area");
-	//buildPerformanceAnalysisPane();
-	costToInstanceCount(null, "chartHolder_costToInstanceCount");
-};
-    
-this.getAjaxStuff = function(onSuccess){
-    	jQuery.ajax({
-    		type: 'get',
-    		dataype: "json",
-    		url: isserver + '/rest/analysis/stats/0',
-    		success: onSuccess
-    	});
-    };
+	this.onDataReady = function(jsonObj){
+		
+		// example copied from Google Visualization API playground,
+		// modified for category axis annotations
+			   
+		if(jQuery.type(jsonObj) === "string")
+			jsonObj = $.parseJSON(jsonObj);
+		
+		// Create and populate the data table.
+		
+		//drawLineChart(data, containerID);
+		//drawColChart(null, "chartHolder_Cols");
+		drawAreaChart(null, "chartHolder_area");
+		//buildPerformanceAnalysisPane();
+		costToInstanceCount(null, "chartHolder_costToInstanceCount");
+	};
+	    
+	this.getAjaxStuff = function(params, onSuccess){
+		// Build Request part url
+		var partUrl = '';
+		
+		var compId = params.compId.trim();
+		if(!(compId.length === 0 || !compId))
+			partUrl += '/tier/' + compId;		
+		
+		// Build Request Parameters	
+		
+		/*		
+		// TODO
+		// When sending the parameters like this, the endpoint should access it as metrics[]
+		var data = {'metrics' : params.metrics};	
+		
+		jQuery.ajax({
+			type: 'get',
+			data: data,
+			dataype: "json",
+			url: isserver + '/rest/analysis/stats/' + data.deplId,
+			success: onSuccess
+		});
+		*/
+		
+		// Build Request Parameters		
+		var qString = "";
+		$.each(params.metrics, function (index, metric){
+			qString	+= '&metrics=' + metric;	
+		});
+		
+		// Get data to display
+		jQuery.ajax({
+			type: 'get',
+			dataype: "json",
+			url: isserver + '/rest/analysis/stats/' + params.deplId + partUrl + "?" + qString,
+			success: onSuccess
+		});
+		
+	};
 }
     

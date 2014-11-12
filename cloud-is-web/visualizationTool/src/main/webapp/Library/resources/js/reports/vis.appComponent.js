@@ -129,15 +129,32 @@ function appComponent (reportID) {
 			
 			data = inputActions(data, actions);
 			var container = report.find('[data-id="' + containerID + '"]')[0];
-			drawPerformanceLineChart(data, container);
+			if(typeof container !== "undefined" )//|| container.length > 0)
+				drawPerformanceLineChart(data, container);
+			else
+				console.log("Chart Container " +containerID+ " does not exist");
 		 });		 
 	};
 	
-	this.ajax_getAnalysisStats = function(onSuccess){
+	this.ajax_getAnalysisStats = function(params, onSuccess){
+		// Build Request part url
+		var partUrl = '';
+		
+		var compId = params.compId.trim();
+		if(!(compId.length === 0 || !compId))
+			partUrl += '/tier/' + compId;
+		
+		// Build Request Parameters		
+		var qString = "";
+		$.each(params.metrics, function (index, metric){
+			qString	+= '&metrics=' + metric;	
+		});
+		
+		// Get data to display
 		jQuery.ajax({
 			type: 'get',
 			dataype: "json",
-			url: isserver + '/rest/analysis/stats/0',
+			url: isserver + '/rest/analysis/stats/' + params.deplId + partUrl + "?" + qString,
 			success: onSuccess
 		});
 	};

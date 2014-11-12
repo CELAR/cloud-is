@@ -206,8 +206,7 @@ $(document).ready(function(){
 	
 	
 	
-	$('form[name="versionSearchForm"]').submit(function(){
-		console.log($(this).serialize());
+	$('form[name="versionSearchForm"]').submit(function() {
 		// Parse date to unix time stamp
 		// not parsing may break form serialization
 		// submitted_start_dp
@@ -238,29 +237,55 @@ $(document).ready(function(){
 				populateSearchResults(jsonResponse);				
 			}
 		});	 
-		/*
-		 
-		 $.ajax({
-						type: form.attr('method'),
-						url: form.attr('action'),
-						data: form.serialize(),
-						success: function(jsonResponse) {
-							statusUpdate_parseResponse(jsonResponse); 
-						}				
-					});	 
-		 */
+		
+		
 		$('input[name="submitted_start_dp"]').attr('disabled', false);
 		$('input[name="submitted_end_dp"]').attr('disabled', false);
 		return false;
 	});
 	
 	$('form[name="deploymentSearchForm"]').submit(function(){
-		console.log($(this).serialize());
+		// Parse date to unix time stamp
+		// not parsing may break form serialization
 		
+		$('input[name="submitted_start_dp"]').attr('disabled', true);
+		d = new Date($('input[name="submitted_start_dp"]').val());
+		if(validateDate(d))
+			v = Math.round(d.getTime()/1000)
+		else
+			v ='';			
+		$('input[name="submitted_start"]').val(v);
+		
+		// start_time_dp
 		$('input[name="start_time_dp"]').attr('disabled', true);
-		$('input[name="start_time"]').val(Math.round(new Date($('input[name="start_time_dp"]').val()).getTime()/1000));
+		d = new Date($('input[name="start_time_dp"]').val());
+		if(validateDate(d))
+			v = Math.round(d.getTime()/1000)
+		else
+			v ='';			
+		$('input[name="start_time"]').val(v);
+		
+		// end_time_dp
 		$('input[name="end_time_dp"]').attr('disabled', true);
-		$('input[name="end_time"]').val(Math.round(new Date($('input[name="end_time_dp"]').val()).getTime()/1000));
+		d = new Date($('input[name="end_time_dp"]').val());
+		if(validateDate(d))
+			v = Math.round(d.getTime()/1000)
+		else
+			v ='';			
+		$('input[name="end_time"]').val(v);
+		
+		// Ajax Post form
+		$.ajax({
+			type: 'get',
+			dataype: "application/json",
+			url: isserver + '/rest/application/deployments/search',
+			data:$(this).serialize(),
+			success: function(jsonResponse) {
+				console.log(jsonResponse);
+				//populateSearchResults(jsonResponse);				
+			}
+		});
+		
 		
 		$('input[name="start_time_dp"]').attr('disabled', false);
 		$('input[name="end_time_dp"]').attr('disabled', false);
