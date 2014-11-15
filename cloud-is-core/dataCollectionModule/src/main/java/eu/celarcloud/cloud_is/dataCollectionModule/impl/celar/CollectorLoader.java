@@ -25,30 +25,26 @@ import java.io.File;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.EndpointConfig;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
 
 // TODO: Auto-generated Javadoc
 /**
  * The ISourceLoader Implementation
  * for the CELAR Collector Bundle / Classes
  */
-public class CollectorLoader implements ISourceLoader {
+public class CollectorLoader extends SourceLoader implements ISourceLoader {
 	
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#getDtCollectorInstance(java.lang.String, java.lang.String)
 	 */
-	public IDataSource getDtCollectorInstance(String sourceType, String configPath)
+	public IDataSource getDtCollectorInstance(String sourceType)
 	{
-		// TODO
-		// uri as function parameter is temporary and should be moved to IDataSource Implementations
-		
-		// Get CELAR Manager uri from configuration
-		
-		
-		//
+		String configPath = this.getConfigPath();
 		String path = configPath + File.separator + "celar";		
 		
 		
-		
+		// TODO (maybe obsolete)
+		// uri as function parameter is temporary and should be moved to IDataSource Implementations
 		IDataSource DtCollectorInstance = null;		
 		if(sourceType.equals(TYPE_MONITORING))
 		{
@@ -62,7 +58,7 @@ public class CollectorLoader implements ISourceLoader {
 			// before contacting the monitoring server for the requested information
 						
 			//
-			System.out.println("This is the uri " + cmUri);
+			System.out.println("CELAR Manager configured Uri is: " + cmUri);
 			//
 			
 			// Initialise the appropriate dataSource Implementation
@@ -80,10 +76,10 @@ public class CollectorLoader implements ISourceLoader {
 			DtCollectorInstance = null;
 		else if(sourceType.equals(TYPE_APPLICATION))
 		{
+			// Load the CELAR Manager endpoint address (uri) from the configuration
 			EndpointConfig applicationEndpoint = new EndpointConfig(path + File.separator + "endpoint.celarmanager.properties");			
 			String uri = applicationEndpoint.getUri();		
-			System.out.println("This is the uri " + uri);
-			
+			System.out.println("CELAR Manager configured Uri is: " + uri);			
 			
 			ApplicationData temp = new ApplicationData();
 			temp.init(uri);

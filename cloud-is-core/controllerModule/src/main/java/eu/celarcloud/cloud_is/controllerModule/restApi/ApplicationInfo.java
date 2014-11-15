@@ -268,7 +268,7 @@ public class ApplicationInfo
 		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
 		
 		List<Application> applications = app.searchApplications(submitted_start, submitted_end, description, module_name, component_description, provided_resource_id);
-		// Convert to json
+		// Convert to json 
 		JSONArray response = new JSONArray();
 		for (Application apll : applications) {
 			response.put(apll.toJSONObject());

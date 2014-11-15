@@ -267,7 +267,7 @@ public class ApplicationData implements IApplication {
 		if(temp == null || temp.isEmpty())	
     		return applications;
 		
-    	// Parse response to List<Deployment>
+    	// Parse response to List<Application>
     	try {
 	    	JSONArray json = new JSONArray(temp);
 	    	for (int i = 0; i < json.length(); ++i) {

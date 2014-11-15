@@ -38,6 +38,7 @@ import eu.celarcloud.cloud_is.controllerModule.configuration.FileWatcher;
  */
 public class ContextInitializer implements ServletContextListener{
 	private ServletContext appContext = null;
+	private Timer timer = null;
 	 
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
@@ -46,6 +47,14 @@ public class ContextInitializer implements ServletContextListener{
 	public void contextDestroyed(ServletContextEvent sce) {
 		System.out.println("cloud-is-core: Context destroyed");
 		this.appContext = null;
+		
+		if(this.timer!= null)
+		{
+			timer.cancel();
+			timer.purge();
+			this.timer = null;
+		}
+		
 	}
  
 	/* (non-Javadoc)
@@ -57,32 +66,38 @@ public class ContextInitializer implements ServletContextListener{
 		this.appContext = sce.getServletContext();
 		
 		// Read the ad-hoc properties files
-		String configPath = "config"+File.separator+"config.properties";		
-		String path = this.appContext.getRealPath(configPath);
+		String configFilePath = this.appContext.getRealPath("config"+File.separator+"config.properties");
 		
 		//
-		readConfigurationProps(path);
+		readConfigurationProps(configFilePath);
 		
+		//-
 		// Create a folder to store temporary data
-		/*
-		String warName = new File(this.appContext.getRealPath("/")).getName();
-		String fileName = warName + ".data";
+		// These tree folders will be created at the first run, and possibly stay unchanged on later update
+		// Those folder are used from the controller module or the colectors (connectors)
+		// to store temporary data or data files
+		//String warName = new File(this.appContext.getRealPath("/")).getName();
+		String rootPath = this.appContext.getRealPath("/");
+		String dataFolder = rootPath +File.separator+ ".data";
 		
-		File f = new File(fileName);
+		// Create top Level Folder
+		File f = new File(dataFolder);
 		try	{
 			if(f.mkdir()) {
 				System.out.println("Directory Created");
 		    } else {
 		    	System.out.println("Directory is not created");
 		    }
-			
+			// Assuming that the folder is created or already exists
+			// Save folder path to a variable
+			this.appContext.setAttribute("gDataPath", dataFolder);
 		} catch(Exception e){
 		    e.printStackTrace();
-		} 
-		*/		
+		}	
 		
+		//-
 		// monitor a single file
-	    TimerTask task = new FileWatcher( new File(path) ) {
+	    TimerTask task = new FileWatcher( new File(configFilePath) ) {
 	      protected void onChange( File file ) {
 	        // here we code the action on a change
 	        System.out.println("cloud-is-core: Reconfigure");
@@ -90,9 +105,9 @@ public class ContextInitializer implements ServletContextListener{
 	      }
 	    };
 
-	    Timer timer = new Timer();
+	    this.timer = new Timer();
 	    // repeat the check every second
-	    timer.schedule( task , new Date(), 1000 );
+	    this.timer.schedule( task , new Date(), 1000 );
 	}
 	
 	/**

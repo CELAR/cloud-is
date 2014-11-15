@@ -97,16 +97,12 @@ public class Loader {
 	 * @return single instance of Loader
 	 */
 	public IDataSource getDtCollectorInstance(String sourceType)
-	{
-		// TODO
-		// The following if-then-else does not belong here
-		// This should go to ISourceLoader (implementation) classes ??
+	{       
+        String configPath = context.getRealPath("config"+File.separator);		
 		
-		       
-        String configPath = context.getRealPath("config"+File.separator);
-		
-		
-		
+        // TODO
+     	// The following if-then-else does not belong here
+     	// This should go to ISourceLoader (implementation) classes ??
 		/*
 		String path = null;		
 		
@@ -131,6 +127,11 @@ public class Loader {
 		}
 		*/
 		
-		return this.DataSourceLoader.getDtCollectorInstance(sourceType, configPath);
+        //-
+        // Initialize the DataSourceLoader [SourceLoader] with the 
+        // config parameters from the
+        // Context / Collector Config Folder
+        this.DataSourceLoader.init(configPath, (String) this.context.getAttribute("gDataPath"));        
+		return this.DataSourceLoader.getDtCollectorInstance(sourceType);
 	}
 }

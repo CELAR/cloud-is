@@ -22,13 +22,14 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
 import eu.celarcloud.cloud_is.dataCollectionModule.impl.celar.MonitoringHistoricalData;
 
-public class CollectorLoader implements ISourceLoader {
+public class CollectorLoader extends SourceLoader implements ISourceLoader {
 
 	
-	public IDataSource getDtCollectorInstance(String sourceType, String configPath)
-	{
+	public IDataSource getDtCollectorInstance(String sourceType)
+	{		
 		IDataSource DtCollectorInstance = null;		
 		if(sourceType.equals(TYPE_MONITORING))
 		{
