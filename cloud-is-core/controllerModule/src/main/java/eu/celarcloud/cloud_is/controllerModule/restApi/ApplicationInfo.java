@@ -280,7 +280,7 @@ public class ApplicationInfo
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/deployments/search")
+	@Path("/deployment/search")
 	public Response searchDeployments(@QueryParam("start_time") long start_time, @QueryParam("end_time") long end_time, 
 									@QueryParam("status") String status, @QueryParam("application_id") String application_id) 
 	{
@@ -317,7 +317,7 @@ public class ApplicationInfo
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/deployments/recent")
+	@Path("/deployment/recent")
 	public Response recentDeployments(@QueryParam("limit") String limit, @QueryParam("status") String status) 
 	{
 		Loader ld = new Loader(context);

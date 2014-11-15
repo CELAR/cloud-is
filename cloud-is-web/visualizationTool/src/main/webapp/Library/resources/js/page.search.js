@@ -278,7 +278,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: 'get',
 			dataype: "application/json",
-			url: isserver + '/rest/application/deployments/search',
+			url: isserver + '/rest/application/deployment/search',
 			data:$(this).serialize(),
 			success: function(jsonResponse) {
 				console.log(jsonResponse);
