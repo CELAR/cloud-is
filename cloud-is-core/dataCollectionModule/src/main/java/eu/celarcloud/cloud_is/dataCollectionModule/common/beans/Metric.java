@@ -21,7 +21,7 @@ public class Metric implements IBean {
 	public JSONObject toJSONObject() {
 		JSONObject metric;
 		metric = new JSONObject();
-		metric.put("timestamp", this.timestamp);
+			metric.put("timestamp", this.timestamp);
 	    	metric.put("value", this.value);
 		return metric;
 	}

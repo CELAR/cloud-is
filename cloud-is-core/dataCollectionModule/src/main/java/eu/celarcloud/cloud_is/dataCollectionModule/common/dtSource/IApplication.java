@@ -24,6 +24,7 @@ import java.util.List;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 
 
 // TODO: Auto-generated Javadoc
@@ -91,4 +92,6 @@ public interface IApplication extends IDataSource{
 	public Deployment getDeployment(String deplId);
 	
 	public List<Deployment> getApplicationDeployments(String appId);
+	
+	public List<Metric> getDeploymentInstances(String deplId, String tierId, long sTime, long eTime);
 }

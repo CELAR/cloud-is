@@ -81,5 +81,11 @@ public class DummyMonData implements IMonitoring {
 		return list;
 	}
 
+	@Override
+	public List<Metric> getDeploymentCost(String deplId, String tierId, long sTime, long eTime) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

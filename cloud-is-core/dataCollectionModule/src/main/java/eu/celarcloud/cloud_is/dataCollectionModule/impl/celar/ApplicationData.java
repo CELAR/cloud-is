@@ -37,6 +37,7 @@ import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
 import gr.ntua.cslab.celar.server.beans.structured.ApplicationInfo;
 import gr.ntua.cslab.celar.server.beans.structured.ModuleInfo;
@@ -410,6 +411,13 @@ public class ApplicationData implements IApplication {
     	    deployments.add(depl);
     	}
 	    return deployments;
+	}
+
+	@Override
+	public List<Metric> getDeploymentInstances(String deplId, String tierId, long start_time, long end_time) {
+		List<Metric> instances = new ArrayList<Metric>();
+		
+		return instances;
 	}
 
 }

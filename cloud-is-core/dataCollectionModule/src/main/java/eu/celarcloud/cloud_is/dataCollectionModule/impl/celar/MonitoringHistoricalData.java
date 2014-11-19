@@ -87,4 +87,10 @@ public class MonitoringHistoricalData implements IMonitoring {
 		return null;
 	}
 
+	@Override
+	public List<Metric> getDeploymentCost(String deplId, String tierId, long sTime, long eTime) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -43,5 +43,6 @@ $(document).ready(function(){
 	
 	
 	// Init events for the comparison ribbon
+	$('.objectSelectorWrapper .addNewControl').off('click');
 	$('.objectSelectorWrapper .addNewControl').on('click', addComparissonObject);
 });

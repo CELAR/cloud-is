@@ -114,7 +114,7 @@ var initScripts= {
 		},
 		'initChartsAPI' : function(callback) {
 			google.load('visualization', '1', {
-				packages: ['corechart'],
+				packages: ['corechart', 'table'],
 				callback : callback
 			});
 		},

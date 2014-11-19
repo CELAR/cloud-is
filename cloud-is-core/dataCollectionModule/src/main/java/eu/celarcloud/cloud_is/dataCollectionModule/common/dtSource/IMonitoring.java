@@ -51,4 +51,6 @@ public interface IMonitoring extends IDataSource{
 	public String getAgentMetrics(String deplId, String agentId);
 	
 	public List<Metric> getMetricValues(String deplId, String name, String sTime, String eTime);
+
+	public List<Metric> getDeploymentCost(String deplId, String tierId, long sTime, long eTime);
 }

@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
 
 
@@ -348,6 +349,77 @@ public class DummyAppData implements IApplication {
 		deployments.add(deployment);
     	
 	    return deployments;
+	}
+
+	@Override
+	public List<Metric> getDeploymentInstances(String deplId, String tierId, long sTime, long eTime) {
+		List<Metric> instances = new ArrayList<Metric>();
+		
+		//-
+		int sRate = 60 * 60 * 1000; // to ms, Rate = 1hour
+		long currTime = sTime;
+		
+		//-
+		if(tierId == "appServer")
+		{
+			// 07:00:00
+			instances.add(new Metric(String.valueOf(currTime), "2"));
+			currTime += sRate;
+			// 08:00:00
+			instances.add(new Metric(String.valueOf(currTime), "4"));
+			currTime += sRate;
+			// 09:00:00
+			instances.add(new Metric(String.valueOf(currTime), "5"));
+			currTime += sRate;
+			// 10:00:00
+			instances.add(new Metric(String.valueOf(currTime), "8"));
+			currTime += sRate;
+			// 11:00:00
+			instances.add(new Metric(String.valueOf(currTime), "10"));
+			currTime += sRate;
+			// 12:00:00
+			instances.add(new Metric(String.valueOf(currTime), "7"));
+			currTime += sRate;
+			// 13:00:00
+			instances.add(new Metric(String.valueOf(currTime), "5"));
+			currTime += sRate;
+			// 14:00:00
+			instances.add(new Metric(String.valueOf(currTime), "6"));
+			currTime += sRate;
+			// 15:00:00
+			instances.add(new Metric(String.valueOf(currTime), "9"));
+		}
+		else if (tierId == "database")
+		{
+			// 07:00:00
+			instances.add(new Metric(String.valueOf(currTime), "1"));
+			currTime += sRate;
+			// 08:00:00
+			instances.add(new Metric(String.valueOf(currTime), "2"));
+			currTime += sRate;
+			// 09:00:00
+			instances.add(new Metric(String.valueOf(currTime), "4"));
+			currTime += sRate;
+			// 10:00:00
+			instances.add(new Metric(String.valueOf(currTime), "6"));
+			currTime += sRate;
+			// 11:00:00
+			instances.add(new Metric(String.valueOf(currTime), "7"));
+			currTime += sRate;
+			// 12:00:00
+			instances.add(new Metric(String.valueOf(currTime), "6"));
+			currTime += sRate;
+			// 13:00:00
+			instances.add(new Metric(String.valueOf(currTime), "4"));
+			currTime += sRate;
+			// 14:00:00
+			instances.add(new Metric(String.valueOf(currTime), "7"));
+			currTime += sRate;
+			// 15:00:00
+			instances.add(new Metric(String.valueOf(currTime), "8"));
+		}
+		
+		return instances;
 	}
 
 }

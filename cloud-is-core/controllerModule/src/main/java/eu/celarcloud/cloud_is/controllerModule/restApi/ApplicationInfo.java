@@ -43,7 +43,9 @@ import org.json.JSONObject;
 import eu.celarcloud.cloud_is.controllerModule.services.Loader;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 
 // TODO: Auto-generated Javadoc
@@ -231,6 +233,95 @@ public class ApplicationInfo
 		//return response;
 		return Response.ok(response, MediaType.APPLICATION_JSON).build();
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/deployment/{deplId}{compId : (/tier/[^/]+?)?}/instances")
+	public Response getDeploymentInstances(@PathParam("deplId") String deplId, @PathParam("compId") String compId, 
+										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
+	{
+		Loader ld = new Loader(context);
+		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		
+		Long sTime_long = (long) 0;
+		if(sTime != null && !sTime.trim().isEmpty())
+			sTime_long = Long.parseLong(sTime);
+		
+		Long eTime_long = (long) 0;
+		if(eTime != null && !eTime.trim().isEmpty())
+			eTime_long = Long.parseLong(eTime);		
+		
+		
+		/*
+		 *	/tier/{cmponetId} is an optional parameter
+		 *	If it is function will return
+		 *	data regarding the specific component / tier
+		 *	In any other case this function will return 
+		 *	data regarding the whole deployment
+		 */
+		if (compId.equals("")) {
+			// Optional parameter not specified
+			// System.out.println("No format specified.");
+		} else {
+			 // Optional parameter has looks like "/tier/{cmponetId}" - need to get it's value only
+			 compId = compId.split("/")[2];
+			 //System.out.println("compId: " + compId);	
+		}
+		
+		List<Metric> instances = app.getDeploymentInstances(deplId, compId, sTime_long, eTime_long);
+		
+		JSONArray json = new JSONArray();
+		for (Metric  metric: instances)
+			json.put(metric.toJSONObject());		
+		
+		//return response;
+		return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/deployment/{deplId}{compId : (/tier/[^/]+?)?}/cost")
+	public Response getDeploymentCost(@PathParam("deplId") String deplId, @PathParam("compId") String compId, 
+										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
+	{
+		Loader ld = new Loader(context);
+		IMonitoring mon = (IMonitoring) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING_HISTORY);
+		
+		Long sTime_long = (long) 0;
+		if(sTime != null && !sTime.trim().isEmpty())
+			sTime_long = Long.parseLong(sTime);
+		
+		Long eTime_long = (long) 0;
+		if(eTime != null && !eTime.trim().isEmpty())
+			eTime_long = Long.parseLong(eTime);		
+		
+		
+		/*
+		 *	/tier/{cmponetId} is an optional parameter
+		 *	If it is function will return
+		 *	data regarding the specific component / tier
+		 *	In any other case this function will return 
+		 *	data regarding the whole deployment
+		 */
+		if (compId.equals("")) {
+			// Optional parameter not specified
+			// System.out.println("No format specified.");
+		} else {
+			 // Optional parameter has looks like "/tier/{cmponetId}" - need to get it's value only
+			 compId = compId.split("/")[2];
+			 //System.out.println("compId: " + compId);	
+		}
+		
+		List<Metric> instances = mon.getDeploymentCost(deplId, compId, sTime_long, eTime_long);
+		
+		JSONArray json = new JSONArray();
+		for (Metric  metric: instances)
+			json.put(metric.toJSONObject());		
+		
+		//return response;
+		return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
+	}
+	
 	
 	/**
 	 * Search applications.
