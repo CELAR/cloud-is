@@ -40,6 +40,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
 import gr.ntua.cslab.celar.server.beans.structured.ApplicationInfo;
+//import gr.ntua.cslab.celar.server.beans.structured.ApplicationList;
 import gr.ntua.cslab.celar.server.beans.structured.ModuleInfo;
 
 // TODO: Auto-generated Javadoc
@@ -261,31 +262,65 @@ public class ApplicationData implements IApplication {
 	 */
 	@Override
 	public List<Application> searchApplications(long submitted_start, long submitted_end, String description, String module_name, String component_description, String provided_resource_id) {
-		String temp = this.cmClient.searchApplicationsByProperty(0, 0, "", 0, "", "", "");
-		System.out.println("test: " + temp);
-		
+		// Create a List to hold the response
 		List<Application> applications = new ArrayList<Application>();
-		if(temp == null || temp.isEmpty())	
+		
+		// TODO
+		// adhoc userID
+		int userID = 1;
+		String temp = this.cmClient.searchApplicationsByProperty(submitted_start, submitted_end, description, userID, module_name, component_description, provided_resource_id);
+		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
+		
+		// Parse the result into objects
+		/*
+		//unmarshal an ApplicationInfo Entity
+		ApplicationList al = new ApplicationList();
+        try {
+        	al.unmarshal(stream);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        //print the entity in a structured manner
+        //you can observe all the field names and their values (in this example)
+        System.out.println(al.toString(true));
+		
+		// Get and parse application list
+        List<gr.ntua.cslab.celar.server.beans.Application> apps = al.getApplications();        
+		
+		if(apps == null || apps.isEmpty())	
     		return applications;
 		
-    	// Parse response to List<Application>
-    	try {
-	    	JSONArray json = new JSONArray(temp);
-	    	for (int i = 0; i < json.length(); ++i) {
-	    	    JSONObject a = json.getJSONObject(i);
-	    	    Application appl = new Application();
-	    	    	appl.id = a.getString("id");
-		    	    appl.description = a.getString("description");
-		    	    appl.submitted = a.getString("submitted");
-		    	applications.add(appl);
-	    	}
-    	}
-    	catch(JSONException e) {
-    		System.out.println("Errot on parsing JSON Response : ");
-    		System.out.println("[" + temp + "]");
-            e.printStackTrace();    		
-    	}
-    	
+		for (gr.ntua.cslab.celar.server.beans.Application a : apps) {
+			Application appl = new Application();
+				appl.id = a.getString("id");
+	    	    appl.description = a.getString("description");
+	    	    appl.submitted = a.getString("submitted");
+	    	applications.add(appl);			
+		}
+		*/
+		
+		
+		
+    	// Parse response to List<Application>		
+//    	try {
+//	    	JSONArray json = new JSONArray(temp);
+//	    	for (int i = 0; i < json.length(); ++i) {
+//	    	    JSONObject a = json.getJSONObject(i);
+//	    	    Application appl = new Application();
+//	    	    	appl.id = a.getString("id");
+//		    	    appl.description = a.getString("description");
+//		    	    appl.submitted = a.getString("submitted");
+//		    	applications.add(appl);
+//	    	}
+//    	}
+//    	catch(JSONException e) {
+//    		System.out.println("Errot on parsing JSON Response : ");
+//    		System.out.println("[" + temp + "]");
+//            e.printStackTrace();    		
+//    	}
+//    	
 		return applications;
 	}
 
