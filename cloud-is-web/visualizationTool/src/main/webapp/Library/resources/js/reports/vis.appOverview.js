@@ -1,8 +1,66 @@
 function appOverview () { 	
- 	var drawAreaChart = function (data, containerID) {
- 		 // Some raw data (not necessarily accurate)
+ 	var drawAreaChart = function (data, instanesData, containerID) {
+ 		var instancesChartData = [];
+		var instancesDataTable;
+		var instancesTierCounter = 0;
+		$.each(instanesData, function(tierName, tierData) {
+			var tierTable = [];
+			var tierDataTable = new google.visualization.DataTable();
+			//tierTable[0] = ["Time", capitaliseFirstLetter(tierName)];
+			tierDataTable.addColumn('datetime', 'Time');
+			tierDataTable.addColumn('number', capitaliseFirstLetter(tierName));
+			$.each(tierData, function(index, metricObj) {
+				var date = new Date(parseInt(metricObj.timestamp) * 1000);
+				tierDataTable.addRow([date, parseInt(metricObj.value)]);
+			});
+			if(instancesTierCounter == 0)
+			{
+				instancesDataTable = tierDataTable;
+			}
+			else
+			{
+				// Find Columns to join
+				var cols=[];
+				for(k = 0; k < instancesTierCounter; k++)
+				{
+					cols[k] = k + 1;
+				}
+				instancesDataTable = google.visualization.data.join(instancesDataTable, tierDataTable, 'inner', [[0,0]], cols, [1]);
+			}
+			instancesTierCounter++;
+		}); 
+		
+		instancesDataTable.addColumn('number', "Reserved");
+		instancesDataTable.addColumn('number', "On Demend");
+		var res = 0;
+		for(i = 0; i < instancesDataTable.getNumberOfRows() - 1; i++)
+		{			
+			var dem = 0;
+			for(j = 1; j < instancesDataTable.getNumberOfColumns() - 1; j++)
+			{				
+				if(i == 0)
+				{
+					// Take the Reserved
+					dem = 0;
+					res = res +  instancesDataTable.getValue(i, j);
+				}
+				dem = dem +  instancesDataTable.getValue(i, j) - res
+				if(dem < 0)
+					dem = 0;
+			}
+			instancesDataTable.setCell(i, instancesDataTable.getNumberOfColumns() - 2, res);
+			instancesDataTable.setCell(i, instancesDataTable.getNumberOfColumns() - 1, dem);
+			
+		}
+ 		
+ 		// Create a dataView
+		var view = new google.visualization.DataView(instancesDataTable);
+ 		view.setColumns([0, instancesDataTable.getNumberOfColumns() - 2, instancesDataTable.getNumberOfColumns() - 1]);
+		
+ 		/*
+ 		// Some raw data (not necessarily accurate)
  		  var data = google.visualization.arrayToDataTable([
- 		    ['Time',   'Reserved', 'On Demend'],
+ 		    ['Time',   'Reserved', 'On Demand'],
  		    ['07:00',    6,      0],
  		    ['08:00',    6,      5],
  		    ['09:00',    6,      11],
@@ -13,10 +71,11 @@ function appOverview () {
  		  	['14:00',    6,      12],
 		    ['15:00',    6,      18]
  		  ]);
+ 		  */
 
  		  // Create and draw the visualization.
  		  var ac = new google.visualization.AreaChart(document.getElementById(containerID));
- 		  ac.draw(data, {
+ 		  ac.draw(view, {
  		    title : 'Total Active Instances per Time',
  		    isStacked: true,
  		    height: 400,
@@ -84,16 +143,7 @@ function appOverview () {
 		// We assume that 'instanesData' and 'costData' are
 		// formulated under the same granularity and are
 		// indicated by the same time stamp
-		
-	
-		//var dataObj = new google.visualization.DataTable();
-		//dataObj.addColumn('datetime', 'x');
-		//dataObj.addColumn('number', capitaliseFirstLetter('App Server'));
-		//dataObj.addColumn('number', capitaliseFirstLetter("Database"));
-		//dataObj.addColumn('number', capitaliseFirstLetter("App Server Cost"));
-		//dataObj.addColumn('number', capitaliseFirstLetter("Database Cost"));		
-		
-		
+				
 		// FormalizeData 
 		// Construct an array with the data 
 		// parsed from json input.
@@ -115,17 +165,12 @@ function appOverview () {
 			//tierTable[0] = ["Time", capitaliseFirstLetter(tierName)];
 			tierDataTable.addColumn('datetime', 'Time');
 			tierDataTable.addColumn('number', capitaliseFirstLetter(tierName));
-			var i = 1;
 			$.each(tierData, function(index, metricObj) {
 				var date = new Date(parseInt(metricObj.timestamp) * 1000);
-				//tierTable[i] = [date, parseInt(metricObj.value)];
-				//i++;
 				tierDataTable.addRow([date, parseInt(metricObj.value)]);
 			});
-			//if(instancesChartData < 1)
 			if(instancesTierCounter == 0)
 			{
-				//instancesChartData = google.visualization.arrayToDataTable(tierTable);
 				instancesDataTable = tierDataTable;
 			}
 			else
@@ -136,8 +181,6 @@ function appOverview () {
 				{
 					cols[k] = k + 1;
 				}
-				//tierTable = google.visualization.arrayToDataTable(tierTable);
-				//instancesChartData = google.visualization.data.join(instancesChartData, tierTable, 'full', [[0,0]], cols, [1]);
 				instancesDataTable = google.visualization.data.join(instancesDataTable, tierDataTable, 'inner', [[0,0]], cols, [1]);
 			}
 			instancesTierCounter++;
@@ -188,25 +231,18 @@ function appOverview () {
 		dataObj = google.visualization.data.join(instancesDataTable, costDataTable, 'full', [[0,0]], colsI, colsC);
 			
 		
-		//.
+		//-
 		// For debugging print the data table
-		var visualization = new google.visualization.Table(document.getElementById('pastMonitorData'));
-		visualization.draw(dataObj, {
-		    sort: "disable",
-		    allowHtml: true,
-		});
+		//var visualization = new google.visualization.Table(document.getElementById('pastMonitorData'));
+		//visualization.draw(dataObj, {
+		//    sort: "disable",
+		//    allowHtml: true,
+		//});
 		
-		// Test
-		//dataObj.setColumnProperty(0, 'type','datetime');
-		//dataObj.setColumnProperty(2, 'type', 'number');
-		//dataObj.setColumnProperty(2, 'label', 'number');
-		
-		
-		
-		
+		// Build Chart Options
 		var options = {
 			vAxes: {0: {title: "Instances Count", format: '0'},
-			        1: {title: "Cost ($)", format:'$###,###'}
+			        1: {title: "Cost ($)"}
 				},
 		    hAxis: {title: "Time"},
 		    height: 300,
@@ -218,44 +254,20 @@ function appOverview () {
 		    	interpolateNulls: true,
 		    allowHtml: true
 		  };
-//ColumnChart ComboChart
-		  var chart = new google.visualization.ComboChart(document.getElementById(containerID));
-		  chart.draw(dataObj, options);
+		// Draw Chart
+		var chart = new google.visualization.ComboChart(document.getElementById(containerID));
+		chart.draw(dataObj, options);
 	}
 
-	
     
 	this.onDataReady = function(jsonObj) {
 		if(jQuery.type(jsonObj) === "string")
 			jsonObj = $.parseJSON(jsonObj);
-		
-		// Separate the combined jsonObj
-		// build the chart data objects and pass the to the
-		// appropriate drawing functions.
-		
-		// Some raw data (not necessarily accurate)
-		/*
-		chartData = [
-		    ['07:00:00',   2, 1, 10, 7],
-		    ['08:00:00',   4, 2, 20, 14],
-		    ['09:00:00',   5, 4, 25, 28],
-		    ['10:00:00',   8, 6, 40, 42],
-		    ['11:00:00',   10, 7, 50, 49],
-		    ['12:00:00',   7, 6, 35, 42],
-		    ['13:00:00',   5, 4, 25, 28],
-		    ['14:00:00',   6, 7, 35, 49],
-		    ['15:00:00',   9, 8, 45, 56]
-		  ];
-		*/
-		
-		costToInstanceCount(null, jsonObj.instances, jsonObj.cost, "chartHolder_costToInstanceCount");
-		
-		
-		
-		
+				
+		costToInstanceCount(null, jsonObj.instances, jsonObj.cost, "chartHolder_costToInstanceCount");		
 		//drawLineChart(data, containerID);
 		//drawColChart(null, "chartHolder_Cols");
-		drawAreaChart(null, "chartHolder_area");
+		drawAreaChart(null, jsonObj.instances, "chartHolder_area");
 		//buildPerformanceAnalysisPane();
 		
 	};
