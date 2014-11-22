@@ -30,7 +30,7 @@
 	<link href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.inner.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/Library/resources/css/page.deployment.css" rel="stylesheet">
 	
-	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/ext/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/util.ui.tabber.js"></script>

@@ -84,14 +84,19 @@ function appComponent (reportID) {
 		chart1_chart.draw(data, chart1_options);
 	};
 
-	this.onDataReady = function(jsonObj){
+	this.onDataReady = function(jsonObj, params){
 		
-		// example copied from Google Visualization API playground,
-		// modified for category axis annotations
-		   
+		console.log(params);
+		// Formulate metrics array
+		var metrics = {};
+		$.each(params.metrics, function (index, mObj){
+			metrics[mObj.name] = mObj.id;
+		});
+		//console.log(params.metrics);
+		//console.log(metrics);
+			   
 		// Find the report
-		report = $('[data-reportid="' + reportID + '"]')
-		
+		report = $('[data-reportid="' + reportID + '"]');		
 		
 		// Create and populate the data table.	
 		if(jQuery.type(jsonObj) === "string")
@@ -101,14 +106,14 @@ function appComponent (reportID) {
 		 delete jsonObj['actions'];
 		 var version = jsonObj.version;
 		 delete jsonObj['version'];
-		 $.each(jsonObj, function (title, objData){
-			var containerID = title + "_visualization";
-			var outerContainerID = title + "_visualizationContainer";
+		 $.each(jsonObj, function (mName, objData){
+			//var containerID = title + "_visualization";
+			//var outerContainerID = title + "_visualizationContainer";
 			var opts = new Object;
-			opts.name = title;
+			opts.name = mName;
 			// Set values ont the chart container header
-			report.find('[data-id="' + outerContainerID + '"]').find('graphTitle span.value').html(title);			
-			var graphInfoContainer = report.find('[data-id="' + outerContainerID + '"]').find('.graphInfo');			
+			report.find('[data-mid="' + metrics[mName] + '"]').find('graphTitle span.value').html(mName);			
+			var graphInfoContainer = report.find('[data-mid="' + metrics[mName] + '"]').find('.graphInfo');			
 			// min  objData.min;
 			graphInfoContainer.find('div[data-context="min"] span.value').html(objData.min);
 			// max objData.max;
@@ -128,8 +133,9 @@ function appComponent (reportID) {
 			inputAdditionalData(data, objData.avg, version.tEnd);
 			
 			data = inputActions(data, actions);
-			var container = report.find('[data-id="' + containerID + '"]')[0];
-			if(typeof container !== "undefined" )//|| container.length > 0)
+			//var container = report.find('[data-id="' + containerID + '"]')[0];
+			var container = report.find('[data-mid="' + metrics[mName] + '"]').find('.chartHolder')[0];
+			if(typeof container !== "undefined" )//|| container.length > 0) 
 				drawPerformanceLineChart(data, container);
 			else
 				console.log("Chart Container " +containerID+ " does not exist");
@@ -146,8 +152,8 @@ function appComponent (reportID) {
 		
 		// Build Request Parameters		
 		var qString = "";
-		$.each(params.metrics, function (index, metric){
-			qString	+= '&metrics=' + metric;	
+		$.each(params.metrics, function (index, metric) {
+			qString	+= '&metrics=' + metric.name;	
 		});
 		
 		// Get data to display

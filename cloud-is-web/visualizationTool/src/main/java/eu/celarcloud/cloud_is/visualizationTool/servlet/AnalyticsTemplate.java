@@ -21,6 +21,7 @@
 package eu.celarcloud.cloud_is.visualizationTool.servlet;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -65,16 +66,30 @@ public class AnalyticsTemplate extends HttpServlet {
 	 *             Signals that an I/O exception has occurred.
 	 */
     private void doRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	// Build report object
+	    JSONObject json = new JSONObject();
+    	
+	    // Helpers
+	    StringBuilder sb;
+	    BufferedReader br;
+	    String fileName = "";
+	    
     	// Get Template name
-    	String templateName = request.getParameter("template");
+    	String templateName = request.getParameter("template").trim();
     	if (templateName.length() < 1)
     		templateName = "appOverview";
+    	    	  	
+    	// Check if the specific file (report) exists
+    	fileName = "/hPages/reportTemplates/" + templateName + ".html";
+    	File f = new File(getServletContext().getRealPath(fileName));
+        if(!f.exists()) {
+        	// if not load the default
+        	fileName = "/hPages/reportTemplates/" + "appComponent" + ".html";
+        }
     	
-    	//String templateType = request.getParameter("type");    	
-    	
-    	// Read the analytics report template
-    	StringBuilder sb = new StringBuilder();
-        BufferedReader br = new BufferedReader(new FileReader(getServletContext().getRealPath("/hPages/reportTemplates/" + templateName + ".html")));
+        // Read the analytics report template
+    	sb = new StringBuilder();
+        br = new BufferedReader(new FileReader(getServletContext().getRealPath(fileName)));
         String line;
         while ( (line=br.readLine()) != null) {
           sb.append(line);
@@ -82,10 +97,12 @@ public class AnalyticsTemplate extends HttpServlet {
           //  sb.append(line).append(System.getProperty("line.separator"));
         }
     	br.close();
-    	// Build report
-	    JSONObject json = new JSONObject();
+    	// Append to report
 	    json.put("reportTemplate", sb.toString());
-	    
+        
+	    //-
+	    /* The old way
+	    //-
 	    // TODO
 	    // Temporary approach to make reportTemplate more flexible
 	    // here we are defining the metrics that are going to be displayed
@@ -96,6 +113,32 @@ public class AnalyticsTemplate extends HttpServlet {
 	    	ms.put("ram");
 	    	ms.put("disk");
 	    json.put("metrics", ms);
+	    */
+        // Template type / configuration
+	    if(!templateName.equals("appOverview")) // appOverview does not need additional configuration
+	    {
+	        String templateType = request.getParameter("type").trim();
+	    	if (templateType.length() < 1)
+	    		templateType = "default";
+	    	
+	    	fileName = "/hPages/reportTemplates/" + templateName + "." + templateType + ".json";
+	    	
+	    	sb = new StringBuilder();
+	        br = new BufferedReader(new FileReader(getServletContext().getRealPath(fileName)));
+	        String templine;
+	        while ( (templine=br.readLine()) != null) {
+	          sb.append(templine);
+	        }
+	    	br.close();
+	    	// Parse to object
+	    	JSONArray m = new JSONArray(sb.toString());    	
+	    	// Append to report
+		    json.put("metrics", m);
+	    }
+    	
+        
+    	
+	   
 	    	
 	    response.setContentType("application/json");
 	    response.getWriter().write(json.toString());    	

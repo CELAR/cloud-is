@@ -8,7 +8,7 @@ var drawVisualization = function (repId, dtCollector, dtVisualize, ajxParams, ca
 				console.log("Caching Data: " + repId);
 			    sessionStorage.setItem(repId, JSON.stringify(ajxResponse));			
 			}
-			dtVisualize(ajxResponse);
+			dtVisualize(ajxResponse, params);
 		});
 	}
 	
