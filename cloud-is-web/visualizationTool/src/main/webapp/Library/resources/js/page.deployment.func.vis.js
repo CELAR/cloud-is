@@ -13,6 +13,7 @@ var drawVisualization = function (repId, dtCollector, dtVisualize, ajxParams, ca
 	}
 	
 	//-	
+	/*
 	if (cache)
 	{
 		// Check browser support for caching
@@ -24,19 +25,25 @@ var drawVisualization = function (repId, dtCollector, dtVisualize, ajxParams, ca
 			cache = false;
 		}
 	}
+	*/
 	// TODO : Check the code below and the one above, maybe can merge.
 	// Check if cashing is enabled
-	if (cache)
-	{
+	if (cache && typeof(Storage) !== "undefined")
+	{		
 		if (sessionStorage.getItem(repId)) {
 			console.log("Loading from Cache: " + repId);
-			dtVisualize(sessionStorage.getItem(repId));
+			dtVisualize(sessionStorage.getItem(repId), ajxParams);
 		} else {
 			ajaxCollector(ajxParams);
 		}
 	}
 	else
 	{
+		if (cache)
+			console.log("No Web Storage support");
+		else
+			console.log("Caching is disabled");
+			
 		ajaxCollector(ajxParams);
 	}
 	

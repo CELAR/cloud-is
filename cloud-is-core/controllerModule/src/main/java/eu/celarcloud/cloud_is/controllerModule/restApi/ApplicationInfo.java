@@ -344,7 +344,8 @@ public class ApplicationInfo
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/search")
 	public Response searchApplications(@QueryParam("submitted_start") long submitted_start, @QueryParam("submitted_end") long submitted_end, @QueryParam("description") String description, 
-			@QueryParam("module_name") String module_name, @QueryParam("component_description") String component_description, @QueryParam("provided_resource_id") String provided_resource_id) 
+			@QueryParam("module_name") String module_name, @QueryParam("component_description") String component_description, @QueryParam("provided_resource_id") String provided_resource_id, 
+			@QueryParam("group") String group, @QueryParam("order") String order) 
 	{
 		/*
 		Date date = new Date(submitted_start*1000L); // *1000 is to convert seconds to milliseconds

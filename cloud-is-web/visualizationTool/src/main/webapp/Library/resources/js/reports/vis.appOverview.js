@@ -37,20 +37,21 @@ function appOverview () {
 		{			
 			var dem = 0;
 			for(j = 1; j < instancesDataTable.getNumberOfColumns() - 1; j++)
-			{				
+			{
 				if(i == 0)
 				{
 					// Take the Reserved
 					dem = 0;
 					res = res +  instancesDataTable.getValue(i, j);
 				}
-				dem = dem +  instancesDataTable.getValue(i, j) - res
-				if(dem < 0)
-					dem = 0;
+				dem = dem +  instancesDataTable.getValue(i, j);
 			}
-			instancesDataTable.setCell(i, instancesDataTable.getNumberOfColumns() - 2, res);
-			instancesDataTable.setCell(i, instancesDataTable.getNumberOfColumns() - 1, dem);
+			dem = dem - res
+			if(dem < 0)
+				dem = 0;			
 			
+			instancesDataTable.setCell(i, instancesDataTable.getNumberOfColumns() - 2, res);
+			instancesDataTable.setCell(i, instancesDataTable.getNumberOfColumns() - 1, dem);			
 		}
  		
  		// Create a dataView

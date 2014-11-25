@@ -1,5 +1,5 @@
 [
-	{id: m1, name: cpu},
+	{id: m3, name: cpu},
 	{id: m2, name: ram},
-	{id: m3, name: disk},
+	{id: m1, name: averageConnections},
 ]

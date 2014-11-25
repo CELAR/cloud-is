@@ -138,7 +138,7 @@ function appComponent (reportID) {
 			if(typeof container !== "undefined" )//|| container.length > 0) 
 				drawPerformanceLineChart(data, container);
 			else
-				console.log("Chart Container " +containerID+ " does not exist");
+				console.log('Chart Container ' + 'data-mid="' + metrics[mName] + '" does not exist');
 		 });		 
 	};
 	
