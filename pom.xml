@@ -20,11 +20,7 @@
 	</modules>
    
     <properties>
-    	<!-- External Components Versions -->
-        <jersey.version>1.18.1</jersey.version>
-        <glassfish.version>3.1.1</glassfish.version>
-        <apache.httpcomponents.version>4.3.4</apache.httpcomponents.version>
-        <!-- Maven properties-->
+    	<!-- Maven properties-->
         <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
         <java-compiler.targetVersion>1.7</java-compiler.targetVersion>
         <!-- Packaging Properties properties-->

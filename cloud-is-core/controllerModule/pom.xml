@@ -11,6 +11,12 @@
   <artifactId>controllerModule</artifactId>
   <packaging>war</packaging>
   <name>controllerModule</name>
+  <properties>
+    	<!-- External Components Versions -->
+        <jersey.version>1.18.1</jersey.version>
+        <glassfish.version>3.1.1</glassfish.version>
+        <apache.httpcomponents.version>4.3.4</apache.httpcomponents.version>
+  </properties>
   <build>
     <finalName>${is-core.war-packaging.name}</finalName>
     <plugins>

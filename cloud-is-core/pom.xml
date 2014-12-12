@@ -11,8 +11,8 @@
   <name>cloud-is-core</name>
   <modules>
   	<module>analysisModule</module>
-  	<module>controllerModule</module>
   	<module>dataCollectionModule</module>
     <module>is-core-packaging</module>
+    <module>controller</module>
   </modules>
 </project>

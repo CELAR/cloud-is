@@ -11,6 +11,9 @@
   <artifactId>dataCollectionModule</artifactId>
   <name>dataCollectionModule</name>
   <url>http://maven.apache.org</url>
+  <properties>
+  	<apache.httpcomponents.version>4.3.4</apache.httpcomponents.version>
+  </properties>
   <build>
     <plugins>
       <plugin>
