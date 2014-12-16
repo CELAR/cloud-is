@@ -12,7 +12,8 @@
   <packaging>war</packaging>
   <name>visualizationTool</name>
   <properties>
-    	<batik.version>1.7</batik.version>
+    <jersey.version>1.18.1</jersey.version>
+    <batik.version>1.7</batik.version>
   </properties>
   <build>
   	<finalName>${is-web.war-packaging.name}</finalName>
