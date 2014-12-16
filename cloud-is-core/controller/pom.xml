@@ -19,7 +19,7 @@
 		<slf4j.version>1.7.5</slf4j.version>
 	</properties>
 	<build>
-		<finalName>${is-core.war-packaging.name}</finalName>
+		<finalName>${is-core.jar-packaging.name}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -29,6 +29,36 @@
 					<source>${java-compiler.targetVersion}</source>
 					<target>${java-compiler.targetVersion}</target>
 				</configuration>
+			</plugin>
+			<!-- Maven shade plugin for building an Uber JAR -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>eu.celarcloud.cloud_is.controller.service.Daemon</mainClass>
+								</transformer>
+							</transformers>
+							<filters>
+								<filter>
+									<artifact>*:*:*:*</artifact>
+									<excludes>
+										<exclude>scripts/**</exclude>
+									</excludes>
+								</filter>
+								<!-- May resources folder needs also to be excluded -->
+							</filters>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -74,7 +104,7 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.3.4</version>
 			<scope>compile</scope>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
@@ -105,13 +135,13 @@
 			<artifactId>slf4j-simple</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		
+
 		<dependency>
-    <groupId>org.mitre.dsmiley.httpproxy</groupId>
-    <artifactId>smiley-http-proxy-servlet</artifactId>
-    <version>1.6</version>
-</dependency>
-		
+			<groupId>org.mitre.dsmiley.httpproxy</groupId>
+			<artifactId>smiley-http-proxy-servlet</artifactId>
+			<version>1.6</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

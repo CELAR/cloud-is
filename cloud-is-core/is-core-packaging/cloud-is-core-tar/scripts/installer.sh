@@ -1,15 +1,27 @@
 #!/bin/bash
-# CELAR Information System Core (controllerModule)
-# installation script
 
-#
-if [ -z "$CATALINA_BASE" ]; then
-	echo "CATALINA_BASE should be set."
-	exit 0
+NAME="${pom.name}"
+SRC="celarISServerDir"
+DEST="/usr/local/bin/"
+
+cp -r $SRC $DEST
+cp $NAME /etc/init.d
+chmod +x /etc/init.d/$NAME
+
+DISTRO=$(eval cat /etc/*release)
+if [[ "$DISTRO" == *Ubuntu* ]]; then
+        echo "distro in use is Ubuntu"
+        update-rc.d $NAME defaults
+fi
+if [[ "$DISTRO" == *CentOS* ]]; then
+        echo "distro in use is CentOS"
+        chkconfig --add $NAME
+        chkconfig $NAME on
+fi
+if [[ "$DISTRO" == *openSUSE* ]]; then
+        echo "distro in use is openSUSE"
+        insserv /etc/init.d/$NAME
 fi
 
-WAR=$(find . -name "*.war")
-
-cp $WAR $CATALINA_BASE/webapps/
-
-exit 0
+#/etc/init.d/$NAME restart
+echo "Celar-IS-Server installed..."

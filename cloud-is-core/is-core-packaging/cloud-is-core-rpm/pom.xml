@@ -1,117 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-        <artifactId>is-core-packaging</artifactId>
-        <groupId>eu.celarcloud.cloud-is</groupId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
-  <artifactId>cloud-is-core-rpm</artifactId>
-  <packaging>pom</packaging>
-  <name>cloud-is-core-rpm</name>
-  <properties>
-  		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<rpm.install.basedir>/usr/share/tomcat/</rpm.install.basedir>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>is-core-packaging</artifactId>
+		<groupId>eu.celarcloud.cloud-is</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>cloud-is-core-rpm</artifactId>
+	<packaging>pom</packaging>
+	<name>cloud-is-core-rpm</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<rpm.install.basedir>/usr/local/bin</rpm.install.basedir>
 	</properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>eu.celarcloud.cloud-is</groupId>
+	<dependencies>
+		<dependency>
+			<groupId>eu.celarcloud.cloud-is</groupId>
 			<artifactId>controllerModule</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
-        </dependency>
-    </dependencies>
+			<version>${project.version}</version>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
-                    <execution>
-                        <id>copy-war</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>eu.celarcloud.cloud-is</groupId>
+					<execution>
+						<id>copy-war</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>eu.celarcloud.cloud-is</groupId>
 									<artifactId>controllerModule</artifactId>
-                                    <type>war</type>
-                                    <destFileName>${is-core.war-packaging.name}.war</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
+									<type>war</type>
+									<destFileName>${is-core.jar-packaging.name}.war</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
-		
-			 <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>rpm-maven-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                	<targetOS>linux</targetOS>
-	                <!--<classifier>${package.os}</classifier>-->
-                    <!-- <release>${BUILD_NUMBER}.${package.os}</release>-->
-	                <summary>The CELAR Information System core module</summary>
-	                <name>cloud-is-core</name>
-	                <group>cloud-is</group>
-                    <vendor>CELAR</vendor>
-                    <targetVendor>redhat</targetVendor>
-	    		    <packager>afoudo01@cs.ucy.ac.cy</packager>
-	    		    <copyright>Apache License, Version 2.0</copyright>
-	    		    <url>http://celarcloud.eu</url>
-	    		    <needarch>noarch</needarch>
-	    		    <description>cloud-is-core-rpm</description>
-	    		    <!-- <requires>
-	    		      <require>tomcat</require>
-	    		    </requires>-->
-	                <mappings>
-	                    <mapping>
-	                        <directory>${rpm.install.basedir}/webapps/</directory>
-	                        <username>root</username>
-	                        <groupname>root</groupname>
-	                        <directoryIncluded>false</directoryIncluded>
-	                        <sources>
-	                            <source>
-	                                <location>${basedir}${file.separator}target${file.separator}dependency${file.separator}${is-core.war-packaging.name}.war</location>
-	                            </source>
-	                        </sources>
-	                    </mapping>
-	                </mappings>  
-	                 <preinstallScriptlet>
-			            <script>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>rpm-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<targetOS>linux</targetOS>
+					<!--<classifier>${package.os}</classifier> -->
+					<!-- <release>${BUILD_NUMBER}.${package.os}</release> -->
+					<summary>The CELAR Information System core module</summary>
+					<name>cloud-is-core</name>
+					<group>cloud-is</group>
+					<vendor>CELAR</vendor>
+					<targetVendor>redhat</targetVendor>
+					<packager>afoudo01@cs.ucy.ac.cy</packager>
+					<copyright>Apache License, Version 2.0</copyright>
+					<url>http://celarcloud.eu</url>
+					<needarch>noarch</needarch>
+					<description>cloud-is-core-rpm</description>
+					<mappings>
+						<mapping>
+							<directory>${rpm.install.basedir}/celarIS-Service/</directory>
+							<username>root</username>
+							<groupname>root</groupname>
+							<directoryIncluded>false</directoryIncluded>
+							<sources>
+								<source>
+									<location>${basedir}${file.separator}target${file.separator}dependency${file.separator}${is-core.jar-packaging.name}-${project.version}.tar.gz</location>
+								</source>
+							</sources>
+						</mapping>
+					</mappings>
+					<preinstallScriptlet>
+						<script>
 							echo "Installing cloud-is-core via RPM..."
-			            </script>
-			          </preinstallScriptlet>
-			
-			          <postinstallScriptlet>
-			            <script>
-							echo "cloud-is-core: installation finished..."
-			            </script>
-			          </postinstallScriptlet>  
-			          
-			          <postremoveScriptlet>
-	                    <script>
-							rm -f ${rpm.install.basedir}/webapps/${is-core.war-packaging.name}.war
-	                    </script>
-	                </postremoveScriptlet>  
-               </configuration>
-               
-               <executions>
-                   <execution>
-                       <id>attach-rpm</id>
-                       <phase>package</phase>
-                       <goals>
-                           <goal>attached-rpm</goal>
-                       </goals>
-                   </execution>
-               </executions>
-			</plugin>  
+						</script>
+					</preinstallScriptlet>
+
+					<postinstallScriptlet>
+						<script>
+							tar xvfz ${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}.tar.gz -C ${rpm.install.basedir}/celarIS-Service/
+			                cd  ${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}
+			                ./installer.sh
+			                mv -f ${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}/celarIS-Server /etc/init.d/celarIS-Server
+							echo "Installing cloud-is-core finished..."
+						</script>
+					</postinstallScriptlet>
+
+					<postremoveScriptlet>
+						<script>
+							/etc/init.d/celarIS-Server stop
+	                    	rm -rf /etc/init.d/celarIS-Server
+							rm -rf ${rpm.install.basedir}/celarIS-Service/
+							rm -rf ${rpm.install.basedir}/celarISServerDir/
+							echo "Celar-IS-Server: installation removed..."
+						</script>
+					</postremoveScriptlet>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>attach-rpm</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attached-rpm</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>scripts</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
-  
 </project>

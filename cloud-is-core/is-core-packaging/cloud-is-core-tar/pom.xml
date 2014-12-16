@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-        <artifactId>is-core-packaging</artifactId>
-        <groupId>eu.celarcloud.cloud-is</groupId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
-  <artifactId>cloud-is-core-tar</artifactId>
-  <packaging>pom</packaging>
-  <name>cloud-is-core-tar</name>
-  <build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>is-core-packaging</artifactId>
+		<groupId>eu.celarcloud.cloud-is</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>cloud-is-core-tar</artifactId>
+	<packaging>pom</packaging>
+	<name>cloud-is-core-tar</name>
+	
+	<build>
+		<finalName>${is-core.jar-packaging.name}-${version}</finalName>
 		<plugins>
-		
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -26,10 +29,10 @@
 							<artifactItems>
 								<artifactItem>
 									<groupId>eu.celarcloud.cloud-is</groupId>
-									<artifactId>controllerModule</artifactId>
-									<type>war</type>
+									<artifactId>controller</artifactId>
+									<type>jar</type>
 									<version>${project.version}</version>
-									<destFileName>${is-core.war-packaging.name}.war</destFileName>
+									<destFileName>${is-core.jar-packaging.name}.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -45,6 +48,12 @@
 						<descriptor>bundle.xml</descriptor>
 					</descriptors>
 					<appendAssemblyId>false</appendAssemblyId>
+					<archive>
+						<manifest>
+							<mainClass>eu.celarcloud.cloud_is.controller.service.Daemon</mainClass>
+							<packageName>eu.celarcloud.cloud_is.controller.service</packageName>
+						</manifest>
+					</archive>
 				</configuration>
 				<executions>
 					<execution>
@@ -58,6 +67,6 @@
 			</plugin>
 
 		</plugins>
-	</build> 
-  
+	</build>
+
 </project>
