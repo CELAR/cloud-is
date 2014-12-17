@@ -18,9 +18,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>eu.celarcloud.cloud-is</groupId>
-			<artifactId>controllerModule</artifactId>
+			<artifactId>controller</artifactId>
 			<version>${project.version}</version>
-			<type>jar</type>
 		</dependency>
 	</dependencies>
 	<build>
