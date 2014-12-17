@@ -21,14 +21,14 @@ case $1 in
     	    exit
         fi
         touch $LOCKFILE
-        /bin/bash $JCPATH/JCatascopia-Server-start.sh
+        /bin/bash $JCPATH/celarIS-Server-start.sh
         echo "Starting $NAME..."
     ;;
     stop)
         if [ -e $LOCKFILE ] ; then
             rm -f $LOCKFILE
             echo "Stopping $NAME..."
-            /bin/bash $JCPATH/JCatascopia-Server-stop.sh
+            /bin/bash $JCPATH/celarIS-Server-stop.sh
         else  
 	    	echo "$NAME not running..."
 	    	exit

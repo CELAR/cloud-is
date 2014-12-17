@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<assembly>
-	<id>bin</id>
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
 	<formats>
 		<format>tar.gz</format>
 	</formats>
@@ -10,7 +11,21 @@
 			<outputDirectory>/</outputDirectory>
 			<includes>
 				<include>installer.sh</include>
+				<include>celarIS-Server</include>
 			</includes>
+			<filtered>true</filtered>
+			<fileMode>0755</fileMode>
+			<lineEnding>unix</lineEnding>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/scripts/</directory>
+			<outputDirectory>celarISServerDir</outputDirectory>
+			<includes>
+				<include>celarIS-Server-*.sh</include>
+			</includes>
+			<filtered>true</filtered>
+			<fileMode>0755</fileMode>
+			<lineEnding>unix</lineEnding>
 		</fileSet>		
 		<fileSet>
 			<directory>${basedir}/extras</directory>

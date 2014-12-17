@@ -38,9 +38,9 @@
 							<artifactItems>
 								<artifactItem>
 									<groupId>eu.celarcloud.cloud-is</groupId>
-									<artifactId>controllerModule</artifactId>
-									<type>war</type>
-									<destFileName>${is-core.jar-packaging.name}.war</destFileName>
+									<artifactId>controller</artifactId>
+									<type>jar</type>
+									<destFileName>${is-core.jar-packaging.name}.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
