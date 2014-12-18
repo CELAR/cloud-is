@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME="${pom.name}"
+NAME="${distro.serviceName}"
 SRC="celarISServerDir"
 DEST="/usr/local/bin/"
 

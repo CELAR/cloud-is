@@ -10,6 +10,10 @@
   <packaging>pom</packaging>
   <name>is-core-packaging</name>   
   
+  <properties>
+  	<distro.serviceName>celarIS-Server</distro.serviceName>
+  </properties>
+  
   <modules>
         <module>cloud-is-core-tar</module>
    </modules>

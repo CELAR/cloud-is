@@ -16,17 +16,14 @@
 			<filtered>true</filtered>
 			<fileMode>0755</fileMode>
 			<lineEnding>unix</lineEnding>
-		</fileSet>
+		</fileSet>			
 		<fileSet>
-			<directory>${basedir}/scripts/</directory>
-			<outputDirectory>celarISServerDir</outputDirectory>
+			<directory>${basedir}/extras</directory>
+			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>celarIS-Server-*.sh</include>
+				<include>LICENSE.txt</include>
 			</includes>
-			<filtered>true</filtered>
-			<fileMode>0755</fileMode>
-			<lineEnding>unix</lineEnding>
-		</fileSet>		
+		</fileSet>
 		<fileSet>
 			<directory>${basedir}/extras</directory>
 			<outputDirectory>/</outputDirectory>
@@ -36,10 +33,16 @@
 		</fileSet>
 		<fileSet>
 			<directory>${basedir}/target/</directory>
-			<outputDirectory></outputDirectory>
+			<outputDirectory>celarISServerDir</outputDirectory>
 			<includes>
 				<include>*.jar</include>
 			</includes>
 		</fileSet>
+		<fileSet>
+			<directory>${basedir}/target/generated-resources/config</directory>
+			<outputDirectory>celarISServerDir/resources/config</outputDirectory>
+			<filtered>true</filtered>
+			<fileMode>0755</fileMode>
+		</fileSet>	
 	</fileSets>
 </assembly>

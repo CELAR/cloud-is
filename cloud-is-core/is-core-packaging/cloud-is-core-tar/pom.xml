@@ -11,6 +11,18 @@
 	<packaging>pom</packaging>
 	<name>cloud-is-core-tar</name>
 	
+	<dependencies>
+	    <dependency>
+	      <groupId>eu.celarcloud.cloud-is</groupId>
+	      <artifactId>controller</artifactId>
+		  <version>0.0.1-SNAPSHOT</version>
+	      <type>zip</type>
+	      <classifier>configurationFiles</classifier>
+	      <scope>provided</scope>
+	    </dependency>
+	  </dependencies>
+	  
+	
 	<build>
 		<finalName>${is-core.jar-packaging.name}-${version}</finalName>
 		<plugins>
@@ -37,6 +49,22 @@
 							</artifactItems>
 						</configuration>
 					</execution>
+					
+					<execution>
+			            <id>unpack-shared-resources</id>
+			            <goals>
+			              <goal>unpack-dependencies</goal>
+			            </goals>
+			            <phase>generate-resources</phase>
+			            <configuration>
+			             <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
+			             <includeArtifacIds>controller</includeArtifacIds>
+			             <includeGroupIds>eu.celarcloud.cloud-is</includeGroupIds>
+			             <excludeTransitive>true</excludeTransitive>
+			             <!-- use as much as needed to be specific...also scope,type,classifier etc -->
+			            </configuration>
+			          </execution>
+			          
 				</executions>
 			</plugin>
 
