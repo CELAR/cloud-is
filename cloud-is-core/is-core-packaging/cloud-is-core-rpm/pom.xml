@@ -46,7 +46,7 @@
 									<groupId>eu.celarcloud.cloud-is</groupId>
 									<artifactId>cloud-is-core-tar</artifactId>
 									<type>tar.gz</type>
-									<destFileName>${is-core.jar-packaging.name}-${project.version}.tar.gz</destFileName>
+									<destFileName>${is-core.jar-packaging.name}-${project.version}.tar.gz</destFileName>									
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -94,17 +94,11 @@
 
 					<postinstallScriptlet>
 						<script>
-							tar xvfz
-							${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}.tar.gz
-							-C ${rpm.install.basedir}/celarIS-Service/
-							cd
-							${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}
+							tar xvfz ${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}.tar.gz -C ${rpm.install.basedir}/celarIS-Service/
+							cd ${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}
 							./installer.sh
-							mv -f
-							${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}/celarIS-Server
-							/etc/init.d/celarIS-Server
-							echo "Installing cloud-is-core
-							finished..."
+							mv -f ${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}/celarIS-Server /etc/init.d/celarIS-Server
+							echo "Installing cloud-is-core finished..."
 						</script>
 					</postinstallScriptlet>
 
@@ -112,12 +106,9 @@
 						<script>
 							/etc/init.d/celarIS-Server stop
 							rm -rf /etc/init.d/celarIS-Server
-							rm -rf
-							${rpm.install.basedir}/celarIS-Service/
-							rm -rf
-							${rpm.install.basedir}/celarISServerDir/
-							echo "Celar-IS-Server:
-							installation removed..."
+							rm -rf ${rpm.install.basedir}/celarIS-Service/
+							rm -rf ${rpm.install.basedir}/celarISServerDir/
+							echo "Celar-IS-Server: installation removed..."
 						</script>
 					</postremoveScriptlet>
 				</configuration>
