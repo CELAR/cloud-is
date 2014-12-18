@@ -39,6 +39,19 @@
 			</includes>
 		</fileSet>
 		<fileSet>
+			<directory>${basedir}/scripts/</directory>
+			<outputDirectory>celarISServerDir</outputDirectory>
+			<includes>
+				<include>celarIS-Server-*.sh</include>
+			</includes>
+			<excludes>
+				<exclude>installer.sh</exclude>
+			</excludes>
+			<filtered>true</filtered>
+			<fileMode>0755</fileMode>
+			<lineEnding>unix</lineEnding>
+		</fileSet>
+		<fileSet>
 			<directory>${basedir}/target/generated-resources/config</directory>
 			<outputDirectory>celarISServerDir/resources/config</outputDirectory>
 			<filtered>true</filtered>

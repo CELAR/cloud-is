@@ -20,8 +20,7 @@
 	      <classifier>configurationFiles</classifier>
 	      <scope>provided</scope>
 	    </dependency>
-	  </dependencies>
-	  
+	  </dependencies>	  
 	
 	<build>
 		<finalName>${is-core.jar-packaging.name}-${project.version}</finalName>
@@ -69,9 +68,11 @@
 			</plugin>
 
 			<plugin>
+				
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
+					<finalName>${is-core.jar-packaging.name}-${project.version}</finalName>
 					<descriptors>
 						<descriptor>bundle.xml</descriptor>
 					</descriptors>

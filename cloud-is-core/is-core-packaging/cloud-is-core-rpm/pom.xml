@@ -18,18 +18,24 @@
 	<dependencies>
 		<dependency>
 			<groupId>eu.celarcloud.cloud-is</groupId>
-			<artifactId>controller</artifactId>
-			<version>${project.version}</version>
+			<artifactId>cloud-is-core-tar</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>tar.gz</type>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
+
 					<execution>
-						<id>copy-jar</id>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>copy</goal>
@@ -38,13 +44,14 @@
 							<artifactItems>
 								<artifactItem>
 									<groupId>eu.celarcloud.cloud-is</groupId>
-									<artifactId>controller</artifactId>
-									<type>jar</type>
-									<destFileName>${is-core.jar-packaging.name}.jar</destFileName>
+									<artifactId>cloud-is-core-tar</artifactId>
+									<type>tar.gz</type>
+									<destFileName>${is-core.jar-packaging.name}-${project.version}.tar.gz</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
 					</execution>
+
 				</executions>
 			</plugin>
 
@@ -87,21 +94,30 @@
 
 					<postinstallScriptlet>
 						<script>
-							tar xvfz ${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}.tar.gz -C ${rpm.install.basedir}/celarIS-Service/
-			                cd  ${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}
-			                ./installer.sh
-			                mv -f ${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}/celarIS-Server /etc/init.d/celarIS-Server
-							echo "Installing cloud-is-core finished..."
+							tar xvfz
+							${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}.tar.gz
+							-C ${rpm.install.basedir}/celarIS-Service/
+							cd
+							${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}
+							./installer.sh
+							mv -f
+							${rpm.install.basedir}/celarIS-Service/${is-core.jar-packaging.name}-${project.version}/celarIS-Server
+							/etc/init.d/celarIS-Server
+							echo "Installing cloud-is-core
+							finished..."
 						</script>
 					</postinstallScriptlet>
 
 					<postremoveScriptlet>
 						<script>
 							/etc/init.d/celarIS-Server stop
-	                    	rm -rf /etc/init.d/celarIS-Server
-							rm -rf ${rpm.install.basedir}/celarIS-Service/
-							rm -rf ${rpm.install.basedir}/celarISServerDir/
-							echo "Celar-IS-Server: installation removed..."
+							rm -rf /etc/init.d/celarIS-Server
+							rm -rf
+							${rpm.install.basedir}/celarIS-Service/
+							rm -rf
+							${rpm.install.basedir}/celarISServerDir/
+							echo "Celar-IS-Server:
+							installation removed..."
 						</script>
 					</postremoveScriptlet>
 				</configuration>
@@ -117,11 +133,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<resources>
-			<resource>
-				<directory>scripts</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
 	</build>
 </project>
