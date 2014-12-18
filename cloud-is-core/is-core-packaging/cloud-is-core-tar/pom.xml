@@ -24,7 +24,7 @@
 	  
 	
 	<build>
-		<finalName>${is-core.jar-packaging.name}-${version}</finalName>
+		<finalName>${is-core.jar-packaging.name}-${project.version}</finalName>
 		<plugins>
 
 			<plugin>
