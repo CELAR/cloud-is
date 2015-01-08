@@ -56,7 +56,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy.TestClass;
  * The Class AppAnalysis.
  */
 @Path("/analysis")
-public class AppAnalysis 
+public class Analysis 
 {
 	
 	/** The http request. */

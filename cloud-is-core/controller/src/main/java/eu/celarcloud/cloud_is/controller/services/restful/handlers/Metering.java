@@ -30,8 +30,8 @@ import javax.ws.rs.core.Context;
 /**
  * The Class MonitoringHistory.
  */
-@Path("/monitoring/history")
-public class MonitoringHistory {
+@Path("/metering")
+public class Metering {
 	
 	/** The http request. */
 	@Context HttpServletRequest httpRequest;

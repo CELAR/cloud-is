@@ -328,7 +328,7 @@ function appOverview () {
 				jQuery.ajax({
 					type: 'get',
 					dataype: "json",
-					url: isserver + '/rest/application/deployment/' + params.deplId + '/tier/' + 'appServer' + '/instances',
+					url: isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'appServer' + '/instances',
 					success: function(jsonResponse){
 						if(jQuery.type(jsonResponse) === "string")
 							jsonResponse = $.parseJSON(jsonResponse);
@@ -340,7 +340,7 @@ function appOverview () {
 				jQuery.ajax({
 					type: 'get',
 					dataype: "json",
-					url: isserver + '/rest/application/deployment/' + params.deplId + '/tier/' + 'database' + '/instances',
+					url: isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'database' + '/instances',
 					success: function(jsonResponse){
 						if(jQuery.type(jsonResponse) === "string")
 							jsonResponse = $.parseJSON(jsonResponse);
@@ -352,7 +352,7 @@ function appOverview () {
 				jQuery.ajax({
 					type: 'get',
 					dataype: "json",
-					url: isserver + '/rest/application/deployment/' + params.deplId + '/tier/' + 'appServer' + '/cost',
+					url: isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'appServer' + '/cost',
 					success: function(jsonResponse){
 						if(jQuery.type(jsonResponse) === "string")
 							jsonResponse = $.parseJSON(jsonResponse);
@@ -364,7 +364,7 @@ function appOverview () {
 				jQuery.ajax({
 					type: 'get',
 					dataype: "json",
-					url: isserver + '/rest/application/deployment/' + params.deplId + '/tier/' + 'database' + '/cost',
+					url: isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'database' + '/cost',
 					success: function(jsonResponse){
 						if(jQuery.type(jsonResponse) === "string")
 							jsonResponse = $.parseJSON(jsonResponse);

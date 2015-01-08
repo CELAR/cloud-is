@@ -83,8 +83,9 @@ public class DeplInfo extends HttpServlet {
 		WebResource service = client.resource(uri);    	
     	
     	// Issue the request
-		restResponse = service.path("application/"+appID+"/"+versID+"/"+deplID).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-    	String deploymentInfo = restResponse.getEntity(String.class);
+		// TODO enclose to try / catch, in order to avoid error when the is-core service is not available.
+		//restResponse = service.path("application/"+appID+"/"+versID+"/"+deplID).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+    	//String deploymentInfo = restResponse.getEntity(String.class);
     	
     	// Inject the obtained info to request object
     	// in order for jsp page to get the info

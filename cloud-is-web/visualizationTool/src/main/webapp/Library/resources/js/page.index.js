@@ -11,7 +11,7 @@ $(document).ready(function(){
      jQuery.ajax({
  		type: 'get',
  		dataype: "json",
- 		url: isserver + '/rest/application/deployment/recent',
+ 		url: isserver + '/rest/deployment/recent',
  		success: recentDeployments
  	});
      

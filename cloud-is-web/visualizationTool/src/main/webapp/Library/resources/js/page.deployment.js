@@ -93,8 +93,7 @@ var initScripts = {
 		jQuery.ajax({
 			type : 'get',
 			dataype : "json",
-			url : isserver + '/rest/application/deployment/' + deplId
-					+ '/topology',
+			url : isserver + '/rest/deployment/' + deplId + '/topology',
 			success : function(jsonObj) {
 				// Build UI control According the response
 				$('.appComponentList').removeClass('noDisplay');

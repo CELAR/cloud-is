@@ -32,7 +32,7 @@ var isServerValidation = function() {
 			      cache: false,
 			      type: 'get',
 			      dataype: "json",
-			      url: isserver + '/rest/application/deployments/recent',
+			      url: isserver + '/rest/deployment/recent',
 			      success: function(data) {
 			        if (data != 'alive') {
 			        	console.log('yes')

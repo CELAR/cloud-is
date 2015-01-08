@@ -39,11 +39,11 @@ var populateSearchResults = function(jsonData) {
         return;
     }
 	// Clear Result Holder
-	$('.searchResultsPanel .well > .wellContentHolder').empty();	
+	$('.searchResultsPanel .well.raw > .wellContentHolder').empty();	
 	$.each(jsonData, function(key, sigObj){
 		var context = $('.searchResultsPanel');
-		var wellHolder = context.find('.well > .wellContentHolder');
-		var wellItem = context.find('.well > .wellItemTemplate').clone();
+		var wellHolder = context.find('.well.raw > .wellContentHolder');
+		var wellItem = context.find('.well.raw > .wellItemTemplate').clone();
 			
 		// remove unwanted classes
 		wellItem.removeClass('noDisplay');
@@ -278,7 +278,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: 'get',
 			dataype: "application/json",
-			url: isserver + '/rest/application/deployment/search',
+			url: isserver + '/rest/deployment/search',
 			data:$(this).serialize(),
 			success: function(jsonResponse) {
 				console.log(jsonResponse);
