@@ -50,7 +50,7 @@ import gr.ntua.cslab.celar.server.beans.structured.ModuleInfo;
 public class ApplicationData implements IApplication {
 	
 	/** The app. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager cmClient;
+	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
 	
 	/**
 	 * Initializes the CELAR Manager Rest Client
@@ -59,7 +59,7 @@ public class ApplicationData implements IApplication {
 	 *            the rest api uri
 	 */
 	public void init(String restApiUri) {
-		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager(restApiUri);		
+		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);		
 	}
 
 	/* (non-Javadoc)

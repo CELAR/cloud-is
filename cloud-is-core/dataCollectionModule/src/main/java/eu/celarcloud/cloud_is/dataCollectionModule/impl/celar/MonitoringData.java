@@ -32,9 +32,9 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
 public class MonitoringData implements IMonitoring {
 
 	/* The JCatascopia Monitoring Client Class. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia jcClient;
+	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.Jcatascopia jcClient;
 	/* The CELAR Manager Client Class. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager cmClient;
+	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
 	
 	
 	/**
@@ -44,7 +44,7 @@ public class MonitoringData implements IMonitoring {
 	 *            the rest api uri
 	 */
 	public void init(String restApiUri) {
-		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager(restApiUri);		
+		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);		
 	}
 	
 	private void loadMonitoringClient(String deplId)
@@ -52,7 +52,7 @@ public class MonitoringData implements IMonitoring {
 		String restApiUri = null;
 		restApiUri = this.cmClient.getOrchestationVm(deplId);
 				
-		this.jcClient = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.Jcatascopia(restApiUri);
+		this.jcClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.Jcatascopia(restApiUri);
 	}
 	
 	/* (non-Javadoc)

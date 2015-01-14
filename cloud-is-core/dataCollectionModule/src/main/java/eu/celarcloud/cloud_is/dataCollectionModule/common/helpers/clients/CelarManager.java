@@ -18,7 +18,7 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients;
+package eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients;
 
 import java.io.OutputStream;
 import java.net.URISyntaxException;

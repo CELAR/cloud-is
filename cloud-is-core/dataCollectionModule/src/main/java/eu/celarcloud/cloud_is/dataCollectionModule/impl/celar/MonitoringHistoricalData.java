@@ -15,7 +15,7 @@ import gr.ntua.cslab.celar.server.beans.structured.ApplicationInfo;
 public class MonitoringHistoricalData implements IMonitoring {
 	
 	/** The app. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager cmClient;
+	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
 	
 	/**
 	 * Initializes the CELAR Manager Rest Client
@@ -24,7 +24,7 @@ public class MonitoringHistoricalData implements IMonitoring {
 	 *            the rest api uri
 	 */
 	public void init(String restApiUri) {
-		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager(restApiUri);		
+		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);		
 	}
 	
 	@Override
