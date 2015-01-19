@@ -33,8 +33,7 @@ import eu.celarcloud.cloud_is.controller.services.restful.RestAPIembeddedWebapp;
  * The Class InformationSystemServer.
  */
 public class InformationSystemServer {
-	// path to configuration file
-	/** The Constant CONFIG_PATH. */
+	/** path to configuration file */
 	private static final String CONFIG_PATH = File.separator + "config" + File.separator + "server.properties";
 
 	private static final String EMBEDDED_SERVER_PATH = File.separator + "resources";
@@ -52,8 +51,8 @@ public class InformationSystemServer {
 	 *            the server dir
 	 * @param s2
 	 *            the s2
-	 * @throws LifecycleException
-	 *             the lifecycle exception
+	 * @throws LifecycleException 
+	 *             org.apache.catalina.LifecycleException - In case that the tomcat container fail to start
 	 */
 	public InformationSystemServer(String serverDir, String s2)	throws LifecycleException {
 		this.serverHome = serverDir;		
@@ -63,11 +62,11 @@ public class InformationSystemServer {
 		
 		//-
 		// Test, properties are accessible
-		System.out.println(properties.getProperty("test_prop", "Can not find property"));
+		System.out.println(properties.getProperty("test.test_prop", "Can not find property"));
 		//
 		
 		// Get tomcat running port from properties
-		int port = Integer.parseInt(properties.getProperty("port", "0"));
+		int port = Integer.parseInt(properties.getProperty("srv.port", "0"));
 		
 		System.out.println("Starting Tomcat ..");
 		InformationSystemServer.server = new TomcatEmbeddedRunner(this.serverHome  + EMBEDDED_SERVER_PATH, port);
@@ -89,6 +88,7 @@ public class InformationSystemServer {
 		// Print newly 'installed' webApp access url
 		System.out.println("Server on " + InformationSystemServer.server.getApplicationUrl("monitoringProxy"));
 		// Start the server
+		// WARNING - The Script will block after this line
 		InformationSystemServer.server.start();
 
 		System.out.println("Exit main..");

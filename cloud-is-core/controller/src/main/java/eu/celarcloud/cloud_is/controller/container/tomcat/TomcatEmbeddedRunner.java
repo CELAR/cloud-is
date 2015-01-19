@@ -23,9 +23,7 @@ package eu.celarcloud.cloud_is.controller.container.tomcat;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
-import org.apache.catalina.Wrapper;
 import org.apache.catalina.core.AprLifecycleListener;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.http.fileupload.FileUtils;

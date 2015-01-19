@@ -181,8 +181,10 @@ public class ContextInitializer implements ServletContextListener{
 		
 		// Get Collector Class Name / system running mode and
 		// Set it as a context attribute		
-		String mode = sysCnf.getProperty("mode");
-		this.appContext.setAttribute("collectorName", mode);
+		String mode = sysCnf.getProperty("common.mode");
+		String collectorType = sysCnf.getProperty("common.collector");
+		//this.appContext.setAttribute("collectorName", mode);
+		this.appContext.setAttribute("collectorName", collectorType);
 	}
 	
 }

@@ -46,8 +46,7 @@ public class Loader {
 	 *            the context
 	 */
 	public Loader(ServletContext context)
-	{
-		Class myClass;
+	{		
 		Object classInstance = null;
 		
 		// Store context for future use
@@ -59,6 +58,7 @@ public class Loader {
 		String classNameToBeLoaded = "eu.celarcloud.cloud_is.dataCollectionModule.impl." + cName + ".CollectorLoader";
 		
 		/*
+		Class myClass;
 		// Init Class Loader		
 		ClassLoader myClassLoader = ClassLoader.getSystemClassLoader();        
 		try {
