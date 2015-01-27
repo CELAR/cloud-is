@@ -21,17 +21,15 @@
 package eu.celarcloud.cloud_is.controller.service;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import org.apache.catalina.LifecycleException;
-
-import eu.celarcloud.cloud_is.controller.container.tomcat.TomcatEmbeddedRunner;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class Daemon.
  */
 class Daemon {
-
+	
 	/**
 	 * The main method.
 	 *
@@ -48,8 +46,9 @@ class Daemon {
 		// Ensure we are running on java 7 or greater
 		if (Integer.parseInt(System.getProperty("java.version").split("\\.")[1]) < 7) {
 			// Print a WARNING
-			Logger logger = Logger.getLogger(TomcatEmbeddedRunner.class	.getName());
-			logger.warning("Service Needs Java or greater to run Smoothly, " + System.getProperty("java.version") + " is installed"
+			//Logger logger = Logger.getLogger(Daemon.class.getName());
+			org.slf4j.Logger logger = LoggerFactory.getLogger(Daemon.class.getName());
+			logger.warn("Service Needs Java or greater to run Smoothly, " + System.getProperty("java.version") + " is installed"
 					+ "\n\t" + "Service may crash in varius cases");
 		}
 		try {

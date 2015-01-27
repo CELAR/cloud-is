@@ -96,7 +96,7 @@ public class Loader {
 	 *            the source type
 	 * @return single instance of Loader
 	 */
-	public IDataSource getDtCollectorInstance(String sourceType)
+	public IDataSource getDtCollectorInstance(Integer sourceType)
 	{       
         String configPath = context.getRealPath("config"+File.separator);		
 		
