@@ -56,6 +56,19 @@ span.closeXBtn:hover {
 	opacity:1;
 }
 
+
+/* unvisited link */
+a.plain:link, a.plain:visited {
+    color: black;
+}
+
+/* mouse over link */
+a.plain:hover, a.plain:active {
+    color: lightgray;
+}
+
+
+
 .page {
 	position: absolute;
 	overflow: hidden;
@@ -69,11 +82,18 @@ span.closeXBtn:hover {
 
 
 .page .headInfoBar {
+	/*
 	position: absolute;
 	left: 100px;
 	right: 0px;
 	top:0px;
-	height: 100px;	
+	height: 100px;
+	*/
+	height: 50px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .page .notification {
@@ -85,21 +105,67 @@ span.closeXBtn:hover {
 }
 
 .page .infoContent {
+	/*
 	position: absolute;
 	left: 0px;
 	right: 0px;
 	top: 20px;
-	height: 40px;	
+	height: 40px;
+	*/	
+    height: 50px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.page .infoContent .appHeader {
+    height: 25px;
+    margin: 3px 0 2px 30px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.page .infoContent .appHeader > .appTitle {
+    display: inline-block;
+    font-size: 120%;
+    letter-spacing: 0.7px;
+    padding: 0 2px;
+    vertical-align: middle;
+}
+
+.page .infoContent .appHeader > .appLogo {
+    height: 26px;
+    vertical-align: middle;
+    width: 60px;
+}
+
+.page .infoContent .appAbout {
+    height: 25px;
+    margin: 3px 10px 2px 0px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.page .infoContent .appAbout.mn > .mnItem {
+    display: inline-block;
 }
 
 .page .pageTitle {
+	/*
 	position: absolute;
 	left: 0px;
 	right: 0px;
 	top: 60px;
 	height: 40px;
-	
-	
+	*/
+	border-left: 2px solid #2f2f2f;
+    border-top: 2px solid #2f2f2f;
+    height: 40px;
+    left: 90px;
+    position: absolute;
+    right: 0;
+    top: 30px;	
 }
 
 .page .pageTitle > .title{
@@ -116,14 +182,7 @@ span.closeXBtn:hover {
 }
 
 .page > .navbar.pageNavMenu {
-	/* Old
-	position: absolute;
-	background: none repeat scroll 0 0 #ffffff;
-    top: 0px;
-    left: 10px;
-    right: 10px;
-    */
-    
+	/* Old	 
     background: none repeat scroll 0 0 rgba(77, 77, 77, 0.82);
     border-right: 2px solid #2f2f2f;
     bottom: 0;
@@ -131,6 +190,14 @@ span.closeXBtn:hover {
     position: absolute;
     top: 0;
     width: 88px;
+    
+    background: none repeat scroll 0 0 rgba(77, 77, 77, 0.82);
+    */
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 50px;
+    width: 90px;
     
 }
 
@@ -169,7 +236,10 @@ span.closeXBtn:hover {
     font-size: 90%;
     height: 78px;
     letter-spacing: 1px;
+    /*
     width: 84px;
+    */
+    width: 86px;
     border-left: 4px solid rgba(252, 252, 252, 0);
     border-top: 1px solid rgba(252, 252, 252, 0);
     border-bottom: 1px solid rgba(252, 252, 252, 0);
@@ -241,7 +311,11 @@ span.closeXBtn:hover {
     left: 90px;
     position: absolute;
     right: 0;
+    /*
     top: 100px;
+    */
+    top: 50px;
+    border-left: 2px solid #2f2f2f;
 }
 
 .page.notice > .pageMainContainer {
@@ -270,4 +344,21 @@ span.closeXBtn:hover {
     line-height: 1;
     position: relative;
     margin: 7px;
+}
+
+
+.background.darker {
+	
+}
+
+.background.dark {
+	background: none repeat scroll 0 0 rgba(77, 77, 77, 0.82);
+}
+
+.background.light {
+	background: none repeat scroll 0 0 rgba(235, 235, 235, 0.98);
+}
+
+.background.lighter {
+	background: none repeat scroll 0 0 rgba(247, 245, 245, 0.98);
 }

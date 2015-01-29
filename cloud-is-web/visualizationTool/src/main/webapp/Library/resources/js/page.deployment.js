@@ -95,13 +95,41 @@ var initScripts = {
 			dataype : "json",
 			url : isserver + '/rest/deployment/' + deplId + '/topology',
 			success : function(jsonObj) {
+				if (jQuery.type(jsonObj) === "string")
+					jsonObj = eval(jsonObj);
+				
 				// Build UI control According the response
+				var context = $('.appComponentList');
+				var wellHolder = context.find('.well > .wellContentHolder');
+				if(jsonObj !=null && jsonObj.topology !=null && jsonObj.topology !="")
+				{										
+					$.each(jsonObj.topology, function(key, node){
+						var wellItem = context.find('.well > .wellItemTemplate').clone();
+						var inner = wellItem.find('span');
+						//console.log("This is node");
+						//console.log(node);
+						
+						inner.html(node.name);
+						inner.attr("data-id", node.id);
+						inner.attr("data-component", node.id);
+						
+						// Assign onClick Events
+						inner.off('click');
+						inner.on('click', onClick_component);	
+						
+						wellHolder.append(wellItem);
+					});
+				}
+				else
+				{
+					wellHolder.append('<span>Nothing to show</span>');
+				}
 				$('.appComponentList').removeClass('noDisplay');
-				// Assign onClick Events
-				$.each($('.appComponentList [data-component]'), function() {
-					$(this).off('click');
-					$(this).on('click', onClick_component);
-				});
+				
+				// Add click event to overview pane / report
+				context.find('span[data-id="overview"]').off('click');
+				context.find('span[data-id="overview"]').on('click', onClick_component);
+				
 				// Load Charts API
 				chartsApiWating();
 				initScripts.initChartsAPI(chartsApiLoaded);

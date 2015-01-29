@@ -169,56 +169,56 @@ button, input, select, textarea {
     top: 35%;
 }
 
-.pageMainContainer.search .wellItem.sResAppRaw {
+.pageMainContainer.search .raw .wellItem.sResAppRaw {
 	width: 450px;
 	margin-bottom: 10px;
 }
 
-.pageMainContainer.search .wellItem.sResAppRaw:last-child {
+.pageMainContainer.search .raw .wellItem.sResAppRaw:last-child {
 	margin-bottom: 0px;
 }
 
 
-.pageMainContainer.search .wellItem.sResAppRaw > .titleRow{
+.pageMainContainer.search .raw .wellItem.sResAppRaw > .titleRow{
 	font-weight: bold;
     letter-spacing: 1px;
 }
 
-.sResAppRaw > .titleRow a:link, .sResAppRaw > .titleRow a:visited, .sResAppRaw > .titleRow a:active {
+.raw .sResAppRaw > .titleRow a:link, .raw .sResAppRaw > .titleRow a:visited, .raw .sResAppRaw > .titleRow a:active {
 	text-decoration: none;
 	color: inherit;
 }
 
-.sResAppRaw > .titleRow a:hover {
+.raw .sResAppRaw > .titleRow a:hover {
 	text-decoration: underline;
 	color: blue;
 }
 
-.pageMainContainer.search .wellItem.sResAppRaw > .infoRow{
+.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow{
 	padding-left:10px;
 	font-size: 95%;
     font-style: italic;
 }
 
-.pageMainContainer.search .wellItem.sResAppRaw > .infoRow > div{
+.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow > div{
 	display: inline-block;
     vertical-align: top;
 }
 
-.pageMainContainer.search .wellItem.sResAppRaw > .infoRow > .subInfo{
+.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow > .subInfo{
 	width: 235px;
 }
 
-.pageMainContainer.search .wellItem.sResAppRaw > .infoRow > .versInfo{
+.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow > .versInfo{
 	width: 200px;	
 	/*text-align: center;*/
 }
 
-.pageMainContainer.search .wellItem.sResAppRaw  .controlsRow {
+.pageMainContainer.search .raw .wellItem.sResAppRaw  .controlsRow {
 	
 }
 
-.pageMainContainer.search .wellItem.sResAppRaw  .controlsRow > div{
+.pageMainContainer.search .raw .wellItem.sResAppRaw  .controlsRow > div{
 	width: 200px;
 	margin: auto;
 	text-align: center;
@@ -230,10 +230,38 @@ button, input, select, textarea {
 	border-bottom: 1px solid lightblue;
     margin: 0 5px;	
 }
+.pageMainContainer.search .resultsHolder > .titleBar > div{
+	display: inline-block;
+}
 
 .pageMainContainer.search .resultsHolder > .titleBar .title {
 	font-size:110%;
 	padding-left: 15px;
+}
+
+.pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu {
+	height: 25px;
+    margin: 3px 10px 2px 0px;
+    vertical-align: middle;
+    display: inline-block;
+	
+}
+
+.pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnItem, .pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnTitle{
+	display: inline-block;
+	padding: 0px 4px;	
+    
+    -webkit-border-radius: 10px;
+  	-moz-border-radius: 10px;
+  	border-radius: 10px;
+}
+
+.pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnItem:hover{
+	background: none repeat scroll 0 0 #E1E1E1;
+}
+
+.pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnItem.selected{
+	background: none repeat scroll 0 0 #B3B3B3;
 }
 
 .pageMainContainer.search .searchResultsPanel .resultsPool {

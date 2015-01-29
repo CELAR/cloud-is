@@ -27,7 +27,7 @@
 	<link href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.inner.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/Library/resources/css/page.search.css" rel="stylesheet">
 	
-	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/ext/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/util.ui.tabber.js"></script>	
@@ -44,16 +44,11 @@
 				<span></span>
 				<div class="pull-right small ng-binding" style="padding-right:10px">1 alert(s)</div>
 	    	</div>
-	    	<div class="infoContent">
+	    	<div class="infoContent background dark">
 	    	
-	    	</div>
-	    	<div class="pageTitle">
-	    		<div class="title">
-	    			Search
-	    		</div>
-	    	</div>
+	    	</div>	    	
     	</div>
-	    <div class="navbar pageNavMenu">
+	    <div class="navbar pageNavMenu background dark">
 	      <div class="navbar-inner">
 	        <div class="nav pull-left">
 	        	<div class="navTile selected">
@@ -83,8 +78,8 @@
 	        </div>
 	      </div>
 	    </div>
-	    <div class="pageMainContainer search">
-	    	<div class="contentMainHolder">
+	    <div class="pageMainContainer background light search">
+	    	<div class="contentMainHolder background lighter">
 	    		 <div class="side">
 			    	 <div class="inner">
 				    	<div class="searchControl">
@@ -137,7 +132,7 @@
 										</form>
 						    		</div>
 						    		<div data-tabber-page=true data-tabber-pageId="deployment" class="noDisplay">
-						    			<div class="contextNotigier noDisplay"><span class="prompt">Search In: </span><span class="value"></span></div>
+						    			<div class="contextNotifier noDisplay"><span class="prompt">Search In: </span><span class="value"></span></div>
 						    			<form name="deploymentSearchForm" method="post">
 						    				<input type="hidden" name="appId">
 						    				<div class="formContent">
@@ -189,35 +184,69 @@
 		    					<div class="title"><span>Search Results</span></div>
 		    					<div class="subtitle"><span></span></div>
 		    				</div>
+		    				<div class="filters optsMenu" style="float:right">
+		    					<div class="mnTitle"><span>Group: </span></div>
+		    					<div class="mnItem selected"><span class="clickable">none</span></div>
+				    			<div class="mnItem"><span class="clickable">application</span></div>
+		    				</div>
 		    			</div>
-		    			<div class="resultsPool well">
-							<div class="wellItemTemplate wellItem sResAppRaw noDisplay">
-								<div class="titleRow">
-									<a class="spanify" data-ref="appId" href=""><span data-name="appDescription"></span></a>
+		    			<div class="multiWell">
+		    				<div class="resultsPool well raw">
+								<div class="wellItemTemplate wellItem sResAppRaw noDisplay">
+									<div class="titleRow">
+										<a class="spanify" data-ref="appId" href=""><span data-name="appDescription"></span></a>
+									</div>
+									<div class="infoRow">
+										<div class="versInfo">
+											<div><span>Application Version</span></div>
+											<div><span class="clickable" data-name="appId"></span></div>
+											<div class="versInfoExp noDisplay">
+												<div><span>App UID: </span><span data-name="uid"></span></div>
+												<div><span>Major</span><span data-name="vMajor"></span></div>
+												<div><span>Minnor</span><span data-name="vMinnor"></span></div>
+											</div>
+										</div>								
+										<div class="subInfo">
+											<div><span>Submited On</span></div>
+											<div><span data-name="sumbited"></span></div>
+										</div>							
+									</div>
+									<div class="controlsRow">
+										<div><span class="clickable" data-button="showDepl">Show Deployments</span></div>
+										<div><span class="clickable" data-button="searchDepl">Search Deployments</span></div>
+									</div>
 								</div>
-								<div class="infoRow">
-									<div class="versInfo">
-										<div><span>Application Version</span></div>
-										<div><span class="clickable" data-name="appId"></span></div>
-										<div class="versInfoExp noDisplay">
-											<div><span>App UID: </span><span data-name="uid"></span></div>
-											<div><span>Major</span><span data-name="vMajor"></span></div>
-											<div><span>Minnor</span><span data-name="vMinnor"></span></div>
-										</div>
-									</div>								
-									<div class="subInfo">
-										<div><span>Submited On</span></div>
-										<div><span data-name="sumbited"></span></div>
-									</div>							
+								<div class="wellContentHolder"></div>
+			    			</div>
+			    			<div class="resultsPool well appGrouped noDisplay">
+								<div class="wellItemTemplate wellItem sResAppRaw noDisplay">
+									<div class="titleRow">
+										<a class="spanify" data-ref="appId" href=""><span data-name="appDescription"></span></a>
+										<div class="compareSwitch"></div>
+									</div>
+									<div class="subVersions well">
+										<div class="wellItemTemplate wellItem versionBean noDisplay">
+											<div class="infoRow">
+												<div class="versInfo">
+													<div><span>Application Version</span></div>
+													<div><span data-name="vMajor"></span><span data-name="vMinnor"></span></div>
+												</div>								
+												<div class="subInfo">
+													<div><span>Submited On</span></div>
+													<div><span data-name="sumbited"></span></div>
+												</div>							
+											</div>
+											<div class="controlsRow">
+												<div><span class="clickable" data-button="showDepl">Show Deployments</span></div>
+												<div><span class="clickable" data-button="searchDepl">Search Deployments</span></div>
+											</div>
+										</div>										
+									</div>
 								</div>
-								<div class="controlsRow">
-									<div><span class="clickable" data-button="showDepl">Show Deployments</span></div>
-									<div><span class="clickable" data-button="searchDepl">Search Deployments</span></div>
-								</div>
-							</div>
-							<div class="wellContentHolder"></div>
-		    			</div>
-		    			<div class="paginator"></div>
+								<div class="wellContentHolder"></div>
+			    			</div>
+			    		</div>
+			    		<div class="paginator"></div>
 		    		</div>
 		    	</div>
 	    	</div>

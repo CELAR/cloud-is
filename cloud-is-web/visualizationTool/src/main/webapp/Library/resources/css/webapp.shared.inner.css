@@ -9,15 +9,15 @@
 .pageMainContainer.navOn .innerNavMenu{
 	position: absolute;
 	/*background: none repeat scroll 0 0 #c7c7cd;*/
-	background: none repeat scroll 0 0 #ffffff;
+	/*background: none repeat scroll 0 0 #ffffff;*/
     top: 0px;
-    left: 0;
+    left: 350px;
     right: 20px;
-    height: 40px;
+    height: 30px;
 }
 
 .pageMainContainer.navOn .contentMainHolder{
-	top: 40px;
+	top: 35px;
 }
 
 .pageMainContainer .contentMainHolder{
@@ -26,6 +26,16 @@
 	left: 0;
     right: 0;
     bottom:0px;
+}
+
+.pageMainContainer .side {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	width: 359px;
+	border-right: 1px solid lightblue;
+	
 }
 
 .pageMainContainer.navOn .innerNavMenu > .inner{

@@ -39,16 +39,19 @@
 				<span></span>
 				<div class="pull-right small ng-binding" style="padding-right:10px">1 alert(s)</div>
 	    	</div>
-	    	<div class="infoContent">
-	    	
-	    	</div>
-	    	<div class="pageTitle">
-	    		<div class="title">
-	    			Dashboard
-	    		</div>
+	    	<div class="infoContent background dark">
+	    		<div class="appHeader noDisplay">
+	    			<img class="appLogo" src="<%=request.getContextPath()%>/Library/media/cellar_small_logo.png">
+	    			<span class="appTitle"> > </span><span class="appTitle">Information System</span>
+		    	</div>
+		    	<div class="appAbout mn  noDisplay" style="float:right">
+	    			<div class="mnItem"><a class="plain" href="#"><span>Help</span></a></div>
+	    			<div class="mnItem seperator"><span>|</span></div>
+	    			<div class="mnItem"><a class="plain" href="#"><span>About</span></a></div>
+		    	</div>
 	    	</div>
     	</div>
-	    <div class="navbar pageNavMenu">
+	    <div class="navbar pageNavMenu background dark">
 	      <div class="navbar-inner">
 	        <div class="nav pull-left">
 	        	<div class="nav pull-left">
@@ -80,8 +83,8 @@
 	        </div>
 	      </div>
 	    </div>
-	    <div class="pageMainContainer index">
-	    	<div class="contentMainHolder">   			
+	    <div class="pageMainContainer background light index">
+	    	<div class="contentMainHolder background lighter">   			
 		    	<div class="dashboardMain">
 	    			<div class="paneHolder contentBoxHolder scrollY">
 	    				<div class="dashPaneRow">

@@ -52,16 +52,11 @@
 				<span></span>
 				<div class="pull-right small ng-binding" style="padding-right:10px">1 alert(s)</div>
 	    	</div>
-	    	<div class="infoContent">
+	    	<div class="infoContent background dark">
 	    	
 	    	</div>
-	    	<div class="pageTitle">
-	    		<div class="title">
-	    			Deployment
-	    		</div>
-	    	</div>
     	</div>
-	    <div class="navbar pageNavMenu">
+	    <div class="navbar pageNavMenu background dark">
 	      <div class="navbar-inner">
 	        <div class="nav pull-left">
 	        	<div class="navTile">
@@ -99,7 +94,7 @@
 	        </div>
 	      </div>
 	    </div>
-	    <div class="pageMainContainer navOn deployment" data-tabber-id="innerNavMenu">
+	    <div class="pageMainContainer background light navOn deployment" data-tabber-id="innerNavMenu">
 		  	<div class="innerNavMenu">
 		  		<div class="inner pull-right tabber">
 					<div class="tabberNav" data-tabber-nav=true data-tabber-parentId="innerNavMenu">
@@ -110,10 +105,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="contentMainHolder tabber">
+			<div class="contentMainHolder background lighter tabber">
 				<div class="tabberPagesWhapper pagesContainer" data-tabber-pages=true data-tabber-parentId="innerNavMenu">
 					<div id="generReport" class="tabberPage generatedReportsTabPage" data-tabber-page=true data-tabber-pageId="generReport">
-						<div class="topologyLayoutSideBar">
+						<div class="topologyLayoutSideBar background light"> <!-- side > inner -->
 							<div class="appComponentList noDisplay">
 		    					<div class="header">
 		    						<div class="inner">
@@ -125,17 +120,27 @@
 		    					<div class="body">
 		    						<div class="inner">
 		    							<div class="row">
-		    								<span class="clickable" data-id="overview" data-component="" data-templtype="overview" data-template="appOverview">Overview</span>
+		    								<span class="clickable" data-id="overview" data-component data-templtype="overview" data-template="appOverview">Overview</span>
 		    							</div>
-		    							<div class="row treeView">
-		    								<div style="padding:2px 7px">
-			    								<span class="clickable" data-id="loadBalancer" data-component="loadBalancer" data-templtype="loadBalancer" data-template="appComponent" >Load Balancer</span>
+		    							<div class="row treeView well">
+			    							<div class="wellItem wellItemTemplate" style="padding:2px 7px">
+			    								<span class="clickable" data-id="" data-templtype="default" data-template="appComponent" ></span>			    								
 			    							</div>
-			    							<div class="" style="padding:2px 7px">
-			    								<span  class="clickable" data-id="appServer" data-component="appServer" data-templtype="appServer" data-template="appCompositeComponent">App Server</span>			    								
-			    							</div>
-			    							<div class="" style="padding:2px 7px">
-			    								<span class="clickable" data-id="database" data-component="database" data-templtype="database" data-template="appCompositeComponent">Database</span>
+			    							
+			    							<!-- 
+			    								<div style="padding:2px 7px">
+				    								<span class="clickable" data-id="loadBalancer" data-component="loadBalancer" data-templtype="loadBalancer" data-template="appComponent" >Load Balancer</span>
+				    							</div>
+				    							<div class="" style="padding:2px 7px">
+				    								<span  class="clickable" data-id="appServer" data-component="appServer" data-templtype="appServer" data-template="appCompositeComponent">App Server</span>			    								
+				    							</div>
+				    							<div class="" style="padding:2px 7px">
+				    								<span class="clickable" data-id="database" data-component="database" data-templtype="database" data-template="appCompositeComponent">Database</span>
+				    							</div>
+			    								 -->
+			    							
+		    								<div class="wellContentHolder">
+			    								
 			    							</div>
 		    							</div>
 		    						</div>

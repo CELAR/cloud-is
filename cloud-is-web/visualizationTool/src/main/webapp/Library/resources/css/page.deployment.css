@@ -58,9 +58,7 @@
     padding: 0 10px 10px;
 }
 
-.pageMainContainer.deployment .appComponentList {
-	border: 2px solid lightblue;
-	border-radius: 10px;
+.pageMainContainer.deployment .appComponentList {	
 	width: 270px;
 	position: relative;
 	min-height:300px;
@@ -76,7 +74,7 @@
 .pageMainContainer.deployment .appComponentList > .header > .inner{
 	padding: 5px;
 	padding-bottom: 4px;
-	border-bottom: 1px solid lightblue;
+	border-bottom: 1px solid rgba(247, 245, 245, 0.98);
 	margint: 0px 5px;
 }
 
@@ -94,8 +92,7 @@
 }
 
 .pageMainContainer.deployment .appComponentList > .body > .inner{
-	padding: 5px 8px;	
-	background: none repeat scroll 0 0 white;
+	padding: 5px 8px;
 }
 
 .pageMainContainer.deployment .analyticsReports {
@@ -117,6 +114,7 @@
     overflow-x: auto;
     white-space:nowrap;
     padding-bottom: 15px;
+    padding-top: 5px;
 }
 
 .pageMainContainer.deployment .analyticsReportHolder > div{
