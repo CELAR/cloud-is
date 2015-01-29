@@ -32,7 +32,7 @@ import org.apache.http.client.utils.URIUtils;
 import org.mitre.dsmiley.httpproxy.ProxyServlet;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.EndpointConfig;
-import eu.celarcloud.cloud_is.dataCollectionModule.impl.common.clients.CelarManager;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager;
 
 
 /**

@@ -23,13 +23,13 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 import java.util.List;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Jcatascopia.
  */
-public class MonitoringData implements IMonitoring {
+public class MonitoringData implements IMetering {
 
 	/* The JCatascopia Monitoring Client Class. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.Jcatascopia jcClient;

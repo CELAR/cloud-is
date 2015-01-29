@@ -31,7 +31,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 /**
  * The Interface IApplication.
  */
-public interface IApplication extends IDataSource{	
+public interface IApplicationMetadata extends IDataSource{	
 	/**
 	 * Gets the user applications.
 	 *
@@ -78,20 +78,9 @@ public interface IApplication extends IDataSource{
 	 */
 	public Application getApplicationInfo(String appId);
 	
-	/**
-	 * Gets the recent deployments.
-	 *
-	 * @param limit
-	 *            the limit
-	 * @param status
-	 *            the status
-	 * @return the recent deployments
-	 */
-	public List<Deployment> getRecentDeployments(String limit, String status);
 	
-	public Deployment getDeployment(String deplId);
 	
 	public List<Deployment> getApplicationDeployments(String appId);
 	
-	public List<Metric> getDeploymentInstances(String deplId, String tierId, long sTime, long eTime);
+	
 }

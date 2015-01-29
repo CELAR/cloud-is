@@ -20,7 +20,6 @@
  */
 package eu.celarcloud.cloud_is.controller.analyticsController;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 

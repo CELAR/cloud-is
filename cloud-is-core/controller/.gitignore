@@ -1,2 +1,4 @@
 /target/
 /scripts/
+/log/
+/dependency-reduced-pom.xml

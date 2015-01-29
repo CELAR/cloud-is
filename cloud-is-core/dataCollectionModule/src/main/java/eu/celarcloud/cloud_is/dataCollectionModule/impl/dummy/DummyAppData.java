@@ -30,14 +30,14 @@ import org.json.JSONObject;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class CelarApplication.
  */
-public class DummyAppData implements IApplication {
+public class DummyAppData implements IApplicationMetadata {
 	
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getUserApplications()
@@ -250,58 +250,7 @@ public class DummyAppData implements IApplication {
 		applications.add(application);
 		
 	    return applications;
-	}
-
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getRecentDeployments(java.lang.String, java.lang.String)
-	 */
-	@Override
-	public List<Deployment> getRecentDeployments(String limit, String status) {
-		List<Deployment> deployments = new ArrayList<Deployment>();
-		Deployment deployment;
-    	
-		/*
-		// Dummy data
-		//
-		int count = 100;
-		// dummy calculations
-		// Find the start and the end of the deployment
-		BigInteger tStart = new BigInteger("1413290766468");
-		int sRate = 500 * 1000; // to ms
-		BigInteger durration = new BigInteger(String.valueOf((sRate * count)));
-		BigInteger tEnd = tStart.add(durration);
-		//	
-		*/
-		
-    	deployment = new Deployment();
-    		deployment.id = "9768";
-			deployment.applicationId = "67890";
-			deployment.status = "online";
-			deployment.startTime = "1413290766468";
-			deployment.endTime = null;
-		deployments.add(deployment);
-    	
-		deployment = new Deployment();
-	    	deployment.id = "5678";
-	    	deployment.applicationId = "10293";
-			deployment.status = "offline";
-			deployment.startTime = "1413290766468";
-			deployment.endTime = "1413298766468";
-		deployments.add(deployment);
-    	
-	    return deployments;
-	}
-
-	@Override
-	public Deployment getDeployment(String deplId) {
-		Deployment deployment = new Deployment();
-			deployment.id = deplId;
-			deployment.applicationId = "";
-			deployment.status = "offline";
-			deployment.startTime = "1413290766468";
-			deployment.endTime = "1413299766468";
-	    return deployment;
-	}
+	}	
 
 	@Override
 	public List<Deployment> getApplicationDeployments(String appId) {
@@ -350,76 +299,4 @@ public class DummyAppData implements IApplication {
     	
 	    return deployments;
 	}
-
-	@Override
-	public List<Metric> getDeploymentInstances(String deplId, String tierId, long sTime, long eTime) {
-		List<Metric> instances = new ArrayList<Metric>();
-		
-		//-
-		int sRate = 60 * 60 * 1000; // to ms, Rate = 1hour
-		long currTime = sTime;
-		
-		//-
-		if(tierId == "appServer")
-		{
-			// 07:00:00
-			instances.add(new Metric(String.valueOf(currTime), "2"));
-			currTime += sRate;
-			// 08:00:00
-			instances.add(new Metric(String.valueOf(currTime), "4"));
-			currTime += sRate;
-			// 09:00:00
-			instances.add(new Metric(String.valueOf(currTime), "5"));
-			currTime += sRate;
-			// 10:00:00
-			instances.add(new Metric(String.valueOf(currTime), "8"));
-			currTime += sRate;
-			// 11:00:00
-			instances.add(new Metric(String.valueOf(currTime), "10"));
-			currTime += sRate;
-			// 12:00:00
-			instances.add(new Metric(String.valueOf(currTime), "7"));
-			currTime += sRate;
-			// 13:00:00
-			instances.add(new Metric(String.valueOf(currTime), "5"));
-			currTime += sRate;
-			// 14:00:00
-			instances.add(new Metric(String.valueOf(currTime), "6"));
-			currTime += sRate;
-			// 15:00:00
-			instances.add(new Metric(String.valueOf(currTime), "9"));
-		}
-		else if (tierId == "database")
-		{
-			// 07:00:00
-			instances.add(new Metric(String.valueOf(currTime), "1"));
-			currTime += sRate;
-			// 08:00:00
-			instances.add(new Metric(String.valueOf(currTime), "2"));
-			currTime += sRate;
-			// 09:00:00
-			instances.add(new Metric(String.valueOf(currTime), "4"));
-			currTime += sRate;
-			// 10:00:00
-			instances.add(new Metric(String.valueOf(currTime), "6"));
-			currTime += sRate;
-			// 11:00:00
-			instances.add(new Metric(String.valueOf(currTime), "7"));
-			currTime += sRate;
-			// 12:00:00
-			instances.add(new Metric(String.valueOf(currTime), "6"));
-			currTime += sRate;
-			// 13:00:00
-			instances.add(new Metric(String.valueOf(currTime), "4"));
-			currTime += sRate;
-			// 14:00:00
-			instances.add(new Metric(String.valueOf(currTime), "7"));
-			currTime += sRate;
-			// 15:00:00
-			instances.add(new Metric(String.valueOf(currTime), "8"));
-		}
-		
-		return instances;
-	}
-
 }

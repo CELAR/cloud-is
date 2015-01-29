@@ -5,21 +5,26 @@ import java.util.Properties;
 public interface ISourceLoader {
 	
 	/** The Constant TYPE_RESOURCES. */
-	public final static String TYPE_RESOURCES = "resources";
+	public final static Integer TYPE_RESOURCES = 0;
 	
 	/** The Constant TYPE_MONITORING. */
-	public final static String TYPE_MONITORING = "monitoring";
+	public final static Integer TYPE_MONITORING = 1;
 	
 	/** The Constant TYPE_MONITORING. */
-	public final static String TYPE_MONITORING_HISTORY = "monitoringHistory";
+	public final static Integer TYPE_MONITORING_HISTORY = 2;
 	
 	/** The Constant TYPE_APPLICATION. */
-	public final static String TYPE_APPLICATION = "application";
+	public final static Integer TYPE_APPLICATION = 3;
+	
+	/** The Constant TYPE_DEPLOYMENT. */
+	public final static Integer TYPE_DEPLOYMENT = 4;
+	
+	public final static Integer TYPE_TOPOLOGY  = 5;
 	
 	/** The Constant TYPE_ELASTICITY. */
-	public final static String TYPE_ELASTICITY = "elasticity";
+	public final static Integer TYPE_ELASTICITY = 6;
 	
-	public IDataSource getDtCollectorInstance(String sourceType);
+	public IDataSource getDtCollectorInstance(Integer sourceType);
 	
 	/**
 	 * Inits the.
@@ -59,6 +64,13 @@ public interface ISourceLoader {
 	 * @return the data path
 	 */
 	public String getDataPath();
+	
+	
+	public IDataSource loadAppMetaInterface();
+	public IDataSource loadDeplMetaInterface();
+	public IDataSource loadMeteringInterface();
+	public IDataSource loadMeteringHistoryInterface();
+	public IDataSource loadTopologyInterface();
 	
 	// TODO
 	// Add getter for each supported type

@@ -38,7 +38,7 @@ import org.json.JSONObject;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 import gr.ntua.cslab.celar.server.beans.structured.ApplicationInfo;
 //import gr.ntua.cslab.celar.server.beans.structured.ApplicationList;
 import gr.ntua.cslab.celar.server.beans.structured.ModuleInfo;
@@ -47,7 +47,7 @@ import gr.ntua.cslab.celar.server.beans.structured.ModuleInfo;
 /**
  * The Class CelarApplication.
  */
-public class ApplicationData implements IApplication {
+public class ApplicationData implements IApplicationMetadata {
 	
 	/** The app. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
@@ -131,91 +131,7 @@ public class ApplicationData implements IApplication {
 	 */
 	@Override
 	public String getVersionTopology(String versId) {
-		// Build report	
-    	JSONObject json = new JSONObject();
-    	String desc ="";
-	    
-    	// TODO
-    	// Dummy data
-    	switch(versId)
-    	{
-    		case "1":
-    			desc = "<description>" +
-						    "<modules>" +
-						        "<module name=\"appServer\">" +
-						            "<image>apache6</image>" +
-						        "</module>" +
-						        "<module name=\"dbServer\">" +
-						           " <image>cassndra</image>" +
-						        "</module>" +
-						   " </modules>" +
-						"</description>";
-    			break;
-    		case "2":
-    			desc = "<description>" +
-			    		    "<modules>" +
-			    		        "<module name=\"loadBalancer\">" +
-			    		            "<image>apache</image>" +
-			    		        "</module>" +
-			    		        "<module name=\"appServer\">" +
-			    		            "<image>apache6</image>" +
-			    		        "</module>" +
-			    		        "<module name=\"dbServer\">" +
-			    		            "<image>cassndra</image>" +
-			    		        "</module>" +
-			    		    "</modules>" +
-			    		"</description>";
-    			break;
-    		case "3":
-    			desc = "<description>" +
-			    		    "<modules>" +
-			    		       "<module name=\"loadBalancer\">" +
-			    		            "<image>haproxy</image>" +
-			    		        "</module>" +
-			    		        "<module name=\"appServer\">" +
-			    		            "<image>apache6</image>" +
-			    		        "</module>" +
-			    		        "<module name=\"dbServer\">" +
-			    		            "<image>cassndra</image>" +
-			    		        "</module>" +
-			    		    "</modules>" +
-			    		"</description>";
-    			break;
-    		case "4":
-    			desc = "<description>" +
-			    		    "<modules>" +
-			    		        "<module name=\"loadBalancer\">" +
-			    		            "<image>apache</image>" +
-			    		        "</module>" +
-			    		        "<module name=\"appServer\">" +
-			    		            "<image>apache7</image>" +
-			    		        "</module>" +
-			    		       " <module name=\"dbServer\">" +
-			    		            "<image>cassndra</image>" +
-			    		        "</module>" +
-			    		    "</modules>" +
-			    		"</description>";
-    			break;
-    		case "5":
-    			desc = "<description>" +
-			    		    "<modules>" +
-			    		        "<module name=\"loadBalancer\">" +
-			    		            "<image>haproxy</image>" +
-			    		        "</module>" +
-			    		        "<module name=\"appServer\">" +
-			    		            "<image>apache7</image>" +
-			    		        "</module>" +
-			    		        "<module name=\"dbServer\">" +
-			    		            "<image>cassndra</image>" +
-			    		        "</module>" +
-			    		    "</modules>" +
-			    		"</description>";
-    			break;
-    	}
-    	
-    	System.out.println(versId);
-    	json.put("versTopology", desc);
-	    return json.toString();
+		throw new java.lang.UnsupportedOperationException();
 	}
 	
 	/* (non-Javadoc)
@@ -324,56 +240,6 @@ public class ApplicationData implements IApplication {
 		return applications;
 	}
 
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getRecentDeployments(java.lang.String, java.lang.String)
-	 */
-	@Override
-	public List<Deployment> getRecentDeployments(String limit, String status) {
-    	String temp = this.cmClient.searchDeploymentsByProperty("", 0, 0, "");
-    	System.out.println("test: " + temp);
-    	
-    	List<Deployment> deployments = new ArrayList<Deployment>();
-    	if(temp == null || temp.isEmpty())	
-    		return deployments;
-        	
-    	
-    	/*
-    	// Date format to parse date
-    	Date parsed = new Date();
-		try {
-		    SimpleDateFormat format =
-		        new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-		    parsed = format.parse(dateString);
-		}
-		catch(ParseException pe) {
-		    throw new IllegalArgumentException();
-		}
-    	*/
-    	
-    	// Parse response to List<Deployment>
-    	JSONArray json = new JSONArray(temp);
-    	for (int i = 0; i < json.length(); ++i) {
-    	    JSONObject d = json.getJSONObject(i);
-    	    Deployment depl = new Deployment();
-	    	    depl.id = d.getString("id");
-	    	    depl.applicationId = d.getString("applicationId");
-	    	    depl.status = d.getString("status");
-	    	    depl.startTime = d.getString("startTime");
-	    	    depl.endTime = d.getString("endTime");
-    	    deployments.add(depl);
-    	}
-	    return deployments;
-	}
-
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication#getDeployment(java.lang.String)
-	 */
-	@Override
-	public Deployment getDeployment(String deplId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public List<Deployment> getApplicationDeployments(String appId) {
 		String temp = this.cmClient.getApplicationDeployments(appId);		
@@ -447,12 +313,4 @@ public class ApplicationData implements IApplication {
     	}
 	    return deployments;
 	}
-
-	@Override
-	public List<Metric> getDeploymentInstances(String deplId, String tierId, long start_time, long end_time) {
-		List<Metric> instances = new ArrayList<Metric>();
-		
-		return instances;
-	}
-
 }

@@ -21,43 +21,38 @@
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
-import eu.celarcloud.cloud_is.dataCollectionModule.impl.celar.MonitoringHistoricalData;
 
-public class CollectorLoader extends SourceLoader implements ISourceLoader {
+public class CollectorLoader extends SourceLoader {
 
-	
-	public IDataSource getDtCollectorInstance(String sourceType)
-	{		
-		IDataSource DtCollectorInstance = null;		
-		if(sourceType.equals(TYPE_MONITORING))
-		{
-			DtCollectorInstance = new DummyMonData();
-		}
-		else if(sourceType.equals(TYPE_MONITORING_HISTORY))
-		{
-			DtCollectorInstance = new DummyMonData();
-		}
-		else if(sourceType.equals(TYPE_RESOURCES))
-			DtCollectorInstance = null;
-		else if(sourceType.equals(TYPE_APPLICATION))
-		{
-			DummyAppData temp = new DummyAppData();
-			DtCollectorInstance = temp;
-		}
-		else if(sourceType.equals(TYPE_ELASTICITY))
-			DtCollectorInstance = null;
-		else
-			DtCollectorInstance = null;
-		
-		return DtCollectorInstance;
-				
-		/*
-		 * Since Historical monitoring data is not supported
-		 * from this bundle of collectors, the controller uses the 
-		 * 'fall back' and returns the monitoring collector. 
-		 */
+	@Override
+	public IDataSource loadAppMetaInterface() {
+		return new DummyAppData();
+	}
+
+	@Override
+	public IDataSource loadDeplMetaInterface() {
+		return new DummyDeplData();
+	}
+
+	@Override
+	public IDataSource loadMeteringInterface() {
+		return new DummyMonData();
+	}
+
+	/*
+	 * Since Historical monitoring data is not supported
+	 * from this bundle of collectors, the controller uses the 
+	 * 'fall back' and returns the monitoring collector. 
+	 */
+	@Override
+	public IDataSource loadMeteringHistoryInterface() {
+		return new DummyMonData();
+	}
+
+	@Override
+	public IDataSource loadTopologyInterface() {
+		return new DummyTopology();
 	}
 
 	

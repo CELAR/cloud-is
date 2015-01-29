@@ -25,11 +25,10 @@ import java.util.List;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface IMonitoring.
  */
-public interface IMonitoring extends IDataSource{	
+public interface IMetering extends IDataSource{	
 	/**
 	 * Gets the agents.
 	 *

@@ -9,10 +9,10 @@ import javax.xml.bind.JAXBException;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 import gr.ntua.cslab.celar.server.beans.structured.ApplicationInfo;
 
-public class MonitoringHistoricalData implements IMonitoring {
+public class MonitoringHistoricalData implements IMetering {
 	
 	/** The app. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;

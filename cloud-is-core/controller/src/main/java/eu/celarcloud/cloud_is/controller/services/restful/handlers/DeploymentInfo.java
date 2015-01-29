@@ -45,14 +45,15 @@ import org.json.JSONArray;
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
 
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Resources.
+ * The Class DeploymentInfo.
  */
 @Path("/deployment")
 public class DeploymentInfo 
@@ -78,7 +79,7 @@ public class DeploymentInfo
 	public Response getUserDeployments() 
 	{
 		Loader ld = new Loader(context);
-		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
 		
 		String response;
 		response = app.getUserApplications();
@@ -115,7 +116,7 @@ public class DeploymentInfo
 		*/
 		
 		Loader ld = new Loader(context);
-		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
 		
 		List<Deployment> deployments = app.searchDeployments(application_id, start_time, end_time, status);
 		// Convert to json
@@ -143,9 +144,9 @@ public class DeploymentInfo
 	public Response recentDeployments(@QueryParam("limit") String limit, @QueryParam("status") String status) 
 	{
 		Loader ld = new Loader(context);
-		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_DEPLOYMENT);
 		
-		List<Deployment> deployments = app.getRecentDeployments(limit, status);
+		List<Deployment> deployments = deplMeta.getRecentDeployments(limit, status);
 		// Convert to json
 		JSONArray response = new JSONArray();
 		for (Deployment depl : deployments) {
@@ -169,7 +170,7 @@ public class DeploymentInfo
 	public Response getDeploymentInfo(@PathParam("deplId") String deplId) 
 	{
 		Loader ld = new Loader(context);
-		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_DEPLOYMENT);
 		
 		String response;
 		response = "";
@@ -190,13 +191,24 @@ public class DeploymentInfo
 	@Path("/{deplId}/topology")
 	public Response getDeploymentTopology(@PathParam("deplId") String deplId) 
 	{
+		/*
 		Loader ld = new Loader(context);
-		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
 		
 		Deployment dpl = app.getDeployment(deplId);
 		
 		String response;
 		response = app.getVersionTopology(dpl.applicationId);
+		
+		//return response;
+		return Response.ok(response, MediaType.APPLICATION_JSON).build();
+		*/
+		
+		Loader ld = new Loader(context);
+		ITopology topology = (ITopology) ld.getDtCollectorInstance(ISourceLoader.TYPE_TOPOLOGY);
+		
+		String response;
+		response = topology.getTopology(deplId);
 		
 		//return response;
 		return Response.ok(response, MediaType.APPLICATION_JSON).build();
@@ -222,7 +234,7 @@ public class DeploymentInfo
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
 		Loader ld = new Loader(context);
-		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_DEPLOYMENT);
 		
 		Long sTime_long = (long) 0;
 		if(sTime != null && !sTime.trim().isEmpty())
@@ -249,7 +261,7 @@ public class DeploymentInfo
 			 //System.out.println("compId: " + compId);	
 		}
 		
-		List<Metric> instances = app.getDeploymentInstances(deplId, compId, sTime_long, eTime_long);
+		List<Metric> instances = deplMeta.getDeploymentInstances(deplId, compId, sTime_long, eTime_long);
 		
 		JSONArray json = new JSONArray();
 		for (Metric  metric: instances)
@@ -279,7 +291,7 @@ public class DeploymentInfo
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
 		Loader ld = new Loader(context);
-		IMonitoring mon = (IMonitoring) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING_HISTORY);
+		IMetering mon = (IMetering) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING_HISTORY);
 		
 		Long sTime_long = (long) 0;
 		if(sTime != null && !sTime.trim().isEmpty())

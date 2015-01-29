@@ -24,24 +24,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Jcatascopia.
  */
-public class DummyMonData implements IMonitoring {
+public class DummyMonData implements IMetering {
 
 	@Override
 	public String getAgents(String deplId, String string) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 	@Override
 	public String getAgentMetrics(String deplId, String agentId) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 	@Override
@@ -83,8 +80,7 @@ public class DummyMonData implements IMonitoring {
 
 	@Override
 	public List<Metric> getDeploymentCost(String deplId, String tierId, long sTime, long eTime) {
-		// TODO Auto-generated method stub
-		return null;
+		return getMetricValues(deplId, tierId, String.valueOf(sTime), String.valueOf(eTime));
 	}
 
 	

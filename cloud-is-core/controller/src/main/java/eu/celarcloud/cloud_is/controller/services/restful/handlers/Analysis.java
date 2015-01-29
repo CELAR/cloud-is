@@ -46,8 +46,9 @@ import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.analysisModule.Average;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMonitoring;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 import eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy.TestClass;
 
@@ -108,11 +109,12 @@ public class Analysis
 		
 		// Load the appropriate Data Collectors
 		Loader ld = new Loader(context);
-		IApplication app = (IApplication) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
-		IMonitoring monitor = (IMonitoring) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING);
+		//IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_DEPLOYMENT);
+		IMetering monitor = (IMetering) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING);
 		
 		// Get deployment informations
-		Deployment dpl = app.getDeployment(deplId);		
+		Deployment dpl = deplMeta.getDeployment(deplId);		
 		
 		// Specify the time windows for which
 		// the analysis will take place

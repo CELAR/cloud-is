@@ -24,14 +24,18 @@ import java.io.File;
 
 import javax.servlet.ServletContext;
 
+import org.slf4j.LoggerFactory;
+
+import eu.celarcloud.cloud_is.controller.container.tomcat.TomcatEmbeddedRunner;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Loader.
  */
 public class Loader {
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(Loader.class.getName());
 	
 	/** The Data source loader. */
 	private ISourceLoader DataSourceLoader;
@@ -74,6 +78,7 @@ public class Loader {
 		*/
 		
         try {
+        	LOG.info("Loading Data Collection Classes from " + cName + "(" + classNameToBeLoaded + ")");
         	classInstance = Class.forName(classNameToBeLoaded).newInstance();
         } catch (InstantiationException e) {
             // TODO Auto-generated catch block
@@ -82,11 +87,11 @@ public class Loader {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
+        	LOG.info("Not Found " + cName + "(" + classNameToBeLoaded + ")");
             e.printStackTrace();
         }
 		
-        this.DataSourceLoader = (ISourceLoader) classInstance;        
+        this.DataSourceLoader = (ISourceLoader) classInstance;      
 	}	
 	
 	/**

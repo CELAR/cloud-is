@@ -22,11 +22,15 @@ package eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource;
 
 import java.util.Properties;
 
+import org.slf4j.LoggerFactory;
+
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class SourceLoader.
  */
-public abstract class SourceLoader {
+public abstract class SourceLoader implements ISourceLoader  {
 
 	/** The global props. 
 	 * 	Contains:
@@ -35,6 +39,9 @@ public abstract class SourceLoader {
 	 *  
 	 */
 	protected Properties globalProps = null;	
+	
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(SourceLoader.class.getName());
+	
 	
 	/**
 	 * Inits the.
@@ -109,4 +116,65 @@ public abstract class SourceLoader {
 			path = this.globalProps.getProperty("dataPath");
 		return path;		
 	}
+	
+	public IDataSource getDtCollectorInstance(Integer sourceType)
+	{
+		IDataSource DtCollectorInstance = null;
+		if(sourceType.equals(TYPE_MONITORING))
+		{
+			DtCollectorInstance = loadMeteringInterface();
+		}
+		else if(sourceType.equals(TYPE_MONITORING_HISTORY))
+		{
+			DtCollectorInstance = loadMeteringHistoryInterface();
+		}
+		else if(sourceType.equals(TYPE_RESOURCES)) 
+		{
+			//
+			//System.out.println("[Warning] Not Implemented Interface");
+			LOG.warn("Not Implemented Interface");
+		}
+		else if(sourceType.equals(TYPE_APPLICATION))
+		{
+			DtCollectorInstance = loadAppMetaInterface();
+		}
+		else if(sourceType.equals(TYPE_DEPLOYMENT))
+		{
+			DtCollectorInstance = loadDeplMetaInterface();
+		}
+		else if(sourceType.equals(TYPE_ELASTICITY))
+		{
+			//
+			//System.out.println("[Warning] Not Implemented Interface");
+			LOG.warn("Not Implemented Interface");
+		}
+		else if(sourceType.equals(TYPE_TOPOLOGY))
+		{
+			DtCollectorInstance = loadTopologyInterface();
+		}
+		else
+		{
+			//System.out.println("[Error] Unsupported input");
+			LOG.error("Unsupported input");
+		}
+		
+		//
+		if(DtCollectorInstance == null)
+		{
+			// Connector does not support this type of end point
+			// or failed to initialise connector
+			// see backTrace for more info
+			LOG.warn("Connector does not support this type of end point or failed to initialise connector\n"
+					+ "\tsee backTrace for more info");
+			//System.out.println("[Warning] Connector does not support this type of end point or failed to initialise connector\n"
+			//		+ "\tsee backTrace for more info");
+		}		
+		return DtCollectorInstance;
+	}	
+	
+	public abstract IDataSource loadAppMetaInterface();
+	public abstract IDataSource loadDeplMetaInterface();
+	public abstract IDataSource loadMeteringInterface();
+	public abstract IDataSource loadMeteringHistoryInterface();
+	public abstract IDataSource loadTopologyInterface();
 }

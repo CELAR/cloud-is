@@ -4,11 +4,10 @@
 ##CELAR Information System - Core
 
 ###Prerequisites
-To successfully install and use the CELAR Information System - Core, Java (v1.7) and [Apache Tomcat (v7)](http://tomcat.apache.org/download-70.cgi) 
-should be installed on your system 
+To successfully install and use the CELAR Information System - Core, Java (v1.7) should be installed on your system 
 
-For the  CELAR Information System - Core to operate correctly the CELAR Information System - core must be
-installed also and be accessible from the Visualization Tool.
+For the  CELAR Information System - Core to operate correctly the CELAR Server Module must be
+installed also and be accessible from the CELAR Information System.
 
 ###Installation
 
@@ -37,33 +36,14 @@ yum update && yum install cloud-is-core
 ###Configuration
 To configure CELAR Information System Core (controllerModule) a user must alter the files in
 
-    {extracted_webapp_folder}/config
+    /usr/local/bin/celarISServerDir/resources/config
 
-The property `mode` is set to `celar` (which is the default value) if the Information System is installed under the CELAR umbrella
-or it should be set to `test` if someone wants to run Information System in a standalone mode for testing purposes. 
-While the `mode` is set to `dummy` the dataCollection module generates random data to showcase the Information System functionality.
+The file `server.properties` contains the initialization and configuration values of the Inforamtion System Service. More specifically the property `common.collector` needs to be set to `celar` (which is the default value) if the Information System is installed under the CELAR umbrella or it should be set to `dunmmy` if someone wants to run Information System in a standalone mode e.g. for testing purposes. While the `mode` is set to `dummy` the dataCollection module generates random data to showcase the Information System functionality.
+The property `srv.port`, in the same configuration file, indicates the port where the service listens for Rest API Calls. 
 
 In a second step the properties at the path
 
-    {extracted_webapp_folder}/config/celar/endpoint.celarmanager.properties
+    /usr/local/bin/celarISServerDir/resources/config/celar/endpoint.celarmanager.properties
 	
 need to be set to the correct CELAR Manager url parameters
 
-To ease the configuration process a user can user the scripts under the scripts folder
-
-**config_ISmode.sh**
-
-    Usage:
-    -option1=value1 ... -optionX=valueX
-		options:
-			-m={celar|test}    Specifies the mode that IS will run
-			-p=*               Specifies the path the IS is installed
-
-
-**config_CMendpoint.sh**
-
-	Usage:
-	-option1=value1 ... -optionX=valueX
-		options:\\n
-			-u=*		The uri the CELAR Manager listens for requests. The format must be http://{ip}:{post}/{REST_API_root}
-			-p=*		Specifies the path the IS is installed
