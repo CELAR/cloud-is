@@ -44,6 +44,7 @@ import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 
@@ -76,7 +77,7 @@ public class ApplicationInfo
 	public Response getUserApplications() 
 	{
 		Loader ld = new Loader(context);
-		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		String response;
 		response = app.getUserApplications();
@@ -98,7 +99,7 @@ public class ApplicationInfo
 	public Response getApplication(@PathParam("appId") String appId) 
 	{
 		Loader ld = new Loader(context);
-		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		//String.format("%010d", uniqueId)
 		
@@ -122,7 +123,7 @@ public class ApplicationInfo
 	public Response getApplicationVersions(@PathParam("appId") String appId) 
 	{
 		Loader ld = new Loader(context);
-		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		String response;
 		response = app.appVersions();
@@ -150,7 +151,7 @@ public class ApplicationInfo
 	public Response getApplicationDeployments(@PathParam("appId") String appId, @PathParam("versId") String versId) 
 	{
 		Loader ld = new Loader(context);
-		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		List<Deployment> deployments = app.getApplicationDeployments(appId);
 		// Convert to json
@@ -180,7 +181,7 @@ public class ApplicationInfo
 	public Response getVersionTopology(@PathParam("appId") String appId, @PathParam("verId") String verId) 
 	{
 		Loader ld = new Loader(context);
-		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		String response;
 		response = app.getVersionTopology(verId);
@@ -228,7 +229,7 @@ public class ApplicationInfo
 		
 		
 		Loader ld = new Loader(context);
-		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		List<Application> applications = app.searchApplications(submitted_start, submitted_end, description, module_name, component_description, provided_resource_id);
 		// Convert to json 

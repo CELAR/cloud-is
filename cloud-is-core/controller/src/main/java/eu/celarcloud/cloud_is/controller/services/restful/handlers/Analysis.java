@@ -46,6 +46,7 @@ import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.analysisModule.Average;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
@@ -110,8 +111,8 @@ public class Analysis
 		// Load the appropriate Data Collectors
 		Loader ld = new Loader(context);
 		//IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
-		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_DEPLOYMENT);
-		IMetering monitor = (IMetering) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING);
+		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
+		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
 		
 		// Get deployment informations
 		Deployment dpl = deplMeta.getDeployment(deplId);		

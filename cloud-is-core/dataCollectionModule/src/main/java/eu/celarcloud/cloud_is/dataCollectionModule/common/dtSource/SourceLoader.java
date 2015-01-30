@@ -117,45 +117,56 @@ public abstract class SourceLoader implements ISourceLoader  {
 		return path;		
 	}
 	
-	public IDataSource getDtCollectorInstance(Integer sourceType)
+	public IDataSource getDtCollectorInstance(DataSourceType type)
 	{
 		IDataSource DtCollectorInstance = null;
-		if(sourceType.equals(TYPE_MONITORING))
+		switch(type)
 		{
-			DtCollectorInstance = loadMeteringInterface();
-		}
-		else if(sourceType.equals(TYPE_MONITORING_HISTORY))
-		{
-			DtCollectorInstance = loadMeteringHistoryInterface();
-		}
-		else if(sourceType.equals(TYPE_RESOURCES)) 
-		{
-			//
-			//System.out.println("[Warning] Not Implemented Interface");
-			LOG.warn("Not Implemented Interface");
-		}
-		else if(sourceType.equals(TYPE_APPLICATION))
-		{
-			DtCollectorInstance = loadAppMetaInterface();
-		}
-		else if(sourceType.equals(TYPE_DEPLOYMENT))
-		{
-			DtCollectorInstance = loadDeplMetaInterface();
-		}
-		else if(sourceType.equals(TYPE_ELASTICITY))
-		{
-			//
-			//System.out.println("[Warning] Not Implemented Interface");
-			LOG.warn("Not Implemented Interface");
-		}
-		else if(sourceType.equals(TYPE_TOPOLOGY))
-		{
-			DtCollectorInstance = loadTopologyInterface();
-		}
-		else
-		{
-			//System.out.println("[Error] Unsupported input");
-			LOG.error("Unsupported input");
+			case MONITORING :
+			{
+				DtCollectorInstance = loadMeteringInterface();
+				break;
+			}
+			case MONITORING_HISTORY :
+			{
+				DtCollectorInstance = loadMeteringHistoryInterface();
+				break;
+			}
+			case RESOURCES : 
+			{
+				//
+				//System.out.println("[Warning] Not Implemented Interface");
+				LOG.warn("Not Implemented Interface");
+				break;
+			}
+			case APPLICATION :
+			{
+				DtCollectorInstance = loadAppMetaInterface();
+				break;
+			}
+			case DEPLOYMENT :
+			{
+				DtCollectorInstance = loadDeplMetaInterface();
+				break;
+			}
+			case ELASTICITY :
+			{
+				//
+				//System.out.println("[Warning] Not Implemented Interface");
+				LOG.warn("Not Implemented Interface");
+				break;
+			}
+			case TOPOLOGY :
+			{
+				DtCollectorInstance = loadTopologyInterface();
+				break;
+			}
+			default :
+			{
+				//System.out.println("[Error] Unsupported input");
+				LOG.error("Unsupported input");
+				break;
+			}
 		}
 		
 		//
@@ -170,7 +181,8 @@ public abstract class SourceLoader implements ISourceLoader  {
 			//		+ "\tsee backTrace for more info");
 		}		
 		return DtCollectorInstance;
-	}	
+		
+	}
 	
 	public abstract IDataSource loadAppMetaInterface();
 	public abstract IDataSource loadDeplMetaInterface();

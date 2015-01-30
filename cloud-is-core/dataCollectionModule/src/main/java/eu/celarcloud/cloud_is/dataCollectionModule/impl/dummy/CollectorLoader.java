@@ -54,8 +54,4 @@ public class CollectorLoader extends SourceLoader {
 	public IDataSource loadTopologyInterface() {
 		return new DummyTopology();
 	}
-
-	
-
-	
 }

@@ -72,11 +72,8 @@ public class RestClient {
 		SSLContextBuilder SSlcBuilder = new SSLContextBuilder();
 		try {
 			SSlcBuilder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
-		
-	    SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-	    		SSlcBuilder.build(), SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-	    this.httpclient = HttpClients.custom().setSSLSocketFactory(
-	            sslsf).build();
+			SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(SSlcBuilder.build(), SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+			this.httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
 		} catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Rest Client " + this.name + " :" + "SSl Authendication Error");

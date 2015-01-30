@@ -27,6 +27,7 @@ import javax.servlet.ServletContext;
 import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.controller.container.tomcat.TomcatEmbeddedRunner;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 
@@ -93,54 +94,19 @@ public class Loader {
 		
         this.DataSourceLoader = (ISourceLoader) classInstance;      
 	}	
-	
+		
 	/**
-	 * Gets the single instance of Loader.
+	 * Gets the dt collector instance.
 	 *
-	 * @param sourceType
-	 *            the source type
-	 * @return single instance of Loader
+	 * @param DataSourceType type
+	 *            the collection interface type
+	 * @return the appropriate data collector instance
 	 */
-	public IDataSource getDtCollectorInstance(Integer sourceType)
+	public IDataSource getDtCollectorInstance(DataSourceType type)
 	{       
-        String configPath = context.getRealPath("config"+File.separator);		
-		
-        // TODO
-     	// The following if-then-else does not belong here
-     	// This should go to ISourceLoader (implementation) classes ??
-		/*
-		String path = null;		
-		
-		if(sourceType.equals(ISourceLoader.TYPE_MONITORING))
-			path = this.context.getRealPath((String) context.getAttribute("monitoring"));
-		else if(sourceType.equals(ISourceLoader.TYPE_RESOURCES))
-			path = null;	
-		else if(sourceType.equals(ISourceLoader.TYPE_APPLICATION))
-			path = this.context.getRealPath((String) context.getAttribute("application"));
-		else if(sourceType.equals(ISourceLoader.TYPE_MONITORING_HISTORY))
-			path = this.context.getRealPath((String) context.getAttribute("application"));
-		else if(sourceType.equals(ISourceLoader.TYPE_ELASTICITY))
-			path = null;	
-		else
-			path = null;	
-		
-		String uri = "";		
-		if(path != null)
-		{
-				EndpointConfig applicationEndpoint = new EndpointConfig(path);
-				uri = applicationEndpoint.getUri();
-		}
-		*/
-		
-        //-
-        // Initialize the DataSourceLoader [SourceLoader] with the 
-        // config parameters from the
-        // Context / Collector Config Folder
-        
-        //System.out.println(configPath);
-        //System.out.println(this.context.getAttribute("gDataPath"));
+        String configPath = context.getRealPath("config"+File.separator);
         
         this.DataSourceLoader.init(configPath, (String) this.context.getAttribute("gDataPath"));        
-		return this.DataSourceLoader.getDtCollectorInstance(sourceType);
+		return this.DataSourceLoader.getDtCollectorInstance(type);
 	}
 }

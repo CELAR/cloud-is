@@ -31,6 +31,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 
@@ -63,7 +64,7 @@ public class AppCompare
 	public Response getMonitoringAgents() 
 	{		
 		Loader ld = new Loader(context);
-		IMetering monitor = (IMetering) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING);
+		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
 		
 		String response = monitor.getAgents("","UP");
 		
@@ -81,7 +82,7 @@ public class AppCompare
 	public String getAgentMetrics() 
 	{
 		Loader ld = new Loader(context);
-		IMetering monitor = (IMetering) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING);
+		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
 		
 		monitor.getAgentMetrics("", "579c910e305d4119aeb410b3ef82e400");
 		
@@ -99,7 +100,7 @@ public class AppCompare
 	public String getSampleMetrics() 
 	{
 		Loader ld = new Loader(context);
-		IMetering monitor = (IMetering) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING);
+		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
 		
 		//monitor.getValuesForTimeRange("579c910e305d4119aeb410b3ef82e400:netBytesIN", "2000", null, null);
 		

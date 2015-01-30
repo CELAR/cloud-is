@@ -45,6 +45,7 @@ import org.json.JSONArray;
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
@@ -79,7 +80,7 @@ public class DeploymentInfo
 	public Response getUserDeployments() 
 	{
 		Loader ld = new Loader(context);
-		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		String response;
 		response = app.getUserApplications();
@@ -116,7 +117,7 @@ public class DeploymentInfo
 		*/
 		
 		Loader ld = new Loader(context);
-		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		List<Deployment> deployments = app.searchDeployments(application_id, start_time, end_time, status);
 		// Convert to json
@@ -144,7 +145,7 @@ public class DeploymentInfo
 	public Response recentDeployments(@QueryParam("limit") String limit, @QueryParam("status") String status) 
 	{
 		Loader ld = new Loader(context);
-		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_DEPLOYMENT);
+		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		
 		List<Deployment> deployments = deplMeta.getRecentDeployments(limit, status);
 		// Convert to json
@@ -170,7 +171,7 @@ public class DeploymentInfo
 	public Response getDeploymentInfo(@PathParam("deplId") String deplId) 
 	{
 		Loader ld = new Loader(context);
-		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_DEPLOYMENT);
+		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		
 		String response;
 		response = "";
@@ -193,7 +194,7 @@ public class DeploymentInfo
 	{
 		/*
 		Loader ld = new Loader(context);
-		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
+		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		Deployment dpl = app.getDeployment(deplId);
 		
@@ -205,7 +206,7 @@ public class DeploymentInfo
 		*/
 		
 		Loader ld = new Loader(context);
-		ITopology topology = (ITopology) ld.getDtCollectorInstance(ISourceLoader.TYPE_TOPOLOGY);
+		ITopology topology = (ITopology) ld.getDtCollectorInstance(DataSourceType.TOPOLOGY);
 		
 		String response;
 		response = topology.getTopology(deplId);
@@ -234,7 +235,7 @@ public class DeploymentInfo
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
 		Loader ld = new Loader(context);
-		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_DEPLOYMENT);
+		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		
 		Long sTime_long = (long) 0;
 		if(sTime != null && !sTime.trim().isEmpty())
@@ -291,7 +292,7 @@ public class DeploymentInfo
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
 		Loader ld = new Loader(context);
-		IMetering mon = (IMetering) ld.getDtCollectorInstance(ISourceLoader.TYPE_MONITORING_HISTORY);
+		IMetering mon = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING_HISTORY);
 		
 		Long sTime_long = (long) 0;
 		if(sTime != null && !sTime.trim().isEmpty())
