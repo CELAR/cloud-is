@@ -252,6 +252,9 @@ public class DummyAppData implements IApplicationMetadata {
 	    return applications;
 	}	
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata#getApplicationDeployments(java.lang.String)
+	 */
 	@Override
 	public List<Deployment> getApplicationDeployments(String appId) {
 		List<Deployment> deployments = new ArrayList<Deployment>();
@@ -276,6 +279,9 @@ public class DummyAppData implements IApplicationMetadata {
 	    return deployments;
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata#searchDeployments(java.lang.String, long, long, java.lang.String)
+	 */
 	@Override
 	public List<Deployment> searchDeployments(String appId, long tStart, long tEnd, String status) {
 		List<Deployment> deployments = new ArrayList<Deployment>();

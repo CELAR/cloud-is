@@ -18,22 +18,41 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
+package eu.celarcloud.cloud_is.dataCollectionModule.impl.standalone;
 
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class TopologyData.
- */
-public class TopologyData implements ITopology {
+public class CollectorLoader extends SourceLoader {
 
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology#getTopology(java.lang.String)
-	 */
 	@Override
-	public String getTopology(String deplId) {
-		throw new java.lang.UnsupportedOperationException();
+	public IDataSource loadAppMetaInterface() {
+		return new ApplicationData();
 	}
 
+	@Override
+	public IDataSource loadDeplMetaInterface() {
+		return new DeploymentData();
+	}
+
+	@Override
+	public IDataSource loadMeteringInterface() {
+		return new MonitoringData();
+	}
+
+	/*
+	 * Since Historical monitoring data is not supported
+	 * from this bundle of collectors, the controller uses the 
+	 * 'fall back' and returns the monitoring collector. 
+	 */
+	@Override
+	public IDataSource loadMeteringHistoryInterface() {
+		return new MonitoringData();
+	}
+
+	@Override
+	public IDataSource loadTopologyInterface() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

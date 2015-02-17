@@ -18,14 +18,10 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
+package eu.celarcloud.cloud_is.dataCollectionModule.impl.standalone;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
@@ -34,55 +30,19 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationM
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CelarApplication.
  */
-public class DummyDeplData implements IDeploymentMetadata {
-	
+public class DeploymentData implements IDeploymentMetadata {
+
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getRecentDeployments(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public List<Deployment> getRecentDeployments(String limit, String status) {
-		List<Deployment> deployments = new ArrayList<Deployment>();
-		Deployment deployment;
-    	
-		/*
-		// Dummy data
-		//
-		int count = 100;
-		// dummy calculations
-		// Find the start and the end of the deployment
-		BigInteger tStart = new BigInteger("1413290766468");
-		int sRate = 500 * 1000; // to ms
-		BigInteger durration = new BigInteger(String.valueOf((sRate * count)));
-		BigInteger tEnd = tStart.add(durration);
-		//	
-		*/
-		
-    	deployment = new Deployment();
-    		deployment.id = "9768";
-			deployment.applicationId = "67890";
-			deployment.status = "online";
-			deployment.startTime = "1413290766468";
-			deployment.endTime = null;
-		deployments.add(deployment);
-    	
-		deployment = new Deployment();
-	    	deployment.id = "5678";
-	    	deployment.applicationId = "10293";
-			deployment.status = "offline";
-			deployment.startTime = "1413290766468";
-			deployment.endTime = "1413298766468";
-		deployments.add(deployment);
-    	
-	    return deployments;
+		throw new java.lang.UnsupportedOperationException();
 	}
 
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata#getDeployment(java.lang.String)
-	 */
 	@Override
 	public Deployment getDeployment(String deplId) {
 		Deployment deployment = new Deployment();
@@ -94,18 +54,11 @@ public class DummyDeplData implements IDeploymentMetadata {
 	    return deployment;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata#searchDeployments(long, long, java.lang.String)
-	 */
 	@Override
 	public List<Deployment> searchDeployments(long tStart, long tEnd, String status) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata#getDeploymentInstances(java.lang.String, java.lang.String, long, long)
-	 */
 	@Override
 	public List<Metric> getDeploymentInstances(String deplId, String tierId, long sTime, long eTime) {
 		List<Metric> instances = new ArrayList<Metric>();

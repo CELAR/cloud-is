@@ -173,11 +173,11 @@ public class DeploymentInfo
 		Loader ld = new Loader(context);
 		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		
-		String response;
-		response = "";
+		Deployment d;
+		d = deplMeta.getDeployment(deplId);
 		
 		//return response
-		return Response.ok(response, MediaType.APPLICATION_JSON).build();
+		return Response.ok(d.toJSONObject().toString(), MediaType.APPLICATION_JSON).build();
 	}
 
 	/**
@@ -329,5 +329,46 @@ public class DeploymentInfo
 		return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
 	}
 	
-	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{deplId}{compId : (/tier/[^/]+?)?}/metrics")
+	public Response getDeploymentAvailableMetrics(@PathParam("deplId") String deplId, @PathParam("compId") String compId, 
+										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
+	{
+		Loader ld = new Loader(context);
+		IMetering mon = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING_HISTORY);
+		
+		Long sTime_long = (long) 0;
+		if(sTime != null && !sTime.trim().isEmpty())
+			sTime_long = Long.parseLong(sTime);
+		
+		Long eTime_long = (long) 0;
+		if(eTime != null && !eTime.trim().isEmpty())
+			eTime_long = Long.parseLong(eTime);	
+		
+		/*
+		 *	/tier/{cmponetId} is an optional parameter
+		 *	If it is function will return
+		 *	data regarding the specific component / tier
+		 *	In any other case this function will return 
+		 *	data regarding the whole deployment
+		 */
+		if (compId.equals("")) {
+			// Optional parameter not specified
+			// System.out.println("No format specified.");
+		} else {
+			 // Optional parameter has looks like "/tier/{cmponetId}" - need to get it's value only
+			 compId = compId.split("/")[2];
+			 //System.out.println("compId: " + compId);	
+		}
+		
+		List<String> metricNames = mon.getAvailableMetrics(deplId, compId);
+		
+		JSONArray json = new JSONArray();
+		for (String  name: metricNames)
+			json.put(name);		
+		
+		//return response;
+		return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();		
+	}
 }

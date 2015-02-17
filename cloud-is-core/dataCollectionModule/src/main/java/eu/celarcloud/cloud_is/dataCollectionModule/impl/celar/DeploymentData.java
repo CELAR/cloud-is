@@ -54,7 +54,7 @@ public class DeploymentData implements IDeploymentMetadata {
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
 	
 	/**
-	 * Initializes the CELAR Manager Rest Client
+	 * Initializes the CELAR Manager Rest Client.
 	 *
 	 * @param restApiUri
 	 *            the rest api uri
@@ -116,6 +116,9 @@ public class DeploymentData implements IDeploymentMetadata {
 
 	
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata#getDeploymentInstances(java.lang.String, java.lang.String, long, long)
+	 */
 	@Override
 	public List<Metric> getDeploymentInstances(String deplId, String tierId, long start_time, long end_time) {
 		List<Metric> instances = new ArrayList<Metric>();
@@ -125,6 +128,9 @@ public class DeploymentData implements IDeploymentMetadata {
 
 
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata#searchDeployments(long, long, java.lang.String)
+	 */
 	@Override
 	public List<Deployment> searchDeployments(long start_time, long end_time, String status) {
 		throw new java.lang.UnsupportedOperationException();

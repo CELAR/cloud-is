@@ -23,18 +23,31 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CollectorLoader.
+ */
 public class CollectorLoader extends SourceLoader {
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader#loadAppMetaInterface()
+	 */
 	@Override
 	public IDataSource loadAppMetaInterface() {
 		return new DummyAppData();
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader#loadDeplMetaInterface()
+	 */
 	@Override
 	public IDataSource loadDeplMetaInterface() {
 		return new DummyDeplData();
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader#loadMeteringInterface()
+	 */
 	@Override
 	public IDataSource loadMeteringInterface() {
 		return new DummyMonData();
@@ -45,11 +58,17 @@ public class CollectorLoader extends SourceLoader {
 	 * from this bundle of collectors, the controller uses the 
 	 * 'fall back' and returns the monitoring collector. 
 	 */
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader#loadMeteringHistoryInterface()
+	 */
 	@Override
 	public IDataSource loadMeteringHistoryInterface() {
 		return new DummyMonData();
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader#loadTopologyInterface()
+	 */
 	@Override
 	public IDataSource loadTopologyInterface() {
 		return new DummyTopology();

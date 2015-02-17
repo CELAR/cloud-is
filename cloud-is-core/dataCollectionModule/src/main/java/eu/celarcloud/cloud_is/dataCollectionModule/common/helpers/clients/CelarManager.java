@@ -177,7 +177,7 @@ public class CelarManager {
 		OutputStream  svrOutput = null;
 	    try {
 			Component c = new Component(Integer.parseInt(compId));			
-			Metric m = new Metric(c);
+			Metric m = new Metric(c, name);
 			
 			//m.name = name;
 

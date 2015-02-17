@@ -18,7 +18,7 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
+package eu.celarcloud.cloud_is.dataCollectionModule.impl.standalone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,27 +30,18 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 /**
  * The Class Jcatascopia.
  */
-public class DummyMonData implements IMetering {
+public class MonitoringData implements IMetering {
 
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getAgents(java.lang.String, java.lang.String)
-	 */
 	@Override
 	public String getAgents(String deplId, String string) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getAgentMetrics(java.lang.String, java.lang.String)
-	 */
 	@Override
 	public String getAgentMetrics(String deplId, String agentId) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getMetricValues(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-	 */
 	@Override
 	public List<Metric> getMetricValues(String deplId, String name, String sTime, String eTime) {
 		List<Metric> list = new ArrayList<Metric>();
@@ -68,12 +59,12 @@ public class DummyMonData implements IMetering {
 		{
 			if(i == 0)
 			{
-				randNum = TestClass.randDouble(min, max);
+				//randNum = TestClass.randDouble(min, max);
 				//maxValue = randNum; minValue = randNum; averageValue  = randNum;
 			}
 			else
 			{
-				randNum = TestClass.randDoubleKnoledge((int) Math.round(randNum), min, max);
+				//randNum = TestClass.randDoubleKnoledge((int) Math.round(randNum), min, max);
 				//averageValue = Average.incrementalAverage(averageValue, randNum);
 			}
 			
@@ -88,29 +79,14 @@ public class DummyMonData implements IMetering {
 		return list;
 	}
 
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getDeploymentCost(java.lang.String, java.lang.String, long, long)
-	 */
 	@Override
 	public List<Metric> getDeploymentCost(String deplId, String tierId, long sTime, long eTime) {
-		return getMetricValues(deplId, tierId, String.valueOf(sTime), String.valueOf(eTime));
+		throw new java.lang.UnsupportedOperationException();
 	}
 
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getAvailableMetrics(java.lang.String, java.lang.String)
-	 */
 	@Override
 	public List<String> getAvailableMetrics(String deplId, String compId) {
-		List<String> list = new ArrayList<String>();
-		
-		int count = 10;
-		for(int i = 0; i < count; i++)
-		{
-			String m = "metric_ "+i;
-			list.add(m);
-		}
-		
-		return list;
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 	

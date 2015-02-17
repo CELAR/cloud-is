@@ -32,13 +32,15 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 public class MonitoringData implements IMetering {
 
 	/* The JCatascopia Monitoring Client Class. */
+	/** The jc client. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.Jcatascopia jcClient;
 	/* The CELAR Manager Client Class. */
+	/** The cm client. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
 	
 	
 	/**
-	 * Initializes the JCatascopia Rest Client
+	 * Initializes the JCatascopia Rest Client.
 	 *
 	 * @param restApiUri
 	 *            the rest api uri
@@ -47,6 +49,12 @@ public class MonitoringData implements IMetering {
 		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);		
 	}
 	
+	/**
+	 * Load monitoring client.
+	 *
+	 * @param deplId
+	 *            the depl id
+	 */
 	private void loadMonitoringClient(String deplId)
 	{
 		String restApiUri = null;
@@ -73,17 +81,31 @@ public class MonitoringData implements IMetering {
 		return this.jcClient.getAgentMetrics(agentId);
 	}
 	
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getMetricValues(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public List<Metric> getMetricValues(String deplId, String name, String sTime, String eTime) {
 		this.loadMonitoringClient(deplId);
-		// TODO Auto-generated method stub
-		return null;
+		
+		throw new java.lang.UnsupportedOperationException();
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getDeploymentCost(java.lang.String, java.lang.String, long, long)
+	 */
 	@Override
 	public List<Metric> getDeploymentCost(String deplId, String tierId,
 			long sTime, long eTime) {
-		// TODO Auto-generated method stub
-		return null;
+
+		throw new java.lang.UnsupportedOperationException();
+	}
+
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getAvailableMetrics(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<String> getAvailableMetrics(String deplId, String compId) {
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 	

@@ -76,7 +76,7 @@ public class RestAPIembeddedWebapp implements ITomcatWebapp{
 		rootCtx.addApplicationListener(this.contextListenerClassPath);	
 		
 		
-		/* We are instruction tomcat to load all the classes / methods
+		/* We are instruct tomcat to load all the classes / methods
 		 * for handling the REST API calls, 
 		 * the following lines of (java) code are equivalent to:		   
 		 *  <servlet>
@@ -89,7 +89,7 @@ public class RestAPIembeddedWebapp implements ITomcatWebapp{
 		 *       <load-on-startup>1</load-on-startup>
 		 *  </servlet>
 		 *  
-		 */
+		 */		
 		Wrapper a = Tomcat.addServlet(rootCtx, "rest", "com.sun.jersey.spi.container.servlet.ServletContainer");
 		a.addInitParameter("com.sun.jersey.config.property.packages", this.restHandlersClassPath);		
 		// Support cross domain requests

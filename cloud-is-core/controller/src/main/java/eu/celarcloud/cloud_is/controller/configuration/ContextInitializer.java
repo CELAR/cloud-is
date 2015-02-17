@@ -77,12 +77,12 @@ public class ContextInitializer implements ServletContextListener{
 		//-
 		// Create a folder to store temporary data
 		// These tree folders will be created at the first run, and possibly stay unchanged on later update
-		// Those folder are used from the controller module or the colectors (connectors)
+		// Those folder are used from the controller module or the collectors (connectors)
 		// to store temporary data or data files
-		//String warName = new File(this.appContext.getRealPath("/")).getName();
 		String rootPath = this.appContext.getRealPath("/");
+		//String warName = new File(this.appContext.getRealPath("/")).getName();
 		String dataFolder = rootPath +File.separator+ ".data";
-		
+				
 		// Create top Level Folder
 		File f = new File(dataFolder);
 		try	{

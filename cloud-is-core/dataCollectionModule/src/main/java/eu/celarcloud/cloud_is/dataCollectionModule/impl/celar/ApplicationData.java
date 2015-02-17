@@ -53,7 +53,7 @@ public class ApplicationData implements IApplicationMetadata {
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
 	
 	/**
-	 * Initializes the CELAR Manager Rest Client
+	 * Initializes the CELAR Manager Rest Client.
 	 *
 	 * @param restApiUri
 	 *            the rest api uri
@@ -240,6 +240,9 @@ public class ApplicationData implements IApplicationMetadata {
 		return applications;
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata#getApplicationDeployments(java.lang.String)
+	 */
 	@Override
 	public List<Deployment> getApplicationDeployments(String appId) {
 		String temp = this.cmClient.getApplicationDeployments(appId);		
@@ -276,6 +279,9 @@ public class ApplicationData implements IApplicationMetadata {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata#searchDeployments(java.lang.String, long, long, java.lang.String)
+	 */
 	@Override
 	public List<Deployment> searchDeployments(String application_id, long start_time, long end_time, String status) {
 		String temp = this.cmClient.searchDeploymentsByProperty(application_id, start_time, end_time, status);

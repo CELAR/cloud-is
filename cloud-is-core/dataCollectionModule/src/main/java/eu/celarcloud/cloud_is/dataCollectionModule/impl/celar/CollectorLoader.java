@@ -28,11 +28,13 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
 
 // TODO: Auto-generated Javadoc
 /**
- * The ISourceLoader Implementation
- * for the CELAR Collector Bundle / Classes
+ * The ISourceLoader Implementation for the CELAR Collector Bundle / Classes.
  */
 public class CollectorLoader extends SourceLoader {
 	
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader#loadAppMetaInterface()
+	 */
 	@Override
 	public IDataSource loadAppMetaInterface() {
 		String path = this.getConfigPath() + File.separator + "celar";
@@ -49,6 +51,9 @@ public class CollectorLoader extends SourceLoader {
 		return temp;
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader#loadDeplMetaInterface()
+	 */
 	@Override
 	public IDataSource loadDeplMetaInterface() {
 		String path = this.getConfigPath() + File.separator + "celar";
@@ -65,6 +70,9 @@ public class CollectorLoader extends SourceLoader {
 		return temp;
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader#loadMeteringInterface()
+	 */
 	@Override
 	public IDataSource loadMeteringInterface() {
 		String path = this.getConfigPath() + File.separator + "celar";
@@ -90,11 +98,17 @@ public class CollectorLoader extends SourceLoader {
 		return monitoringData;
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader#loadMeteringHistoryInterface()
+	 */
 	@Override
 	public IDataSource loadMeteringHistoryInterface() {
 		return new MonitoringHistoricalData();
 	}
 
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader#loadTopologyInterface()
+	 */
 	@Override
 	public IDataSource loadTopologyInterface() {
 		return new TopologyData();
