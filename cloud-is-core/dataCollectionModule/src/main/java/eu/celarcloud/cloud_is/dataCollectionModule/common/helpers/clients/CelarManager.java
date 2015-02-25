@@ -20,13 +20,19 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+
+import javax.xml.bind.JAXBException;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.utils.URIBuilder;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.RestClient;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import gr.ntua.cslab.celar.server.beans.Component;
 import gr.ntua.cslab.celar.server.beans.Metric;
 import gr.ntua.cslab.celar.server.beans.MyTimestamp;
@@ -127,6 +133,10 @@ public class CelarManager {
 	/**
 	 * Gets the metrics.
 	 *
+	 * @param compId
+	 *            the comp id
+	 * @param metricId
+	 *            the metric id
 	 * @return the metrics
 	 */
 	public String getMetrics(String compId, String metricId)
@@ -158,10 +168,8 @@ public class CelarManager {
 	 *
 	 * @param compId
 	 *            the component id
-	 * @param timestamp
-	 *            the timestamp
-	 * @param value
-	 *            the value
+	 * @param name
+	 *            the name
 	 * @return the string
 	 */
 	public String putMetric(String compId, String name)
@@ -205,6 +213,19 @@ public class CelarManager {
 		return client.getContent(response);
 	}
 	
+	/**
+	 * Put metric value.
+	 *
+	 * @param compId
+	 *            the comp id
+	 * @param metricId
+	 *            the metric id
+	 * @param timestamp
+	 *            the timestamp
+	 * @param value
+	 *            the value
+	 * @return the string
+	 */
 	public String putMetricValue(String compId, String metricId, String timestamp, String value)
 	{
 		return null;	
@@ -226,6 +247,36 @@ public class CelarManager {
 		
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/application/" + appId;		
+	    builder.setPath(path);	
+		
+		//
+		CloseableHttpResponse response = null;
+		RestClient client = new RestClient(this.serverIp);
+		
+		try {
+			response = client.executeGet(builder.build(), client.ACCEPT_XML);
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		return client.getContent(response);
+	}
+	
+	/**
+	 * Gets the deployment info.
+	 *
+	 * @param deplId
+	 *            the depl id
+	 * @return the deployment info
+	 */
+	public String getDeploymentInfo(String deplId)
+	{
+		if(deplId == null || deplId.isEmpty())
+			return null;		
+		
+		URIBuilder builder = new URIBuilder();
+		String path = this.serverIp + this.restPath + "/deployment/" + deplId;		
 	    builder.setPath(path);	
 		
 		//
@@ -299,6 +350,19 @@ public class CelarManager {
 		
 	}
 	
+	/**
+	 * Search deployments by property.
+	 *
+	 * @param application_id
+	 *            the application_id
+	 * @param submitted_start
+	 *            the submitted_start
+	 * @param submitted_end
+	 *            the submitted_end
+	 * @param status
+	 *            the status
+	 * @return the string
+	 */
 	public String searchDeploymentsByProperty(String application_id, long submitted_start, long submitted_end, String status)
 	{
 		URIBuilder builder = new URIBuilder();
@@ -329,6 +393,13 @@ public class CelarManager {
 		return client.getContent(response);
 	}
 	
+	/**
+	 * Gets the application deployments.
+	 *
+	 * @param appId
+	 *            the app id
+	 * @return the application deployments
+	 */
 	public String getApplicationDeployments(String appId)
 	{
 		if(appId == null || appId.isEmpty())
@@ -352,12 +423,31 @@ public class CelarManager {
 		return client.getContent(response);
 	}
 	
+	/**
+	 * Gets the orchestation vm.
+	 *
+	 * @param deplId
+	 *            the depl id
+	 * @return the orchestation vm
+	 */
 	public String getOrchestationVm(String deplId)
 	{
 		// TODO 
 		// Remove Add Hoc variable assignment
 		
-		return "http://83.212.86.244:8080/JCatascopia-Web";		
+		//return "http://83.212.86.244:8080/JCatascopia-Web";
+		
+		InputStream stream = new ByteArrayInputStream(this.getDeploymentInfo(deplId).getBytes(StandardCharsets.UTF_8));
+		
+		//unmarshal an ApplicationInfo Entity
+		gr.ntua.cslab.celar.server.beans.Deployment inai = new gr.ntua.cslab.celar.server.beans.Deployment();
+		try {
+			inai.unmarshal(stream);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+				e.printStackTrace();
+		}	    
+		return inai.orchestrator_IP;
 	}
 
 }

@@ -27,13 +27,34 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
  * The Class TopologyData.
  */
 public class TopologyData implements ITopology {
-
+	
+	/** The cm client. */
+	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
+	
+	/**
+	 * Initializes the CELAR Manager Rest Client.
+	 *
+	 * @param restApiUri
+	 *            the rest api uri
+	 */
+	public void init(String restApiUri) {
+		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);		
+	}
+	
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology#getTopology(java.lang.String)
 	 */
 	@Override
 	public String getTopology(String deplId) {
-		throw new java.lang.UnsupportedOperationException();
+		DeploymentData deplDataReferer = new DeploymentData();		
+		deplDataReferer.init(this.cmClient);
+		
+		String appId = deplDataReferer.getDeployment(deplId).applicationId;
+		
+		ApplicationData appDataReferer = new ApplicationData();		
+		appDataReferer.init(this.cmClient);		
+		
+		return appDataReferer.getApplicationInfo(appId).topology;
 	}
 
 }

@@ -40,6 +40,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 import gr.ntua.cslab.celar.server.beans.structured.ApplicationInfo;
+import gr.ntua.cslab.celar.server.beans.structured.ApplicationList;
 //import gr.ntua.cslab.celar.server.beans.structured.ApplicationList;
 import gr.ntua.cslab.celar.server.beans.structured.ModuleInfo;
 
@@ -61,29 +62,25 @@ public class ApplicationData implements IApplicationMetadata {
 	public void init(String restApiUri) {
 		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);		
 	}
+	
+	/**
+	 * Inits the.
+	 *
+	 * @param cm
+	 *            the cm
+	 */
+	public void init(eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cm) {
+		this.cmClient = cm;		
+	}
 
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getUserApplications()
 	 */
 	@Override
 	public String getUserApplications() {
+		// TODO
+		throw new java.lang.UnsupportedOperationException();
 		
-		// Build report
-		JSONArray json = new JSONArray();
-	    		
-	    for(int i=0; i<3; i++)
-	    {
-	    	String appId = String.valueOf(i);
-	    	JSONObject app = new JSONObject();
-	    	app.put("appName", "testName_" + i);
-	    	app.put("appId", appId);
-	    	
-	    	json.put(app);
-	    }
-	    
-	    
-	    
-		return json.toString();
 	}
 
 	/* (non-Javadoc)
@@ -91,19 +88,8 @@ public class ApplicationData implements IApplicationMetadata {
 	 */
 	@Override
 	public String appVersions() {
-		// Build report
-		JSONArray json = new JSONArray();
-	    		
-	    for(int i=1; i<6; i++)
-	    {
-	    	String appId = String.valueOf(i);
-	    	JSONObject app = new JSONObject();
-	    	app.put("versName", "testName_" + i);
-	    	app.put("versId", appId);
-	    	
-	    	json.put(app);
-	    }
-		return json.toString();
+		// TODO
+		throw new java.lang.UnsupportedOperationException();
 	}
 	
 	/* (non-Javadoc)
@@ -111,19 +97,8 @@ public class ApplicationData implements IApplicationMetadata {
 	 */
 	@Override
 	public String versDeployments() {
-		// Build report
-			JSONArray json = new JSONArray();
-		    		
-		    for(int i=0; i<3; i++)
-		    {
-		    	String appId = String.valueOf(i);
-		    	JSONObject app = new JSONObject();
-		    	app.put("versName", "testName_" + i);
-		    	app.put("versId", appId);
-		    	
-		    	json.put(app);
-		    }
-			return json.toString();
+		// TODO
+		throw new java.lang.UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -188,13 +163,12 @@ public class ApplicationData implements IApplicationMetadata {
 		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
 		
 		// Parse the result into objects
-		/*
+		
 		//unmarshal an ApplicationInfo Entity
 		ApplicationList al = new ApplicationList();
         try {
         	al.unmarshal(stream);
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
@@ -210,33 +184,12 @@ public class ApplicationData implements IApplicationMetadata {
 		
 		for (gr.ntua.cslab.celar.server.beans.Application a : apps) {
 			Application appl = new Application();
-				appl.id = a.getString("id");
-	    	    appl.description = a.getString("description");
-	    	    appl.submitted = a.getString("submitted");
+				appl.id = a.id;
+	    	    appl.description = a.description;
+	    	    appl.submitted = a.submitted.toString();
 	    	applications.add(appl);			
 		}
-		*/
 		
-		
-		
-    	// Parse response to List<Application>		
-//    	try {
-//	    	JSONArray json = new JSONArray(temp);
-//	    	for (int i = 0; i < json.length(); ++i) {
-//	    	    JSONObject a = json.getJSONObject(i);
-//	    	    Application appl = new Application();
-//	    	    	appl.id = a.getString("id");
-//		    	    appl.description = a.getString("description");
-//		    	    appl.submitted = a.getString("submitted");
-//		    	applications.add(appl);
-//	    	}
-//    	}
-//    	catch(JSONException e) {
-//    		System.out.println("Errot on parsing JSON Response : ");
-//    		System.out.println("[" + temp + "]");
-//            e.printStackTrace();    		
-//    	}
-//    	
 		return applications;
 	}
 
@@ -246,37 +199,58 @@ public class ApplicationData implements IApplicationMetadata {
 	@Override
 	public List<Deployment> getApplicationDeployments(String appId) {
 		String temp = this.cmClient.getApplicationDeployments(appId);		
-		
 		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
 
-		 //unmarshal an ApplicationInfo Entity
+		List<Deployment> deployments = new ArrayList<Deployment>();
+		
+		// TODO :=> Uncomment when 		
+    	// Parse the result into objects celarBeans -> DeploymentList is implemented
 		/*
-        ApplicationInfo inai = new ApplicationInfo();
+		DeploymentList dl = new DeploymentList();
         try {
-			inai.unmarshal(stream);
+        	dl.unmarshal(stream);
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
         //print the entity in a structured manner
         //you can observe all the field names and their values (in this example)
-        System.out.println(inai.toString(true));
-        
-        //gets the first module of an application and prints its name
-        //ModuleInfo mi = inai.modules.get(0);
-        //System.out.println("Module name:"+mi.name);
+        System.out.println(dl.toString(true));
 		
-        // Parse response to IS bean
-        Application app = new Application();
-        
-        app.id = inai.id;
-        app.description = inai.description;
-        app.submitted = inai.submitted.toString();
-        */
-        
-		//return app;
-		return null;
+		// Get and parse application list
+        List<gr.ntua.cslab.celar.server.beans.Application> depls = dl.getDeployments();        
+		
+		if(apps == null || apps.isEmpty())	
+    		return applications;
+		
+		for (gr.ntua.cslab.celar.server.beans.Deployment d : depls) {
+			Deployment depl = new Deployment();
+	    	    depl.id = d.id;
+				depl.status = d.getState();
+				depl.startTime = d.start_Time.toString();
+				depl.endTime = d.end_Time.toString();
+    	    deployments.add(depl);			
+		}
+		
+		return deployments;
+    	*/
+		
+		if(temp == null || temp.isEmpty())	
+    		return deployments;
+        	    	
+    	// Parse response to List<Deployment>
+    	JSONArray json = new JSONArray(temp);
+    	for (int i = 0; i < json.length(); ++i) {
+    	    JSONObject d = json.getJSONObject(i);
+    	    Deployment depl = new Deployment();
+	    	    depl.id = d.getString("id");
+	    	    depl.applicationId = d.getString("applicationId");
+	    	    depl.status = d.getString("status");
+	    	    depl.startTime = d.getString("startTime");
+	    	    depl.endTime = d.getString("endTime");
+    	    deployments.add(depl);
+    	}
+	    return deployments;
 	}
 
 	/* (non-Javadoc)
@@ -285,9 +259,43 @@ public class ApplicationData implements IApplicationMetadata {
 	@Override
 	public List<Deployment> searchDeployments(String application_id, long start_time, long end_time, String status) {
 		String temp = this.cmClient.searchDeploymentsByProperty(application_id, start_time, end_time, status);
-    	System.out.println("test: " + temp);
+		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
+		
+		List<Deployment> deployments = new ArrayList<Deployment>();
+		
+		// TODO :=> Uncomment when 		
+    	// Parse the result into objects celarBeans -> DeploymentList is implemented
+		/*
+		DeploymentList dl = new DeploymentList();
+        try {
+        	dl.unmarshal(stream);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+        
+        //print the entity in a structured manner
+        //you can observe all the field names and their values (in this example)
+        System.out.println(dl.toString(true));
+		
+		// Get and parse application list
+        List<gr.ntua.cslab.celar.server.beans.Application> depls = dl.getDeployments();        
+		
+		if(apps == null || apps.isEmpty())	
+    		return applications;
+		
+		for (gr.ntua.cslab.celar.server.beans.Deployment d : depls) {
+			Deployment depl = new Deployment();
+	    	    depl.id = d.id;
+				depl.status = d.getState();
+				depl.startTime = d.start_Time.toString();
+				depl.endTime = d.end_Time.toString();
+    	    deployments.add(depl);			
+		}
+		
+		return deployments;
+    	*/
     	
-    	List<Deployment> deployments = new ArrayList<Deployment>();
+    	
     	if(temp == null || temp.isEmpty())	
     		return deployments;
         	
