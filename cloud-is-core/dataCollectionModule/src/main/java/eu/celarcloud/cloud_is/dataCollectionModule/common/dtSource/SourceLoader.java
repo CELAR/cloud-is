@@ -40,6 +40,7 @@ public abstract class SourceLoader implements ISourceLoader  {
 	 */
 	protected Properties globalProps = null;	
 	
+	/** The Constant LOG. */
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(SourceLoader.class.getName());
 	
 	
@@ -96,6 +97,9 @@ public abstract class SourceLoader implements ISourceLoader  {
 		this.globalProps.setProperty("dataPath", dataPath);
 	}
 	
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#getConfigPath()
+	 */
 	public String getConfigPath()
 	{
 		String path = null;
@@ -117,6 +121,9 @@ public abstract class SourceLoader implements ISourceLoader  {
 		return path;		
 	}
 	
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#getDtCollectorInstance(eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType)
+	 */
 	public IDataSource getDtCollectorInstance(DataSourceType type)
 	{
 		IDataSource DtCollectorInstance = null;
@@ -184,9 +191,28 @@ public abstract class SourceLoader implements ISourceLoader  {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#loadAppMetaInterface()
+	 */
 	public abstract IDataSource loadAppMetaInterface();
+	
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#loadDeplMetaInterface()
+	 */
 	public abstract IDataSource loadDeplMetaInterface();
+	
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#loadMeteringInterface()
+	 */
 	public abstract IDataSource loadMeteringInterface();
+	
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#loadMeteringHistoryInterface()
+	 */
 	public abstract IDataSource loadMeteringHistoryInterface();
+	
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#loadTopologyInterface()
+	 */
 	public abstract IDataSource loadTopologyInterface();
 }
