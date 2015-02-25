@@ -24,28 +24,25 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContextBuilder;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.LoggerFactory;
 
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class RestClient.
  */
@@ -63,20 +60,20 @@ public class RestClient {
 	/** The httpclient. */
 	private CloseableHttpClient httpclient;
 	
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(RestClient.class.getName());
+	
 	/**
 	 * Instantiates a new rest client.
 	 */
 	public RestClient() 
 	{
-		//
 		SSLContextBuilder SSlcBuilder = new SSLContextBuilder();
 		try {
 			SSlcBuilder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
 			SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(SSlcBuilder.build(), SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
 			this.httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
 		} catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Rest Client " + this.name + " :" + "SSl Authendication Error");
+			LOG.warn("Rest Client " + this.name + " :" + "SSl Authendication Error");
 			e.printStackTrace();
 		}
 	}
@@ -115,9 +112,8 @@ public class RestClient {
 			response = this.httpclient.execute(httpGet);
 			//System.out.println(response.getStatusLine());
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			LOG.warn("Rest Client " + this.name + " :" + "Endpoint is not accessible");
 			e1.printStackTrace();
-			System.out.println("Rest Client " + this.name + " :" + "Endpoint is not accessible");
 			return null;
 		}
 	    
@@ -146,7 +142,6 @@ public class RestClient {
 		try {
 			xmlEntity = new StringEntity(xmlString);
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		httpPost.setEntity(xmlEntity);
@@ -156,7 +151,6 @@ public class RestClient {
 			response = this.httpclient.execute(httpPost);
 			//System.out.println(response.getStatusLine());
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			System.out.println("Rest Client " + this.name + " :" + "Endpoint is not accessible");
 			return null;
@@ -187,7 +181,28 @@ public class RestClient {
 	public String getContent(CloseableHttpResponse response)
 	{
 		if(response == null)
+		{
+			LOG.debug("Response is null");
 			return "";
+		}
+		
+		// Check Headers
+		if(response.getStatusLine().getStatusCode() != HttpURLConnection.HTTP_OK)
+		{
+			int responseCode =  response.getStatusLine().getStatusCode();
+			LOG.warn("Server Responded " + response.getStatusLine().getStatusCode() + " exiting...");
+			switch (responseCode) {
+			case HttpURLConnection.HTTP_INTERNAL_ERROR:
+		        // HTTP Status-Code 404: Not Found.
+		        break;
+		    case HttpURLConnection.HTTP_NOT_FOUND:
+		        // HTTP Status-Code 404: Not Found.
+		        break;
+		    }
+			
+			return "";
+		}
+		
 		
 		StringBuffer result = new StringBuffer();
 		HttpEntity entity = response.getEntity();
@@ -195,21 +210,14 @@ public class RestClient {
 
 	    //
 	    //httpclient.close();
-	    try {
-	        
+	    try {	        
 	        BufferedReader rd = new BufferedReader(new InputStreamReader(entity.getContent()));
-	       	         
-        	
         	String line = "";
         	while ((line = rd.readLine()) != null) {
         		result.append(line);
-        	}	        
-	        //System.out.println(result);
-	        
-	        
-	        
+        	}
 	    } catch (IOException e) {
-			// TODO Auto-generated catch block
+	    	LOG.warn("Could Not build request URI [" + e.getMessage() + "]");
 			e.printStackTrace();
 			return "";
 		}
@@ -217,7 +225,7 @@ public class RestClient {
 	        try {
 				response.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				LOG.warn("Failed to close HttpResponse [" + e.getMessage() + "]");
 				e.printStackTrace();
 				return "";
 			}
@@ -235,7 +243,6 @@ public class RestClient {
 //		getRequest.addHeader("accept", "application/json");
 //		response = httpClient.execute(getRequest);
 //	} catch (URISyntaxException | IOException e) {
-//		// TODO Auto-generated catch block
 //		e.printStackTrace();
 //	}
 //	
@@ -256,7 +263,6 @@ public class RestClient {
 //		}
 //		
 //	} catch (IllegalStateException | IOException e1) {
-//		// TODO Auto-generated catch block
 //		e1.printStackTrace();
 //	}
 //

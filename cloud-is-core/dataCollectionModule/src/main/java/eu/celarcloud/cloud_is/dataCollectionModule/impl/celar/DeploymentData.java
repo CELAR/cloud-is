@@ -30,11 +30,11 @@ import javax.xml.bind.JAXBException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
-//import gr.ntua.cslab.celar.server.beans.structured.ApplicationList;
 import gr.ntua.cslab.celar.server.beans.*;
 
 // TODO: Auto-generated Javadoc
@@ -45,6 +45,8 @@ public class DeploymentData implements IDeploymentMetadata {
 	
 	/** The app. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
+	
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(DeploymentData.class.getName());
 	
 	/**
 	 * Initializes the CELAR Manager Rest Client.
@@ -72,11 +74,9 @@ public class DeploymentData implements IDeploymentMetadata {
 	 */
 	@Override
 	public List<Deployment> getRecentDeployments(String limit, String status) {
-    	String temp = this.cmClient.searchDeploymentsByProperty("", 0, 0, "");
-    	System.out.println("test: " + temp);
-    	
+    	String response = this.cmClient.searchDeploymentsByProperty("", 0, 0, "");    	
     	List<Deployment> deployments = new ArrayList<Deployment>();
-    	if(temp == null || temp.isEmpty())	
+    	if(response == null || response.isEmpty())	
     		return deployments;
         	
     	
@@ -94,7 +94,7 @@ public class DeploymentData implements IDeploymentMetadata {
     	*/
     	
     	// Parse response to List<Deployment>
-    	JSONArray json = new JSONArray(temp);
+    	JSONArray json = new JSONArray(response);
     	for (int i = 0; i < json.length(); ++i) {
     	    JSONObject d = json.getJSONObject(i);
     	    Deployment depl = new Deployment();
@@ -113,15 +113,19 @@ public class DeploymentData implements IDeploymentMetadata {
 	 */
 	@Override
 	public Deployment getDeployment(String deplId) {
-		String temp = this.cmClient.getDeploymentInfo(deplId);
-		
-		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
+		String response = this.cmClient.getDeploymentInfo(deplId);
+		Deployment depl = new Deployment();
+		if(response == null || response.isEmpty())	
+    		return depl;
+				
+		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
 		
 		//unmarshal an ApplicationInfo Entity
 		gr.ntua.cslab.celar.server.beans.Deployment inai = new gr.ntua.cslab.celar.server.beans.Deployment();
 		try {
 			inai.unmarshal(stream);
 		} catch (JAXBException e) {
+			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
 			e.printStackTrace();
 		}
 		   
@@ -129,7 +133,7 @@ public class DeploymentData implements IDeploymentMetadata {
 		//you can observe all the field names and their values (in this example)
 		System.out.println(inai.toString(true));
 		   
-		Deployment depl = new Deployment();
+		
 			depl.id = inai.id;
 			depl.status = inai.getState();
 			depl.startTime = inai.start_Time.toString();

@@ -20,13 +20,15 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 
+import org.slf4j.LoggerFactory;
+
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TopologyData.
  */
-public class TopologyData implements ITopology {
+public class TopologyData implements ITopology {	
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(TopologyData.class.getName());
 	
 	/** The cm client. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
@@ -38,7 +40,7 @@ public class TopologyData implements ITopology {
 	 *            the rest api uri
 	 */
 	public void init(String restApiUri) {
-		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);		
+		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);
 	}
 	
 	/* (non-Javadoc)
@@ -46,15 +48,22 @@ public class TopologyData implements ITopology {
 	 */
 	@Override
 	public String getTopology(String deplId) {
-		DeploymentData deplDataReferer = new DeploymentData();		
+		DeploymentData deplDataReferer = new DeploymentData();
 		deplDataReferer.init(this.cmClient);
 		
 		String appId = deplDataReferer.getDeployment(deplId).applicationId;
+		if(appId == null || appId.isEmpty())	
+    		return "";
 		
 		ApplicationData appDataReferer = new ApplicationData();		
 		appDataReferer.init(this.cmClient);		
 		
-		return appDataReferer.getApplicationInfo(appId).topology;
+		String topology = appDataReferer.getApplicationInfo(appId).topology;
+		if(topology == null || topology.isEmpty())	
+    		return "";
+		
+		
+		return topology;
 	}
 
 }

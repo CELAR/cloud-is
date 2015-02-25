@@ -34,11 +34,13 @@ import javax.xml.bind.JAXBException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager;
 import gr.ntua.cslab.celar.server.beans.structured.ApplicationInfo;
 import gr.ntua.cslab.celar.server.beans.structured.ApplicationList;
 //import gr.ntua.cslab.celar.server.beans.structured.ApplicationList;
@@ -49,6 +51,9 @@ import gr.ntua.cslab.celar.server.beans.structured.ModuleInfo;
  * The Class CelarApplication.
  */
 public class ApplicationData implements IApplicationMetadata {
+	
+	/** The Constant LOG. */
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(ApplicationData.class.getName());
 	
 	/** The app. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
@@ -114,16 +119,19 @@ public class ApplicationData implements IApplicationMetadata {
 	 */
 	@Override
 	public Application getApplicationInfo(String appId) {
-		String temp = this.cmClient.getApplicationInfo(appId);		
+		String response = this.cmClient.getApplicationInfo(appId);
+		Application app = new Application();
+		if(response == null || response.isEmpty())	
+    		return app;		
 		
-		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
+		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
 
 		 //unmarshal an ApplicationInfo Entity
         ApplicationInfo inai = new ApplicationInfo();
         try {
 			inai.unmarshal(stream);
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
+			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
 			e.printStackTrace();
 		}
         
@@ -135,8 +143,6 @@ public class ApplicationData implements IApplicationMetadata {
         //ModuleInfo mi = inai.modules.get(0);
         //System.out.println("Module name:"+mi.name);
 		
-        // Parse response to IS bean
-        Application app = new Application();
         
         app.id = inai.id;
         app.description = inai.description;
@@ -153,14 +159,15 @@ public class ApplicationData implements IApplicationMetadata {
 	 */
 	@Override
 	public List<Application> searchApplications(long submitted_start, long submitted_end, String description, String module_name, String component_description, String provided_resource_id) {
-		// Create a List to hold the response
-		List<Application> applications = new ArrayList<Application>();
-		
 		// TODO
 		// adhoc userID
 		int userID = 1;
-		String temp = this.cmClient.searchApplicationsByProperty(submitted_start, submitted_end, description, userID, module_name, component_description, provided_resource_id);
-		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
+		String response = this.cmClient.searchApplicationsByProperty(submitted_start, submitted_end, description, userID, module_name, component_description, provided_resource_id);
+		List<Application> applications = new ArrayList<Application>();
+		if(response == null || response.isEmpty())	
+    		return applications;		
+		
+		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
 		
 		// Parse the result into objects
 		
@@ -169,6 +176,7 @@ public class ApplicationData implements IApplicationMetadata {
         try {
         	al.unmarshal(stream);
 		} catch (JAXBException e) {
+			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
 			e.printStackTrace();
 		}
         
@@ -198,10 +206,14 @@ public class ApplicationData implements IApplicationMetadata {
 	 */
 	@Override
 	public List<Deployment> getApplicationDeployments(String appId) {
-		String temp = this.cmClient.getApplicationDeployments(appId);		
-		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
-
+		String response = this.cmClient.getApplicationDeployments(appId);
 		List<Deployment> deployments = new ArrayList<Deployment>();
+		if(response == null || response.isEmpty())	
+    		return deployments;
+		
+		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
+
+		
 		
 		// TODO :=> Uncomment when 		
     	// Parse the result into objects celarBeans -> DeploymentList is implemented
@@ -210,6 +222,7 @@ public class ApplicationData implements IApplicationMetadata {
         try {
         	dl.unmarshal(stream);
 		} catch (JAXBException e) {
+			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
 			e.printStackTrace();
 		}
         
@@ -235,11 +248,9 @@ public class ApplicationData implements IApplicationMetadata {
 		return deployments;
     	*/
 		
-		if(temp == null || temp.isEmpty())	
-    		return deployments;
-        	    	
+		        	    	
     	// Parse response to List<Deployment>
-    	JSONArray json = new JSONArray(temp);
+    	JSONArray json = new JSONArray(response);
     	for (int i = 0; i < json.length(); ++i) {
     	    JSONObject d = json.getJSONObject(i);
     	    Deployment depl = new Deployment();
@@ -258,10 +269,14 @@ public class ApplicationData implements IApplicationMetadata {
 	 */
 	@Override
 	public List<Deployment> searchDeployments(String application_id, long start_time, long end_time, String status) {
-		String temp = this.cmClient.searchDeploymentsByProperty(application_id, start_time, end_time, status);
-		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
-		
+		String response = this.cmClient.searchDeploymentsByProperty(application_id, start_time, end_time, status);
 		List<Deployment> deployments = new ArrayList<Deployment>();
+		if(response == null || response.isEmpty())	
+    		return deployments;
+        	
+    	InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
+		
+		
 		
 		// TODO :=> Uncomment when 		
     	// Parse the result into objects celarBeans -> DeploymentList is implemented
@@ -270,6 +285,7 @@ public class ApplicationData implements IApplicationMetadata {
         try {
         	dl.unmarshal(stream);
 		} catch (JAXBException e) {
+			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
 			e.printStackTrace();
 		}
         
@@ -295,10 +311,7 @@ public class ApplicationData implements IApplicationMetadata {
 		return deployments;
     	*/
     	
-    	
-    	if(temp == null || temp.isEmpty())	
-    		return deployments;
-        	
+    
     	
     	/*
     	// Date format to parse date
@@ -314,7 +327,7 @@ public class ApplicationData implements IApplicationMetadata {
     	*/
     	
     	// Parse response to List<Deployment>
-    	JSONArray json = new JSONArray(temp);
+    	JSONArray json = new JSONArray(response);
     	for (int i = 0; i < json.length(); ++i) {
     	    JSONObject d = json.getJSONObject(i);
     	    Deployment depl = new Deployment();

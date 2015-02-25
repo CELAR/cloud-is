@@ -30,9 +30,11 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.utils.URIBuilder;
+import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.RestClient;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
 import gr.ntua.cslab.celar.server.beans.Component;
 import gr.ntua.cslab.celar.server.beans.Metric;
 import gr.ntua.cslab.celar.server.beans.MyTimestamp;
@@ -50,6 +52,7 @@ public class CelarManager {
 	/** The rest path. */
 	private String restPath = "";	
 	
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(CelarManager.class.getName());
 	
 	/**
 	 * Instantiates a new celar manager.
@@ -60,7 +63,7 @@ public class CelarManager {
 	public CelarManager(String serverIp) 
 	{
 		  this.serverIp = serverIp;
-	}	
+	}
 	
 	/**
 	 * Gets the iaas resources.
@@ -155,7 +158,7 @@ public class CelarManager {
 		try {
 			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
+			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();
 		}
 		
@@ -206,7 +209,7 @@ public class CelarManager {
 		try {
 			response = client.executePost(builder.build(), client.ACCEPT_XML, body);
 		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
+			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();
 		}
 		
@@ -256,7 +259,7 @@ public class CelarManager {
 		try {
 			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
+			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();
 		}
 		
@@ -286,7 +289,7 @@ public class CelarManager {
 		try {
 			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
+			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();
 		}
 		
@@ -342,7 +345,7 @@ public class CelarManager {
 		try {
 			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
+			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();
 		}
 		
@@ -384,10 +387,10 @@ public class CelarManager {
 		RestClient client = new RestClient(this.serverIp);
 		
 		try {
-		response = client.executeGet(builder.build());
+			response = client.executeGet(builder.build());
 		} catch (URISyntaxException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
+			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
+			e1.printStackTrace();
 		}
 		
 		return client.getContent(response);
@@ -416,7 +419,7 @@ public class CelarManager {
 		try {
 			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
+			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();
 		}
 		
@@ -432,11 +435,6 @@ public class CelarManager {
 	 */
 	public String getOrchestationVm(String deplId)
 	{
-		// TODO 
-		// Remove Add Hoc variable assignment
-		
-		//return "http://83.212.86.244:8080/JCatascopia-Web";
-		
 		InputStream stream = new ByteArrayInputStream(this.getDeploymentInfo(deplId).getBytes(StandardCharsets.UTF_8));
 		
 		//unmarshal an ApplicationInfo Entity
@@ -445,7 +443,7 @@ public class CelarManager {
 			inai.unmarshal(stream);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
-				e.printStackTrace();
+			e.printStackTrace();
 		}	    
 		return inai.orchestrator_IP;
 	}
