@@ -59,6 +59,9 @@ public class DummyMonData implements IMetering {
 		int sRate = 15 * 1000; // to ms
 		int count = (int) (Long.parseLong(eTime) - Long.parseLong(sTime)) / sRate;		
 		
+		// TODO
+		count = Math.abs(count);
+		
 		double randNum = 0.0;
 		int min = 15;
 		int max = 100;

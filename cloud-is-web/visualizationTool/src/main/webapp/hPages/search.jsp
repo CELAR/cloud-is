@@ -19,7 +19,7 @@
 		*/		
 		isServerValidation();
 	</script>
-	<link href="<%=request.getContextPath()%>/Library/resources/js/ext/jquery-ui-timepicker-addon.css" rel="stylesheet">
+	<link href="<%=request.getContextPath()%>/Library/resources/css/ext/jquery-ui-timepicker-addon.css" rel="stylesheet">
 	<link rel="stylesheet" media="all" type="text/css" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />	
 	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.tabber.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.form.css" rel="stylesheet">

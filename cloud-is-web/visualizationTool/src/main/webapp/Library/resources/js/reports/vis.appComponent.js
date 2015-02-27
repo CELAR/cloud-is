@@ -3,31 +3,6 @@
  */
 
 function appComponent (reportID) {
-	
-	var buildDeploymentsPane = function()
-	{
-		$('#versDeployments .wellContentHolder .wellItem').on('click', function() {
-			///application/version/compare
-			var form = $("<form/>");
-			form.attr('action', wcserver + '/application/version/deployment');
-			form.attr('method', 'post');
-			
-			var versions = "";
-			wellHolder.find('.wellItem').each(function(){
-				if($(this).hasClass('toCompare'))
-				{
-					versions +=  $(this).find('input[name="versId"]').val() + ",";
-				}
-				versions.slice(0,-1);
-			});
-			
-			$('<input/>').attr('type', 'hidden').attr('name', 'appID').val('something').appendTo(form);
-			$('<input/>').attr('type', 'hidden').attr('name', 'versID').val(versions).appendTo(form);
-		
-			form.appendTo('body').submit();
-		});
-	};
-	
 	var formalizeData = function (opts) {
 		var data = new google.visualization.DataTable();
 		data.addColumn('datetime', 'x');
@@ -41,27 +16,27 @@ function appComponent (reportID) {
 		
 	var inputData = function (dataObj, data, tStart, sRate) {
 		var timestamp = parseInt(tStart);
-	$.each(data, function(index, metricObj){
-		//var date = new Date(timestamp);
-		var date = new Date(parseInt(metricObj.t));
-		dataObj.addRow([date, null, null, parseFloat(metricObj.v), null]);
-		timestamp += parseInt(sRate);
-	});
-	return dataObj;
+		$.each(data, function(index, metricObj){
+			//var date = new Date(timestamp);
+			var date = new Date(parseInt(metricObj.t));
+			dataObj.addRow([date, null, null, parseFloat(metricObj.v), null]);
+			timestamp += parseInt(sRate);
+		});
+		return dataObj;
 	};
 	
 	var inputAdditionalData = function (dataObj, value, time) {
 		var date = new Date(time);
-	dataObj.addRow([date, null, null, null, parseFloat(value)]);
-	return dataObj;
+		dataObj.addRow([date, null, null, null, parseFloat(value)]);
+		return dataObj;
 	};
 	
 	var inputActions = function (dataObj, data) {
 		 $.each(data, function(name, value){
 			 var date = new Date(value);
 			 dataObj.addRow([date, name, 'Resizing Action', null, null]);
-	});
-	return dataObj;
+		});
+		return dataObj;
 	};
 		
 	var drawPerformanceLineChart = function (data, container) {
@@ -160,7 +135,7 @@ function appComponent (reportID) {
 		jQuery.ajax({
 			type: 'get',
 			dataype: "json",
-			url: isserver + '/rest/analysis/stats/' + params.deplId + partUrl + "?" + qString,
+			url: isserver + '/rest/analysis/' + params.deplId + partUrl + '/stats/' + "?" + qString,
 			success: onSuccess
 		});
 	};

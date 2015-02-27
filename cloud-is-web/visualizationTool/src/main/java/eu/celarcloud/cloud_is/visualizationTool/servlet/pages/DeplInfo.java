@@ -90,8 +90,15 @@ public class DeplInfo extends HttpServlet {
     	// Inject the obtained info to request object
     	// in order for jsp page to get the info
     	
-    	
-    	RequestDispatcher dispatcher = request.getRequestDispatcher("/hPages/deployment.jsp");
+		RequestDispatcher dispatcher;
+    	if(request.getParameter("tab").equals("analysis"))
+    	{
+    		dispatcher = request.getRequestDispatcher("/hPages/deployment-analysis.jsp");
+    	}
+    	else
+    	{
+    		dispatcher = request.getRequestDispatcher("/hPages/deployment-live.jsp");
+    	}
     	dispatcher.forward(request, response); 
 	}
     

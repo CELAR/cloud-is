@@ -84,7 +84,7 @@ function appOverview () {
  		    hAxis: {title: "Tiime"}
  		  });
  	};
- 	
+ 	/*
  	var drawColChart = function (data, containerID) {
  		// Create and populate the data table.
  		  var data = google.visualization.arrayToDataTable([
@@ -139,7 +139,7 @@ function appOverview () {
 		  				}
 		          );
 		}
-	
+	*/
 	var costToInstanceCount = function (dataObj,  instanesData, costData, containerID) {
 		// We assume that 'instanesData' and 'costData' are
 		// formulated under the same granularity and are

@@ -49,6 +49,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLog;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 import eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy.TestClass;
@@ -87,7 +88,96 @@ public class Analysis
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("stats/{deplId}{compId : (/tier/[^/]+?)?}")
+	@Path("{deplId}{compId : (/tier/[^/]+?)?}")
+	public Response deploymentMetricAnalytics(@PathParam("deplId") String deplId, @PathParam("compId") String compId, 
+											@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime,
+											@QueryParam("metrics") List<String> metrics, @QueryParam("method") List<String> method) 
+	{
+		/*
+		 *	/tier/{cmponetId} is an optional parameter
+		 *	If it is function will return
+		 *	data regarding the specific component / tier
+		 *	In any other case this function will return 
+		 *	data regarding the whole deployment
+		 */
+		if (compId.equals("")) {
+			// Optional parameter not specified
+			// System.out.println("No format specified.");
+		} else {
+			 // Optional parameter has looks like "/tier/{cmponetId}" - need to get it's value only
+			 compId = compId.split("/")[2];
+			 //System.out.println("compId: " + compId);
+		}		
+		
+		// Load the appropriate Data Collectors
+		Loader ld = new Loader(context);
+		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
+		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
+		
+		// Get deployment informations
+		Deployment dpl = deplMeta.getDeployment(deplId);		
+		
+		// Specify the time windows for which
+		// the analysis will take place
+		if(sTime == null || sTime.trim().isEmpty())
+			sTime = dpl.startTime;
+		
+		if(eTime == null || eTime.trim().isEmpty())
+			eTime = dpl.endTime;
+		
+		
+		DecimalFormat df = new DecimalFormat("#.000"); 
+		JSONObject json = new JSONObject();
+		    
+		// Fallback code
+		// If metrics list is empty,
+		// create one with some default values
+		
+		System.out.println(metrics);		
+		
+		if(metrics.size() <= 0)
+		{
+			metrics = Arrays.asList("cpu", "ram", "disk");
+		}
+		
+		// Iterate through selected metrics
+		// and calculate analytics (trend)
+		for (String metric : metrics) {
+			// Init analysis object
+			AnalyticsController analysis = new AnalyticsController();
+			
+			// 
+			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, sTime, eTime));		
+			JSONArray rawData = new JSONArray();
+			
+			for (String name: trend.keySet())
+			{
+				JSONObject m = new JSONObject();
+				m.put("t", name.toString());
+				m.put("v", trend.get(name).toString());
+	            rawData.put(m);
+			}
+			
+			//
+			double averageValue = 0.0, maxValue = 0.0, minValue=0.0;			
+		
+			//
+			JSONObject prop = new JSONObject();	
+				prop.put("max", df.format(maxValue));
+				prop.put("min", df.format(minValue));
+				prop.put("avg", df.format(averageValue));
+				prop.put("data", rawData);
+			json.put(metric, prop);		
+		}
+		
+		// Return the Response
+		return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
+	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("{deplId}{compId : (/tier/[^/]+?)?}/stats")
 	public Response deploymentAnalyticsReport(@PathParam("deplId") String deplId, @PathParam("compId") String compId, 
 											@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime,
 											@QueryParam("metrics") List<String> metrics) 
@@ -113,6 +203,7 @@ public class Analysis
 		//IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
 		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
+		IElasticityLog eLog = (IElasticityLog) ld.getDtCollectorInstance(DataSourceType.ELASTICITY);
 		
 		// Get deployment informations
 		Deployment dpl = deplMeta.getDeployment(deplId);		
@@ -127,7 +218,6 @@ public class Analysis
 		
 		//-		
 		int sRate = 500 * 1000; // to ms
-		int count = (int) (Long.parseLong(eTime) - Long.parseLong(sTime)) / sRate;		
 		
 		DecimalFormat df = new DecimalFormat("#.000"); 
 		JSONObject json = new JSONObject();
@@ -179,14 +269,17 @@ public class Analysis
 		// to the response
 		int min = 15;
 		int max = 100;
+		/*
 		JSONObject actions = new JSONObject();
 			for(int i = 1; i < 4; i++)
 			{
 				long tStart = Long.parseLong(dpl.startTime);
-				long offset = sRate * TestClass.randInt(min + 1, max - 1);
+				long offset = sRate * TestClass.randInt(min + 1, max - 1); //TODO : Needs to be moved
 				long time = tStart + offset;
 				actions.put("Action " + i, time);
 			}		
+			*/
+		List<String> actions = eLog.getEnforcedActions(deplId, compId, "", sTime, eTime);
 		json.put("actions", actions);
 		
 		// Add Deployment Specific Data
