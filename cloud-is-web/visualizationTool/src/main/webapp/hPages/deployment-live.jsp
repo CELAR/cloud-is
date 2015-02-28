@@ -98,104 +98,13 @@
 		  	<div class="innerNavMenu">
 		  		<div class="inner pull-right tabber">
 					<div class="tabberNav" data-tabber-nav=true data-tabber-parentId="innerNavMenu">
-						<div class="navTile selected" data-tabber-navTile=true data-tabber-ref="generReport"><span>Generated Report</span></div>
-						<div class="navTile" data-tabber-navTile=true data-tabber-ref="pastMonitorData"><span>Past Monitoring Data</span></div>
 						<div class="navTile" data-tabber-navTile=true data-tabber-ref="liveMonitorData"><span>Live Monitoring Data</span></div>
 						<div class="navTile disabled" data-tabber-navTile=true data-tabber-ref="liveCostData"><span>Live Cost Data</span></div>
 					</div>
 				</div>
 			</div>
 			<div class="contentMainHolder background lighter tabber">
-				<div class="tabberPagesWhapper pagesContainer" data-tabber-pages=true data-tabber-parentId="innerNavMenu">
-					<div id="generReport" class="tabberPage generatedReportsTabPage" data-tabber-page=true data-tabber-pageId="generReport">
-						<div class="topologyLayoutSideBar background light"> <!-- side > inner -->
-							<div class="appComponentList noDisplay">
-		    					<div class="header">
-		    						<div class="inner">
-		    							<div class="title">
-		    								<span>Component List</span>
-		    							</div>
-		    						</div>
-		    					</div>
-		    					<div class="body">
-		    						<div class="inner">
-		    							<div class="row">
-		    								<span class="clickable" data-id="overview" data-component data-templtype="overview" data-template="appOverview">Overview</span>
-		    							</div>
-		    							<div class="row treeView well">
-			    							<div class="wellItem wellItemTemplate" style="padding:2px 7px">
-			    								<span class="clickable" data-id="" data-templtype="default" data-template="appComponent" ></span>			    								
-			    							</div>
-			    							
-			    							<!-- 
-			    								<div style="padding:2px 7px">
-				    								<span class="clickable" data-id="loadBalancer" data-component="loadBalancer" data-templtype="loadBalancer" data-template="appComponent" >Load Balancer</span>
-				    							</div>
-				    							<div class="" style="padding:2px 7px">
-				    								<span  class="clickable" data-id="appServer" data-component="appServer" data-templtype="appServer" data-template="appCompositeComponent">App Server</span>			    								
-				    							</div>
-				    							<div class="" style="padding:2px 7px">
-				    								<span class="clickable" data-id="database" data-component="database" data-templtype="database" data-template="appCompositeComponent">Database</span>
-				    							</div>
-			    								 -->
-			    							
-		    								<div class="wellContentHolder">
-			    								
-			    							</div>
-		    							</div>
-		    						</div>
-		    					</div>
-		    				</div>
-						</div>
-						<div class="analyticsReports well">
-							<div class="wellItemTemplate singleReport contentBox">
-								<div class="header">
-		    						<div class="inner">
-		    							<div class="title">
-		    								<span>Overview</span>
-		    							</div>
-		    							<div class="controls">
-		    								<span class="clickable" data-button="expand">Expand</span>
-		    								<span class="clickable" data-button="close">Close</span>
-		    							</div>
-		    						</div>
-		    					</div>
-		    					<div class="body">
-		    						<div class="inner innerReportHolder">
-		    							<!-- Here goes the report -->	    							
-		    						</div>
-		    					</div>
-		    				</div>
-		    				<div class="analyticsReportHolder wellContentHolder">
-		    					<div class="placeHolder msgOn"></div>
-		    				</div>
-						</div>					
-					</div>
-					<div id="pastMonitorData" class="tabberPage noDisplay" data-tabber-page=true data-tabber-pageId="pastMonitorData">
-						<div class="sidebar noDisplay">
-							<div class="contentCol"></div>
-							<div class="togglerCol"><span class="control">*</span></div>
-						</div>
-						<div class="mainCol full">
-							<form class="inline" name="displayMetric">
-								<div class="formContent">
-									<div class="formRow"><label><span>Agent: </span></label><select name="agent">
-																									
-																							</select></div>
-									<div class="formRow"><label><span>Metric: </span></label><select name="metric">
-																									
-																							</select></div>
-									<div class="formRow"><label><span>Start Time: </span></label><input name="timeFrame_start" /></div>
-									<div class="formRow"><label><span>End Time: </span></label><input  name="timeFrame_end"/></div>
-								</div>
-								<div class="formControls">
-									<button type="button">Show Chart</button>
-								</div>
-							</form>
-							<div class="chartPool">
-							</div>
-						</div>
-					</div>
+				<div class="tabberPagesWhapper pagesContainer" data-tabber-pages=true data-tabber-parentId="innerNavMenu">					
 					<div id="liveMonitorData" class="tabberPage noDisplay" data-tabber-page=true data-tabber-pageId="liveMonitorData">
 						<div class="connectionToolbar">
 							<div class="inner">

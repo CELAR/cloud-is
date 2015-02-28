@@ -141,10 +141,6 @@ function appOverview () {
 		}
 	*/
 	var costToInstanceCount = function (dataObj,  instanesData, costData, containerID) {
-		// We assume that 'instanesData' and 'costData' are
-		// formulated under the same granularity and are
-		// indicated by the same time stamp
-				
 		// FormalizeData 
 		// Construct an array with the data 
 		// parsed from json input.
@@ -234,7 +230,7 @@ function appOverview () {
 		
 		//-
 		// For debugging print the data table
-		//var visualization = new google.visualization.Table(document.getElementById('pastMonitorData'));
+		//var visualization = new google.visualization.Table(document.getElementById('topologyExplorer'));
 		//visualization.draw(dataObj, {
 		//    sort: "disable",
 		//    allowHtml: true,

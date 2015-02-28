@@ -144,6 +144,30 @@ var initScripts= {
 		}
 };
 
+var buildDeploymentsPane = function()
+{
+	$('#versDeployments .wellContentHolder .wellItem').on('click', function() {
+		///application/version/compare
+		var form = $("<form/>");
+		form.attr('action', wcserver + '/application/version/deployment');
+		form.attr('method', 'post');
+		
+		var versions = "";
+		wellHolder.find('.wellItem').each(function(){
+			if($(this).hasClass('toCompare'))
+			{
+				versions +=  $(this).find('input[name="versId"]').val() + ",";
+			}
+			versions.slice(0,-1);
+		});
+		
+		$('<input/>').attr('type', 'hidden').attr('name', 'appID').val('something').appendTo(form);
+		$('<input/>').attr('type', 'hidden').attr('name', 'versID').val(versions).appendTo(form);
+	
+		form.appendTo('body').submit();
+	});
+};
+
 /**
  *	An array which holds all the
  *	events that are assigned (going to be assigned)

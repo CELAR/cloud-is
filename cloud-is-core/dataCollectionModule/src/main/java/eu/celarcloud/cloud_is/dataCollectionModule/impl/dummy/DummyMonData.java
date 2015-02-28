@@ -109,7 +109,7 @@ public class DummyMonData implements IMetering {
 		int count = 10;
 		for(int i = 0; i < count; i++)
 		{
-			String m = "metric_ "+i;
+			String m = "metric_"+i;
 			list.add(m);
 		}
 		

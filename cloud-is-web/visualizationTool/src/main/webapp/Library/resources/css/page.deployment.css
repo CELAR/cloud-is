@@ -173,5 +173,191 @@
 	font-style: italic;
 }
 
+.pageMainContainer.deployment .initTopologyExplorerTabPage {
+	bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.pageMainContainer.deployment .initTopologyExplorerTabPage .timeControlBar {
+	position: relative;
+	height: 35px;
+}
+
+.pageMainContainer.deployment .timeControlBar .promptWrapper{
+	
+    
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+.pageMainContainer.deployment .timeControlBar .sliderContainer{
+	left: 130px;
+    position: absolute;
+    right: 70px;
+    top: 0;
+}
+
+/* Overide theme */
+.pageMainContainer.deployment .timeControlBar .ui-rangeSlider {
+    height: 30px;
+    padding-top: 0px;
+}
+
+.pageMainContainer.deployment .timeControlBar .applyBtn{
+	position: absolute;
+    right: 0;
+    top: 0;
+}
+.pageMainContainer.deployment .initTopologyExplorerTabPage .timeRange {
+	padding-bottom: 5px;
+	text-align: center;
+}
+
+.pageMainContainer.deployment .initTopologyExplorerTabPage .topologyCanvasWrapper {
+	
+}
+
+.pageMainContainer.deployment .topologyCanvasWrapper > .chart{
+	width: 300px;
+	height: 160px;
+	position: absolute;
+	
+}
+
+.pageMainContainer.deployment .initTopologyExplorerTabPage .topologyCanvas {
+	position: relative;
+	
+	width:100%;
+	height:100%;
+}
+
+.pageMainContainer.deployment .topologyCanvasWrapper .component {
+	position:absolute;
+	
+	border: 1px solid black;	
+	-webkit-border-radius: 10px;
+  	-moz-border-radius: 10px;
+  	border-radius: 10px;
+  	
+  	-webkit-box-shadow: 10px 10px 7px -3px rgba(0,0,0,0.75);
+	-moz-box-shadow: 10px 10px 7px -3px rgba(0,0,0,0.75);
+	box-shadow: 10px 10px 7px -3px rgba(0,0,0,0.75);
+  	
+  	background-color: white;
+  	
+  	width: 120px;
+  	height: 200px;
+  	
+  	padding: 8px;
+}
+
+.pageMainContainer.deployment .topologyCanvas > .component:hover {
+	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+	box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.pageMainContainer.deployment .component  .assignedMetrics {
+	
+	
+}
+
+.pageMainContainer.deployment .component  .assignedMetrics .singleMetric {
+	
+}
+
+.pageMainContainer.deployment .nodeInfoPanel {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	right: 100%;
+	left: 0px;
+	z-index: 10;
+	background-color: #FAFAFA;
+	overflow: auto;
+	box-shadow: 0px 0px 5px #CCC;
+	-webkit-box-shadow: 0px 0px 5px #CCC;
+	-moz-box-shadow: 0px 0px 5px #CCC;
+	
+	transition: right 0.5s;
+	-moz-transition: right 0.5s;
+	-webkit-transition: right 0.5s;
+	
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+.pageMainContainer.deployment .nodeInfoPanel.open {
+	border-left: 1px solid #CCC;
+	right: 60%;
+	transition: right 0.5s;
+	-moz-transition: right 0.5s;
+	-webkit-transition: right 0.5s;
+}
+
+.pageMainContainer.deployment .nodeInfoPanel .panelControlBar {
+	height: 25px;
+	padding: 2px 5px;
+}
+
+.pageMainContainer.deployment .nodeInfoPanel .panelControlBar > .inner {
+	float: right;
+}
+
+.pageMainContainer.deployment .nodeInfoPanel .panelControlBar .panelCBarItem {
+	 border-right: 1px solid #000000;
+	 padding: 2px 4px;
+}
+
+.pageMainContainer.deployment .nodeInfoPanel .panelControlBar .panelCBarItem:last-child {
+	 border-right: none;
+}
+
+.pageMainContainer.deployment .nodeInfoPanel .panelControlBar .panelCBarItem:hover {	
+}
+
+.pageMainContainer.deployment .metricsSelectorWrapper {
+	position: relative;
+	width: 100%;
+}
+
+.pageMainContainer.deployment .metricsListWrapper {
+	float: left;
+	width: 50%
+}
+
+.pageMainContainer.deployment .metricsListWrapper > .inner{
+	padding: 0px 10px;
+}
+
+.pageMainContainer.deployment .metricsListWrapper .header > .title {
+	
+}
+
+.pageMainContainer.deployment .nodeInfoPanel .nodeMetric {
+	
+}
+
+.pageMainContainer.deployment .metricsSelectorWrapper .selectList.metricsList {
+	width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -39,23 +39,12 @@ $(document).ready(function() {
 
 	if (tab == 'analysis') {
 		// Hacky approach
-		// Omit unused tabs
-		// TODO
-		$('[data-tabber-ref="liveMonitorData"]').remove();
-		$('[data-tabber-ref="liveCostData"]').remove();
-
-		// Hacky approach
 		// TODO
 		$('[data-tabber-ref="generReport"] > span').trigger('click');
 
 		initScripts.initAnalysis();
+		initScripts.initTopologyExplorer();		
 	} else if (tab == 'monitoring') {
-		// Hacky approach
-		// Omit unused tabs
-		// TODO
-		$('[data-tabber-ref="generReport"]').remove();
-		$('[data-tabber-ref="pastMonitorData"]').remove();
-
 		// Hacky approach
 		// TODO
 		$('[data-tabber-ref="liveMonitorData"] > span').trigger('click');
@@ -152,6 +141,391 @@ var initScripts = {
 			callback : callback
 		});
 	},
+	'initTopologyExplorer' : function() {
+		console.log('initTopologyExplorer');
+		
+		var deplId = 0;
+		if (("deplID" in urlParams))
+			deplId = urlParams.deplID;
+		
+		//initTime Control
+		jQuery.ajax({
+			type : 'get',
+			dataype : "json",
+			url : isserver + '/rest/deployment/' + deplId,
+			success : function(jsonObj) {
+				if (jQuery.type(jsonObj) === "string")
+					jsonObj = eval(jsonObj);
+				
+				// Build UI control According the response	
+				if(jsonObj !=null)
+				{					
+					$("#slider").dateRangeSlider({
+						/*
+				        formatter:function(val){
+				            var days = val.getDate(),
+				                month = val.getMonth() + 1,
+				                year = val.getFullYear(),
+				                hours = val.getHours(),
+				                min = val.getMinutes(),
+				                sec = val.getSeconds();
+
+				            return days + "/" + month + "/" + year + "-" + hours + ":"+min+":"+sec;
+				        },
+				        */												
+				        valueLabels: "hide",
+				        bounds:{
+				            //min: new Date(Math.floor("1327743132000")),
+				            //max: new Date(2012, 11, 31)
+				        	min: new Date(Math.floor(jsonObj.sTime)),
+				            max: new Date(Math.floor(jsonObj.eTime))
+				        },
+				        
+				        defaultValues:{
+				        	//min: new Date(Math.floor("1327743132000")),
+				            //max: new Date(2012, 11, 31)
+				        	min: new Date(Math.floor(jsonObj.sTime)),
+				            max: new Date(Math.floor(jsonObj.eTime))
+				          }
+				    });
+				   
+				    // Set time range message
+				    var values = $("#slider").dateRangeSlider("values");
+				    $('.timeRange').html("Something moved. min: " + values.min + " max: " + values.max);
+				    // Set event to change time range message
+				    $("#slider").off("valuesChanging valuesChanged");
+				    $("#slider").on("valuesChanging valuesChanged", function(e, data) {
+				    	  $('.timeRange').html("Something moved. min: " + data.values.min + " max: " + data.values.max);
+				    });
+				    
+				    // Resize windows, for the slider to take the correct dimensions
+				    $(document).on('ui.tabber.change', function() {
+				    	$("#slider").dateRangeSlider('resize');
+				    });
+				    
+				}
+			}
+		});	
+		
+		// Makes use of jspumb library
+		jsPlumb.ready(function() {
+			// your jsPlumb related init code goes here  
+			
+			// Load App Structure
+			jQuery.ajax({
+				type : 'get',
+				dataype : "json",
+				url : isserver + '/rest/deployment/' + deplId + '/topology',
+				success : function(jsonObj) {
+					if (jQuery.type(jsonObj) === "string")
+						jsonObj = eval(jsonObj);
+					
+					// Build UI control According the response					
+					var context = $('.topologyCanvas');					 
+					jsPlumb.setContainer(context);
+					if(jsonObj !=null && jsonObj.topology !=null && jsonObj.topology !="")
+					{	
+						var nodesNum = jsonObj.topology.length;
+						var nodesNum = Object.keys(jsonObj.topology).length; // TODO: WARN: This does not work in IE 7 or 8
+												
+						/*
+						 * Minor Hack to calculate the size of a hidden (display:none) item
+						 * Clone the item, apply a negative left position value (so as not be visible to the user)
+						 * append the temp item to body and calculate size
+						 * remove temp item
+						 */
+						var temp = context.clone();
+						temp.css({ left: "-10000px", display: "block" });
+						temp.appendTo('body');
+						var viewPortSize_X = temp.width();
+						var viewPortSize_Y = temp.height(); // Height for inner component will be always 0, to correctly calculated we need to find the height of the outer wrapper
+						temp.remove();
+						// Use the same method to find node element dimensions;
+						var node_X = $('.templatePool > .component').width();
+						var node_Y = $('.templatePool > .component').height();	
+						//
+						
+						var x = 0;
+						var y = 0;
+						var index = 0;
+						
+						var offset = Math.abs((viewPortSize_X - (nodesNum * node_X)) / (nodesNum + 1));	
+						$.each(jsonObj.topology, function(key, node) {
+							index++;
+							
+							// Calculating box cordinates
+							var outerBox_Y = viewPortSize_Y; // Considering a flat application, topology is a row no multiple components on one layer							
+							x = (index * offset) + ((index - 1) * node_X);
+							y = Math.abs(((outerBox_Y / 2) + (node_Y / 2)));							
+									
+							// Fill box data
+							var component = $('.topologyCanvasWrapper > .templatePool').find('.component[data-type="template"]').clone();
+							component.attr('data-type', '');
+						    
+							component.find('.title').text(node.name);
+							connect = component.find('.connect');
+						    
+							// Fill box metadata info
+							component.find('.metadata').data('name', node.name);
+							component.find('.metadata').data('id', node.id);
+							
+						    component.css({
+						      'top': y,
+						      'left': x
+						    });
+						   						   						    
+						    context.append(component);
+						    
+						    jsPlumb.makeTarget(component, {
+						      anchor: 'Continuous'
+						    });
+						    
+						    jsPlumb.makeSource(connect, {
+						      parent: component,
+						      anchor: 'Continuous'
+						    });
+							
+							// Click Events
+						    /*
+						     * On Node graphical Component Click
+						     * Open a side pane for the user to choose metrics 
+						     * for analytics  
+						     */
+						    component.off('click');
+						    component.on('click', function(e) {
+						    	e.stopPropagation();
+						    	// Extract parameters from click component
+						    	var deplId = '0';
+						    	var compId = '';
+						    	var referer = e.target;
+						    	
+						    	/*
+						    	 * Ajax call to get the available metrics
+						    	 * and populate the list
+						    	 */
+						    	// Build Request part url
+								var partUrl = '';								
+								
+								if(!(compId.length === 0 || !compId))
+									partUrl += '/tier/' + compId;
+											
+								// Get already assigned metrics
+								assignedMetrics = $(referer).find('.assignedMetrics .assignedMetricsHolder').children();
+								
+								// Clear list boxes
+								$('#metricsList').html('');
+								$('#selectedMetricsList').html('');
+								
+								// Get data to display								
+								jQuery.ajax({
+									type: 'get',
+									dataype: "json",
+									url: isserver + '/rest/deployment/' + deplId + partUrl + '/metrics',
+									success: function(jsonObj) {										
+										if (jQuery.type(jsonObj) === "string")
+											jsonObj = eval(jsonObj);
+										
+										$.each(jsonObj, function(key, value) {
+											var metricItem = $('<option></option>').attr('value', value).html(value);
+											
+											// Append Event
+											metricItem.off('dblclick');
+											metricItem.on('dblclick', function(event) {
+												if($(this).closest('#metricsList').length > 0)
+												{
+													// Item resides on the left list
+													$(this).appendTo("#selectedMetricsList");
+												}
+												else
+												{
+													// Item resides on the right list
+													$(this).appendTo("#metricsList");
+												}
+												// Reset selected
+												$("#selectedMetricsList").val([]);
+												$("#metricsList").val([]);
+											});
+											
+											// TODO
+											// Appent to the right list
+											if(value = assignedMetrics.value) {
+												$('#selectedMetricsList').append(metricItem);
+											}
+											else {
+												$('#metricsList').append(metricItem);
+											}
+											
+										});
+									},
+								});
+						    	
+								
+								//
+								$('.metricsListWrapper [data-id="btn_moveToSelected"]').off('click');
+								$('.metricsListWrapper [data-id="btn_moveToSelected"]').on('click', function(){
+									$.each($("#metricsList > option"), function(){
+										$(this).appendTo("#selectedMetricsList");
+									});								
+								});
+								
+								
+								$('.metricsListWrapper [data-id="btn_moveToAvailable"]').off('click');
+								$('.metricsListWrapper [data-id="btn_moveToAvailable"]').on('click', function(){
+									$.each($("#selectedMetricsList > option"), function(){
+										$(this).appendTo("#metricsList");
+									});
+								});
+												    							    	
+						    	
+						    	
+						    	// Add Events to the panel tool bar
+						    	$(".close").off('click');
+						    	$(".close").on('click', function(){
+						    		$(".nodeInfoPanel").removeClass("open");						    		
+						    	});
+						    	
+						    	$(".saveClose").off('click');
+						    	$(".saveClose").on('click', function(){
+						    		$(".save").trigger('click');
+						    		$(".close").trigger('click');			    		
+						    	});
+						    	
+						    	$(".save").off('click');
+						    	$(".save").on('click', function(){
+						    		// Clear assigned metric
+						    		var context = $(referer).find('.assignedMetrics');
+						    		context.find('.assignedMetricsHolder').html('');
+						    		
+						    		//console.log($("#selectedMetricsList > option").length);
+						    		
+						    		$.each($("#selectedMetricsList > option"), function() {
+						    			console.log($(this).val());
+						    			
+						    			var item = context.find('.wellItemTemplate').clone();
+						    			
+						    			item.html($(this).val());
+						    			item.removeClass('wellItemTemplate');
+										//$(referer).find('.assignedMetrics').append($(this).val());
+						    			context.find('.assignedMetricsHolder').append(item);
+									});					    		
+						    	});
+						    	
+						    	// Finally Open / Show the panel
+						    	$(".nodeInfoPanel").addClass("open");
+						    });
+							
+						});
+					}
+					else
+					{
+						context.append('<span>Nothing to show</span>');
+					}
+				}
+			});
+		});
+		
+		// Set 'Apply' Button enent handler
+		$('.applyBtn [data-type="button"][data-id="analyze"]').off('click');
+		$('.applyBtn [data-type="button"][data-id="analyze"]').on('click', function() {
+			var values = $("#slider").dateRangeSlider("values");
+	        console.log(new Date(values.min) + " " + new Date(values.max));
+	       	       
+	        $.each($('.topologyCanvas .component'), function() {
+	        	var component = $(this);	        	
+	        	var tier = component.find('.metadata').data('id');
+	        	
+	        	// Build Request Parameters		
+	        	var qString = "";
+	        	if(component.find('.assignedMetrics .assignedMetricsHolder .singleMetric').length > 0)
+	        	{
+		        	$.each(component.find('.assignedMetrics .assignedMetricsHolder .singleMetric'), function () {	    			  		
+		        		qString	+= '&metrics=' + $(this).html();	
+		    		});
+		    		qString	+= '&method=' + 'trend';
+		    		qString	+= '&sTime=' + new Date(values.min).getTime();
+		    		qString	+= '&eTime=' + new Date(values.max).getTime();	    		
+		    		
+					jQuery.ajax({
+						type: 'get',
+						dataype: "json",
+						url: isserver + '/rest/analysis/' + urlParams.deplID + '/tier/' + tier + "?" + qString,
+						success: function(jsonResponse) {
+							if(jQuery.type(jsonResponse) === "string")
+								jsonResponse = $.parseJSON(jsonResponse);
+							
+							// Draw a chart below the component
+							var chart = $('<div></div>');
+							var width = 300;
+							var height = 160;
+							
+							pos = component.position();
+							//
+							chart.addClass('chart');							
+							//chart.offset({ top: pos.top + component.height() - (component.height() / 4), left: pos.left - width + (component.width() / 4)});							
+							chart.css({
+						      'top': pos.top + component.height() - (component.height() / 4) + 50, /* TODO 50 is an add hoc value clculate from the additional height / positioning offset */
+						      'left': pos.left - width + (component.width() / 2)
+						    });
+							
+							
+							var data;
+							var merticsCounter = 0;
+							$.each(jsonResponse, function(metricName, metricDataObj) {
+								var singleMetric = new google.visualization.DataTable();
+								singleMetric.addColumn('datetime', 'Time');
+								singleMetric.addColumn('number', capitaliseFirstLetter(metricName));
+								$.each(metricDataObj.data, function(index, metricObj) {
+									var date = new Date(parseInt(metricObj.t) /* * 1000*/);
+									singleMetric.addRow([date, parseFloat(metricObj.v)]);
+								});
+								if(merticsCounter == 0)
+								{
+									data = singleMetric;
+								}
+								else
+								{
+									// Find Columns to join
+									var cols=[];
+									for(k = 0; k < merticsCounter; k++)
+									{
+										cols[k] = k + 1;
+									}
+									data = google.visualization.data.join(data, singleMetric, 'full', [[0,0]], cols, [1]);
+								}
+								merticsCounter++;
+							});
+													
+														
+							// Build Chart Options
+							var options = {
+							   curveType: 'function',
+						       height: height - 10, /* Temporary hack, cause: the chart overlaps the outer container and hides its border */
+						       allowHtml: 'true',
+						       interpolateNulls: true,
+						       hAxis: {
+						           title: 'Time'
+					         },
+							};
+							
+							// Append to the container
+							//chart.addClass('noDisplay');
+							$('.topologyCanvasWrapper').append(chart);
+							
+							// Draw Chart
+							var googleChart = new google.visualization.LineChart(chart[0]);
+							googleChart.draw(data, options);
+							
+							//chart.removeClass('noDisplay');						
+						}
+					})
+	        	}
+	        });
+		});
+		
+		
+	},
+	
+	/*
 	'initPastMonitoring' : function() {
 		console.log('initPastMonitoring');
 		// Init datetime pickers for historical data filtering
@@ -215,6 +589,7 @@ var initScripts = {
 			});
 		});
 	},
+	*/
 };
 
 var capitaliseFirstLetter = function(string) {

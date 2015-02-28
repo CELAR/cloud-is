@@ -51,6 +51,7 @@ var drawVisualization = function (repId, dtCollector, dtVisualize, ajxParams, ca
 }
 
 /* obsolete staff */
+/*
 var buildPerformanceAnalysisPane = function() {
 	// Default options
 	var optionDefault = {
@@ -132,3 +133,4 @@ var buildPerformanceAnalysisPane = function() {
     new google.visualization.PieChart(document.getElementById('pc_net_app')).
     draw(networkData, options);
 };
+*/
