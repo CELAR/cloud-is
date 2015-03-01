@@ -184,21 +184,22 @@
 .pageMainContainer.deployment .initTopologyExplorerTabPage .timeControlBar {
 	position: relative;
 	height: 35px;
+	margin-top: 2px;
 }
 
-.pageMainContainer.deployment .timeControlBar .promptWrapper{
-	
-    
-    left: 0;
+.pageMainContainer.deployment .initTopologyExplorerTabPage .timeControlBar > div{
+	top: 5px; /*Gives the impression of a top-padding equal to X px*/
+}
+
+.pageMainContainer.deployment .timeControlBar .promptWrapper {
+    left: 10px;
     position: absolute;
-    top: 0;
 }
 
-.pageMainContainer.deployment .timeControlBar .sliderContainer{
+.pageMainContainer.deployment .timeControlBar .sliderContainer {
 	left: 130px;
     position: absolute;
     right: 70px;
-    top: 0;
 }
 
 /* Overide theme */
@@ -209,8 +210,7 @@
 
 .pageMainContainer.deployment .timeControlBar .applyBtn{
 	position: absolute;
-    right: 0;
-    top: 0;
+    right: 10px;
 }
 .pageMainContainer.deployment .initTopologyExplorerTabPage .timeRange {
 	padding-bottom: 5px;

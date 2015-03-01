@@ -19,10 +19,10 @@
 		*/		
 		isServerValidation();
 	</script>	
-	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.tabber.css" rel="stylesheet">
-	<link href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.outer.css" rel="stylesheet">
-	<link href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.inner.css" rel="stylesheet">	
-	<link href="<%=request.getContextPath()%>/Library/resources/css/page.compare.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/util.ui.tabber.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.outer.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.inner.css"/>	
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/page.compare.css"/>
 	
 	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/util.ui.tabber.js"></script>	
@@ -141,16 +141,11 @@
 				<span></span>
 				<div class="pull-right small ng-binding" style="padding-right:10px">1 alert(s)</div>
 	    	</div>
-	    	<div class="infoContent">
+	    	<div class="infoContent background dark">
 	    	
 	    	</div>
-	    	<div class="pageTitle">
-	    		<div class="title">
-	    			Comparison
-	    		</div>
-	    	</div>
     	</div>
-	    <div class="navbar pageNavMenu">
+	    <div class="navbar pageNavMenu background dark">
 			<div class="navbar-inner">
 				<div class="nav pull-left">
 					<div class="navTile">
@@ -180,7 +175,7 @@
 				</div>
 			</div>
 	    </div>
-	    <div class="pageMainContainer navOn compare">
+	    <div class="pageMainContainer background light navOn compare"  data-tabber-id="innerNavMenu">
 			<div class="objectSelectorWrapper">
 			  <div class="comparissonRibbon inner">		  	
 			  	<div class="well">
@@ -207,14 +202,14 @@
 			<div class="innerNavMenu">
 		  		<div class="inner pull-right tabber">
 					<div class="tabberNav" data-tabber-nav=true data-tabber-parentId="innerNavMenu">
-						<div class="navTile selected" data-tabber-navTile=true data-tabber-ref="generReport"><span>Generated Report</span></div>
-						<div class="navTile disabled" data-tabber-navTile=true data-tabber-ref="chartBuilder"><span>Chart Builder</span></div>
+						<div class="navTile" data-tabber-navTile=true data-tabber-ref="generReport"><span>Generated Report</span></div>
+						<div class="navTile selected" data-tabber-navTile=true data-tabber-ref="chartBuilder"><span>Chart Builder</span></div>
 					</div>
 				</div>
 			</div>
-			<div class="contentMainHolder tabber">
+			<div class="contentMainHolder background lighter tabber">
 				<div class="tabberPagesWhapper pagesContainer" data-tabber-pages=true data-tabber-parentId="innerNavMenu">
-					<div id="generReport" class="tabberPage mainCol full" data-tabber-page=true data-tabber-pageId="generReport">
+					<div id="generReport" class="noDisplay tabberPage mainCol full" data-tabber-page=true data-tabber-pageId="generReport">
 						<span>Bar charts showing for how much time an application was on peek state (similar to performance analysis) in contrast with other versions</span>
 						<div id="barChart"></div>
 					</div>

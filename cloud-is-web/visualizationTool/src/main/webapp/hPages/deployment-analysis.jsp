@@ -20,16 +20,16 @@
 		isServerValidation();
 	</script>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/ext/iThing.css"/>
-	<link href="<%=request.getContextPath()%>/Library/media/fonts/flaticon.css" rel="stylesheet">
-	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.tabber.css" rel="stylesheet">
-	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.form.css" rel="stylesheet">	
-	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.contentBox.css" rel="stylesheet">
-	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.well.css" rel="stylesheet">
-	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.beanBox.css" rel="stylesheet">
-	<link href="<%=request.getContextPath()%>/Library/resources/css/util.ui.charts.common.css" rel="stylesheet">
-	<link href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.outer.css" rel="stylesheet">
-	<link href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.inner.css" rel="stylesheet">
-	<link href="<%=request.getContextPath()%>/Library/resources/css/page.deployment.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/media/fonts/flaticon.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/util.ui.tabber.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/util.ui.form.css"/>	
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/util.ui.contentBox.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/util.ui.well.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/util.ui.beanBox.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/util.ui.charts.common.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.outer.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.inner.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/page.deployment.css"/>
 	
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>

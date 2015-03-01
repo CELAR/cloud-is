@@ -189,13 +189,14 @@ var initScripts = {
 				          }
 				    });
 				   
+					
 				    // Set time range message
 				    var values = $("#slider").dateRangeSlider("values");
-				    $('.timeRange').html("Something moved. min: " + values.min + " max: " + values.max);
+				    $('.timeRange').html("<span>Accessing Deployment Data <strong>from</strong> <i>" + values.min + "</i>  <strong>to</strong> <i>" + values.max + "</i></span>");
 				    // Set event to change time range message
 				    $("#slider").off("valuesChanging valuesChanged");
 				    $("#slider").on("valuesChanging valuesChanged", function(e, data) {
-				    	  $('.timeRange').html("Something moved. min: " + data.values.min + " max: " + data.values.max);
+				    	  $('.timeRange').html("<span>Accessing Deployment Data <strong>from</strong> <i>" + data.values.min + "</i>  <strong>to</strong> <i>" + data.values.max + "</i></span>");
 				    });
 				    
 				    // Resize windows, for the slider to take the correct dimensions
