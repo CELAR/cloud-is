@@ -196,7 +196,10 @@
 					</div>
 					<div class="wellContentHolder"></div>
 			  	</div>
-		  		<div class="addNewControl ribbonItem"></div>
+		  		<div class="controlWrapper ribbonItem">
+		  			<div class="controll addNew" role="button" data-action="addNew"><span>ADD</span></div>
+		  			<div class="controll compare" role="button" data-action="compare"><span>COMPARE</span></div>
+		  		</div>
 		  	</div>
 		  	</div>
 			<div class="innerNavMenu">
@@ -247,5 +250,18 @@
 			</div>
 	    </div>	
 	</div>
+	<div class="cd-popup" role="alert">
+		<div class="cd-popup-container">
+			<p>Are you sure you want to delete this element?</p>
+			<div>
+			
+			</div>
+			<ul class="cd-buttons">
+				<li><a href="#0">Yes</a></li>
+				<li><a href="#0">No</a></li>
+			</ul>
+			<a href="#0" class="cd-popup-close img-replace">Close</a>
+		</div> <!-- cd-popup-container -->
+	</div> <!-- cd-popup -->
 </body>
 </html>

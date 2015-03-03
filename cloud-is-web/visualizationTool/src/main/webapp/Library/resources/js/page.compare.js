@@ -12,7 +12,8 @@ var addComparissonObject = function() {
 	wellItem.removeClass('noDisplay');
 	wellItem.removeClass('wellItemTemplate');				
 	// Fill item properties
-		
+	
+	
 	
 	// Append item to well
 	wellHolder.append(wellItem);
@@ -28,6 +29,8 @@ var addComparissonObject = function() {
 		var itemWitdh = itemsSpace / itemCount;
 		wellHolder.find('.wellItem').css('width', itemWitdh);
 	}
+	
+	
 };
 
 $(document).ready(function(){
@@ -43,6 +46,36 @@ $(document).ready(function(){
 	
 	
 	// Init events for the comparison ribbon
-	$('.objectSelectorWrapper .addNewControl').off('click');
-	$('.objectSelectorWrapper .addNewControl').on('click', addComparissonObject);
+	
+	
+	
+	/*
+	 * Version Selection, Pop Up
+	 */	
+	//open popup
+	$('[role="button"][data-action="addNew"]').off('click');
+	$('[role="button"][data-action="addNew"]').on('click', function(event){
+		event.preventDefault();
+		$('.cd-popup').addClass('is-visible');
+	});
+	
+	//close popup
+	$('.cd-popup').on('click', function(event){
+		if( $(event.target).is('.cd-popup-close') || $(event.target).is('.cd-popup') ) {
+			event.preventDefault();
+			$(this).removeClass('is-visible');
+		}
+	});
+	//close popup when clicking the esc keyboard button
+	$(document).keyup(function(event){
+    	if(event.which=='27'){
+    		$('.cd-popup').removeClass('is-visible');
+	    }
+    });
+	
+	// Compare Button
+	$('[role="button"][data-action="compare"]').off('click');
+	$('[role="button"][data-action="compare"]').on('click', function(event){
+		console.log("compare");
+	});
 });
