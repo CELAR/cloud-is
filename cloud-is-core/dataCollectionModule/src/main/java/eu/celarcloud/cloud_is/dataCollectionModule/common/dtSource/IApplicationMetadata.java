@@ -27,7 +27,6 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface IApplication.
  */
@@ -37,7 +36,7 @@ public interface IApplicationMetadata extends IDataSource{
 	 *
 	 * @return the user applications
 	 */
-	public String getUserApplications();
+	public List<Application> getUserApplications();
 	
 	/**
 	 * App versions.
@@ -65,21 +64,55 @@ public interface IApplicationMetadata extends IDataSource{
 	/**
 	 * Search applications.
 	 *
+	 * @param submitted_start
+	 *            the submitted_start
+	 * @param submitted_end
+	 *            the submitted_end
+	 * @param description
+	 *            the description
+	 * @param module_name
+	 *            the module_name
+	 * @param component_description
+	 *            the component_description
+	 * @param provided_resource_id
+	 *            the provided_resource_id
 	 * @return the string
 	 */
 	public List<Application> searchApplications(long submitted_start, long submitted_end, String description, String module_name, String component_description, String provided_resource_id);
 	
+	/**
+	 * Search deployments.
+	 *
+	 * @param application_id
+	 *            the application_id
+	 * @param start_time
+	 *            the start_time
+	 * @param end_time
+	 *            the end_time
+	 * @param status
+	 *            the status
+	 * @return the list
+	 */
 	public List<Deployment> searchDeployments(String application_id, long start_time, long end_time, String  status);
 	
 	/**
 	 * Gets the application info.
 	 *
+	 * @param appId
+	 *            the app id
 	 * @return the application info
 	 */
 	public Application getApplicationInfo(String appId);
 	
 	
 	
+	/**
+	 * Gets the application deployments.
+	 *
+	 * @param appId
+	 *            the app id
+	 * @return the application deployments
+	 */
 	public List<Deployment> getApplicationDeployments(String appId);
 	
 	

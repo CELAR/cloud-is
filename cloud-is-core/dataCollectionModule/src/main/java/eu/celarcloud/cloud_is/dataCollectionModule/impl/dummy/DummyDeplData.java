@@ -177,4 +177,9 @@ public class DummyDeplData implements IDeploymentMetadata {
 		return instances;
 	}
 
+	@Override
+	public List<Deployment> getUserDeployments() {
+		throw new java.lang.UnsupportedOperationException();
+	}
+
 }

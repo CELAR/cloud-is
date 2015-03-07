@@ -4,7 +4,7 @@ import org.json.JSONObject;
 
 public class Application implements IBean{
 	public String id, description;
-	public String  uid, vMinnor, vMajor;
+	public String  uid, vMinor, vMajor;
 	public String topology;
 	// Time in unix time stamp format (milliseconds since Jan 1, 1970)
 	public String submitted;
@@ -19,7 +19,7 @@ public class Application implements IBean{
 		application = new JSONObject();
 			application.put("id", this.id);
 			application.put("uid", this.uid);
-			application.put("vMinnor", this.vMinnor);
+			application.put("vMinor", this.vMinor);
 			application.put("vMajor", this.vMajor);
 	    	application.put("description", description);
 	    	application.put("sTime", this.submitted); 

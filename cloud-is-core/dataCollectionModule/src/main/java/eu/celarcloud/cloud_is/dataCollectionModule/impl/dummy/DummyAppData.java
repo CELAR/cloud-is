@@ -43,24 +43,41 @@ public class DummyAppData implements IApplicationMetadata {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getUserApplications()
 	 */
 	@Override
-	public String getUserApplications() {
+	public List<Application> getUserApplications() {
+		Application application;
+		List<Application> applications = new ArrayList<Application>();
+    	
+		application = new Application();
+			application.id = "0000000013.000.000";
+			application.uid = "13";
+			application.vMajor = "0";
+			application.vMinor = "0";
+			application.description = "test_application_1";
+			application.topology = "";
+			application.submitted = "1413290766468";
+		applications.add(application);
 		
-		// Build report
-		JSONArray json = new JSONArray();
-	    		
-	    for(int i=0; i<3; i++)
-	    {
-	    	String appId = String.valueOf(i);
-	    	JSONObject app = new JSONObject();
-	    	app.put("appName", "testName_" + i);
-	    	app.put("appId", appId);
-	    	
-	    	json.put(app);
-	    }
-	    
-	    
-	    
-		return json.toString();
+		application = new Application();
+			application.id = "0000000014.000.000";
+			application.uid = "14";
+			application.vMajor = "0";
+			application.vMinor = "0";
+			application.description = "test_application_2";
+			application.topology = "";
+			application.submitted = "1413298776468";
+		applications.add(application);
+		
+		application = new Application();
+			application.id = "0000000013.001.000";
+			application.uid = "13";
+			application.vMajor = "1";
+			application.vMinor = "0";
+			application.description = "test_application_1";
+			application.topology = "";
+			application.submitted = "1413290767838";
+		applications.add(application);
+		
+	    return applications;
 	}
 
 	/* (non-Javadoc)
@@ -223,7 +240,7 @@ public class DummyAppData implements IApplicationMetadata {
 			application.id = "0000000013.000.000";
 			application.uid = "13";
 			application.vMajor = "0";
-			application.vMinnor = "0";
+			application.vMinor = "0";
 			application.description = "test_application_1";
 			application.topology = "";
 			application.submitted = "1413290766468";
@@ -233,7 +250,7 @@ public class DummyAppData implements IApplicationMetadata {
 			application.id = "0000000014.000.000";
 			application.uid = "14";
 			application.vMajor = "0";
-			application.vMinnor = "0";
+			application.vMinor = "0";
 			application.description = "test_application_2";
 			application.topology = "";
 			application.submitted = "1413298776468";
@@ -243,7 +260,7 @@ public class DummyAppData implements IApplicationMetadata {
 			application.id = "0000000013.001.000";
 			application.uid = "13";
 			application.vMajor = "1";
-			application.vMinnor = "0";
+			application.vMinor = "0";
 			application.description = "test_application_1";
 			application.topology = "";
 			application.submitted = "1413290767838";

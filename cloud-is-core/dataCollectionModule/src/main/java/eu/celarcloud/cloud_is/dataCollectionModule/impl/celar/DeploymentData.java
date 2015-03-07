@@ -153,7 +153,11 @@ public class DeploymentData implements IDeploymentMetadata {
 		
 		return instances;
 	}
-
+	
+	@Override
+	public List<Deployment> getUserDeployments() {
+		throw new java.lang.UnsupportedOperationException();
+	}
 
 
 	/* (non-Javadoc)

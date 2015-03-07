@@ -82,7 +82,7 @@ public class ApplicationData implements IApplicationMetadata {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getUserApplications()
 	 */
 	@Override
-	public String getUserApplications() {
+	public List<Application> getUserApplications() {
 		// TODO
 		throw new java.lang.UnsupportedOperationException();
 		
