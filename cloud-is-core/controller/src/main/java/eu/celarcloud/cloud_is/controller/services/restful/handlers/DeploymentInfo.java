@@ -43,6 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
@@ -80,13 +81,17 @@ public class DeploymentInfo
 	public Response getUserDeployments() 
 	{
 		Loader ld = new Loader(context);
-		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
+		IDeploymentMetadata dep = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
+		List<Deployment> deployments = dep.getUserDeployments();
 		
-		String response;
-		response = app.getUserApplications();
+		// Convert to json 
+		JSONArray response = new JSONArray();
+		for (Deployment depl : deployments) {
+			response.put(depl.toJSONObject());
+		}
 		
 		//return response;
-		return Response.ok(response, MediaType.APPLICATION_JSON).build();
+		return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
 	}
 	
 	/**

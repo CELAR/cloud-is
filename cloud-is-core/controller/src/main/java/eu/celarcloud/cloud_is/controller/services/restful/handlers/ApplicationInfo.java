@@ -78,12 +78,16 @@ public class ApplicationInfo
 	{
 		Loader ld = new Loader(context);
 		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
+		List<Application> applications = app.getUserApplications();
 		
-		String response;
-		response = app.getUserApplications();
+		// Convert to json 
+		JSONArray response = new JSONArray();
+		for (Application apll : applications) {
+			response.put(apll.toJSONObject());
+		}
 		
 		//return response;
-		return Response.ok(response, MediaType.APPLICATION_JSON).build();
+		return Response.ok(response.toString(), MediaType.APPLICATION_JSON).build();
 	}
 	
 	/**
@@ -147,7 +151,7 @@ public class ApplicationInfo
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{appId}/{verId : (/version/[^/]+?)?}/deployment")
+	@Path("/{appId}{verId : (/version/[^/]+?)?}/deployment")
 	public Response getApplicationDeployments(@PathParam("appId") String appId, @PathParam("versId") String versId) 
 	{
 		Loader ld = new Loader(context);
