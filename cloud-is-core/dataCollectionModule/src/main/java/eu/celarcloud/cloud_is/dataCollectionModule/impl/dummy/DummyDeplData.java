@@ -23,6 +23,7 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -60,9 +61,10 @@ public class DummyDeplData implements IDeploymentMetadata {
 		BigInteger tEnd = tStart.add(durration);
 		//	
 		*/
+		Random rand = new Random();
 		
     	deployment = new Deployment();
-    		deployment.id = "9768";
+    		deployment.id = String.valueOf(rand.nextInt((9999 - 1000) + 1) + 1000);
 			deployment.applicationId = "67890";
 			deployment.status = "online";
 			deployment.startTime = "1413290766468";
@@ -70,7 +72,7 @@ public class DummyDeplData implements IDeploymentMetadata {
 		deployments.add(deployment);
     	
 		deployment = new Deployment();
-	    	deployment.id = "5678";
+	    	deployment.id = String.valueOf(rand.nextInt((9999 - 1000) + 1) + 1000);
 	    	deployment.applicationId = "10293";
 			deployment.status = "offline";
 			deployment.startTime = "1413290766468";

@@ -22,6 +22,7 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
@@ -104,17 +105,25 @@ public class DummyMonData implements IMetering {
 	 */
 	@Override
 	public List<String> getAvailableMetrics(String deplId, String compId) {
-		List<String> list = new ArrayList<String>();
 		
+		// Set a static list of X metrics
 		int count = 10;
-		for(int i = 0; i < count; i++)
-		{
+		List<String> metricslist = new ArrayList<String>();		
+		for(int i = 0; i < count; i++) {
 			String m = "metric_"+i;
-			list.add(m);
+			metricslist.add(m);
 		}
 		
-		return list;
-	}
+		// Select a subset of metrics
+		// Subset size must be (metricslist / 2) + 1 to ensure overlapping 
+		int subListSize = (Math.abs(metricslist.size() / 2)) + 1;
+		List<String> subsetList = new ArrayList<String>(subListSize);
 
-	
+		Random rand = new Random(System.currentTimeMillis()); 
+		for (int i = 0; i < 5; i++) {
+		     subsetList.add(metricslist.remove(rand.nextInt(metricslist.size())));
+		}
+		
+		return subsetList;
+	}
 }

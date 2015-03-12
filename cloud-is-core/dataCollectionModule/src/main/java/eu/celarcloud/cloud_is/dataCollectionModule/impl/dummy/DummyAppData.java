@@ -23,6 +23,7 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -219,7 +220,7 @@ public class DummyAppData implements IApplicationMetadata {
 	public Application getApplicationInfo(String appId) {
 		Application application;    	
 		application = new Application();
-			application.id = "9768";
+			application.id = appId;
 			application.description = "";
 			application.topology = "online";
 			application.submitted = "1413290766468";
@@ -277,8 +278,10 @@ public class DummyAppData implements IApplicationMetadata {
 		List<Deployment> deployments = new ArrayList<Deployment>();
 		Deployment deployment;
     			
+		Random rand = new Random();		
+		
     	deployment = new Deployment();
-    		deployment.id = "9768";
+    		deployment.id = String.valueOf(rand.nextInt((9999 - 1000) + 1) + 1000);
 			deployment.applicationId = appId;
 			deployment.status = "online";
 			deployment.startTime = "1413290766468";
@@ -286,7 +289,7 @@ public class DummyAppData implements IApplicationMetadata {
 		deployments.add(deployment);
     	
 		deployment = new Deployment();
-	    	deployment.id = "5678";
+	    	deployment.id = String.valueOf(rand.nextInt((9999 - 1000) + 1) + 1000);
 	    	deployment.applicationId = appId;
 			deployment.status = "offline";
 			deployment.startTime = "1413290766468";
@@ -304,8 +307,10 @@ public class DummyAppData implements IApplicationMetadata {
 		List<Deployment> deployments = new ArrayList<Deployment>();
 		Deployment deployment;
     			
+		Random rand = new Random();
+		
     	deployment = new Deployment();
-    		deployment.id = "9768";
+    		deployment.id = String.valueOf(rand.nextInt((9999 - 1000) + 1) + 1000);
 			deployment.applicationId = appId;
 			deployment.status = "online";
 			deployment.startTime = "1413290766468";
@@ -313,7 +318,7 @@ public class DummyAppData implements IApplicationMetadata {
 		deployments.add(deployment);
     	
 		deployment = new Deployment();
-	    	deployment.id = "5678";
+	    	deployment.id = String.valueOf(rand.nextInt((9999 - 1000) + 1) + 1000);
 	    	deployment.applicationId = appId;
 			deployment.status = "offline";
 			deployment.startTime = "1413290766468";
