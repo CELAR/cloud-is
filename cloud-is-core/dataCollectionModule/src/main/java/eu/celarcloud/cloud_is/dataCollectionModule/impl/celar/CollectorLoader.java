@@ -126,5 +126,22 @@ public class CollectorLoader extends SourceLoader {
 		return topologyData;
 	}
 
+	@Override
+	public IDataSource loadElasticityLogInterface() {
+String path = this.getConfigPath() + File.separator + "celar";
+		
+		// Load the CELAR Manager endpoint address (uri) from the configuration
+		EndpointConfig applicationEndpoint = new EndpointConfig(path + File.separator + "endpoint.celarmanager.properties");			
+		String uri = applicationEndpoint.getUri();		
+		System.out.println("CELAR Manager configured Uri is: " + uri);
+		
+		// Initialise the appropriate dataSource Implementation
+		ElasticityData elasticityData = new ElasticityData();
+		elasticityData.init(uri);
+		
+		// 'Return' the loaded instance
+		return elasticityData;
+	}
+
 	
 }

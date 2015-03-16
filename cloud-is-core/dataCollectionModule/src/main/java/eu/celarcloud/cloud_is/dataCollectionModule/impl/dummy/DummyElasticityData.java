@@ -18,47 +18,46 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.dataCollectionModule.impl.standalone;
+package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CollectorLoader extends SourceLoader {
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLog;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Jcatascopia.
+ */
+public class DummyElasticityData implements IElasticityLog {
 
 	@Override
-	public IDataSource loadAppMetaInterface() {
-		return new ApplicationData();
+	public List<String> getEnforcedActions(String deplId, String name, String sTime, String eTime) {
+		List<String> list = new ArrayList<String>();
+		
+		//-
+		int count = 4;
+		
+		long tEnd = Long.parseLong(eTime);
+		long tStart = Long.parseLong(sTime);
+		for(int i = 0; i < count; i++)
+		{
+		    // nextInt is normally exclusive of the top value,
+		    // so add 1 to make it inclusive
+		    long randomNum = TestClass.randLong(tStart, tEnd);
+			
+			//
+			list.add(String.valueOf(randomNum));
+		}
+		
+		return list;
 	}
 
 	@Override
-	public IDataSource loadDeplMetaInterface() {
-		return new DeploymentData();
-	}
-
-	@Override
-	public IDataSource loadMeteringInterface() {
-		return new MonitoringData();
-	}
-
-	/*
-	 * Since Historical monitoring data is not supported
-	 * from this bundle of collectors, the controller uses the 
-	 * 'fall back' and returns the monitoring collector. 
-	 */
-	@Override
-	public IDataSource loadMeteringHistoryInterface() {
-		return new MonitoringData();
-	}
-
-	@Override
-	public IDataSource loadTopologyInterface() {
+	public List<String> getEnforcedActions(String deplId, String compId, String name, String sTime, String eTime) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public IDataSource loadElasticityLogInterface() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }

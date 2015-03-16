@@ -73,4 +73,9 @@ public class CollectorLoader extends SourceLoader {
 	public IDataSource loadTopologyInterface() {
 		return new DummyTopology();
 	}
+
+	@Override
+	public IDataSource loadElasticityLogInterface() {
+		return new DummyElasticityData();
+	}
 }

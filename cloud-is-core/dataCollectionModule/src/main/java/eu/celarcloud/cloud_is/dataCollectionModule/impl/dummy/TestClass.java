@@ -122,6 +122,13 @@ public class TestClass {
 	    return randomNum;
 	}
 	
+	public static long randLong(long min, long max)
+	{
+		Random r = new Random();
+		long number = min+((long)(r.nextDouble()*(max-min)));
+		
+		return number;
+	}
 	
 	/**
 	 * Rand double.

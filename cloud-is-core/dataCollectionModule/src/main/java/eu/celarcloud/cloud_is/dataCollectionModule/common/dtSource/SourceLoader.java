@@ -160,7 +160,8 @@ public abstract class SourceLoader implements ISourceLoader  {
 			{
 				//
 				//System.out.println("[Warning] Not Implemented Interface");
-				LOG.warn("Not Implemented Interface");
+				//LOG.warn("Not Implemented Interface");
+				DtCollectorInstance = loadElasticityLogInterface();
 				break;
 			}
 			case TOPOLOGY :
@@ -215,4 +216,6 @@ public abstract class SourceLoader implements ISourceLoader  {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#loadTopologyInterface()
 	 */
 	public abstract IDataSource loadTopologyInterface();
+	
+	public abstract IDataSource loadElasticityLogInterface();
 }

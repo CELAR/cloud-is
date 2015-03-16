@@ -86,38 +86,40 @@ public interface ISourceLoader {
 	/**
 	 * Load app meta interface.
 	 *
-	 * @return the i data source
+	 * @return The DataSource Object
 	 */
 	public IDataSource loadAppMetaInterface();
 	
 	/**
 	 * Load depl meta interface.
 	 *
-	 * @return the i data source
+	 * @return The DataSource Object
 	 */
 	public IDataSource loadDeplMetaInterface();
 	
 	/**
 	 * Load metering interface.
 	 *
-	 * @return the i data source
+	 * @return The DataSource Object
 	 */
 	public IDataSource loadMeteringInterface();
 	
 	/**
 	 * Load metering history interface.
 	 *
-	 * @return the i data source
+	 * @return The DataSource Object
 	 */
 	public IDataSource loadMeteringHistoryInterface();
 	
 	/**
 	 * Load topology interface.
 	 *
-	 * @return the i data source
+	 * @return The DataSource Object
 	 */
 	public IDataSource loadTopologyInterface();
 	
+	
+	public IDataSource loadElasticityLogInterface();
 	// TODO
 	// Add getter for each supported type
 }
