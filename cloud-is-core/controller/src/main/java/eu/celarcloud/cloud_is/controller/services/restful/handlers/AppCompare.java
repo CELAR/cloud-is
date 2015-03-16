@@ -20,15 +20,26 @@
  */
 package eu.celarcloud.cloud_is.controller.services.restful.handlers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+//import org.apache.commons.collections.CollectionUtils;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
@@ -60,50 +71,38 @@ public class AppCompare
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/getAgents")
-	public Response getMonitoringAgents() 
+	@Path("/commonMetrics")
+	public Response getCommonMetrics(@QueryParam("data") String data) 
 	{		
 		Loader ld = new Loader(context);
-		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
+		IMetering mon = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING_HISTORY);
 		
-		String response = monitor.getAgents("","UP");
+		JSONArray json = new JSONArray();
+		JSONObject deploymentArray = new JSONObject(data); 		
+		Iterator<?> dkeys = deploymentArray.keys();
+
+		boolean flag = true;
+		List<String> metricNames = null;
+		while( dkeys.hasNext() ) {
+		    String dkey = (String)dkeys.next();
+		    if ( deploymentArray.get(dkey) instanceof JSONObject ) {
+		    	JSONObject component = (JSONObject) deploymentArray.get(dkey);		
+				Iterator<?> ckeys = component.keys();
+				while( ckeys.hasNext() ) {
+					String ckey = (String)ckeys.next();				    
+				    if(flag) {
+				    	metricNames = mon.getAvailableMetrics(dkey, ckey);
+				    	flag = false;
+				    }
+				    else
+				    	metricNames.retainAll(mon.getAvailableMetrics(dkey, ckey));
+				}
+		    }
+		}
 		
-		return Response.ok(response, MediaType.APPLICATION_JSON).build();
-	}
-	
-	/**
-	 * Say plain text.
-	 *
-	 * @return the string
-	 */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/getAgentMetrics/")
-	public String getAgentMetrics() 
-	{
-		Loader ld = new Loader(context);
-		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
-		
-		monitor.getAgentMetrics("", "579c910e305d4119aeb410b3ef82e400");
-		
-		return "Compare!!!";
-	}
-	
-	/**
-	 * Gets the desision counts.
-	 *
-	 * @return the desision counts
-	 */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/test/getSampleMetrics")
-	public String getSampleMetrics() 
-	{
-		Loader ld = new Loader(context);
-		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
-		
-		//monitor.getValuesForTimeRange("579c910e305d4119aeb410b3ef82e400:netBytesIN", "2000", null, null);
-		
-		return "Compare!!!";
+		for (String  name: metricNames)
+			json.put(name);		
+	    
+		return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
 	}
 }

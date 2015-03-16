@@ -28,11 +28,8 @@
 	border: 1px solid gray;
 }
 
-.pageMainContainer.compare .objectSelectorWrapper .controlWrapper > .controll{
-	height: 30px;
-	border: 1px solid gray;
-	margin: 5px;align-items: center;
-    border: 1px solid gray;
+.pageMainContainer.compare .objectSelectorWrapper .controlWrapper > .controll {
+	align-items: center;
     display: flex;
     height: 26px;
     justify-content: center;
@@ -93,21 +90,187 @@
 	top: 140px;
 }
 
+.pageMainContainer.compare .contentMainHolder .tabberPagesWhapper, .pageMainContainer.compare .contentMainHolder .tabberPagesWhapper > .tabberPage {
+	width:100%;
+	height:100%;
+}
+
+.pageMainContainer.compare .comparissonContent {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+
+.pageMainContainer.compare .comparissonContent .toolbar {
+	height: 30px;
+}
+
+.pageMainContainer.compare .toolbar > .controll {
+	height: 10px;
+	float: right;
+	
+	background-color: lightgray;
+	border: 3px solid gray;
+	
+	margin: 5px;
+	padding: 2px;
+	
+	align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;	
+    cursor:pointer;
+}
+
+.pageMainContainer.compare .toolbar > .controll:hover {
+	border-color: darkgray;
+}
+
+.pageMainContainer.compare .toolbar > .controll.actGo {
+	border-color: green;
+	background-color: lightgreen;
+}
+
+.pageMainContainer.compare .toolbar > .controll.actGo:hover {
+	border-color: darkgreen;
+}
+
+.pageMainContainer.compare .toolbar > .controll.disabled {
+	border-color: gray;
+	background-color: lightgray;
+}
+
+.pageMainContainer.compare .toolbar > .controll.disabled:hover {
+	border-color: gray;
+}
+
+
+.pageMainContainer.compare .comparissonContent .sidebar {
+	position: relative;
+	width: 200px;
+	
+	border-right: 1px solid white;	
+}
+
+
+.pageMainContainer.compare .comparissonContent .chartAreaOuterWrapper {
+	position: absolute;
+	left: 201px;
+	top: 0;
+	bottom: 0;
+	right: 0px;
+}
+
+.pageMainContainer.compare .comparissonContent .chartAreaOuterWrapper .chartContentToolbar {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+}
+
+.pageMainContainer.compare .comparissonContent .chartAreaOuterWrapper .chartArea {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 30px;
+	bottom: 0px;
+}
+
+.pageMainContainer.compare .comparissonContent .chartArea .chartContentWrapper {
+	bottom: 0px;
+    left: 201px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+/*
+* Version Components Side Bar
+*/
+.pageMainContainer.compare .comparissonContent .componentSelectionBar {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.pageMainContainer.compare .componentSelectionBar {
+	
+}
+
+.pageMainContainer.compare .componentSelectionBar .versionComponent {
+	
+} 
+
+.pageMainContainer.compare .componentSelectionBar .versionComponent .versionItemHead {
+	cursor: pointer;
+}
+
+
+.pageMainContainer.compare .componentSelectionBar .versionComponent .versionItemMain {
+	
+}
+
+.pageMainContainer.compare .componentSelectionBar .versionComponent .singleComponent {
+	cursor: pointer;
+}
+
+.pageMainContainer.compare .componentSelectionBar .versionComponent .singleComponent.selected {
+	background-color: grey;
+}
+
+.pageMainContainer.compare .componentSelectionBar .versionComponent .singleComponent:hover {
+	
+}
+
+/*
+* Combined Metrics bar
+*/
+
+.pageMainContainer.compare .comparissonContent .metricsSelectionBar {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.pageMainContainer.compare .comparissonContent .metricsSelectionBar .singleMetric {
+	cursor: pointer;
+	border: 1px solid inherit;
+}
+
+.pageMainContainer.compare .comparissonContent .metricsSelectionBar .singleMetric:hover {
+	border-color: black;
+}
+
+.pageMainContainer.compare .comparissonContent .metricsSelectionBar .singleMetric.selected {
+	border-color: gray;
+	background-color: gray;
+}
 
 
 
+/*
+* Inner popup rules, for displaying user application list
+*/
+.appSelectorPopUp .applicationSelectionBar {
+	
+}
 
+.appSelectorPopUp .applicationSelectionBar .application {
+	cursor: pointer;
+	border: 1px solid inherit;
+}
 
+.appSelectorPopUp .applicationSelectionBar .application:hover {
+	border-color: black;
+}
 
-
-
-
-
-
-
-
-
-
+.appSelectorPopUp .applicationSelectionBar .application.selected {
+	border-color: gray;
+	background-color: gray;
+}
 
 
 /* -------------------------------- 

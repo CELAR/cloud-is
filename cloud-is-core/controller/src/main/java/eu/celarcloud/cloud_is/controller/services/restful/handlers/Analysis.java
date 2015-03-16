@@ -266,19 +266,7 @@ public class Analysis
 		
 		// Add Information about
 		// Resizing Decisions Taken
-		// to the response
-		int min = 15;
-		int max = 100;
-		/*
-		JSONObject actions = new JSONObject();
-			for(int i = 1; i < 4; i++)
-			{
-				long tStart = Long.parseLong(dpl.startTime);
-				long offset = sRate * TestClass.randInt(min + 1, max - 1); //TODO : Needs to be moved
-				long time = tStart + offset;
-				actions.put("Action " + i, time);
-			}		
-			*/
+		// to the response		
 		List<String> actions = eLog.getEnforcedActions(deplId, compId, "", sTime, eTime);
 		json.put("actions", actions);
 		

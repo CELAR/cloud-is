@@ -124,7 +124,7 @@
     
     $(document).ready(function() {      	 	
     	google.load('visualization', '1', {
-    		packages: ['corechart'],
+    		packages: ['corechart', 'table'],
     		callback : pageLoaded
    		});
     });
@@ -179,26 +179,28 @@
 			<div class="objectSelectorWrapper">
 			  <div class="comparissonRibbon inner">		  	
 			  	<div class="well">
-			  		<div class="wellItemTemplate wellItem noDisplay">
+			  		<div class="wellItemTemplate wellItem comparableVersion noDisplay">
 			  			<div class="inner ribbonItem" >
 			  				<div class="compItemHead">
 			  					<div></div>
 			  					<div></div>
 			  				</div>
 			  				<div class="compItemMain">
-								<div><span>Application Id: </span><span data-name="appId"></span></div>
+								<div><span>Application Id: </span><span data-name="uid"></span></div>
 								<div><span>Version:  </span><span data-name="version"></span></div>
+								<span data-name="appCombId"></span>
+								<span data-name="deployment"></span>
 							</div>
 							<div class="compItemFooter">
 								<div></div>
 							</div>
 						</div>
 					</div>
-					<div class="wellContentHolder"></div>
+					<div class="wellContentHolder comparissonItems"></div>
 			  	</div>
 		  		<div class="controlWrapper ribbonItem">
 		  			<div class="controll addNew" role="button" data-action="addNew"><span>ADD</span></div>
-		  			<div class="controll compare" role="button" data-action="compare"><span>COMPARE</span></div>
+		  			<div class="controll compare" role="button" data-action="comparePrep"><span>COMPARE</span></div>
 		  		</div>
 		  	</div>
 		  	</div>
@@ -217,48 +219,74 @@
 						<div id="barChart"></div>
 					</div>
 					<div id="chartBuilder" class="tabberPage mainCol full" data-tabber-page=true data-tabber-pageId="chartBuilder">
-						<div class="wellItem">
-						  	<%
-						  	String versID = request.getParameter("versID") == null ? "" : request.getParameter("versID");
-						  	String[] versIDArray = null;
-						  	if(versID.contains(","))
-					    	{
-						  		// More than one
-					    		//split version
-					    		versIDArray = versID.split(",");
-					    	}		  	
-						  	else if(!versID.isEmpty())
-						  	{
-						  		// only one
-						  		versIDArray[0] = versID;		  		
-						  	}
-						  	if(versIDArray!=null)
-						  	{
-							  	for(int i=0; i < versIDArray.length; i++)
-							  	{
-							  		out.print("<select>");
-							  		out.print("<option selected value=\""+versIDArray[i]+"\">");
-							  		out.print("version " + versIDArray[i]);
-							  		out.print("</option>");
-							  		out.print("</select>");
-							  	}
-						  	}
-						  	%>		  	
+						<div class="comparissonContent noDisplay">
+							<div class="componentSelectionBar sidebar">
+								<div class="toolbar">
+									<div class="controll commonMetrics actGo disabled" role="button" data-action="commonMetrics"><span>Show Metric</span></div>
+								</div>															
+								<div class="well">
+							  		<div class="wellItemTemplate wellItem versionComponent noDisplay">
+							  			<div class="inner" >
+							  				<div class="versionItemHead">
+							  					<div><span data-name="version"></span></div>
+							  				</div>
+							  				<div class="versionItemMain noDisplay">
+												
+											</div>
+										</div>
+									</div>
+									<div class="wellContentHolder selectedVersions"></div>
+								</div>
+							</div>
+							<div class="chartAreaOuterWrapper">
+								<div class="chartContentToolbar toolbar">
+										<div class="controll compare actGo" role="button" data-action="compare"><span>Build Chart</span></div>
+								</div>
+								<div  class="chartArea">
+									<div class="metricsSelectionBar sidebar">
+										<div class="well">
+									  		<div class="wellItemTemplate wellItem singleMetric noDisplay">
+									  			
+											</div>
+											<div class="wellContentHolder selectedMetrics"></div>
+										</div>
+									</div>
+									<div class="chartContentWrapper">									
+										<div class="chartContentHolder">
+									
+										</div>
+										<div class="chartContentSummary">
+									
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
+						<div class="noContentNotice"></div>
 					</div>
 				</div>
 			</div>
 	    </div>	
 	</div>
-	<div class="cd-popup" role="alert">
+	<div class="cd-popup appSelectorPopUp" role="alert">
 		<div class="cd-popup-container">
 			<p>Are you sure you want to delete this element?</p>
 			<div>
-			
+				<div class="applicationSelectionBar sidebar">
+					<div class="well">
+				  		<div class="wellItemTemplate wellItem application noDisplay">
+				  			<span data-name="description"></span>
+				  			<span data-name="uid"></span>
+				  			<span data-name="appCombId"></span>
+				  			<span data-name="version"></span>
+						</div>
+						<div class="wellContentHolder applicationList"></div>
+					</div>
+				</div>
 			</div>
 			<ul class="cd-buttons">
-				<li><a href="#0">Yes</a></li>
-				<li><a href="#0">No</a></li>
+				<li><a href="#0" data-action="aprove">Yes</a></li>
+				<li><a href="#0" data-action="cancel">No</a></li>
 			</ul>
 			<a href="#0" class="cd-popup-close img-replace">Close</a>
 		</div> <!-- cd-popup-container -->
