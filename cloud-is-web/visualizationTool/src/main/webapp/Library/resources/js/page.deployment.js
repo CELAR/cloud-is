@@ -380,19 +380,19 @@ var initScripts = {
 						    	
 						    	
 						    	// Add Events to the panel tool bar
-						    	$(".close").off('click');
-						    	$(".close").on('click', function(){
+								$('.nodeInfoPanel [role="button"][data-action="close"]').off('click');
+								$('.nodeInfoPanel [role="button"][data-action="close"]').on('click', function(){
 						    		$(".nodeInfoPanel").removeClass("open");						    		
 						    	});
 						    	
-						    	$(".saveClose").off('click');
-						    	$(".saveClose").on('click', function(){
+						    	$('.nodeInfoPanel [role="button"][data-action="saveClose"]').off('click');
+						    	$('.nodeInfoPanel [role="button"][data-action="saveClose"]').on('click', function(){
 						    		$(".save").trigger('click');
 						    		$(".close").trigger('click');			    		
 						    	});
 						    	
-						    	$(".save").off('click');
-						    	$(".save").on('click', function(){
+						    	$('.nodeInfoPanel [role="button"][data-action="save"]').off('click');
+						    	$('.nodeInfoPanel [role="button"][data-action="save"]').on('click', function(){
 						    		// Clear assigned metric
 						    		var context = $(referer).find('.assignedMetrics');
 						    		context.find('.assignedMetricsHolder').html('');
@@ -426,8 +426,8 @@ var initScripts = {
 		});
 		
 		// Set 'Apply' Button enent handler
-		$('.applyBtn [data-type="button"][data-id="analyze"]').off('click');
-		$('.applyBtn [data-type="button"][data-id="analyze"]').on('click', function() {
+		$('.applyBtn [role="button"][data-action="analyze"]').off('click');
+		$('.applyBtn [role="button"][data-action="analyze"]').on('click', function() {
 			var values = $("#slider").dateRangeSlider("values");
 	        console.log(new Date(values.min) + " " + new Date(values.max));
 	       	       

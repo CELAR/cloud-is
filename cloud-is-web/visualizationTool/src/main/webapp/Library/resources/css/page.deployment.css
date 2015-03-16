@@ -212,6 +212,11 @@
 	position: absolute;
     right: 10px;
 }
+
+.pageMainContainer.deployment .timeControlBar .applyBtn > .commons-controll{
+	margin-top: 0px;
+}
+
 .pageMainContainer.deployment .initTopologyExplorerTabPage .timeRange {
 	padding-bottom: 5px;
 	text-align: center;
@@ -279,6 +284,7 @@
 	z-index: 10;
 	background-color: #FAFAFA;
 	overflow: auto;
+	border-top: 1px solid white;	
 	box-shadow: 0px 0px 5px #CCC;
 	-webkit-box-shadow: 0px 0px 5px #CCC;
 	-moz-box-shadow: 0px 0px 5px #CCC;
@@ -308,16 +314,14 @@
 	float: right;
 }
 
-.pageMainContainer.deployment .nodeInfoPanel .panelControlBar .panelCBarItem {
-	 border-right: 1px solid #000000;
-	 padding: 2px 4px;
+.pageMainContainer.deployment .nodeInfoPanel .panelControlBar .panelCBarItem{
+	 display: inline-block;
 }
 
-.pageMainContainer.deployment .nodeInfoPanel .panelControlBar .panelCBarItem:last-child {
-	 border-right: none;
-}
-
-.pageMainContainer.deployment .nodeInfoPanel .panelControlBar .panelCBarItem:hover {	
+.pageMainContainer.deployment .nodeInfoPanel .panelControlBar .panelCBarItem > .commons-controll{
+	 margin-top: 0px;
+	 margin-bottom: 0px;
+	 height: 10px;
 }
 
 .pageMainContainer.deployment .metricsSelectorWrapper {
