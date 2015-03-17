@@ -91,7 +91,7 @@ public class DeplInfo extends HttpServlet {
     	// in order for jsp page to get the info
     	
 		RequestDispatcher dispatcher;
-    	if(request.getParameter("tab").equals("analysis"))
+    	if(request.getParameter("tab") != null && request.getParameter("tab").equals("analysis"))
     	{
     		dispatcher = request.getRequestDispatcher("/hPages/deployment-analysis.jsp");
     	}
