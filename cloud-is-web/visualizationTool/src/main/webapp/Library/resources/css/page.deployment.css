@@ -228,7 +228,7 @@
 
 .pageMainContainer.deployment .topologyCanvasWrapper > .chart{
 	width: 300px;
-	height: 160px;
+	height: 180px;
 	position: absolute;
 	
 }
@@ -261,18 +261,30 @@
 }
 
 .pageMainContainer.deployment .topologyCanvas > .component:hover {
-	-moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
-	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
-	box-shadow: 0 0 5px rgba(0,0,0,0.5);
+	-moz-box-shadow: 7px 7px 3px rgba(251, 219, 188, 0.75);
+	-webkit-box-shadow: 7px 7px 3px rgba(251, 219, 188, 0.75);
+	box-shadow: 7px 7px 3px rgba(251, 219, 188, 0.75); 
+	/*box-shadow: 0 0 5px rgba(0,0,0,0.5);*/
+}
+
+.pageMainContainer.deployment .topologyCanvasWrapper .component .title {
+    border-bottom: 1px solid lightgray;
+    text-align: center;
 }
 
 .pageMainContainer.deployment .component  .assignedMetrics {
-	
-	
+	padding-top: 3px;	
 }
 
 .pageMainContainer.deployment .component  .assignedMetrics .singleMetric {
-	
+	background: none repeat scroll 0 0 #e1e1e1;
+    border-radius: 10px;
+    padding: 3px 10px;
+    margin: 3px;
+    font-size: 85%;
+    text-align: center;
+    
+    display: inline-block;
 }
 
 .pageMainContainer.deployment .nodeInfoPanel {
@@ -324,6 +336,16 @@
 	 height: 10px;
 }
 
+.pageMainContainer.deployment .nodeInfoPanel .nodeInfoSection {
+	margin-bottom: 10px;
+	padding: 0px 10px;
+}
+
+.pageMainContainer.deployment .nodeInfoPanel .nodeInfoSection .title{
+	font-size: 130%;
+    font-weight: bold;
+}
+
 .pageMainContainer.deployment .metricsSelectorWrapper {
 	position: relative;
 	width: 100%;
@@ -339,8 +361,17 @@
 }
 
 .pageMainContainer.deployment .metricsListWrapper .header > .title {
-	
+	float: left;
 }
+
+.pageMainContainer.deployment .metricsListWrapper .header > .controllWrapper {
+	float:right;
+}
+
+.pageMainContainer.deployment .metricsListWrapper .header > .controllWrapper > .commons-controll {
+	height: 10px;
+}
+
 
 .pageMainContainer.deployment .nodeInfoPanel .nodeMetric {
 	

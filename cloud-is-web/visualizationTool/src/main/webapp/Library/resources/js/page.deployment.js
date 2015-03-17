@@ -263,7 +263,7 @@ var initScripts = {
 							var component = $('.topologyCanvasWrapper > .templatePool').find('.component[data-type="template"]').clone();
 							component.attr('data-type', '');
 						    
-							component.find('.title').text(node.name);
+							component.find('.title span[data-name="name"]').html(node.name);
 							connect = component.find('.connect');
 						    
 							// Fill box metadata info
@@ -299,6 +299,10 @@ var initScripts = {
 						    	var deplId = '0';
 						    	var compId = '';
 						    	var referer = e.target;
+						    	
+						    	// Set the Component title
+						    	$('.nodeInfoSection span[data-name="name"]').html($(referer).find('.title span[data-name="name"]').html());
+						    	
 						    	
 						    	/*
 						    	 * Ajax call to get the available metrics
@@ -362,16 +366,16 @@ var initScripts = {
 						    	
 								
 								//
-								$('.metricsListWrapper [data-id="btn_moveToSelected"]').off('click');
-								$('.metricsListWrapper [data-id="btn_moveToSelected"]').on('click', function(){
+								$('.metricsListWrapper [role="button"][data-action="moveToSelected"]').off('click');
+								$('.metricsListWrapper [role="button"][data-action="moveToSelected"]').on('click', function(){
 									$.each($("#metricsList > option"), function(){
 										$(this).appendTo("#selectedMetricsList");
 									});								
 								});
 								
 								
-								$('.metricsListWrapper [data-id="btn_moveToAvailable"]').off('click');
-								$('.metricsListWrapper [data-id="btn_moveToAvailable"]').on('click', function(){
+								$('.metricsListWrapper [role="button"][data-action="moveToAvailable"]').off('click');
+								$('.metricsListWrapper [role="button"][data-action="moveToAvailable"]').on('click', function(){
 									$.each($("#selectedMetricsList > option"), function(){
 										$(this).appendTo("#metricsList");
 									});
@@ -387,8 +391,8 @@ var initScripts = {
 						    	
 						    	$('.nodeInfoPanel [role="button"][data-action="saveClose"]').off('click');
 						    	$('.nodeInfoPanel [role="button"][data-action="saveClose"]').on('click', function(){
-						    		$(".save").trigger('click');
-						    		$(".close").trigger('click');			    		
+						    		$('.nodeInfoPanel [role="button"][data-action="save"]').trigger('click');
+						    		$('.nodeInfoPanel [role="button"][data-action="close"]').trigger('click');			    		
 						    	});
 						    	
 						    	$('.nodeInfoPanel [role="button"][data-action="save"]').off('click');
@@ -404,7 +408,8 @@ var initScripts = {
 						    			
 						    			var item = context.find('.wellItemTemplate').clone();
 						    			
-						    			item.html($(this).val());
+						    			item.find('span').html($(this).val());
+						    			item.data('metricId', $(this).val()); // TODO: its set the name not the id, refine
 						    			item.removeClass('wellItemTemplate');
 										//$(referer).find('.assignedMetrics').append($(this).val());
 						    			context.find('.assignedMetricsHolder').append(item);
@@ -440,7 +445,7 @@ var initScripts = {
 	        	if(component.find('.assignedMetrics .assignedMetricsHolder .singleMetric').length > 0)
 	        	{
 		        	$.each(component.find('.assignedMetrics .assignedMetricsHolder .singleMetric'), function () {	    			  		
-		        		qString	+= '&metrics=' + $(this).html();	
+		        		qString	+= '&metrics=' + $(this).data('metricId');	
 		    		});
 		    		qString	+= '&method=' + 'trend';
 		    		qString	+= '&sTime=' + new Date(values.min).getTime();
@@ -457,7 +462,7 @@ var initScripts = {
 							// Draw a chart below the component
 							var chart = $('<div></div>');
 							var width = 300;
-							var height = 160;
+							var height = 180;
 							
 							pos = component.position();
 							//
@@ -501,8 +506,15 @@ var initScripts = {
 							var options = {
 							   curveType: 'function',
 						       height: height - 10, /* Temporary hack, cause: the chart overlaps the outer container and hides its border */
+						       chartArea: {
+						    	   'width': '80%',
+						       },
 						       allowHtml: 'true',
 						       interpolateNulls: true,
+						       legend : {
+						    	   position: 'top', 
+						    	   alignment :'center'
+						       },
 						       hAxis: {
 						           title: 'Time'
 					         },

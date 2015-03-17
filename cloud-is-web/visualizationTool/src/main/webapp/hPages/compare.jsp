@@ -20,6 +20,7 @@
 		isServerValidation();
 	</script>	
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/util.ui.tabber.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.outer.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.inner.css"/>	
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/page.compare.css"/>
@@ -182,14 +183,13 @@
 			  		<div class="wellItemTemplate wellItem comparableVersion noDisplay">
 			  			<div class="inner ribbonItem" >
 			  				<div class="compItemHead">
-			  					<div></div>
-			  					<div></div>
+			  					<div><span data-name="name"></span></div>
 			  				</div>
 			  				<div class="compItemMain">
-								<div><span>Application Id: </span><span data-name="uid"></span></div>
-								<div><span>Version:  </span><span data-name="version"></span></div>
-								<span data-name="appCombId"></span>
-								<span data-name="deployment"></span>
+								<div class="noDisplay"><span>Application Id: </span><span data-name="uid"></span></div>
+								<div class="noDisplay"><span>Version:  </span><span data-name="version"></span></div>
+								<div style="font-style: italic;"><span data-name="appCombId"></span></div>
+								<div><span>Deployment: </span><span data-name="deployment"></span></div>
 							</div>
 							<div class="compItemFooter">
 								<div></div>
@@ -199,8 +199,8 @@
 					<div class="wellContentHolder comparissonItems"></div>
 			  	</div>
 		  		<div class="controlWrapper ribbonItem">
-		  			<div class="controll addNew" role="button" data-action="addNew"><span>ADD</span></div>
-		  			<div class="controll compare" role="button" data-action="comparePrep"><span>COMPARE</span></div>
+		  			<div class="commons-controll controll addNew" role="button" data-action="addNew"><span>ADD</span></div>
+		  			<div class="commons-controll controll compare" role="button" data-action="comparePrep"><span>COMPARE</span></div>
 		  		</div>
 		  	</div>
 		  	</div>
@@ -228,7 +228,7 @@
 							  		<div class="wellItemTemplate wellItem versionComponent noDisplay">
 							  			<div class="inner" >
 							  				<div class="versionItemHead">
-							  					<div><span data-name="version"></span></div>
+							  					<div><span>Version:  </span><span data-name="version"></span></div>
 							  				</div>
 							  				<div class="versionItemMain noDisplay">
 												
@@ -270,15 +270,20 @@
 	</div>
 	<div class="cd-popup appSelectorPopUp" role="alert">
 		<div class="cd-popup-container">
-			<p>Are you sure you want to delete this element?</p>
+			<p>Select Application Versions to Compare</p>
 			<div>
 				<div class="applicationSelectionBar sidebar">
 					<div class="well">
 				  		<div class="wellItemTemplate wellItem application noDisplay">
-				  			<span data-name="description"></span>
-				  			<span data-name="uid"></span>
-				  			<span data-name="appCombId"></span>
-				  			<span data-name="version"></span>
+				  			<div class="inlineChilds">
+					  			<div class=""><span data-name="description"></span></div>
+					  			<div class=""><span data-name="uid"></span></div>
+					  			<div class=""><span data-name="appCombId"></span></div>
+					  			<div class=""><span data-name="version"></span></div>
+				  			</div>
+				  			<div class="metaContent noDisplay">
+				  				<span data-name="name"></span>
+				  			</div>
 						</div>
 						<div class="wellContentHolder applicationList"></div>
 					</div>

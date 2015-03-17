@@ -42,7 +42,8 @@ $(document).ready(function(){
 				{										
 					$.each(jsonObj, function(key, app) {
 						var wellItem = context.find('.well > .wellItemTemplate').clone();
-												
+											
+						wellItem.find('span[data-name="name"]').html(app.description);
 						wellItem.find('span[data-name="uid"]').html(app.uid);
 						wellItem.find('span[data-name="version"]').html(app.vMajor + '.' + app.vMinor);
 						wellItem.find('span[data-name="description"]').html(app.description);
@@ -97,6 +98,7 @@ $(document).ready(function(){
 		$.each($(popup).find('.application.selected'), function() {
 			var wellItem = context.find('.well > .wellItemTemplate').clone();
 			
+			wellItem.find('span[data-name="name"]').html($(this).find('span[data-name="name"]').html());
 			wellItem.find('span[data-name="uid"]').html($(this).find('span[data-name="uid"]').html());
 			wellItem.find('span[data-name="appCombId"]').html($(this).find('span[data-name="appCombId"]').html());
 			wellItem.find('span[data-name="version"]').html($(this).find('span[data-name="version"]').html());			
@@ -278,7 +280,7 @@ $(document).ready(function(){
 		});
 		
 		
-		function loginUser(){
+		function analyticsRequests(){
 		    var requests = [];
         	$.each($('.versionComponent'), function() {
 				if($(this).find('.singleComponent.selected').length > 0)
@@ -311,7 +313,7 @@ $(document).ready(function(){
 		    return $.when.apply($, requests);
 		}
 
-		loginUser().done(function() {
+		analyticsRequests().done(function() {
 			console.log(combinedJSON);			
 
 			var instancesDataTable;
@@ -325,9 +327,9 @@ $(document).ready(function(){
 				$.each(metricData, function(id, obj) {
 					var metricDataTable = new google.visualization.DataTable();
 					metricDataTable.addColumn('datetime', 'Time');
-					metricDataTable.addColumn('number', id + '.' + metricName);
+					metricDataTable.addColumn('number', metricName + "(" + id + ")");
 					$.each(obj.data, function(index, metricObj) {
-						var date = new Date(parseInt(metricObj.t) * 1000);
+						var date = new Date(parseInt(metricObj.t));
 						metricDataTable.addRow([date, parseInt(metricObj.v)]);
 					});
 					if(linesCounter == 0)

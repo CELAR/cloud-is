@@ -13,7 +13,7 @@
 }
 
 .page .commons-controll:hover {	
-	border-color: darkgray;
+	border-color: darkslategray;
 }
 
 .page .commons-controll.positive {
@@ -34,7 +34,14 @@
 	border-color: darkred;
 }
 
+.page .commons-controll.neutral {
+	border-color: blue;
+	background-color: lightblue;
+}
 
+.page .commons-controll.neutral:hover {
+	border-color: darkblue;
+}
 
 
 .page .commons-controll.disabled {

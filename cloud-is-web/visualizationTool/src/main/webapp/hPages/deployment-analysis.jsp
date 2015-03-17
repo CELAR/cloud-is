@@ -27,6 +27,7 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/util.ui.well.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/util.ui.beanBox.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/util.ui.charts.common.css"/>
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.outer.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/webapp.shared.inner.css"/>
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/Library/resources/css/page.deployment.css"/>
@@ -175,41 +176,43 @@
 						<div class="timeControlBar background light">
 							<div class="promptWrapper"><span>Define time range: </span></div>							
 							<div id="slider" class="sliderContainer"></div>				
-							<div class="applyBtn"><button id="btn" data-type="button" data-id="analyze">Apply</button></div>
+							<div class="applyBtn">
+								<div class="commons-controll positive" role="button" data-action="analyze"><span>Apply</span></div>
+							</div>
 						</div>
 						<div class="timeRange background light">
 						</div>					
 						<div class="topologyCanvasWrapper">
 							<div class="noDisplay templatePool">
 								<div class="component" data-type="template">
-									<div class="title"></div>
+									<div class="title"><span data-name="name"></span></div>
 									<div class="connect"></div>
 									<div class="metadata noDisplay"></div>
 									<div class="assignedMetrics well">
-										<div class="wellItemTemplate singleMetric"></div>
+										<div class="wellItemTemplate singleMetric"><span></span></div>
 										<div class="assignedMetricsHolder wellContentHolder"></div>
 									</div>
 								</div>
 							</div>
 							<div class="topologyCanvas"></div>
 							<div class="nodeInfoPanel">
-								<div class="panelControlBar">
-									<div class="inner inlineChilds">
-										<div class="panelCBarItem"><span class="save clickable">Save</span></div>
-										<div class="panelCBarItem"><span class="saveClose clickable">Save &amp; Close</span></div>
-										<div class="panelCBarItem"><span class="close clickable">Close</span></div>
+								<div class="panelControlBar background light">
+									<div class="inner">
+										<div class="panelCBarItem"><div class="commons-controll positive" role="button" data-action="save"><span>Save</span></div></div>
+										<div class="panelCBarItem"><div class="commons-controll positive" role="button" data-action="saveClose"><span>Save &amp; Close</span></div></div>
+										<div class="panelCBarItem"><div class="commons-controll negative" role="button" data-action="close"><span>Close</span></div></div>
 									</div>
 								</div>
 								<div class="panelContent">
 									<div class="nodeInfoSection">
-										<div><span class="title"> Title </span></div>
+										<div class="title"><span> Name / Description: </span><span data-name="name"></span></div>
 									</div>
 									<div class="metricsSelectorWrapper">
 										<div class="metricsListWrapper">
 											<div class="inner">
 												<div class="header">
 													<div class="title"><span>Available Metrics</span></div>
-													<div><span class="clickable" data-id="btn_moveToSelected">Move All</span></div>
+													<div class="controllWrapper"><div class="commons-controll" role="button" data-action="moveToSelected"  data-id="btn_moveToSelected"><span>Move All</span></div></div>
 												</div>
 											    <select id="metricsList" class="selectList metricsList" multiple="multiple"></select>
 											</div>
@@ -218,7 +221,7 @@
 											<div class="inner">											
 												<div class="header">
 													<div class="title"><span>Selected Metrics</span></div>
-													<div><span class="clickable" data-id="btn_moveToAvailable">Move All</span></div>
+													<div class="controllWrapper"><div class="commons-controll" role="button" data-action="moveToAvailable"  data-id="btn_moveToAvailable"><span>Move All</span></div></div>
 												</div>
 											    <select id="selectedMetricsList" class="selectList metricsList" multiple="multiple"></select>
 										    </div>

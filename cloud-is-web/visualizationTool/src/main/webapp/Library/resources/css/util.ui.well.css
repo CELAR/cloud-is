@@ -3,7 +3,7 @@
 }
 
 .well > .wellItemTemplate {
-	display: none;
+	display: none !important;
 }
 
 .well > .wellContentHolder {
