@@ -1,5 +1,7 @@
 package eu.celarcloud.cloud_is.dataCollectionModule.common.beans;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Application implements IBean{
@@ -23,6 +25,15 @@ public class Application implements IBean{
 			application.put("vMajor", this.vMajor);
 	    	application.put("description", description);
 	    	application.put("sTime", this.submitted); 
+	    	
+	    	try {
+	    		JSONArray t = new JSONArray(this.topology);
+	    		application.put("topology", t); 
+	    	} 
+	    	catch (JSONException ex) {
+	    		application.put("topology", this.topology); 
+	    	}
+	    	
 		return application;
 	}	 
 }

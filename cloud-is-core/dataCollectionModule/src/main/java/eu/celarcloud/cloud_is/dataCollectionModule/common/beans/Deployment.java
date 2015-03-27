@@ -18,7 +18,6 @@ public class Deployment implements IBean{
 		JSONObject deployment;
     	deployment = new JSONObject();
 	    	deployment.put("id", this.id);
-	    	deployment.put("version", "123456"); // TODO - Ad Hoc Information
 	    	deployment.put("application", this.applicationId);
 	    	deployment.put("status", this.status); 
 	    	deployment.put("sTime", this.startTime); 

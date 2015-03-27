@@ -40,7 +40,7 @@ public interface IMetering extends IDataSource{
 	 *            the agent status
 	 * @return the agents
 	 */
-	public String getAgents(String deplId, String agentStatus);
+	public String getAgents(String deplId, String agentStatus) throws java.lang.UnsupportedOperationException;
 	
 	/**
 	 * Gets the agent metrics.
@@ -51,7 +51,7 @@ public interface IMetering extends IDataSource{
 	 *            the agent id
 	 * @return the agent metrics
 	 */
-	public String getAgentMetrics(String deplId, String agentId);
+	public String getAgentMetrics(String deplId, String agentId) throws java.lang.UnsupportedOperationException;
 	
 	
 	/**
@@ -63,7 +63,7 @@ public interface IMetering extends IDataSource{
 	 *            the comp id
 	 * @return the available metrics
 	 */
-	public List<String> getAvailableMetrics(String deplId, String compId);
+	public List<String> getAvailableMetrics(String deplId, String compId) throws java.lang.UnsupportedOperationException;
 	
 	/**
 	 * Gets the metric values.
@@ -78,7 +78,7 @@ public interface IMetering extends IDataSource{
 	 *            the e time
 	 * @return the metric values
 	 */
-	public List<Metric> getMetricValues(String deplId, String name, String sTime, String eTime);
+	public List<Metric> getMetricValues(String deplId, String name, long sTime,	long eTime) throws java.lang.UnsupportedOperationException;
 
 	/**
 	 * Gets the deployment cost.
@@ -93,5 +93,5 @@ public interface IMetering extends IDataSource{
 	 *            the e time
 	 * @return the deployment cost
 	 */
-	public List<Metric> getDeploymentCost(String deplId, String tierId, long sTime, long eTime);
+	public List<Metric> getDeploymentCost(String deplId, String tierId, long sTime, long eTime) throws java.lang.UnsupportedOperationException;
 }

@@ -34,6 +34,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContextBuilder;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
@@ -43,6 +44,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.slf4j.LoggerFactory;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class RestClient.
  */
@@ -60,13 +62,19 @@ public class RestClient {
 	/** The httpclient. */
 	private CloseableHttpClient httpclient;
 	
+	/** The Constant LOG. */
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(RestClient.class.getName());
+	
+	/** The request start. */
+	private long requestStart;
 	
 	/**
 	 * Instantiates a new rest client.
 	 */
-	public RestClient() 
-	{
+	public RestClient() {
+		// Shut off the uneeded logging off httpClient
+		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
+		
 		SSLContextBuilder SSlcBuilder = new SSLContextBuilder();
 		try {
 			SSlcBuilder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
@@ -85,8 +93,7 @@ public class RestClient {
 	 * @param name
 	 *            the name
 	 */
-	public RestClient(String name) 
-	{
+	public RestClient(String name) {
 		this();
 		this.name = name;
 	}
@@ -100,24 +107,12 @@ public class RestClient {
 	 *            the accept type
 	 * @return the closeable http response
 	 */
-	public CloseableHttpResponse executeGet(URI uri, String acceptType)
-	{
+	public CloseableHttpResponse executeGet(URI uri, String acceptType) {
 		HttpGet httpGet = new HttpGet(uri);
 	    httpGet.addHeader("accept", acceptType);
 	    httpGet.addHeader("Content-Type", "application/octet-stream");
 	    
-
-		CloseableHttpResponse response = null;
-	    try {
-			response = this.httpclient.execute(httpGet);
-			//System.out.println(response.getStatusLine());
-		} catch (IOException e1) {
-			LOG.warn("Rest Client " + this.name + " :" + "Endpoint is not accessible");
-			e1.printStackTrace();
-			return null;
-		}
-	    
-	    return response;				
+	    return this.execute(httpGet);				
 	}
 	
 	/**
@@ -131,8 +126,7 @@ public class RestClient {
 	 *            The body message to be send in string format
 	 * @return the closeable http response
 	 */
-	public CloseableHttpResponse executePost(URI uri, String acceptType, String xmlString)
-	{
+	public CloseableHttpResponse executePost(URI uri, String acceptType, String xmlString) {
 		HttpPost httpPost = new HttpPost(uri);
 		httpPost.addHeader("accept", acceptType);
 		httpPost.addHeader("Content-Type", "application/octet-stream");
@@ -146,17 +140,7 @@ public class RestClient {
 		}
 		httpPost.setEntity(xmlEntity);
 		
-		CloseableHttpResponse response = null;
-	    try {
-			response = this.httpclient.execute(httpPost);
-			//System.out.println(response.getStatusLine());
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			System.out.println("Rest Client " + this.name + " :" + "Endpoint is not accessible");
-			return null;
-		}
-	    
-	    return response;				
+	    return this.execute(httpPost);				
 	}
 	
 	/**
@@ -166,8 +150,7 @@ public class RestClient {
 	 *            the uri
 	 * @return the closeable http response
 	 */
-	public CloseableHttpResponse executeGet(URI uri)
-	{
+	public CloseableHttpResponse executeGet(URI uri) {
 		return this.executeGet(uri, ACCEPT_JSON);	
 	}
 	
@@ -175,11 +158,10 @@ public class RestClient {
 	 * Gets the content.
 	 *
 	 * @param response
-	 *            the response
+	 *            the http response
 	 * @return the content
 	 */
-	public String getContent(CloseableHttpResponse response)
-	{
+	public String getContent(CloseableHttpResponse response) {
 		if(response == null)
 		{
 			LOG.debug("Response is null");
@@ -230,8 +212,35 @@ public class RestClient {
 				return "";
 			}
 	    }
-	    
+	    	    
 	    return result.toString();		
+	}
+	
+	/**
+	 * Execute.
+	 *
+	 * @param http
+	 *            the http
+	 * @return the http response
+	 */
+	private CloseableHttpResponse execute(HttpUriRequest http) {
+		this.requestStart = System.currentTimeMillis();
+		
+		CloseableHttpResponse response = null;
+	    try {
+			response = this.httpclient.execute(http);
+			//System.out.println(response.getStatusLine());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			System.out.println("Rest Client " + this.name + " :" + "Endpoint is not accessible");
+			return null;
+		}
+	    
+	    
+	    long executionTime = System.currentTimeMillis() - this.requestStart;
+	    System.out.println("Request to " + http.getURI() + " completed in " + executionTime / 1000 + " sec");
+	    
+	    return response;		
 	}
   
 	

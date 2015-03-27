@@ -42,7 +42,7 @@ public interface IElasticityLog extends ILogEvents {
 	 *            the e time
 	 * @return the enforced actions
 	 */
-	public List<String> getEnforcedActions(String deplId, String name, String sTime, String eTime);	
+	public List<String> getEnforcedActions(String deplId, String name, Long sTime, Long eTime);	
 	
 	/**
 	 * Gets the enforced actions.
@@ -59,5 +59,5 @@ public interface IElasticityLog extends ILogEvents {
 	 *            the e time
 	 * @return the enforced actions
 	 */
-	public List<String> getEnforcedActions(String deplId, String compId, String name, String sTime, String eTime);
+	public List<String> getEnforcedActions(String deplId, String compId, String name, Long sTime, Long eTime);
 }
