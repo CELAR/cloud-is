@@ -100,7 +100,7 @@
 														<span>Application Metadata Parameters</span>
 													</div>
 													<div class="groupContent">
-														<div class="formRow"><label>App Name</label><input name="description" data-type="string" type="text"/></div>
+														<div class="formRow"><label>Description</label><input name="description" data-type="string" type="text"/></div>
 													</div>
 						    					</div>		    						
 												<div class="searchParamsGroup">

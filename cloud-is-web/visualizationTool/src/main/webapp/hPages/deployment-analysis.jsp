@@ -121,7 +121,10 @@
 		    					<div class="body">
 		    						<div class="inner">
 		    							<div class="row">
-		    								<span class="clickable" data-id="overview" data-component data-templtype="overview" data-template="appOverview">Overview</span>
+		    								<span class="clickable" data-id="overview" data-component data-templtype="overview" data-template="appOverview">Deployment Overview</span>
+		    							</div>
+		    							<div class="row">
+		    								<span class="">Application Components</span>
 		    							</div>
 		    							<div class="row treeView well">
 			    							<div class="wellItem wellItemTemplate" style="padding:2px 7px">
@@ -208,6 +211,7 @@
 										<div class="title"><span> Name / Description: </span><span data-name="name"></span></div>
 									</div>
 									<div class="metricsSelectorWrapper">
+										<p>Select metrics to show on the Topology View for this component</p>
 										<div class="metricsListWrapper">
 											<div class="inner">
 												<div class="header">
@@ -226,7 +230,11 @@
 											    <select id="selectedMetricsList" class="selectList metricsList" multiple="multiple"></select>
 										    </div>
 										</div>
-									</div>										
+									</div>
+									<div class="">
+										<p>Select a timeframe for analysis according to the Resising Desicions taken for this component</p>
+									
+									</div>									
 								</div>
 							</div>
 						</div>

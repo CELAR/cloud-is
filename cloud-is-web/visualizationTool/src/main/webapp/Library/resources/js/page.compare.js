@@ -113,7 +113,10 @@ $(document).ready(function(){
 					if (jQuery.type(jsonObj) === "string")
 						jsonObj = eval(jsonObj);
 					
-					wellItem.find('span[data-name="deployment"]').html(jsonObj[0].id);
+					if(jsonObj !=null && jsonObj !="")
+						wellItem.find('span[data-name="deployment"]').html(jsonObj[0].id);
+					else
+						wellItem.find('span[data-name="deployment"]').html("No Eligible Deployemen Found");
 				}
 			});
 						

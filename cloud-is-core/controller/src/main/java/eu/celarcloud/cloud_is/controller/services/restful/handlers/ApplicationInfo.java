@@ -181,14 +181,14 @@ public class ApplicationInfo
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{appId}/{verId}/topology")
-	public Response getVersionTopology(@PathParam("appId") String appId, @PathParam("verId") String verId) 
+	@Path("/{appId}/topology")
+	public Response getApplicationTopology(@PathParam("appId") String appId) 
 	{
 		Loader ld = new Loader(context);
 		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		String response;
-		response = app.getVersionTopology(verId);
+		response = app.getVersionTopology(appId);
 		
 		//return response;
 		return Response.ok(response, MediaType.APPLICATION_JSON).build();

@@ -125,6 +125,15 @@ public class Analysis
 		if(eTime == null || eTime.trim().isEmpty())
 			eTime = dpl.endTime;
 		
+		// Try to parse values to long times
+		long start_time, end_time;
+		try {
+			start_time = Long.parseLong(sTime);
+			end_time = Long.parseLong(eTime);
+	    } catch (NumberFormatException nfe) {
+	    	throw nfe;
+	    }
+		
 		
 		DecimalFormat df = new DecimalFormat("#.000"); 
 		JSONObject json = new JSONObject();
@@ -147,7 +156,7 @@ public class Analysis
 			AnalyticsController analysis = new AnalyticsController();
 			
 			// 
-			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, sTime, eTime));		
+			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
 			JSONArray rawData = new JSONArray();
 			
 			for (String name: trend.keySet())
@@ -216,6 +225,16 @@ public class Analysis
 		if(eTime == null || eTime.trim().isEmpty())
 			eTime = dpl.endTime;
 		
+		// Try to parse values to long times
+		long start_time, end_time;
+		try {
+			start_time = Long.parseLong(sTime);
+			end_time = Long.parseLong(eTime);
+	    } catch (NumberFormatException nfe) {
+	    	throw nfe;
+	    }
+		
+		
 		//-		
 		int sRate = 500 * 1000; // to ms
 		
@@ -240,7 +259,7 @@ public class Analysis
 			AnalyticsController analysis = new AnalyticsController();
 			
 			// 
-			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, sTime, eTime));		
+			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
 			JSONArray rawData = new JSONArray();
 			
 			for (String name: trend.keySet())
@@ -267,7 +286,7 @@ public class Analysis
 		// Add Information about
 		// Resizing Decisions Taken
 		// to the response		
-		List<String> actions = eLog.getEnforcedActions(deplId, compId, "", sTime, eTime);
+		List<String> actions = eLog.getEnforcedActions(deplId, compId, "", start_time, end_time);
 		json.put("actions", actions);
 		
 		// Add Deployment Specific Data
@@ -282,36 +301,4 @@ public class Analysis
 		// Return the Response
 		return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
 	}
-	
-	/*
-	public Response getComponentStats() 
-	{
-		String application = ApplicationFactory.TYPE_celar;
-		
-		Loader ld = new Loader(Loader.TYPE_APPLICATION, application);
-		ApplicationFactory appFact = (ApplicationFactory) ld.getInstance();
-		IApplication app = appFact.getInstance(context);
-		
-		String response;
-		response = app.getVersionTopology();
-		
-		//return response;
-		return Response.ok(response, MediaType.TEXT_PLAIN).build();
-	}
-	
-	public Response getNodeStats() 
-	{
-		String application = ApplicationFactory.TYPE_celar;
-		
-		Loader ld = new Loader(Loader.TYPE_APPLICATION, application);
-		ApplicationFactory appFact = (ApplicationFactory) ld.getInstance();
-		IApplication app = appFact.getInstance(context);
-		
-		String response;
-		response = app.getVersionTopology();
-		
-		//return response;
-		return Response.ok(response, MediaType.TEXT_PLAIN).build();
-	}
-	*/
 }

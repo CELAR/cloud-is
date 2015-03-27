@@ -90,23 +90,27 @@ var initScripts = {
 				// Build UI control According the response
 				var context = $('.appComponentList');
 				var wellHolder = context.find('.well > .wellContentHolder');
-				if(jsonObj !=null && jsonObj.topology !=null && jsonObj.topology !="")
-				{										
-					$.each(jsonObj.topology, function(key, node){
-						var wellItem = context.find('.well > .wellItemTemplate').clone();
-						var inner = wellItem.find('span');
-						//console.log("This is node");
-						//console.log(node);
-						
-						inner.html(node.name);
-						inner.attr("data-id", node.id);
-						inner.attr("data-component", node.id);
-						
-						// Assign onClick Events
-						inner.off('click');
-						inner.on('click', onClick_component);	
-						
-						wellHolder.append(wellItem);
+
+				if(jsonObj !=null && jsonObj !="")
+				{	
+					$.each(jsonObj, function(key, module) {
+						$.each(module.components, function(key, component) {
+							var wellItem = context.find('.well > .wellItemTemplate').clone();
+							var inner = wellItem.find('span');
+							//console.log("This is node");
+							//console.log(node);
+							
+							inner.html(module.name + "->" + component.description);
+							inner.attr("data-id", component.id);
+							inner.attr("data-component", component.id);
+							inner.attr("data-module", module.id);
+							
+							// Assign onClick Events
+							inner.off('click');
+							inner.on('click', onClick_component);	
+							
+							wellHolder.append(wellItem);
+						});
 					});
 				}
 				else
@@ -224,10 +228,17 @@ var initScripts = {
 					// Build UI control According the response					
 					var context = $('.topologyCanvas');					 
 					jsPlumb.setContainer(context);
-					if(jsonObj !=null && jsonObj.topology !=null && jsonObj.topology !="")
+									
+					if(jsonObj !=null && jsonObj !="")
 					{	
-						var nodesNum = jsonObj.topology.length;
-						var nodesNum = Object.keys(jsonObj.topology).length; // TODO: WARN: This does not work in IE 7 or 8
+						//var nodesNum = jsonObj.length;
+						//var nodesNum = Object.keys(jsonObj).length;
+						
+						var nodesNum = 0;
+						$.each(jsonObj, function(key, module) {
+							//nodesNum += Object.keys(module.components).length; // TODO: WARN: This does not work in IE 7 or 8
+							nodesNum += module.components.length;
+						});
 												
 						/*
 						 * Minor Hack to calculate the size of a hidden (display:none) item
@@ -251,173 +262,232 @@ var initScripts = {
 						var index = 0;
 						
 						var offset = Math.abs((viewPortSize_X - (nodesNum * node_X)) / (nodesNum + 1));	
-						$.each(jsonObj.topology, function(key, node) {
-							index++;
-							
-							// Calculating box cordinates
-							var outerBox_Y = viewPortSize_Y; // Considering a flat application, topology is a row no multiple components on one layer							
-							x = (index * offset) + ((index - 1) * node_X);
-							y = Math.abs(((outerBox_Y / 2) + (node_Y / 2)));							
-									
-							// Fill box data
-							var component = $('.topologyCanvasWrapper > .templatePool').find('.component[data-type="template"]').clone();
-							component.attr('data-type', '');
-						    
-							component.find('.title span[data-name="name"]').html(node.name);
-							connect = component.find('.connect');
-						    
-							// Fill box metadata info
-							component.find('.metadata').data('name', node.name);
-							component.find('.metadata').data('id', node.id);
-							
-						    component.css({
-						      'top': y,
-						      'left': x
-						    });
-						   						   						    
-						    context.append(component);
-						    
-						    jsPlumb.makeTarget(component, {
-						      anchor: 'Continuous'
-						    });
-						    
-						    jsPlumb.makeSource(connect, {
-						      parent: component,
-						      anchor: 'Continuous'
-						    });
-							
-							// Click Events
-						    /*
-						     * On Node graphical Component Click
-						     * Open a side pane for the user to choose metrics 
-						     * for analytics  
-						     */
-						    component.off('click');
-						    component.on('click', function(e) {
-						    	e.stopPropagation();
-						    	// Extract parameters from click component
-						    	var deplId = '0';
-						    	var compId = '';
-						    	var referer = e.target;
-						    	
-						    	// Set the Component title
-						    	$('.nodeInfoSection span[data-name="name"]').html($(referer).find('.title span[data-name="name"]').html());
-						    	
-						    	
-						    	/*
-						    	 * Ajax call to get the available metrics
-						    	 * and populate the list
-						    	 */
-						    	// Build Request part url
-								var partUrl = '';								
+						$.each(jsonObj, function(key, module) {
+							$.each(module.components, function(key, node) {
+								index++;
 								
-								if(!(compId.length === 0 || !compId))
-									partUrl += '/tier/' + compId;
-											
-								// Get already assigned metrics
-								assignedMetrics = $(referer).find('.assignedMetrics .assignedMetricsHolder').children();
-								
-								// Clear list boxes
-								$('#metricsList').html('');
-								$('#selectedMetricsList').html('');
-								
-								// Get data to display								
-								jQuery.ajax({
-									type: 'get',
-									dataype: "json",
-									url: isserver + '/rest/deployment/' + deplId + partUrl + '/metrics',
-									success: function(jsonObj) {										
-										if (jQuery.type(jsonObj) === "string")
-											jsonObj = eval(jsonObj);
+								// Calculating box cordinates
+								var outerBox_Y = viewPortSize_Y; // Considering a flat application, topology is a row no multiple components on one layer							
+								x = (index * offset) + ((index - 1) * node_X);
+								y = Math.abs(((outerBox_Y / 2) + (node_Y / 2)));							
 										
-										$.each(jsonObj, function(key, value) {
-											var metricItem = $('<option></option>').attr('value', value).html(value);
+								// Fill box data
+								var component = $('.topologyCanvasWrapper > .templatePool').find('.component[data-type="template"]').clone();
+								component.attr('data-type', '');
+							    
+								component.find('.title span[data-name="name"]').html(node.description);
+								connect = component.find('.connect');
+							    
+								// Fill box metadata info
+								component.find('.metadata').data('name', node.description);
+								component.find('.metadata').data('id', node.id);
+								
+							    component.css({
+							      'top': y,
+							      'left': x
+							    });
+							   						   						    
+							    context.append(component);
+							    
+							    jsPlumb.makeTarget(component, {
+							      anchor: 'Continuous'
+							    });
+							    
+							    jsPlumb.makeSource(connect, {
+							      parent: component,
+							      anchor: 'Continuous'
+							    });
+								
+								// Click Events
+							    /*
+							     * On Node graphical Component Click
+							     * Open a side pane for the user to choose metrics 
+							     * for analytics  
+							     */
+							    component.off('click');
+							    component.on('click', function(e) {
+							    	e.stopPropagation();
+							    	// Extract parameters from click component
+							    	var deplId = urlParams.deplID;
+							    	var referer = e.target;
+							    	var compId = $(referer).find('.metadata').data('id');
+							    	
+							    	// Set the Component title
+							    	$('.nodeInfoSection span[data-name="name"]').html($(referer).find('.title span[data-name="name"]').html());
+							    	
+							    	
+							    	/*
+							    	 * Ajax call to get the available metrics
+							    	 * and populate the list
+							    	 */
+							    	// Build Request part url
+									var partUrl = '';								
+									
+									if(!(compId.length === 0 || !compId))
+										partUrl += '/tier/' + compId;
+												
+									// Get already assigned metrics
+									assignedMetrics = $(referer).find('.assignedMetrics .assignedMetricsHolder').children();
+									
+									// Clear list boxes
+									$('#metricsList').html('');
+									$('#selectedMetricsList').html('');
+									
+									// Get data to display								
+									jQuery.ajax({
+										type: 'get',
+										dataype: "json",
+										url: isserver + '/rest/deployment/' + deplId + partUrl + '/metrics',
+										success: function(jsonObj) {										
+											if (jQuery.type(jsonObj) === "string")
+												jsonObj = eval(jsonObj);
 											
-											// Append Event
-											metricItem.off('dblclick');
-											metricItem.on('dblclick', function(event) {
-												if($(this).closest('#metricsList').length > 0)
-												{
-													// Item resides on the left list
-													$(this).appendTo("#selectedMetricsList");
+											$.each(jsonObj, function(key, value) {
+												var metricItem = $('<option></option>').attr('value', value).html(value);
+												
+												// Append Event
+												metricItem.off('dblclick');
+												metricItem.on('dblclick', function(event) {
+													if($(this).closest('#metricsList').length > 0)
+													{
+														// Item resides on the left list
+														$(this).appendTo("#selectedMetricsList");
+													}
+													else
+													{
+														// Item resides on the right list
+														$(this).appendTo("#metricsList");
+													}
+													// Reset selected
+													$("#selectedMetricsList").val([]);
+													$("#metricsList").val([]);
+												});
+												
+												// TODO
+												// Appent to the right list
+												if(value = assignedMetrics.value) {
+													$('#selectedMetricsList').append(metricItem);
 												}
-												else
-												{
-													// Item resides on the right list
-													$(this).appendTo("#metricsList");
+												else {
+													$('#metricsList').append(metricItem);
 												}
-												// Reset selected
-												$("#selectedMetricsList").val([]);
-												$("#metricsList").val([]);
+												
 											});
-											
-											// TODO
-											// Appent to the right list
-											if(value = assignedMetrics.value) {
-												$('#selectedMetricsList').append(metricItem);
-											}
-											else {
-												$('#metricsList').append(metricItem);
-											}
-											
-										});
-									},
-								});
-						    	
-								
-								//
-								$('.metricsListWrapper [role="button"][data-action="moveToSelected"]').off('click');
-								$('.metricsListWrapper [role="button"][data-action="moveToSelected"]').on('click', function(){
-									$.each($("#metricsList > option"), function(){
-										$(this).appendTo("#selectedMetricsList");
-									});								
-								});
-								
-								
-								$('.metricsListWrapper [role="button"][data-action="moveToAvailable"]').off('click');
-								$('.metricsListWrapper [role="button"][data-action="moveToAvailable"]').on('click', function(){
-									$.each($("#selectedMetricsList > option"), function(){
-										$(this).appendTo("#metricsList");
+										},
 									});
-								});
-												    							    	
-						    	
-						    	
-						    	// Add Events to the panel tool bar
-								$('.nodeInfoPanel [role="button"][data-action="close"]').off('click');
-								$('.nodeInfoPanel [role="button"][data-action="close"]').on('click', function(){
-						    		$(".nodeInfoPanel").removeClass("open");						    		
-						    	});
-						    	
-						    	$('.nodeInfoPanel [role="button"][data-action="saveClose"]').off('click');
-						    	$('.nodeInfoPanel [role="button"][data-action="saveClose"]').on('click', function(){
-						    		$('.nodeInfoPanel [role="button"][data-action="save"]').trigger('click');
-						    		$('.nodeInfoPanel [role="button"][data-action="close"]').trigger('click');			    		
-						    	});
-						    	
-						    	$('.nodeInfoPanel [role="button"][data-action="save"]').off('click');
-						    	$('.nodeInfoPanel [role="button"][data-action="save"]').on('click', function(){
-						    		// Clear assigned metric
-						    		var context = $(referer).find('.assignedMetrics');
-						    		context.find('.assignedMetricsHolder').html('');
-						    		
-						    		//console.log($("#selectedMetricsList > option").length);
-						    		
-						    		$.each($("#selectedMetricsList > option"), function() {
-						    			console.log($(this).val());
-						    			
-						    			var item = context.find('.wellItemTemplate').clone();
-						    			
-						    			item.find('span').html($(this).val());
-						    			item.data('metricId', $(this).val()); // TODO: its set the name not the id, refine
-						    			item.removeClass('wellItemTemplate');
-										//$(referer).find('.assignedMetrics').append($(this).val());
-						    			context.find('.assignedMetricsHolder').append(item);
-									});					    		
-						    	});
-						    	
-						    	// Finally Open / Show the panel
-						    	$(".nodeInfoPanel").addClass("open");
+							    	
+									
+									//
+									$('.metricsListWrapper [role="button"][data-action="moveToSelected"]').off('click');
+									$('.metricsListWrapper [role="button"][data-action="moveToSelected"]').on('click', function(){
+										$.each($("#metricsList > option"), function(){
+											$(this).appendTo("#selectedMetricsList");
+										});								
+									});
+									
+									
+									$('.metricsListWrapper [role="button"][data-action="moveToAvailable"]').off('click');
+									$('.metricsListWrapper [role="button"][data-action="moveToAvailable"]').on('click', function(){
+										$.each($("#selectedMetricsList > option"), function(){
+											$(this).appendTo("#metricsList");
+										});
+									});
+													    							    	
+							    	
+							    	
+							    	// Add Events to the panel tool bar
+									$('.nodeInfoPanel [role="button"][data-action="close"]').off('click');
+									$('.nodeInfoPanel [role="button"][data-action="close"]').on('click', function(){
+							    		$(".nodeInfoPanel").removeClass("open");						    		
+							    	});
+							    	
+							    	$('.nodeInfoPanel [role="button"][data-action="saveClose"]').off('click');
+							    	$('.nodeInfoPanel [role="button"][data-action="saveClose"]').on('click', function(){
+							    		$('.nodeInfoPanel [role="button"][data-action="save"]').trigger('click');
+							    		$('.nodeInfoPanel [role="button"][data-action="close"]').trigger('click');			    		
+							    	});
+							    	
+							    	$('.nodeInfoPanel [role="button"][data-action="save"]').off('click');
+							    	$('.nodeInfoPanel [role="button"][data-action="save"]').on('click', function(){
+							    		// Clear assigned metric
+							    		var context = $(referer).find('.assignedMetrics');
+							    		context.find('.assignedMetricsHolder').html('');
+							    		
+							    		//console.log($("#selectedMetricsList > option").length);
+							    		
+							    		$.each($("#selectedMetricsList > option"), function() {
+							    			console.log($(this).val());
+							    			
+							    			var item = context.find('.wellItemTemplate').clone();
+							    			
+							    			item.find('span').html($(this).val());
+							    			item.data('metricId', $(this).val()); // TODO: its set the name not the id, refine
+							    			item.removeClass('wellItemTemplate');
+											//$(referer).find('.assignedMetrics').append($(this).val());
+							    			context.find('.assignedMetricsHolder').append(item);
+										});					    		
+							    	});
+							    	
+							    	/*
+							    	 * Ajax to get and populate the resizing Desicions taken for
+							    	 * this particular component
+							    	 * 
+							    	 */
+							    	// Build Request part url
+									var partUrl = '';
+									if(!(compId.length === 0 || !compId))
+										partUrl += '/tier/' + compId;
+							    	
+							    	// Clear list boxes
+									$('.dicisionLists').html('');
+									
+									// Get data to display								
+									jQuery.ajax({
+										type: 'get',
+										dataype: "json",
+										url: isserver + '/rest/deployment/' + deplId + partUrl + '/metrics',
+										success: function(jsonObj) {										
+											if (jQuery.type(jsonObj) === "string")
+												jsonObj = eval(jsonObj);
+											
+											$.each(jsonObj, function(key, value) {
+												/*
+												var metricItem = $('<option></option>').attr('value', value).html(value);
+												
+												// Append Event
+												metricItem.off('dblclick');
+												metricItem.on('dblclick', function(event) {
+													if($(this).closest('#metricsList').length > 0)
+													{
+														// Item resides on the left list
+														$(this).appendTo("#selectedMetricsList");
+													}
+													else
+													{
+														// Item resides on the right list
+														$(this).appendTo("#metricsList");
+													}
+													// Reset selected
+													$("#selectedMetricsList").val([]);
+													$("#metricsList").val([]);
+												});
+												
+												// TODO
+												// Appent to the right list
+												if(value = assignedMetrics.value) {
+													$('#selectedMetricsList').append(metricItem);
+												}
+												else {
+													$('#metricsList').append(metricItem);
+												}
+												*/
+											});
+										},
+									});
+							    	
+							    	// Finally Open / Show the panel
+							    	$(".nodeInfoPanel").addClass("open");
+							    });
 						    });
 							
 						});

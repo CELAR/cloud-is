@@ -49,6 +49,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLog;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
@@ -189,7 +190,7 @@ public class DeploymentInfo
 	 * Gets the deployment topology.
 	 *
 	 * @param deplId
-	 *            the depl id
+	 *            the deployment
 	 * @return the deployment topology
 	 */
 	@GET
@@ -218,6 +219,66 @@ public class DeploymentInfo
 		
 		//return response;
 		return Response.ok(response, MediaType.APPLICATION_JSON).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{deplId}{compId : (/tier/[^/]+?)?}/decision/{name : ([^/]+?)?}")
+	public Response getDeploymentDecisions(@PathParam("deplId") String deplId, @PathParam("compId") String compId, @PathParam("name") String name,
+										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
+	{
+		Loader ld = new Loader(context);
+		IElasticityLog elasticityLog = (IElasticityLog) ld.getDtCollectorInstance(DataSourceType.ELASTICITY);
+		
+		Long sTime_long = (long) 0;
+		if(sTime != null && !sTime.trim().isEmpty())
+			sTime_long = Long.parseLong(sTime);
+		
+		Long eTime_long = (long) 0;
+		if(eTime != null && !eTime.trim().isEmpty())
+			eTime_long = Long.parseLong(eTime);		
+		
+		
+		/*
+		 *	/tier/{componentId} is an optional parameter
+		 *	If it is function will return
+		 *	data regarding the specific component / tier
+		 *	In any other case this function will return 
+		 *	data regarding the whole deployment
+		 */
+		if (compId.equals("")) {
+			// Optional parameter not specified
+			// System.out.println("No format specified.");
+		} else {
+			 // Optional parameter has looks like "/tier/{cmponetId}" - need to get it's value only
+			 compId = compId.split("/")[2];
+			 //System.out.println("compId: " + compId);	
+		}
+		
+		/*
+		 *	/{name} is an optional parameter
+		 *	If it is function will return
+		 *	data regarding the specific resizing action name
+		 *	In any other case this function will return 
+		 *	data regarding all the enforced action during the deployment
+		 */
+		if (name.equals("")) {
+			// Optional parameter not specified
+			// System.out.println("No format specified.");
+		} else {
+			 // Optional parameter has looks like "/{name}" - need to get it's value only
+			 name = name.split("/")[2];
+			 //System.out.println("action name: " + name);	
+		}
+		
+		List<String> decisions = elasticityLog.getEnforcedActions(deplId, compId, name, sTime_long, eTime_long);
+		
+		JSONArray json = new JSONArray();
+		for (String  decision: decisions)
+			json.put(decision);
+		
+		//return response;
+		return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
 	}
 	
 	/**
@@ -324,8 +385,15 @@ public class DeploymentInfo
 			 //System.out.println("compId: " + compId);	
 		}
 		
-		List<Metric> instances = mon.getDeploymentCost(deplId, compId, sTime_long, eTime_long);
+		List<Metric> instances = null;
+		try {
+			instances = mon.getDeploymentCost(deplId, compId, sTime_long, eTime_long);
+		}
+		catch(java.lang.UnsupportedOperationException e) {
+			return Response.noContent().build();
+		}
 		
+				
 		JSONArray json = new JSONArray();
 		for (Metric  metric: instances)
 			json.put(metric.toJSONObject());		
@@ -367,7 +435,13 @@ public class DeploymentInfo
 			 //System.out.println("compId: " + compId);	
 		}
 		
-		List<String> metricNames = mon.getAvailableMetrics(deplId, compId);
+		List<String> metricNames = null;
+		try {
+			metricNames = mon.getAvailableMetrics(deplId, compId);
+		}
+		catch(java.lang.UnsupportedOperationException e) {
+			return Response.noContent().build();
+		}
 		
 		JSONArray json = new JSONArray();
 		for (String  name: metricNames)
