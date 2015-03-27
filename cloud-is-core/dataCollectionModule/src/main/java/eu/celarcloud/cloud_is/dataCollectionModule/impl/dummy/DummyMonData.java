@@ -53,12 +53,13 @@ public class DummyMonData implements IMetering {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getMetricValues(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<Metric> getMetricValues(String deplId, String name, String sTime, String eTime) {
+	public List<Metric> getMetricValues(String deplId, String name, long sTime, long eTime) {
 		List<Metric> list = new ArrayList<Metric>();
 		
 		//-		
 		int sRate = 15 * 1000; // to ms
-		int count = (int) (Long.parseLong(eTime) - Long.parseLong(sTime)) / sRate;		
+		//int count = (int) (Long.parseLong(eTime) - Long.parseLong(sTime)) / sRate;		
+		int count = (int) ((eTime - sTime) / sRate);
 		
 		// TODO
 		count = Math.abs(count);
@@ -67,7 +68,7 @@ public class DummyMonData implements IMetering {
 		int min = 15;
 		int max = 100;
 		
-		long currTime = Long.parseLong(sTime);
+		long currTime = sTime;  //Long.parseLong(sTime);
 		for(int i = 0; i < count; i++)
 		{
 			if(i == 0)
@@ -97,7 +98,7 @@ public class DummyMonData implements IMetering {
 	 */
 	@Override
 	public List<Metric> getDeploymentCost(String deplId, String tierId, long sTime, long eTime) {
-		return getMetricValues(deplId, tierId, String.valueOf(sTime), String.valueOf(eTime));
+		return getMetricValues(deplId, tierId, sTime, eTime);
 	}
 
 	/* (non-Javadoc)

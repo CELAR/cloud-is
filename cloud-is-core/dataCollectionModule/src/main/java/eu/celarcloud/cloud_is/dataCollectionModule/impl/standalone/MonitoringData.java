@@ -43,18 +43,18 @@ public class MonitoringData implements IMetering {
 	}
 
 	@Override
-	public List<Metric> getMetricValues(String deplId, String name, String sTime, String eTime) {
+	public List<Metric> getMetricValues(String deplId, String name, long sTime, long eTime) {
 		List<Metric> list = new ArrayList<Metric>();
 		
 		//-		
 		int sRate = 15 * 1000; // to ms
-		int count = (int) (Long.parseLong(eTime) - Long.parseLong(sTime)) / sRate;		
+		int count = (int) (eTime - sTime) / sRate;		
 		
 		double randNum = 0.0;
 		int min = 15;
 		int max = 100;
 		
-		long currTime = Long.parseLong(sTime);
+		long currTime = sTime;
 		for(int i = 0; i < count; i++)
 		{
 			if(i == 0)

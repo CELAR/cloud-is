@@ -32,19 +32,17 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLo
 public class DummyElasticityData implements IElasticityLog {
 
 	@Override
-	public List<String> getEnforcedActions(String deplId, String name, String sTime, String eTime) {
+	public List<String> getEnforcedActions(String deplId, String name, Long sTime, Long eTime) {
 		List<String> list = new ArrayList<String>();
 		
 		//-
 		int count = 4;
-		
-		long tEnd = Long.parseLong(eTime);
-		long tStart = Long.parseLong(sTime);
+				
 		for(int i = 0; i < count; i++)
 		{
 		    // nextInt is normally exclusive of the top value,
 		    // so add 1 to make it inclusive
-		    long randomNum = TestClass.randLong(tStart, tEnd);
+		    long randomNum = TestClass.randLong(sTime, eTime);
 			
 			//
 			list.add(String.valueOf(randomNum));
@@ -54,7 +52,7 @@ public class DummyElasticityData implements IElasticityLog {
 	}
 
 	@Override
-	public List<String> getEnforcedActions(String deplId, String compId, String name, String sTime, String eTime) {
+	public List<String> getEnforcedActions(String deplId, String compId, String name, Long sTime, Long eTime) {
 		// TODO Auto-generated method stub
 		return null;
 	}

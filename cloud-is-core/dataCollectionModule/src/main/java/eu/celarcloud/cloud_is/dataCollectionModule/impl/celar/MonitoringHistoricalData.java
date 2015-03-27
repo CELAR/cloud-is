@@ -23,20 +23,27 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
+
+import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 import gr.ntua.cslab.celar.server.beans.structured.ApplicationInfo;
+import gr.ntua.cslab.celar.server.beans.structured.REList;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class MonitoringHistoricalData.
  */
 public class MonitoringHistoricalData implements IMetering {
+	
+	/** The Constant LOG. */
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(MonitoringHistoricalData.class.getName());	
 	
 	/** The app. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
@@ -71,51 +78,43 @@ public class MonitoringHistoricalData implements IMetering {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getMetricValues(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<Metric> getMetricValues(String deplId, String name, String sTime, String eTime) {
-		String compId = deplId;
-		String metricId = name;
+	public List<Metric> getMetricValues(String deplId, String metric_id, long sTime, long eTime) {		
+		String response = this.cmClient.getMetricValue(deplId, metric_id, sTime, eTime);	
 		
-		String temp = this.cmClient.getMetrics(compId, metricId);		
+		List<Metric> applications = new ArrayList<Metric>();
+		if(response == null || response.isEmpty())	
+    		return applications;		
 		
-		// TODO
-		// TODO
+		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
 		
-		InputStream stream = new ByteArrayInputStream(temp.getBytes(StandardCharsets.UTF_8));
-
-		 //unmarshal an ApplicationInfo Entity
-        ApplicationInfo inai = new ApplicationInfo();
+		// Parse the result into objects		
+		//unmarshal an ApplicationInfo Entity
+		REList<gr.ntua.cslab.celar.server.beans.MetricValue> mVals = new REList<gr.ntua.cslab.celar.server.beans.MetricValue>();
         try {
-			inai.unmarshal(stream);
+        	mVals.unmarshal(stream);
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
+			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
 			e.printStackTrace();
 		}
         
         //print the entity in a structured manner
         //you can observe all the field names and their values (in this example)
-        System.out.println(inai.toString(true));
-        
-        //gets the first module of an application and prints its name
-        //ModuleInfo mi = inai.modules.get(0);
-        //System.out.println("Module name:"+mi.name);
+        System.out.println(mVals.toString(true));
 		
-        // Parse response to IS bean
-        Application app = new Application();
-        
-        app.id = inai.id;
-        app.description = inai.description;
-        app.submitted = inai.submitted.toString();
-        
-        
+		// Get and parse application list
+        List<gr.ntua.cslab.celar.server.beans.MetricValue> metrics = mVals.getValues();        
 		
+		if(mVals == null || mVals.isEmpty())	
+    		return applications;
 		
+		for (gr.ntua.cslab.celar.server.beans.MetricValue m : metrics) {
+			Metric metric = new Metric();
+				metric.timestamp = m.timestamp.toString();
+				metric.value = String.valueOf(m.value);
+	    	applications.add(metric);			
+		}
 		
-		
-		
-		
-		
-		
-		return null;
+		return applications;
 	}
 
 	/* (non-Javadoc)
@@ -131,7 +130,39 @@ public class MonitoringHistoricalData implements IMetering {
 	 */
 	@Override
 	public List<String> getAvailableMetrics(String deplId, String compId) {
-		throw new java.lang.UnsupportedOperationException();
+		String response = this.cmClient.getComponentMetrics(compId);
+		
+		List<String> metrics = new ArrayList<String>();
+		if(response == null || response.isEmpty())	
+    		return metrics;		
+		
+		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
+		
+		// Parse the result into objects		
+		//unmarshal an ApplicationInfo Entity
+		REList<gr.ntua.cslab.celar.server.beans.Metric> mVals = new REList<gr.ntua.cslab.celar.server.beans.Metric>();
+        try {
+        	mVals.unmarshal(stream);
+		} catch (JAXBException e) {
+			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
+			e.printStackTrace();
+		}
+        
+        //print the entity in a structured manner
+        //you can observe all the field names and their values (in this example)
+        System.out.println(mVals.toString(true));
+		
+		// Get and parse application list
+        List<gr.ntua.cslab.celar.server.beans.Metric> metricsList = mVals.getValues();        
+		
+		if(mVals == null || mVals.isEmpty())	
+    		return metrics;
+		
+		for (gr.ntua.cslab.celar.server.beans.Metric m : metricsList) {			
+	    	metrics.add(m.name);			
+		}
+		
+		return metrics;
 	}
 
 }

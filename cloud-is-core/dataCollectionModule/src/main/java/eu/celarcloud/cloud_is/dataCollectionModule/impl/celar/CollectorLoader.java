@@ -103,7 +103,27 @@ public class CollectorLoader extends SourceLoader {
 	 */
 	@Override
 	public IDataSource loadMeteringHistoryInterface() {
-		return new MonitoringHistoricalData();
+		String path = this.getConfigPath() + File.separator + "celar";
+		
+		// Load the CELAR Manager endpoint address (uri) from the configuration
+		EndpointConfig applicationEndpoint = new EndpointConfig(path + File.separator + "endpoint.celarmanager.properties");			
+		String cmUri = applicationEndpoint.getUri();
+		
+		// Loaders passes to the IMonitoring implementation
+		// the CELAR Manager endpoint address (uri) in order for it to obtain
+		// the Monitoring Server endpoint (uri) from CM
+		// before contacting the monitoring server for the requested information
+					
+		//
+		System.out.println("CELAR Manager configured Uri is: " + cmUri);
+		//
+		
+		// Initialise the appropriate dataSource Implementation
+		MonitoringHistoricalData monitoringHistoricalData = new MonitoringHistoricalData();
+		monitoringHistoricalData.init(cmUri);
+		
+		// 'Return' the loaded instance
+		return monitoringHistoricalData;		
 	}
 
 	/* (non-Javadoc)
@@ -128,7 +148,7 @@ public class CollectorLoader extends SourceLoader {
 
 	@Override
 	public IDataSource loadElasticityLogInterface() {
-String path = this.getConfigPath() + File.separator + "celar";
+		String path = this.getConfigPath() + File.separator + "celar";
 		
 		// Load the CELAR Manager endpoint address (uri) from the configuration
 		EndpointConfig applicationEndpoint = new EndpointConfig(path + File.separator + "endpoint.celarmanager.properties");			

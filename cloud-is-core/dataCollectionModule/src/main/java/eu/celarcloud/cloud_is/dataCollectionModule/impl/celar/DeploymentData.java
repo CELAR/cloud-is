@@ -102,7 +102,6 @@ public class DeploymentData implements IDeploymentMetadata {
 	    	    depl.applicationId = d.getString("applicationId");
 	    	    depl.status = d.getString("status");
 	    	    depl.startTime = d.getString("startTime");
-	    	    depl.endTime = d.getString("endTime");
     	    deployments.add(depl);
     	}
 	    return deployments;
@@ -121,9 +120,9 @@ public class DeploymentData implements IDeploymentMetadata {
 		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
 		
 		//unmarshal an ApplicationInfo Entity
-		gr.ntua.cslab.celar.server.beans.Deployment inai = new gr.ntua.cslab.celar.server.beans.Deployment();
+		gr.ntua.cslab.celar.server.beans.Deployment d = new gr.ntua.cslab.celar.server.beans.Deployment();
 		try {
-			inai.unmarshal(stream);
+			d.unmarshal(stream);
 		} catch (JAXBException e) {
 			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
 			e.printStackTrace();
@@ -131,13 +130,18 @@ public class DeploymentData implements IDeploymentMetadata {
 		   
 		//print the entity in a structured manner
 		//you can observe all the field names and their values (in this example)
-		System.out.println(inai.toString(true));
-		   
+		System.out.println(d.toString(true));
 		
-			depl.id = inai.id;
-			depl.status = inai.getState();
-			depl.startTime = inai.start_Time.toString();
-			depl.endTime = inai.end_Time.toString();
+		depl.id = d.id;
+		depl.applicationId = d.application_Id;
+		depl.status = d.getState();
+		depl.startTime = String.valueOf(d.start_Time.getTime());
+		
+		if(d.end_Time == null)
+			depl.endTime = "-1";
+		else
+			depl.endTime = String.valueOf(d.end_Time.getTime());
+			
 			
 		return depl;      
 	}

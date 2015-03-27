@@ -84,7 +84,7 @@ public class MonitoringData implements IMetering {
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getMetricValues(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public List<Metric> getMetricValues(String deplId, String name, String sTime, String eTime) {
+	public List<Metric> getMetricValues(String deplId, String name, long sTime, long eTime) {
 		this.loadMonitoringClient(deplId);
 		
 		throw new java.lang.UnsupportedOperationException();

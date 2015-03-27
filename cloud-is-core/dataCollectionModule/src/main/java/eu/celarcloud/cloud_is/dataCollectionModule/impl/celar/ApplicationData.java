@@ -23,28 +23,20 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager;
 import gr.ntua.cslab.celar.server.beans.structured.ApplicationInfo;
-import gr.ntua.cslab.celar.server.beans.structured.ApplicationList;
-//import gr.ntua.cslab.celar.server.beans.structured.ApplicationList;
-import gr.ntua.cslab.celar.server.beans.structured.ModuleInfo;
+import gr.ntua.cslab.celar.server.beans.structured.REList;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -83,9 +75,7 @@ public class ApplicationData implements IApplicationMetadata {
 	 */
 	@Override
 	public List<Application> getUserApplications() {
-		// TODO
-		throw new java.lang.UnsupportedOperationException();
-		
+		return this.searchApplications(0, 0, "", "", "", "");
 	}
 
 	/* (non-Javadoc)
@@ -148,9 +138,30 @@ public class ApplicationData implements IApplicationMetadata {
         app.description = inai.description;
         app.submitted = inai.submitted.toString();
         
-        
+        JSONArray topology = new JSONArray();
+        List<gr.ntua.cslab.celar.server.beans.structured.ModuleInfo> modulesList = inai.modules;
+        for (gr.ntua.cslab.celar.server.beans.structured.ModuleInfo mi : modulesList) {
+        	JSONObject module = new JSONObject();
+        	module.put("id", mi.id);
+        	module.put("name", mi.name);
+        	
+        	JSONArray components = new JSONArray();
+        	List<gr.ntua.cslab.celar.server.beans.structured.ComponentInfo> componentList = mi.components;
+            for (gr.ntua.cslab.celar.server.beans.structured.ComponentInfo ci : componentList) {
+            	JSONObject component = new JSONObject();
+            	component.put("id", ci.id);
+            	component.put("description", ci.description);
+            	component.put("res", ci.resource_Type_Id);
+            	
+            	components.put(component);            
+            }
+            module.put("components", components);
+            
+            topology.put(module);
+        }
+        app.topology = topology.toString();
+        		
 		return app;
-		//return this.cmClient.getApplicationInfo("0");
 	}
 	
 	
@@ -169,10 +180,9 @@ public class ApplicationData implements IApplicationMetadata {
 		
 		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
 		
-		// Parse the result into objects
-		
+		// Parse the result into objects		
 		//unmarshal an ApplicationInfo Entity
-		ApplicationList al = new ApplicationList();
+		REList<gr.ntua.cslab.celar.server.beans.Application> al = new REList();
         try {
         	al.unmarshal(stream);
 		} catch (JAXBException e) {
@@ -185,7 +195,7 @@ public class ApplicationData implements IApplicationMetadata {
         System.out.println(al.toString(true));
 		
 		// Get and parse application list
-        List<gr.ntua.cslab.celar.server.beans.Application> apps = al.getApplications();        
+        List<gr.ntua.cslab.celar.server.beans.Application> apps = al.getValues();        
 		
 		if(apps == null || apps.isEmpty())	
     		return applications;
@@ -195,6 +205,8 @@ public class ApplicationData implements IApplicationMetadata {
 				appl.id = a.id;
 	    	    appl.description = a.description;
 	    	    appl.submitted = a.submitted.toString();
+	    	    appl.vMajor = String.valueOf(a.major_Version);
+	    	    appl.vMinor = String.valueOf(a.minor_Version);
 	    	applications.add(appl);			
 		}
 		
@@ -206,19 +218,16 @@ public class ApplicationData implements IApplicationMetadata {
 	 */
 	@Override
 	public List<Deployment> getApplicationDeployments(String appId) {
-		String response = this.cmClient.getApplicationDeployments(appId);
+		String response = this.cmClient.searchDeploymentsByProperty(appId, 0, 0, "");
 		List<Deployment> deployments = new ArrayList<Deployment>();
 		if(response == null || response.isEmpty())	
     		return deployments;
 		
 		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
-
 		
+    	// Parse the result into objects celarBeans
 		
-		// TODO :=> Uncomment when 		
-    	// Parse the result into objects celarBeans -> DeploymentList is implemented
-		/*
-		DeploymentList dl = new DeploymentList();
+		REList<gr.ntua.cslab.celar.server.beans.Deployment> dl = new REList<gr.ntua.cslab.celar.server.beans.Deployment>();
         try {
         	dl.unmarshal(stream);
 		} catch (JAXBException e) {
@@ -231,37 +240,26 @@ public class ApplicationData implements IApplicationMetadata {
         System.out.println(dl.toString(true));
 		
 		// Get and parse application list
-        List<gr.ntua.cslab.celar.server.beans.Application> depls = dl.getDeployments();        
+        List<gr.ntua.cslab.celar.server.beans.Deployment> depls = dl.getValues();        
 		
-		if(apps == null || apps.isEmpty())	
-    		return applications;
+		if(depls == null || depls.isEmpty())	
+    		return deployments;
 		
 		for (gr.ntua.cslab.celar.server.beans.Deployment d : depls) {
 			Deployment depl = new Deployment();
 	    	    depl.id = d.id;
 				depl.status = d.getState();
-				depl.startTime = d.start_Time.toString();
-				depl.endTime = d.end_Time.toString();
+				depl.startTime = depl.endTime = String.valueOf(d.start_Time.getTime());
+	    	    
+				if(d.end_Time == null)
+					depl.endTime = "-1";
+				else
+					depl.endTime = depl.endTime = String.valueOf(d.end_Time.getTime());
+				
     	    deployments.add(depl);			
 		}
 		
-		return deployments;
-    	*/
-		
-		        	    	
-    	// Parse response to List<Deployment>
-    	JSONArray json = new JSONArray(response);
-    	for (int i = 0; i < json.length(); ++i) {
-    	    JSONObject d = json.getJSONObject(i);
-    	    Deployment depl = new Deployment();
-	    	    depl.id = d.getString("id");
-	    	    depl.applicationId = d.getString("applicationId");
-	    	    depl.status = d.getString("status");
-	    	    depl.startTime = d.getString("startTime");
-	    	    depl.endTime = d.getString("endTime");
-    	    deployments.add(depl);
-    	}
-	    return deployments;
+		return deployments;    	
 	}
 
 	/* (non-Javadoc)
@@ -276,12 +274,9 @@ public class ApplicationData implements IApplicationMetadata {
         	
     	InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
 		
-		
-		
-		// TODO :=> Uncomment when 		
-    	// Parse the result into objects celarBeans -> DeploymentList is implemented
-		/*
-		DeploymentList dl = new DeploymentList();
+    	
+    	// Parse the result into objects celarBeans 
+		REList<gr.ntua.cslab.celar.server.beans.Deployment> dl = new REList<gr.ntua.cslab.celar.server.beans.Deployment>();
         try {
         	dl.unmarshal(stream);
 		} catch (JAXBException e) {
@@ -294,50 +289,25 @@ public class ApplicationData implements IApplicationMetadata {
         System.out.println(dl.toString(true));
 		
 		// Get and parse application list
-        List<gr.ntua.cslab.celar.server.beans.Application> depls = dl.getDeployments();        
+        List<gr.ntua.cslab.celar.server.beans.Deployment> depls = dl.getValues();        
 		
-		if(apps == null || apps.isEmpty())	
-    		return applications;
+		if(depls == null || depls.isEmpty())	
+    		return deployments;
 		
 		for (gr.ntua.cslab.celar.server.beans.Deployment d : depls) {
 			Deployment depl = new Deployment();
 	    	    depl.id = d.id;
 				depl.status = d.getState();
-				depl.startTime = d.start_Time.toString();
-				depl.endTime = d.end_Time.toString();
+				depl.startTime = depl.endTime = String.valueOf(d.start_Time.getTime());
+	    	    
+				if(d.end_Time == null)
+					depl.endTime = "-1";
+				else
+					depl.endTime = depl.endTime = String.valueOf(d.end_Time.getTime());
+	    	    
     	    deployments.add(depl);			
 		}
 		
 		return deployments;
-    	*/
-    	
-    
-    	
-    	/*
-    	// Date format to parse date
-    	Date parsed = new Date();
-		try {
-		    SimpleDateFormat format =
-		        new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-		    parsed = format.parse(dateString);
-		}
-		catch(ParseException pe) {
-		    throw new IllegalArgumentException();
-		}
-    	*/
-    	
-    	// Parse response to List<Deployment>
-    	JSONArray json = new JSONArray(response);
-    	for (int i = 0; i < json.length(); ++i) {
-    	    JSONObject d = json.getJSONObject(i);
-    	    Deployment depl = new Deployment();
-	    	    depl.id = d.getString("id");
-	    	    depl.applicationId = d.getString("applicationId");
-	    	    depl.status = d.getString("status");
-	    	    depl.startTime = d.getString("startTime");
-	    	    depl.endTime = d.getString("endTime");
-    	    deployments.add(depl);
-    	}
-	    return deployments;
 	}
 }

@@ -20,13 +20,20 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
+
 import org.slf4j.LoggerFactory;
 
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLog;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
+import gr.ntua.cslab.celar.server.beans.structured.REList;
 
 /**
  * The Class TopologyData.
@@ -48,30 +55,47 @@ public class ElasticityData implements IElasticityLog {
 	}
 	
 	@Override
-	public List<String> getEnforcedActions(String deplId, String name, String sTime, String eTime) {
-		DeploymentData deplDataReferer = new DeploymentData();
-		deplDataReferer.init(this.cmClient);
+	public List<String> getEnforcedActions(String deplId, String name,  Long sTime,  Long eTime) {
+		return null;		
 		
-		String appId = deplDataReferer.getDeployment(deplId).applicationId;
-		if(appId == null || appId.isEmpty())	
-    		return null;
-		
-		ApplicationData appDataReferer = new ApplicationData();		
-		appDataReferer.init(this.cmClient);		
-		
-		/*
-		String topology = appDataReferer.getApplicationInfo(appId).topology;
-		if(topology == null || topology.isEmpty())	
-    		return "";
-		*/
-		
-		return new ArrayList<String>();
 	}
 
 	@Override
-	public List<String> getEnforcedActions(String deplId, String compId, String name, String sTime, String eTime) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> getEnforcedActions(String deplId, String compId, String name,  Long sTime,  Long eTime) {
+		String response = this.cmClient.getElasticityDecisions(deplId, -1, Integer.parseInt(compId), name, sTime, eTime);
+		
+		List<String> desicions = new ArrayList<String>();
+		if(response == null || response.isEmpty())	
+    		return desicions;
+				   
+		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
+		
+    	// Parse the result into objects celarBeans
+		
+		REList<gr.ntua.cslab.celar.server.beans.Decision> responseEntinityList = new REList<gr.ntua.cslab.celar.server.beans.Decision>();
+        try {
+        	responseEntinityList.unmarshal(stream);
+		} catch (JAXBException e) {
+			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
+			e.printStackTrace();
+		}
+        
+        //print the entity in a structured manner
+        //you can observe all the field names and their values (in this example)
+        System.out.println(responseEntinityList.toString(true));
+		
+		// Get and parse application list
+        List<gr.ntua.cslab.celar.server.beans.Decision> dc = responseEntinityList.getValues();        
+		
+		if(dc == null || dc.isEmpty())	
+    		return desicions;
+		
+		for (gr.ntua.cslab.celar.server.beans.Decision d : dc) {
+			desicions.add(d.timestamp.toString());	
+		}
+		
+		
+		return desicions;
 	}
 
 }

@@ -38,27 +38,28 @@ public class DummyTopology implements ITopology {
 		//
 		JSONObject node, name;
 		
+		// TODO: Change dummy data, topology formating has been changed
+		
+		
 		// Build report	
-    	JSONObject json = new JSONObject();
-    		JSONObject topology = new JSONObject();
-    			// First Node
-	    		node = new JSONObject();
-	    			node.put("name", "Load Balancer");
-	    			node.put("id", "loadBalancer");
-	    		topology.put("0", node);
-	    		
-	    		// Second  Node
-	    		node = new JSONObject();
-	    			node.put("name", "Application Server");	  
-	    			node.put("id", "appServer");
-	    		topology.put("1", node);    	
-	    		
-	    		// Third Node
-	    		node = new JSONObject();	    		
-	    			node.put("name", "Database");
-	    			node.put("id", "dbServer");
-	    		topology.put("2", node);    	
-    		json.put("topology", topology);
+		JSONObject topology = new JSONObject();
+			// First Node
+    		node = new JSONObject();
+    			node.put("name", "Load Balancer");
+    			node.put("id", "loadBalancer");
+    		topology.put("0", node);
+    		
+    		// Second  Node
+    		node = new JSONObject();
+    			node.put("name", "Application Server");	  
+    			node.put("id", "appServer");
+    		topology.put("1", node);    	
+    		
+    		// Third Node
+    		node = new JSONObject();	    		
+    			node.put("name", "Database");
+    			node.put("id", "dbServer");
+    		topology.put("2", node);
     	
     	
 	    /*
@@ -82,7 +83,7 @@ public class DummyTopology implements ITopology {
     	
     	
     		
-	    return json.toString();
+	    return topology.toString();
 	}
 
 }
