@@ -119,7 +119,7 @@ public class CelarManager {
 		RestClient client = new RestClient(this.serverIp);
 		
 		try {
-			response = client.executeGet(builder.build());
+			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
 			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();
@@ -149,7 +149,7 @@ public class CelarManager {
 		RestClient client = new RestClient(this.serverIp);
 		
 		try {
-			response = client.executeGet(builder.build());
+			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
 			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();
@@ -376,7 +376,7 @@ public class CelarManager {
 		RestClient client = new RestClient(this.serverIp);
 		
 		try {
-			response = client.executeGet(builder.build());
+			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
 			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();
@@ -417,7 +417,7 @@ public class CelarManager {
 		RestClient client = new RestClient(this.serverIp);
 		
 		try {
-			response = client.executeGet(builder.build());
+			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
 			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();
@@ -461,7 +461,7 @@ public class CelarManager {
 		RestClient client = new RestClient(this.serverIp);
 		
 		try {
-			response = client.executeGet(builder.build());
+			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
 			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();
@@ -510,7 +510,7 @@ public class CelarManager {
 		RestClient client = new RestClient(this.serverIp);
 		
 		try {
-			response = client.executeGet(builder.build());
+			response = client.executeGet(builder.build(), client.ACCEPT_XML);
 		} catch (URISyntaxException e1) {
 			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
 			e1.printStackTrace();

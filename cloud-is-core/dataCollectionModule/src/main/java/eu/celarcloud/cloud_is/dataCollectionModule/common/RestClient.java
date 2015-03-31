@@ -73,6 +73,7 @@ public class RestClient {
 	 */
 	public RestClient() {
 		// Shut off the uneeded logging off httpClient
+		// TODO Need to reduce level from DEBUG to WARN and not disable it
 		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
 		
 		SSLContextBuilder SSlcBuilder = new SSLContextBuilder();
@@ -238,7 +239,7 @@ public class RestClient {
 	    
 	    
 	    long executionTime = System.currentTimeMillis() - this.requestStart;
-	    System.out.println("Request to " + http.getURI() + " completed in " + executionTime / 1000 + " sec");
+	    System.out.println("Request to " + http.getURI() + " completed in " + (float)executionTime / 1000 + " sec");
 	    
 	    return response;		
 	}
