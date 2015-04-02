@@ -44,8 +44,9 @@ import org.json.JSONObject;
 import eu.celarcloud.cloud_is.controller.analyticsController.AnalyticsController;
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.analysisModule.Average;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
@@ -286,7 +287,7 @@ public class Analysis
 		// Add Information about
 		// Resizing Decisions Taken
 		// to the response		
-		List<String> actions = eLog.getEnforcedActions(deplId, compId, "", start_time, end_time);
+		List<Decision> actions = eLog.getEnforcedActions(deplId, compId, "", start_time, end_time);
 		json.put("actions", actions);
 		
 		// Add Deployment Specific Data

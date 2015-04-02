@@ -31,7 +31,7 @@ import javax.xml.bind.JAXBException;
 import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 import gr.ntua.cslab.celar.server.beans.structured.ApplicationInfo;
 import gr.ntua.cslab.celar.server.beans.structured.REList;
@@ -78,10 +78,10 @@ public class MonitoringHistoricalData implements IMetering {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getMetricValues(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<Metric> getMetricValues(String deplId, String metric_id, long sTime, long eTime) {		
+	public List<MetricValue> getMetricValues(String deplId, String metric_id, long sTime, long eTime) {		
 		String response = this.cmClient.getMetricValue(deplId, metric_id, sTime, eTime);	
 		
-		List<Metric> applications = new ArrayList<Metric>();
+		List<MetricValue> applications = new ArrayList<MetricValue>();
 		if(response == null || response.isEmpty())	
     		return applications;		
 		
@@ -108,7 +108,7 @@ public class MonitoringHistoricalData implements IMetering {
     		return applications;
 		
 		for (gr.ntua.cslab.celar.server.beans.MetricValue m : metrics) {
-			Metric metric = new Metric();
+			MetricValue metric = new MetricValue();
 				metric.timestamp = m.timestamp.toString();
 				metric.value = String.valueOf(m.value);
 	    	applications.add(metric);			
@@ -121,7 +121,7 @@ public class MonitoringHistoricalData implements IMetering {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getDeploymentCost(java.lang.String, java.lang.String, long, long)
 	 */
 	@Override
-	public List<Metric> getDeploymentCost(String deplId, String tierId, long sTime, long eTime) {
+	public List<MetricValue> getDeploymentCost(String deplId, String tierId, long sTime, long eTime) {
 		throw new java.lang.UnsupportedOperationException();
 	}
 

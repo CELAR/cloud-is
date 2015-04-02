@@ -22,6 +22,8 @@ package eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource;
 
 import java.util.List;
 
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -42,7 +44,7 @@ public interface IElasticityLog extends ILogEvents {
 	 *            the e time
 	 * @return the enforced actions
 	 */
-	public List<String> getEnforcedActions(String deplId, String name, Long sTime, Long eTime);	
+	public List<Decision> getEnforcedActions(String deplId, String name, Long sTime, Long eTime);	
 	
 	/**
 	 * Gets the enforced actions.
@@ -59,5 +61,5 @@ public interface IElasticityLog extends ILogEvents {
 	 *            the e time
 	 * @return the enforced actions
 	 */
-	public List<String> getEnforcedActions(String deplId, String compId, String name, Long sTime, Long eTime);
+	public List<Decision> getEnforcedActions(String deplId, String compId, String name, Long sTime, Long eTime);
 }

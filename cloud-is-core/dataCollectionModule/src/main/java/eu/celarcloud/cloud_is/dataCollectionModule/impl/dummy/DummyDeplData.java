@@ -30,7 +30,7 @@ import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
 
@@ -109,8 +109,8 @@ public class DummyDeplData implements IDeploymentMetadata {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata#getDeploymentInstances(java.lang.String, java.lang.String, long, long)
 	 */
 	@Override
-	public List<Metric> getDeploymentInstances(String deplId, String tierId, long sTime, long eTime) {
-		List<Metric> instances = new ArrayList<Metric>();
+	public List<MetricValue> getDeploymentInstances(String deplId, String tierId, long sTime, long eTime) {
+		List<MetricValue> instances = new ArrayList<MetricValue>();
 		
 		//-
 		int sRate = 60 * 60 * 1000; // to ms, Rate = 1hour
@@ -120,60 +120,60 @@ public class DummyDeplData implements IDeploymentMetadata {
 		if(tierId == "appServer")
 		{
 			// 07:00:00
-			instances.add(new Metric(String.valueOf(currTime), "2"));
+			instances.add(new MetricValue(String.valueOf(currTime), "2"));
 			currTime += sRate;
 			// 08:00:00
-			instances.add(new Metric(String.valueOf(currTime), "4"));
+			instances.add(new MetricValue(String.valueOf(currTime), "4"));
 			currTime += sRate;
 			// 09:00:00
-			instances.add(new Metric(String.valueOf(currTime), "5"));
+			instances.add(new MetricValue(String.valueOf(currTime), "5"));
 			currTime += sRate;
 			// 10:00:00
-			instances.add(new Metric(String.valueOf(currTime), "8"));
+			instances.add(new MetricValue(String.valueOf(currTime), "8"));
 			currTime += sRate;
 			// 11:00:00
-			instances.add(new Metric(String.valueOf(currTime), "10"));
+			instances.add(new MetricValue(String.valueOf(currTime), "10"));
 			currTime += sRate;
 			// 12:00:00
-			instances.add(new Metric(String.valueOf(currTime), "7"));
+			instances.add(new MetricValue(String.valueOf(currTime), "7"));
 			currTime += sRate;
 			// 13:00:00
-			instances.add(new Metric(String.valueOf(currTime), "5"));
+			instances.add(new MetricValue(String.valueOf(currTime), "5"));
 			currTime += sRate;
 			// 14:00:00
-			instances.add(new Metric(String.valueOf(currTime), "6"));
+			instances.add(new MetricValue(String.valueOf(currTime), "6"));
 			currTime += sRate;
 			// 15:00:00
-			instances.add(new Metric(String.valueOf(currTime), "9"));
+			instances.add(new MetricValue(String.valueOf(currTime), "9"));
 		}
 		else if (tierId == "database")
 		{
 			// 07:00:00
-			instances.add(new Metric(String.valueOf(currTime), "1"));
+			instances.add(new MetricValue(String.valueOf(currTime), "1"));
 			currTime += sRate;
 			// 08:00:00
-			instances.add(new Metric(String.valueOf(currTime), "2"));
+			instances.add(new MetricValue(String.valueOf(currTime), "2"));
 			currTime += sRate;
 			// 09:00:00
-			instances.add(new Metric(String.valueOf(currTime), "4"));
+			instances.add(new MetricValue(String.valueOf(currTime), "4"));
 			currTime += sRate;
 			// 10:00:00
-			instances.add(new Metric(String.valueOf(currTime), "6"));
+			instances.add(new MetricValue(String.valueOf(currTime), "6"));
 			currTime += sRate;
 			// 11:00:00
-			instances.add(new Metric(String.valueOf(currTime), "7"));
+			instances.add(new MetricValue(String.valueOf(currTime), "7"));
 			currTime += sRate;
 			// 12:00:00
-			instances.add(new Metric(String.valueOf(currTime), "6"));
+			instances.add(new MetricValue(String.valueOf(currTime), "6"));
 			currTime += sRate;
 			// 13:00:00
-			instances.add(new Metric(String.valueOf(currTime), "4"));
+			instances.add(new MetricValue(String.valueOf(currTime), "4"));
 			currTime += sRate;
 			// 14:00:00
-			instances.add(new Metric(String.valueOf(currTime), "7"));
+			instances.add(new MetricValue(String.valueOf(currTime), "7"));
 			currTime += sRate;
 			// 15:00:00
-			instances.add(new Metric(String.valueOf(currTime), "8"));
+			instances.add(new MetricValue(String.valueOf(currTime), "8"));
 		}
 		
 		return instances;

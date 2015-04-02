@@ -23,7 +23,7 @@ package eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource;
 import java.util.List;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -70,7 +70,7 @@ public interface IDeploymentMetadata extends IDataSource{
 	 *            the e time
 	 * @return the deployment instances
 	 */
-	public List<Metric> getDeploymentInstances(String deplId, String tierId, long sTime, long eTime);
+	public List<MetricValue> getDeploymentInstances(String deplId, String tierId, long sTime, long eTime);
 	
 	/**
 	 * Search deployments.

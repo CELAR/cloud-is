@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 
 // TODO: Auto-generated Javadoc
@@ -53,8 +53,8 @@ public class DummyMonData implements IMetering {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getMetricValues(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<Metric> getMetricValues(String deplId, String name, long sTime, long eTime) {
-		List<Metric> list = new ArrayList<Metric>();
+	public List<MetricValue> getMetricValues(String deplId, String name, long sTime, long eTime) {
+		List<MetricValue> list = new ArrayList<MetricValue>();
 		
 		//-		
 		int sRate = 15 * 1000; // to ms
@@ -83,7 +83,7 @@ public class DummyMonData implements IMetering {
 			}
 			
 			//rawData.put(randNum);
-			Metric m = new Metric(String.valueOf(currTime), String.valueOf(randNum));
+			MetricValue m = new MetricValue(String.valueOf(currTime), String.valueOf(randNum));
 			list.add(m);
 			currTime += sRate;
 			//minValue = randNum < minValue ? randNum : minValue;
@@ -97,7 +97,7 @@ public class DummyMonData implements IMetering {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getDeploymentCost(java.lang.String, java.lang.String, long, long)
 	 */
 	@Override
-	public List<Metric> getDeploymentCost(String deplId, String tierId, long sTime, long eTime) {
+	public List<MetricValue> getDeploymentCost(String deplId, String tierId, long sTime, long eTime) {
 		return getMetricValues(deplId, tierId, sTime, eTime);
 	}
 

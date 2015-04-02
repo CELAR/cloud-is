@@ -20,11 +20,11 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DummyTopology.
  */
@@ -35,32 +35,54 @@ public class DummyTopology implements ITopology {
 	 */
 	@Override
 	public String getTopology(String deplId) {
-		//
-		JSONObject node, name;
+		JSONObject component, module;
+		JSONArray components;
 		
-		// TODO: Change dummy data, topology formating has been changed
-		
-		
-		// Build report	
-		JSONObject topology = new JSONObject();
-			// First Node
-    		node = new JSONObject();
-    			node.put("name", "Load Balancer");
-    			node.put("id", "loadBalancer");
-    		topology.put("0", node);
-    		
-    		// Second  Node
-    		node = new JSONObject();
-    			node.put("name", "Application Server");	  
-    			node.put("id", "appServer");
-    		topology.put("1", node);    	
-    		
-    		// Third Node
-    		node = new JSONObject();	    		
-    			node.put("name", "Database");
-    			node.put("id", "dbServer");
-    		topology.put("2", node);
-    	
+		/*
+		 * Create a dummy 3-tier application topology
+		 */		
+		JSONArray topology = new JSONArray();
+		// First Module
+		module = new JSONObject();
+			module.put("name", "Load Balancer");
+			module.put("id", "loadBalancer");
+			// Create module components
+			components = new JSONArray();
+				// Create a component
+				component = new JSONObject();
+				component.put("description", "Load Balancer");
+				component.put("id", "loadBalancer");
+			components.put(component);
+			module.put("components", components);
+		topology.put(module);
+		// Second Module
+		module = new JSONObject();
+			module.put("name", "Application Server");
+			module.put("id", "appServer");
+			// Create module components
+			components = new JSONArray();
+				// Create a component
+				component = new JSONObject();
+				component.put("description", "Application Server");
+				component.put("id", "appServer");
+			components.put(component);
+			module.put("components", components);
+		topology.put(module);
+		// Third Module
+		module = new JSONObject();
+			module.put("name", "Database");
+			module.put("id", "dbServer");
+			// Create module components
+			components = new JSONArray();
+				// Create a component
+				component = new JSONObject();
+				component.put("description", "Database");
+				component.put("id", "dbServer");
+			components.put(component);
+			module.put("components", components);
+		topology.put(module);
+			
+	    	
     	
 	    /*
     	

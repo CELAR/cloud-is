@@ -22,7 +22,7 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 
 import java.util.List;
 
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 
 // TODO: Auto-generated Javadoc
@@ -84,7 +84,7 @@ public class MonitoringData implements IMetering {
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getMetricValues(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public List<Metric> getMetricValues(String deplId, String name, long sTime, long eTime) {
+	public List<MetricValue> getMetricValues(String deplId, String name, long sTime, long eTime) {
 		this.loadMonitoringClient(deplId);
 		
 		throw new java.lang.UnsupportedOperationException();
@@ -94,7 +94,7 @@ public class MonitoringData implements IMetering {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getDeploymentCost(java.lang.String, java.lang.String, long, long)
 	 */
 	@Override
-	public List<Metric> getDeploymentCost(String deplId, String tierId,
+	public List<MetricValue> getDeploymentCost(String deplId, String tierId,
 			long sTime, long eTime) {
 
 		throw new java.lang.UnsupportedOperationException();

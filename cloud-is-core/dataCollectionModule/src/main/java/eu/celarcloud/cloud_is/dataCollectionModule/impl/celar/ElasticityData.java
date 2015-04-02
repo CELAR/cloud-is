@@ -30,6 +30,7 @@ import javax.xml.bind.JAXBException;
 
 import org.slf4j.LoggerFactory;
 
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLog;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
@@ -55,16 +56,16 @@ public class ElasticityData implements IElasticityLog {
 	}
 	
 	@Override
-	public List<String> getEnforcedActions(String deplId, String name,  Long sTime,  Long eTime) {
+	public List<Decision> getEnforcedActions(String deplId, String name,  Long sTime,  Long eTime) {
 		return null;		
 		
 	}
 
 	@Override
-	public List<String> getEnforcedActions(String deplId, String compId, String name,  Long sTime,  Long eTime) {
+	public List<Decision> getEnforcedActions(String deplId, String compId, String name,  Long sTime,  Long eTime) {
 		String response = this.cmClient.getElasticityDecisions(deplId, -1, Integer.parseInt(compId), name, sTime, eTime);
 		
-		List<String> desicions = new ArrayList<String>();
+		List<Decision> desicions = new ArrayList<Decision>();
 		if(response == null || response.isEmpty())	
     		return desicions;
 				   
@@ -85,13 +86,14 @@ public class ElasticityData implements IElasticityLog {
         System.out.println(responseEntinityList.toString(true));
 		
 		// Get and parse application list
-        List<gr.ntua.cslab.celar.server.beans.Decision> dc = responseEntinityList.getValues();        
+        List<gr.ntua.cslab.celar.server.beans.Decision> decisionList = responseEntinityList.getValues();        
 		
-		if(dc == null || dc.isEmpty())	
+		if(decisionList == null || decisionList.isEmpty())	
     		return desicions;
 		
-		for (gr.ntua.cslab.celar.server.beans.Decision d : dc) {
-			desicions.add(d.timestamp.toString());	
+		for (gr.ntua.cslab.celar.server.beans.Decision d : decisionList) {
+			Decision dc = new Decision(d.timestamp.toString(), String.valueOf(d.resizing_action_id));			
+			desicions.add(dc);	
 		}
 		
 		

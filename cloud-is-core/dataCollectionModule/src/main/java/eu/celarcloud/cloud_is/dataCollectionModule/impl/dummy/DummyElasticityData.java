@@ -23,6 +23,7 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLog;
 
 // TODO: Auto-generated Javadoc
@@ -32,8 +33,26 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLo
 public class DummyElasticityData implements IElasticityLog {
 
 	@Override
-	public List<String> getEnforcedActions(String deplId, String name, Long sTime, Long eTime) {
-		List<String> list = new ArrayList<String>();
+	public List<Decision> getEnforcedActions(String deplId, String name, Long sTime, Long eTime) {
+		// Assuming that we are working with the 3-tier dummy application
+		List<Decision> list = new ArrayList<Decision>();
+		
+		//-
+		int count = 3;
+				
+
+		// Merge into one list the decisions of $count components
+		for(int i = 0; i < count; i++)
+		{
+			list.addAll(this.getEnforcedActions(deplId, "", name, sTime, eTime));
+		}		
+		
+		return list;		
+	}
+
+	@Override
+	public List<Decision> getEnforcedActions(String deplId, String compId, String name, Long sTime, Long eTime) {
+		List<Decision> list = new ArrayList<Decision>();
 		
 		//-
 		int count = 4;
@@ -45,16 +64,11 @@ public class DummyElasticityData implements IElasticityLog {
 		    long randomNum = TestClass.randLong(sTime, eTime);
 			
 			//
-			list.add(String.valueOf(randomNum));
+		    Decision dc = new Decision(String.valueOf(randomNum), "type");			
+		    list.add(dc);
 		}
 		
 		return list;
-	}
-
-	@Override
-	public List<String> getEnforcedActions(String deplId, String compId, String name, Long sTime, Long eTime) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	

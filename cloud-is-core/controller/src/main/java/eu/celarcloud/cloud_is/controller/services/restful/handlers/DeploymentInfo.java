@@ -44,8 +44,9 @@ import org.json.JSONArray;
 
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
@@ -197,20 +198,7 @@ public class DeploymentInfo
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{deplId}/topology")
 	public Response getDeploymentTopology(@PathParam("deplId") String deplId) 
-	{
-		/*
-		Loader ld = new Loader(context);
-		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
-		
-		Deployment dpl = app.getDeployment(deplId);
-		
-		String response;
-		response = app.getVersionTopology(dpl.applicationId);
-		
-		//return response;
-		return Response.ok(response, MediaType.APPLICATION_JSON).build();
-		*/
-		
+	{		
 		Loader ld = new Loader(context);
 		ITopology topology = (ITopology) ld.getDtCollectorInstance(DataSourceType.TOPOLOGY);
 		
@@ -271,11 +259,11 @@ public class DeploymentInfo
 			 //System.out.println("action name: " + name);	
 		}
 		
-		List<String> decisions = elasticityLog.getEnforcedActions(deplId, compId, name, sTime_long, eTime_long);
+		List<Decision> decisions = elasticityLog.getEnforcedActions(deplId, compId, name, sTime_long, eTime_long);
 		
 		JSONArray json = new JSONArray();
-		for (String  decision: decisions)
-			json.put(decision);
+		for (Decision  decision: decisions)
+			json.put(decision.toJSONObject());
 		
 		//return response;
 		return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
@@ -328,10 +316,10 @@ public class DeploymentInfo
 			 //System.out.println("compId: " + compId);	
 		}
 		
-		List<Metric> instances = deplMeta.getDeploymentInstances(deplId, compId, sTime_long, eTime_long);
+		List<MetricValue> instances = deplMeta.getDeploymentInstances(deplId, compId, sTime_long, eTime_long);
 		
 		JSONArray json = new JSONArray();
-		for (Metric  metric: instances)
+		for (MetricValue  metric: instances)
 			json.put(metric.toJSONObject());		
 		
 		//return response;
@@ -385,7 +373,7 @@ public class DeploymentInfo
 			 //System.out.println("compId: " + compId);	
 		}
 		
-		List<Metric> instances = null;
+		List<MetricValue> instances = null;
 		try {
 			instances = mon.getDeploymentCost(deplId, compId, sTime_long, eTime_long);
 		}
@@ -395,7 +383,7 @@ public class DeploymentInfo
 		
 				
 		JSONArray json = new JSONArray();
-		for (Metric  metric: instances)
+		for (MetricValue  metric: instances)
 			json.put(metric.toJSONObject());		
 		
 		//return response;

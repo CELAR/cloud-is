@@ -41,14 +41,14 @@ public class AnalyticsController {
 	 *            the window
 	 * @return the linked hash map
 	 */
-	public LinkedHashMap<String, String> calculateTrend(List<Metric> list, int window)
+	public LinkedHashMap<String, String> calculateTrend(List<MetricValue> list, int window)
 	{
 		Analysis analysis = new Analysis();
 		long[] stamps = new long[list.size()];
 		double[] values = new double[list.size()];
 		int index = 0;
 		
-		for (Metric m : list) {
+		for (MetricValue m : list) {
 			stamps[index] = Long.parseLong(m.timestamp);
 			values[index] = Double.parseDouble(m.value);
 			index++;
@@ -63,7 +63,7 @@ public class AnalyticsController {
 	 *            the list
 	 * @return the linked hash map
 	 */
-	public LinkedHashMap<String, String> calculateTrend(List<Metric> list)
+	public LinkedHashMap<String, String> calculateTrend(List<MetricValue> list)
 	{
 		// TODO
 		// Calculate windows

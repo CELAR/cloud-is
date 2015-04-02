@@ -33,7 +33,7 @@ import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Metric;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
 import gr.ntua.cslab.celar.server.beans.*;
 
@@ -152,8 +152,8 @@ public class DeploymentData implements IDeploymentMetadata {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata#getDeploymentInstances(java.lang.String, java.lang.String, long, long)
 	 */
 	@Override
-	public List<Metric> getDeploymentInstances(String deplId, String tierId, long start_time, long end_time) {
-		List<Metric> instances = new ArrayList<Metric>();
+	public List<MetricValue> getDeploymentInstances(String deplId, String tierId, long start_time, long end_time) {
+		List<MetricValue> instances = new ArrayList<MetricValue>();
 		
 		return instances;
 	}

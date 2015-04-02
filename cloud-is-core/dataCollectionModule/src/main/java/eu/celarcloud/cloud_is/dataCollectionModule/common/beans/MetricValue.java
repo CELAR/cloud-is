@@ -4,15 +4,15 @@ import java.util.HashMap;
 
 import org.json.JSONObject;
 
-public class Metric implements IBean {
+public class MetricValue implements IBean {
 	public String timestamp;
 	public String value;
 	
-	 public Metric() {
+	 public MetricValue() {
 	        
 	 }
 	 
-	 public Metric(String timestamp, String value) {
+	 public MetricValue(String timestamp, String value) {
 	        this.timestamp = timestamp;
 	        this.value = value;
 	 }
