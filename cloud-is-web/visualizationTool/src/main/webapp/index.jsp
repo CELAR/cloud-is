@@ -87,8 +87,70 @@
 	    	<div class="contentMainHolder background lighter">   			
 		    	<div class="dashboardMain">
 	    			<div class="paneHolder contentBoxHolder scrollY">
+	    				<div class="dashPaneRow headRow">
+		    				<div class="tile contentBox" style="width: 100%;">
+	    						<div class="inner beanBoxHolder">
+	    							<div class="beanBox inline headbox" data-type="runningInstances">
+		    							<div class="header">
+				    						<div class="inner">
+				    							<div class="title">
+				    								<span>Running Instances</span>
+				    							</div>
+				    						</div>
+				    					</div>
+				    					<div class="body">
+	    									<div class="inner">
+	    										<span data-type="value"></span>
+	    									</div>
+	    								</div>
+		    						</div>
+	    							<div class="beanBox inline headbox" data-type="currentCost">
+		    							<div class="header">
+				    						<div class="inner">
+				    							<div class="title">
+				    								<span>Current Cost</span>
+				    							</div>
+				    						</div>
+				    					</div>
+				    					<div class="body">
+	    									<div class="inner">
+	    										<span data-type="value"></span>
+	    									</div>
+	    								</div>
+		    						</div>
+		    						<div class="beanBox inline headbox" data-type="applications">
+		    							<div class="header">
+				    						<div class="inner">
+				    							<div class="title">
+				    								<span>CELAR Applications</span>
+				    							</div>
+				    						</div>
+				    					</div>
+				    					<div class="body">
+	    									<div class="inner">
+	    										<span data-type="value"></span>
+	    									</div>
+	    								</div>
+		    						</div>
+		    						<div class="beanBox inline headbox" data-type="deployments">
+		    							<div class="header">
+				    						<div class="inner">
+				    							<div class="title">
+				    								<span>Deployments Launched</span>
+				    							</div>
+				    						</div>
+				    					</div>
+				    					<div class="body">
+	    									<div class="inner">
+	    										<span data-type="value"></span>
+	    									</div>
+	    								</div>
+		    						</div>
+	    						</div>
+		    				</div>
+	    				</div>	    			
 	    				<div class="dashPaneRow">
-		    				<div class="pane contentBox" style="width:300px">
+		    				<div class="tile contentBox" data-adjust="tileHeight" style="width:300px">
 		    					<div class="header">
 		    						<div class="inner">
 		    							<div class="title">
@@ -102,7 +164,7 @@
 		    						</div>
 		    					</div>
 		    				</div>
-		    				<div class="pane contentBox rcDeployments" style="width:300px">
+		    				<div class="tile contentBox rcDeployments" data-adjust="tileHeight" style="width:300px">
 		    					<div class="header">
 		    						<div class="inner">
 		    							<div class="title">
@@ -212,92 +274,7 @@
 		    							</div>
 		    						</div>
 		    					</div>
-		    				</div>
-		    				<div>
-			    				<div class="pane contentBox" style="width: 330px;">
-			    					<div class="header">
-			    						<div class="inner">
-			    							<div class="title">
-			    								<span>Current Expenses</span>
-			    								<span class= "noDisplay"> Cost info / total money i have spent until now </span>
-			    							</div>
-			    						</div>
-			    					</div>
-			    					<div class="body">
-			    						<div class="inner beanBoxHolder">
-			    							<div class="beanBox inline" style="width:150px;">
-				    							<div class="header">
-						    						<div class="inner">
-						    							<div class="title">
-						    								<span>Total Expenses</span>
-						    							</div>
-						    						</div>
-						    					</div>
-						    					<div class="body">
-			    									<div class="inner">
-			    										<span>355</span><span> $</span>
-			    									</div>
-			    								</div>
-				    						</div>
-				    						<div class="beanBox inline" style="width:150px;">
-				    							<div class="header">
-						    						<div class="inner">
-						    							<div class="title">
-						    								<span>Expenses per Hr</span>
-						    							</div>
-						    						</div>
-						    					</div>
-						    					<div class="body">
-			    									<div class="inner">
-			    										<span>7</span><span> $/H</span>
-			    									</div>
-			    								</div>
-				    						</div>
-			    						</div>
-			    					</div>
-			    				</div>
-			    				<div class="pane contentBox" style="width: 330px;">
-			    					<div class="header">
-			    						<div class="inner">
-			    							<div class="title">
-			    								<span>Current Running</span>
-			    							</div>
-			    						</div>
-			    					</div>
-			    					<div class="body">
-			    						<div class="inner beanBoxHolder">
-			    							<div class="beanBox inline" style="width:150px;">
-				    							<div class="header">
-						    						<div class="inner">
-						    							<div class="title">
-						    								<span>Total Deployments</span>
-						    							</div>
-						    						</div>
-						    					</div>
-						    					<div class="body">
-			    									<div class="inner">
-			    										<span>1</span>
-			    									</div>
-			    								</div>
-				    						</div>
-				    						<div class="beanBox inline" style="width:150px;">
-				    							<div class="header">
-						    						<div class="inner">
-						    							<div class="title">
-						    								<span>Total Instances</span>
-						    							</div>
-						    						</div>
-						    					</div>
-						    					<div class="body">
-			    									<div class="inner">
-			    										<span>10</span>
-			    									</div>
-			    								</div>
-				    						</div>
-			    						</div>
-			    					</div>
-			    				</div>
-		    				</div>		    					    				
+		    				</div>		    				   				
 	    				</div>
 				    </div>
 				    <div class="configPane">

@@ -1,5 +1,5 @@
 .beanBoxHolder {
-	
+	display: inline-block;
 }
 
 .beanBoxHolder.seperator{
@@ -38,10 +38,9 @@
 }
 
 .beanBox > .header{
-    height: 20px;
-    left: 0;
-    position: absolute;
-    right: 0;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .beanBox > .header > .inner{
@@ -56,12 +55,7 @@
 .beanBox > .body{
 	background: none repeat scroll 0 0 white;
     border-top: 1px solid lightgray;
-    bottom: 0;
-    left: 0;
     overflow-y: auto;
-    position: absolute;
-    right: 0;
-    top: 20px;	
 }
 
 .beanBox > .body > .inner{

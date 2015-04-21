@@ -134,7 +134,7 @@
 						    		<div data-tabber-page=true data-tabber-pageId="deployment" class="noDisplay">
 						    			<div class="contextNotifier noDisplay"><span class="prompt">Search In: </span><span class="value"></span></div>
 						    			<form name="deploymentSearchForm" method="post">
-						    				<input type="hidden" name="appId">
+						    				<input type="hidden" name="application_id">
 						    				<div class="formContent">
 						    					<div class="appIdRow noDisplay">
 						    						<span class="title">Application ID:</span>
@@ -160,7 +160,22 @@
 														<span>Specify Status Parameter</span>
 													</div>
 													<div class="groupContent">
-														<div class="formRow"><label>Status</label><input name="status" data-type="string" type="text"/></div>
+														<div class="formRow"><label>Status</label>
+															<!--<input name="status" data-type="string" type="text"/>-->
+															<select name="status" data-type="string">
+																<option value="" selected></option>
+																<option value="Initializing">Initializing</option>
+																<option value="Provisioning">Provisioning</option>
+																<option value="Executing">Executing</option>
+																<option value="SendingReports">SendingReports</option>
+																<option value="Ready">Ready</option>
+																<option value="Finalizing">Finalizing</option>
+																<option value="Done">Done</option>
+																<option value="Cancelled">Cancelled</option>
+																<option value="Aborted">Aborted</option>
+																<option value="Unknown">Unknown</option>
+															</select>
+														</div>
 						    						</div>
 						    					</div>
 											</div>
@@ -191,7 +206,7 @@
 		    				</div>
 		    			</div>
 		    			<div class="multiWell">
-		    				<div class="resultsPool well raw">
+		    				<div class="resultsPool well raw noDisplay">
 								<div class="wellItemTemplate wellItem sResAppRaw noDisplay">
 									<div class="titleRow">
 										<a class="spanify" data-ref="appId" href=""><span data-name="appDescription"></span></a>
@@ -212,8 +227,7 @@
 										</div>							
 									</div>
 									<div class="controlsRow">
-										<div><span class="clickable" data-button="showDepl">Show Deployments</span></div>
-										<div><span class="clickable" data-button="searchDepl">Search Deployments</span></div>
+										<div class="pull-right"><span class="clickable btnControl" data-role="button" data-action="searchDeployments">Search Deployments</span></div>
 									</div>
 								</div>
 								<div class="wellContentHolder"></div>
@@ -245,8 +259,30 @@
 								</div>
 								<div class="wellContentHolder"></div>
 			    			</div>
+			    			<div class="resultsPool well deployments noDisplay">
+								<div class="wellItemTemplate wellItem noDisplay">
+									<div class="titleRow">
+										<span>Deployment: </span><a class="spanify" data-ref="deplId" href=""><span data-name="deploymentId"></span></a>
+									</div>
+									<div class="infoRow">
+										<div class="">
+											<div><span>Started  At</span></div>
+											<div><span data-name="startTime"></span></div>
+										</div>
+										<div class="">
+											<div><span>Terminated  At</span></div>
+											<div><span data-name="endTime"></span></div>
+										</div>
+										<div class="">
+											<div><span>Status</span></div>
+											<div><span data-name="status"></span></div>
+										</div>																
+									</div>
+								</div>
+								<div class="wellContentHolder"></div>
+			    			</div>
 			    		</div>
-			    		<div class="paginator"></div>
+			    		<div class="paginator background lighter"></div>
 		    		</div>
 		    	</div>
 	    	</div>

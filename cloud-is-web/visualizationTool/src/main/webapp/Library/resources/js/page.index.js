@@ -1,5 +1,5 @@
 $(document).ready(function(){
-     $.each($('.paneHolder .pane'), function(){
+     $.each($('.paneHolder .tile[data-adjust="tileHeight"]'), function(){
     	 var objHeight = 0;
     	 $.each($(this).children(), function(){
             objHeight += $(this).height();
@@ -7,7 +7,19 @@ $(document).ready(function(){
     	 $(this).height(objHeight);
      });
      
+     /*
+      * Fill up Head Bar
+      */
+     setHeadBarBeanInfo('[data-type="runningInstances"]', "6$");
+     setHeadBarBeanInfo('[data-type="currentCost"]', "7$ / H");
+     setHeadBarBeanInfo('[data-type="applications"]', "4");
+     setHeadBarBeanInfo('[data-type="deployments"]', "12");
      
+     
+     
+     /*
+      * Fill up Running Deployments
+      */
      jQuery.ajax({
  		type: 'get',
  		dataype: "json",
@@ -15,8 +27,26 @@ $(document).ready(function(){
  		success: recentDeployments
  	});
      
+     /*
+      * Fill up Latest Actions
+      */
+     
+     
+     /*
+      * Fill up Latest (Stopped) Deployments
+      */
+     
 });
 
+var setHeadBarBeanInfo = function(selector, value) {
+	var insertedValue;
+	if(value == null || value == '')
+		insertedValue = '--';
+	else
+		insertedValue = value;
+	
+	$(selector).find('span[data-type="value"]').html(insertedValue);
+}
 
 var recentDeployments = function(jsonObj) {
 	//jsonObj = $.parseJSON(jsonObj);
@@ -56,7 +86,7 @@ var recentDeployments = function(jsonObj) {
 	        	 $(this).closest('.expander').toggleClass('clps').toggleClass('expd');
 	         
 	        	 //Resize pane
-	        	 var thisPane = $(this).closest('.pane');
+	        	 var thisPane = $(this).closest('.tile[data-adjust="tileHeight"]');
 	        	 var objHeight = 0;
 	        	 $.each(thisPane.children(), function(){
 	        		 objHeight += $(this).height();
@@ -71,7 +101,7 @@ var recentDeployments = function(jsonObj) {
 		//
 		itemHolder.append(item);
 		//Resize pane
-	   	var thisPane = itemHolder.closest('.pane');
+	   	var thisPane = itemHolder.closest('.tile[data-adjust="tileHeight"]');
 	   	var objHeight = 0;
 	   	$.each(thisPane.children(), function(){
 	          objHeight += $(this).height();

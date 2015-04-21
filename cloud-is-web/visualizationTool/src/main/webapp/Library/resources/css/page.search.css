@@ -69,7 +69,7 @@ button, input, select, textarea {
 	
 }
 
-.pageMainContainer.search .side > .inner{
+.pageMainContainer.search .side > .inner {
 	
 }
 
@@ -88,7 +88,7 @@ button, input, select, textarea {
 	margin: 0 5px;
 }
 
-.pageMainContainer.search .searchControl > .titleBar .title{
+.pageMainContainer.search .searchControl > .titleBar .title {
 	font-size:110%;
 	text-align:center;
 }
@@ -108,19 +108,19 @@ button, input, select, textarea {
 	background: -ms-radial-gradient(circle, #e0e2e4, #ffffff); /* IE 10 */
 }
 
-.pageMainContainer.search .searchControl .formContent .appIdRow > span{
+.pageMainContainer.search .searchControl .formContent .appIdRow > span {
 	padding: 0 4px;
 }
 
-.pageMainContainer.search .searchControl .formContent .appIdRow > span.title{
+.pageMainContainer.search .searchControl .formContent .appIdRow > span.title {
 	
 }
 
-.pageMainContainer.search .searchControl .formContent .appIdRow > span.closeXBtn{
+.pageMainContainer.search .searchControl .formContent .appIdRow > span.closeXBtn {
 	vertical-align: middle;
 }
 
-.pageMainContainer.search .searchControl .formContent .appIdRow > span.closeXBtn > img{
+.pageMainContainer.search .searchControl .formContent .appIdRow > span.closeXBtn > img {
 	
 }
 
@@ -158,7 +158,16 @@ button, input, select, textarea {
 	right: 0px;
 }
 
-.pageMainContainer.search .searchResultsPanel > .promptHolder{
+
+.pageMainContainer.search .resultsHolder > .multiWell {
+	bottom: 20px;
+    overflow-y: auto;
+    position: absolute;
+    top: 37px;
+    width: 100%;
+}
+
+.pageMainContainer.search .searchResultsPanel > .promptHolder {
 	color: lightgray;
     font-size: 140%;
     left: 45%;
@@ -169,17 +178,27 @@ button, input, select, textarea {
     top: 35%;
 }
 
-.pageMainContainer.search .raw .wellItem.sResAppRaw {
-	width: 450px;
-	margin-bottom: 10px;
+.pageMainContainer.search .searchResultsPanel .wellItem {
+    background-color: white;
+    border: 1px solid lightgrey;
+    box-sizing: border-box;
+    margin: 5px 0;
+    padding: 10px;
+    width: 80%;
 }
 
-.pageMainContainer.search .raw .wellItem.sResAppRaw:last-child {
+.pageMainContainer.search .searchResultsPanel .wellItem:last-child {
 	margin-bottom: 0px;
 }
 
+.pageMainContainer.search .raw .wellItem.sResAppRaw {
+	width: 480px;
+	clear: both;
+}
 
-.pageMainContainer.search .raw .wellItem.sResAppRaw > .titleRow{
+.pageMainContainer.search .raw .wellItem.sResAppRaw > .titleRow {
+	height: 30px;
+	
 	font-weight: bold;
     letter-spacing: 1px;
 }
@@ -194,35 +213,59 @@ button, input, select, textarea {
 	color: blue;
 }
 
-.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow{
+.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow {
+	line-height: 20px;
+	
 	padding-left:10px;
 	font-size: 95%;
     font-style: italic;
 }
 
-.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow > div{
+.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow > div {
 	display: inline-block;
     vertical-align: top;
 }
 
-.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow > .subInfo{
+.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow > .subInfo {
 	width: 235px;
 }
 
-.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow > .versInfo{
+.pageMainContainer.search .raw .wellItem.sResAppRaw > .infoRow > .versInfo {
 	width: 200px;	
 	/*text-align: center;*/
 }
 
 .pageMainContainer.search .raw .wellItem.sResAppRaw  .controlsRow {
-	
+	height: 25px;
 }
 
-.pageMainContainer.search .raw .wellItem.sResAppRaw  .controlsRow > div{
+.pageMainContainer.search .raw .wellItem.sResAppRaw  .controlsRow > div {
 	width: 200px;
 	margin: auto;
 	text-align: center;
 	display: inline-block;
+}
+
+.pageMainContainer.search .raw .wellItem.sResAppRaw  .controlsRow .btnControl:hover {
+	color: lightblue;
+	
+}
+
+/*
+*	Deployment Search Results
+*/
+.pageMainContainer.search .resultsHolder > .multiWell .well.deployments .wellItem {
+	
+}
+
+.pageMainContainer.search .resultsHolder > .multiWell .well.deployments .wellItem .infoRow {
+	
+}
+
+.pageMainContainer.search .resultsHolder > .multiWell .well.deployments .wellItem .infoRow > div{
+	display: inline-block;
+    text-align: center;
+    width: 33%;
 }
 
 .pageMainContainer.search .resultsHolder > .titleBar {
@@ -230,7 +273,7 @@ button, input, select, textarea {
 	border-bottom: 1px solid lightblue;
     margin: 0 5px;	
 }
-.pageMainContainer.search .resultsHolder > .titleBar > div{
+.pageMainContainer.search .resultsHolder > .titleBar > div {
 	display: inline-block;
 }
 
@@ -247,7 +290,7 @@ button, input, select, textarea {
 	
 }
 
-.pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnItem, .pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnTitle{
+.pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnItem, .pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnTitle {
 	display: inline-block;
 	padding: 0px 4px;	
     
@@ -256,13 +299,14 @@ button, input, select, textarea {
   	border-radius: 10px;
 }
 
-.pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnItem:hover{
+.pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnItem:hover {
 	background: none repeat scroll 0 0 #E1E1E1;
 }
 
-.pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnItem.selected{
+.pageMainContainer.search .resultsHolder > .titleBar .filters.optsMenu > .mnItem.selected {
 	background: none repeat scroll 0 0 #B3B3B3;
 }
+
 
 .pageMainContainer.search .searchResultsPanel .resultsPool {
 	padding: 0px 10px 20px 100px;

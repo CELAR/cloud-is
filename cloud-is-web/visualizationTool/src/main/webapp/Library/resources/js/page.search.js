@@ -30,20 +30,27 @@ var validateDate = function(d)
 		}
 };
 
-var populateSearchResults = function(jsonData) {
-	var resultsPool = $('.searchResultsPanel > .resultsPool');
+var populateApplicationSearchResults = function(jsonData) {
 	if ( jsonData.length == 0 ) {
 		// Alter UI to hide the results
 		$('.searchResultsPanel > .promptHolder').removeClass('noDisplay');				
 		$('.searchResultsPanel > .resultsHolder').addClass('noDisplay');
         return;
     }
+	
+	var poolSelector = 'raw';
+	$.each($('.multiWell > .resultsPool'), function(index, pool){
+		if(!$(pool).hasClass(poolSelector))
+			$(pool).addClass('noDisplay');
+	});
+	$('.multiWell').find('.' + poolSelector).removeClass('noDisplay');
+	var context = $('.multiWell').find('.' + poolSelector);
+	var wellHolder = context.find('.wellContentHolder');
+	
 	// Clear Result Holder
-	$('.searchResultsPanel .well.raw > .wellContentHolder').empty();	
+	wellHolder.empty();	
 	$.each(jsonData, function(key, sigObj){
-		var context = $('.searchResultsPanel');
-		var wellHolder = context.find('.well.raw > .wellContentHolder');
-		var wellItem = context.find('.well.raw > .wellItemTemplate').clone();
+		var wellItem = context.find('.wellItemTemplate').clone();
 			
 		// remove unwanted classes
 		wellItem.removeClass('noDisplay');
@@ -69,18 +76,89 @@ var populateSearchResults = function(jsonData) {
 		});
 		*/
 		
-		
+		/*
 		wellItem.find('span[data-button="showDepl"]').off('click');
 		wellItem.find('span[data-button="showDepl"]').on('click', function() {
 			window.location.href = wcserver + '/application/version/?appId=' + sigObj.id + '&tab=' + 'deployments';
 		    return false;
 		});
-		
+		*/
 			
-		wellItem.find('span[data-button="searchDepl"]').off('click');
-		wellItem.find('span[data-button="searchDepl"]').on('click', function() {
+		wellItem.find('span[data-role="button"][data-action="searchDeployments"]').off('click');
+		wellItem.find('span[data-role="button"][data-action="searchDeployments"]').on('click', function() {
 			window.location.href = wcserver + '/search/?appId=' + sigObj.id;
 		    return false;
+		});
+		
+		// Append item to well
+		wellHolder.append(wellItem);					
+	})
+	
+	// Alter UI to display the results
+	$('.searchResultsPanel > .promptHolder').addClass('noDisplay');				
+	$('.searchResultsPanel > .resultsHolder').removeClass('noDisplay');
+	
+	// Set Subtitle
+	$('.searchResultsPanel .titleBar > .subtitle > span').html('Application / Version Information');
+};
+
+var populateDeploymentSearchResults = function(jsonData) {
+	if ( jsonData.length == 0 ) {
+		// Alter UI to hide the results
+		$('.searchResultsPanel > .promptHolder').removeClass('noDisplay');				
+		$('.searchResultsPanel > .resultsHolder').addClass('noDisplay');
+        return;
+    }
+	
+	var poolSelector = 'deployments';
+	$.each($('.multiWell > .resultsPool'), function(index, pool){
+		
+		console.log(pool)
+		
+		if(!$(pool).hasClass(poolSelector))
+			$(pool).addClass('noDisplay');
+	});
+	$('.multiWell').find('.' + poolSelector).removeClass('noDisplay');
+	var context = $('.multiWell').find('.' + poolSelector);
+	var wellHolder = context.find('.wellContentHolder');
+	
+	// Clear Result Holder
+	wellHolder.empty();	
+	$.each(jsonData, function(key, sigObj){
+		var wellItem = context.find('.wellItemTemplate').clone();
+			
+		// remove unwanted classes
+		wellItem.removeClass('noDisplay');
+		wellItem.removeClass('wellItemTemplate');				
+		// Fill item properties
+		wellItem.find('span[data-name="appId"]').html(sigObj.id);
+		var href = wcserver + '/application/version/deployment/' + '?deplID=' + sigObj.id + '&tab=' + 'analysis';
+		clean_url = href.replace(/([^:]\/)\/+/g, "$1");
+		wellItem.find('a[data-ref="deplId"]').attr('href', clean_url);
+		wellItem.find('span[data-name="deploymentId"]').html(sigObj.id);
+		// -
+		// Convert unix timestamp to readable time
+		//	Math.floor is a tiny hack to ensure	that date is parsed correctly
+	    var myDate = new Date(Math.floor(sigObj.sTime));	
+		wellItem.find('span[data-name="startTime"]').html(myDate.toLocaleString());
+		// -
+		if(sigObj.eTime != null && sigObj.eTime != '') {
+			// Convert unix timestamp to readable time
+			//	Math.floor is a tiny hack to ensure	that date is parsed correctly
+		    var myDate = new Date(Math.floor(sigObj.eTime));	
+			wellItem.find('span[data-name="endTime"]').html(myDate.toLocaleString());
+		}
+		else
+		{
+			wellItem.find('span[data-name="endTime"]').html('--');
+		}		
+		// -
+		wellItem.find('span[data-name="status"]').html(sigObj.status);
+		
+		// Assign events
+		wellItem.find('span[data-name="appId"]').off('click');
+		wellItem.find('span[data-name="appId"]').on('click', function() {
+			
 		});
 		
 		// Append item to well
@@ -142,7 +220,7 @@ $(document).ready(function(){
 		// TODO
 		$('[data-tabber-ref="deployment"] > span').trigger('click');
 		// Ingest appId to deployments search form
-		$('form[name="deploymentSearchForm"] input[name="appId"][type="hidden"]').val(appId);
+		$('form[name="deploymentSearchForm"] input[name="application_id"][type="hidden"]').val(appId);
 		$('form[name="deploymentSearchForm"] span[data-name="appId"]').html(appId);
 		$('form[name="deploymentSearchForm"] span[data-name="appId"]').closest('div').removeClass('noDisplay');
 		
@@ -234,7 +312,7 @@ $(document).ready(function(){
 			url: isserver + '/rest/application/search',
 			data:$(this).serialize(),
 			success: function(jsonResponse) {
-				populateSearchResults(jsonResponse);				
+				populateApplicationSearchResults(jsonResponse);				
 			}
 		});	 
 		
@@ -282,7 +360,7 @@ $(document).ready(function(){
 			data:$(this).serialize(),
 			success: function(jsonResponse) {
 				console.log(jsonResponse);
-				//populateSearchResults(jsonResponse);				
+				populateDeploymentSearchResults(jsonResponse);				
 			}
 		});
 		

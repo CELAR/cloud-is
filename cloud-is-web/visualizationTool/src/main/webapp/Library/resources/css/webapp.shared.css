@@ -1,3 +1,11 @@
+.page .pull-right {
+	float: right;
+}
+
+.page .pull-left {
+	float: left;
+}
+
 .page .commons-controll {
 	background-color: lightgray;
 	border: 3px solid gray;
