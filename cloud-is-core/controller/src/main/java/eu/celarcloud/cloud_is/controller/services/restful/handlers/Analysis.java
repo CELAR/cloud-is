@@ -235,10 +235,6 @@ public class Analysis
 	    	throw nfe;
 	    }
 		
-		
-		//-		
-		int sRate = 500 * 1000; // to ms
-		
 		DecimalFormat df = new DecimalFormat("#.000"); 
 		JSONObject json = new JSONObject();
 		    
@@ -287,15 +283,21 @@ public class Analysis
 		// Add Information about
 		// Resizing Decisions Taken
 		// to the response		
-		List<Decision> actions = eLog.getEnforcedActions(deplId, compId, "", start_time, end_time);
-		json.put("actions", actions);
+		List<Decision> enforcedActions = eLog.getEnforcedActions(deplId, compId, "", start_time, end_time);
+		JSONArray dc = new JSONArray();
+		for (Decision d : enforcedActions) {
+			JSONObject action = new JSONObject();
+			action.put("t", d.timestamp);
+			action.put("v", d.type);
+			dc.put(action);
+		}		
+		json.put("actions", dc);
 		
 		// Add Deployment Specific Data
 		// to the response
 		JSONObject versData = new JSONObject();
 			versData.put("tStart", dpl.startTime);
-			versData.put("tEnd", dpl.endTime);
-			versData.put("sRate", sRate);			
+			versData.put("tEnd", dpl.endTime);	
 		json.put("version", versData);
 		
 		

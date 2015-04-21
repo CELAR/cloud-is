@@ -20,6 +20,8 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
+import java.io.File;
+
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
 
@@ -42,15 +44,27 @@ public class CollectorLoader extends SourceLoader {
 	 */
 	@Override
 	public IDataSource loadDeplMetaInterface() {
-		return new DummyDeplData();
+		String path = this.getConfigPath() + File.separator + "dummy";		
+		// Initialise the appropriate dataSource Implementation
+		DummyDeplData deploymentData = new DummyDeplData();
+		deploymentData.init(path);
+		
+		// 'Return' the loaded instance
+		return deploymentData;
 	}
 
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader#loadMeteringInterface()
 	 */
 	@Override
-	public IDataSource loadMeteringInterface() {
-		return new DummyMonData();
+	public IDataSource loadMeteringInterface() {		
+		String path = this.getConfigPath() + File.separator + "dummy";		
+		// Initialise the appropriate dataSource Implementation
+		DummyMonData monitoringData = new DummyMonData();
+		monitoringData.init(path);
+		
+		// 'Return' the loaded instance
+		return monitoringData;		
 	}
 
 	/*
@@ -63,7 +77,13 @@ public class CollectorLoader extends SourceLoader {
 	 */
 	@Override
 	public IDataSource loadMeteringHistoryInterface() {
-		return new DummyMonData();
+		String path = this.getConfigPath() + File.separator + "dummy";		
+		// Initialise the appropriate dataSource Implementation
+		DummyMonData monitoringData = new DummyMonData();
+		monitoringData.init(path);
+		
+		// 'Return' the loaded instance
+		return monitoringData;
 	}
 
 	/* (non-Javadoc)

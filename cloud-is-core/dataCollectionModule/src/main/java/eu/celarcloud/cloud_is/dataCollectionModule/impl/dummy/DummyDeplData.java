@@ -20,6 +20,7 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import eu.celarcloud.cloud_is.dataCollectionModule.common.Config;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
@@ -40,6 +42,12 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMe
  * The Class CelarApplication.
  */
 public class DummyDeplData implements IDeploymentMetadata {
+	private Config config;
+	
+	
+	public void init(String path) {
+		this.config = new Config(path + File.separator + "config.properties");					
+	}
 	
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getRecentDeployments(java.lang.String, java.lang.String)
@@ -76,7 +84,12 @@ public class DummyDeplData implements IDeploymentMetadata {
 	    	deployment.applicationId = "10293";
 			deployment.status = "offline";
 			deployment.startTime = "1413290766468";
-			deployment.endTime = "1413298766468";
+			//deployment.endTime = "1413298766468";
+			
+			int sRate = Integer.parseInt(config.getProperty("metrics.rate")) * 1000; // to ms
+			int count = Integer.parseInt(config.getProperty("metrics.count"));
+			
+			deployment.endTime = String.valueOf(Long.parseLong(deployment.startTime) + (count * sRate)); 
 		deployments.add(deployment);
     	
 	    return deployments;
@@ -92,7 +105,12 @@ public class DummyDeplData implements IDeploymentMetadata {
 			deployment.applicationId = "";
 			deployment.status = "offline";
 			deployment.startTime = "1413290766468";
-			deployment.endTime = "1413299766468";
+			//deployment.endTime = "1413298766468";
+			
+			int sRate = Integer.parseInt(config.getProperty("metrics.rate")) * 1000; // to ms
+			int count = Integer.parseInt(config.getProperty("metrics.count"));
+			
+			deployment.endTime = String.valueOf(Long.parseLong(deployment.startTime) + (count * sRate)); 
 	    return deployment;
 	}
 
@@ -113,11 +131,13 @@ public class DummyDeplData implements IDeploymentMetadata {
 		List<MetricValue> instances = new ArrayList<MetricValue>();
 		
 		//-
-		int sRate = 60 * 60 * 1000; // to ms, Rate = 1hour
+		int observationsCount = 9;
+		//-
+		long sRate = (eTime - sTime) / observationsCount ;//60 * 60 * 1000; // to ms, Rate = 1hour
 		long currTime = sTime;
 		
 		//-
-		if(tierId == "appServer")
+		if(tierId.trim().equals("appServer"))
 		{
 			// 07:00:00
 			instances.add(new MetricValue(String.valueOf(currTime), "2"));
@@ -146,7 +166,7 @@ public class DummyDeplData implements IDeploymentMetadata {
 			// 15:00:00
 			instances.add(new MetricValue(String.valueOf(currTime), "9"));
 		}
-		else if (tierId == "database")
+		else if (tierId.trim().equals("database"))
 		{
 			// 07:00:00
 			instances.add(new MetricValue(String.valueOf(currTime), "1"));

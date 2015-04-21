@@ -218,14 +218,30 @@ public class DeploymentInfo
 		Loader ld = new Loader(context);
 		IElasticityLog elasticityLog = (IElasticityLog) ld.getDtCollectorInstance(DataSourceType.ELASTICITY);
 		
-		Long sTime_long = (long) 0;
-		if(sTime != null && !sTime.trim().isEmpty())
-			sTime_long = Long.parseLong(sTime);
+		// Load the Deployment Data if only ONE of start - end timestamps are empty
+		if(sTime == null || sTime.trim().isEmpty() || eTime == null || eTime.trim().isEmpty()) {
+			IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
+			
+			// Get deployment informations
+			Deployment dpl = deplMeta.getDeployment(deplId);		
+			
+			// Specify the time windows for which
+			// the analysis will take place
+			if(sTime == null || sTime.trim().isEmpty())
+				sTime = dpl.startTime;
+			
+			if(eTime == null || eTime.trim().isEmpty())
+				eTime = dpl.endTime;
+		}		
 		
-		Long eTime_long = (long) 0;
-		if(eTime != null && !eTime.trim().isEmpty())
-			eTime_long = Long.parseLong(eTime);		
-		
+		// Try to parse values to long times
+		long start_time, end_time;
+		try {
+			start_time = Long.parseLong(sTime);
+			end_time = Long.parseLong(eTime);
+	    } catch (NumberFormatException nfe) {
+	    	throw nfe;
+	    }
 		
 		/*
 		 *	/tier/{componentId} is an optional parameter
@@ -259,7 +275,7 @@ public class DeploymentInfo
 			 //System.out.println("action name: " + name);	
 		}
 		
-		List<Decision> decisions = elasticityLog.getEnforcedActions(deplId, compId, name, sTime_long, eTime_long);
+		List<Decision> decisions = elasticityLog.getEnforcedActions(deplId, compId, name, start_time, end_time);
 		
 		JSONArray json = new JSONArray();
 		for (Decision  decision: decisions)
@@ -291,14 +307,25 @@ public class DeploymentInfo
 		Loader ld = new Loader(context);
 		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		
-		Long sTime_long = (long) 0;
-		if(sTime != null && !sTime.trim().isEmpty())
-			sTime_long = Long.parseLong(sTime);
+		// Get deployment informations
+		Deployment dpl = deplMeta.getDeployment(deplId);		
 		
-		Long eTime_long = (long) 0;
-		if(eTime != null && !eTime.trim().isEmpty())
-			eTime_long = Long.parseLong(eTime);		
+		// Specify the time windows for which
+		// the analysis will take place
+		if(sTime == null || sTime.trim().isEmpty())
+			sTime = dpl.startTime;
 		
+		if(eTime == null || eTime.trim().isEmpty())
+			eTime = dpl.endTime;
+		
+		// Try to parse values to long times
+		long start_time, end_time;
+		try {
+			start_time = Long.parseLong(sTime);
+			end_time = Long.parseLong(eTime);
+	    } catch (NumberFormatException nfe) {
+	    	throw nfe;
+	    }
 		
 		/*
 		 *	/tier/{cmponetId} is an optional parameter
@@ -316,7 +343,13 @@ public class DeploymentInfo
 			 //System.out.println("compId: " + compId);	
 		}
 		
-		List<MetricValue> instances = deplMeta.getDeploymentInstances(deplId, compId, sTime_long, eTime_long);
+		List<MetricValue> instances = null;
+		try {
+			 instances = deplMeta.getDeploymentInstances(deplId, compId, start_time, end_time);
+		}
+		catch(java.lang.UnsupportedOperationException e) {
+			return Response.noContent().build();
+		}
 		
 		JSONArray json = new JSONArray();
 		for (MetricValue  metric: instances)
@@ -348,15 +381,31 @@ public class DeploymentInfo
 		Loader ld = new Loader(context);
 		IMetering mon = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING_HISTORY);
 		
-		Long sTime_long = (long) 0;
-		if(sTime != null && !sTime.trim().isEmpty())
-			sTime_long = Long.parseLong(sTime);
+		// Load the Deployment Data if only ONE of start - end timestamps are empty
+		if(sTime == null || sTime.trim().isEmpty() || eTime == null || eTime.trim().isEmpty()) {
+			IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
+			
+			// Get deployment informations
+			Deployment dpl = deplMeta.getDeployment(deplId);		
+			
+			// Specify the time windows for which
+			// the analysis will take place
+			if(sTime == null || sTime.trim().isEmpty())
+				sTime = dpl.startTime;
+			
+			if(eTime == null || eTime.trim().isEmpty())
+				eTime = dpl.endTime;
+		}
 		
-		Long eTime_long = (long) 0;
-		if(eTime != null && !eTime.trim().isEmpty())
-			eTime_long = Long.parseLong(eTime);		
-		
-		
+		// Try to parse values to long times
+		long start_time, end_time;
+		try {
+			start_time = Long.parseLong(sTime);
+			end_time = Long.parseLong(eTime);
+	    } catch (NumberFormatException nfe) {
+	    	throw nfe;
+	    }
+				
 		/*
 		 *	/tier/{cmponetId} is an optional parameter
 		 *	If it is function will return
@@ -373,9 +422,9 @@ public class DeploymentInfo
 			 //System.out.println("compId: " + compId);	
 		}
 		
-		List<MetricValue> instances = null;
+		List<MetricValue> costData = null;
 		try {
-			instances = mon.getDeploymentCost(deplId, compId, sTime_long, eTime_long);
+			costData = mon.getDeploymentCost(deplId, compId, start_time, end_time);
 		}
 		catch(java.lang.UnsupportedOperationException e) {
 			return Response.noContent().build();
@@ -383,7 +432,7 @@ public class DeploymentInfo
 		
 				
 		JSONArray json = new JSONArray();
-		for (MetricValue  metric: instances)
+		for (MetricValue  metric: costData)
 			json.put(metric.toJSONObject());		
 		
 		//return response;
@@ -399,13 +448,30 @@ public class DeploymentInfo
 		Loader ld = new Loader(context);
 		IMetering mon = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING_HISTORY);
 		
-		Long sTime_long = (long) 0;
-		if(sTime != null && !sTime.trim().isEmpty())
-			sTime_long = Long.parseLong(sTime);
+		// Load the Deployment Data if only ONE of start - end timestamps are empty
+		if(sTime == null || sTime.trim().isEmpty() || eTime == null || eTime.trim().isEmpty()) {
+			IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
+			
+			// Get deployment informations
+			Deployment dpl = deplMeta.getDeployment(deplId);		
+			
+			// Specify the time windows for which
+			// the analysis will take place
+			if(sTime == null || sTime.trim().isEmpty())
+				sTime = dpl.startTime;
+			
+			if(eTime == null || eTime.trim().isEmpty())
+				eTime = dpl.endTime;
+		}
 		
-		Long eTime_long = (long) 0;
-		if(eTime != null && !eTime.trim().isEmpty())
-			eTime_long = Long.parseLong(eTime);	
+		// Try to parse values to long times
+		long start_time, end_time;
+		try {
+			start_time = Long.parseLong(sTime);
+			end_time = Long.parseLong(eTime);
+	    } catch (NumberFormatException nfe) {
+	    	throw nfe;
+	    }
 		
 		/*
 		 *	/tier/{cmponetId} is an optional parameter

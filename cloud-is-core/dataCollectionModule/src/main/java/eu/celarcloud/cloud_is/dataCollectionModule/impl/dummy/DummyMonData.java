@@ -20,10 +20,12 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import eu.celarcloud.cloud_is.dataCollectionModule.common.Config;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 
@@ -32,7 +34,14 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
  * The Class Jcatascopia.
  */
 public class DummyMonData implements IMetering {
-
+	private Config config;
+	
+	
+	public void init(String path) {
+		this.config = new Config(path + File.separator + "config.properties");					
+	}
+	
+	
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getAgents(java.lang.String, java.lang.String)
 	 */
@@ -57,12 +66,14 @@ public class DummyMonData implements IMetering {
 		List<MetricValue> list = new ArrayList<MetricValue>();
 		
 		//-		
-		int sRate = 15 * 1000; // to ms
+		//int sRate = 15 * 1000; // to ms
+		int sRate = Integer.parseInt(config.getProperty("metrics.rate")) * 1000; // to ms
 		//int count = (int) (Long.parseLong(eTime) - Long.parseLong(sTime)) / sRate;		
-		int count = (int) ((eTime - sTime) / sRate);
+		//int count = (int) ((eTime - sTime) / sRate);
+		int count = Integer.parseInt(config.getProperty("metrics.count"));
 		
 		// TODO
-		count = Math.abs(count);
+		//count = Math.abs(count);
 		
 		double randNum = 0.0;
 		int min = 15;
