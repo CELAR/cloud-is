@@ -15,12 +15,10 @@ function appComponent (reportID) {
 	};
 		
 	var inputData = function (dataObj, data, tStart, sRate) {
-		var timestamp = parseInt(tStart);
 		$.each(data, function(index, metricObj){
 			//var date = new Date(timestamp);
 			var date = new Date(parseInt(metricObj.t));
 			dataObj.addRow([date, null, null, parseFloat(metricObj.v), null]);
-			timestamp += parseInt(sRate);
 		});
 		return dataObj;
 	};
@@ -32,9 +30,9 @@ function appComponent (reportID) {
 	};
 	
 	var inputActions = function (dataObj, data) {
-		 $.each(data, function(name, value){
-			 var date = new Date(value);
-			 dataObj.addRow([date, name, 'Resizing Action', null, null]);
+		$.each(data, function(index, event){
+			 var date = new Date(parseInt(event.t));
+			 dataObj.addRow([date, event.v, 'Resizing Action', null, null]);
 		});
 		return dataObj;
 	};
@@ -51,12 +49,13 @@ function appComponent (reportID) {
 	           maxValue: 10
 	       },
 	       annotations: {
-	           style: 'line'
+	           style: 'line',
+	           color: '#d799ae',
 	       }
 		};
 	
 		var chart1_chart = new google.visualization.LineChart(container);
-		chart1_chart.draw(data, chart1_options);
+		chart1_chart.draw(data, chart1_options);		
 	};
 
 	this.onDataReady = function(jsonObj, params){

@@ -20,10 +20,12 @@
  */
 package eu.celarcloud.cloud_is.controller.analyticsController;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import eu.celarcloud.cloud_is.analysisModule.Analysis;
+import eu.celarcloud.cloud_is.analysisModule.analyticsLib.Trend;
+import eu.celarcloud.cloud_is.analysisModule.analyticsLib.Sampling;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.*;
 
 // TODO: Auto-generated Javadoc
@@ -43,17 +45,44 @@ public class AnalyticsController {
 	 */
 	public LinkedHashMap<String, String> calculateTrend(List<MetricValue> list, int window)
 	{
-		Analysis analysis = new Analysis();
+		Trend analysis = new Trend();
 		long[] stamps = new long[list.size()];
 		double[] values = new double[list.size()];
 		int index = 0;
 		
-		for (MetricValue m : list) {
-			stamps[index] = Long.parseLong(m.timestamp);
-			values[index] = Double.parseDouble(m.value);
-			index++;
-		}
-		return analysis.calculateTrend(stamps, values, window);
+		//-
+		System.out.println("Values Before: " + list.size());
+		
+		int threshold = Math.abs(list.size() / 10);
+		
+		Number[][] metrics = new Number[list.size()][2];
+		
+		
+		Iterator<MetricValue> ite = list.iterator();
+
+        /* Remove the second value of the list, while iterating over its elements,
+         * using the iterator's remove method. */
+        while(ite.hasNext()) {
+             MetricValue m = ite.next();
+             
+             metrics[index][0] = Long.parseLong(m.timestamp);
+ 			 metrics[index][1] = Double.parseDouble(m.value);
+             
+             ite.remove();
+             index++;
+
+        }
+        
+		//
+		//int threshold = 6;
+		Number[][] sample = Sampling.largestTriangleThreeBuckets(metrics, threshold);
+		
+		//LinkedHashMap<String, String> res =  analysis.calculateTrend(stamps, values, window);
+		LinkedHashMap<String, String> res =  analysis.calculateTrend(sample, window);
+		
+		System.out.println("Values After: " + res.size());
+		
+		return res;
 	}
 	
 	/**

@@ -212,28 +212,30 @@
 									</div>
 									<div class="metricsSelectorWrapper">
 										<p>Select metrics to show on the Topology View for this component</p>
-										<div class="metricsListWrapper">
-											<div class="inner">
-												<div class="header">
-													<div class="title"><span>Available Metrics</span></div>
-													<div class="controllWrapper"><div class="commons-controll" role="button" data-action="moveToSelected"  data-id="btn_moveToSelected"><span>Move All</span></div></div>
+										<div class="metricsSelectorSplitter">
+											<div class="metricsListWrapper">
+												<div class="inner">
+													<div class="header">
+														<div class="title"><span>Available Metrics</span></div>
+														<div class="controllWrapper"><div class="commons-controll" role="button" data-action="moveToSelected"  data-id="btn_moveToSelected"><span>Move All</span></div></div>
+													</div>
+												    <select id="metricsList" class="selectList metricsList" multiple="multiple"></select>
 												</div>
-											    <select id="metricsList" class="selectList metricsList" multiple="multiple"></select>
-											</div>
-										</div>														
-										<div class="metricsListWrapper">
-											<div class="inner">											
-												<div class="header">
-													<div class="title"><span>Selected Metrics</span></div>
-													<div class="controllWrapper"><div class="commons-controll" role="button" data-action="moveToAvailable"  data-id="btn_moveToAvailable"><span>Move All</span></div></div>
-												</div>
-											    <select id="selectedMetricsList" class="selectList metricsList" multiple="multiple"></select>
-										    </div>
-										</div>
+											</div>														
+											<div class="metricsListWrapper">
+												<div class="inner">											
+													<div class="header">
+														<div class="title"><span>Selected Metrics</span></div>
+														<div class="controllWrapper"><div class="commons-controll" role="button" data-action="moveToAvailable"  data-id="btn_moveToAvailable"><span>Move All</span></div></div>
+													</div>
+												    <select id="selectedMetricsList" class="selectList metricsList" multiple="multiple"></select>
+											    </div>
+											</div>										
+										</div>										
 									</div>
-									<div class="">
+									<div class="decisionsWrapper">
 										<p>Select a timeframe for analysis according to the Resising Desicions taken for this component</p>
-									
+										<div class="dicisionList"></div>
 									</div>									
 								</div>
 							</div>

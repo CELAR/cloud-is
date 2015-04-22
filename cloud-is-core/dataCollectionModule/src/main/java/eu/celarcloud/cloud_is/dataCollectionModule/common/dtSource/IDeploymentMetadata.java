@@ -39,7 +39,7 @@ public interface IDeploymentMetadata extends IDataSource{
 	 *            the status
 	 * @return the recent deployments
 	 */
-	public List<Deployment> getRecentDeployments(String limit, String status);
+	public List<Deployment> getRecentDeployments(int limit, String status);
 	
 	/**
 	 * Gets the user deployments.

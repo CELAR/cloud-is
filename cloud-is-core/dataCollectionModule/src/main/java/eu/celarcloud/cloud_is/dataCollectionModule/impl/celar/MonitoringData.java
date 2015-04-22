@@ -94,8 +94,7 @@ public class MonitoringData implements IMetering {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getDeploymentCost(java.lang.String, java.lang.String, long, long)
 	 */
 	@Override
-	public List<MetricValue> getDeploymentCost(String deplId, String tierId,
-			long sTime, long eTime) {
+	public List<MetricValue> getDeploymentCost(String deplId, String tierId, long sTime, long eTime) {
 
 		throw new java.lang.UnsupportedOperationException();
 	}

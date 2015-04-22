@@ -43,7 +43,7 @@ import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.controller.analyticsController.AnalyticsController;
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
-import eu.celarcloud.cloud_is.analysisModule.Average;
+import eu.celarcloud.cloud_is.analysisModule.analyticsLib.Average;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;

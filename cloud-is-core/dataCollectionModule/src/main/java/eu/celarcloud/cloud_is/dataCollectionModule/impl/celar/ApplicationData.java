@@ -136,7 +136,7 @@ public class ApplicationData implements IApplicationMetadata {
         
         app.id = inai.id;
         app.description = inai.description;
-        app.submitted = inai.submitted.toString();
+	    app.submitted  = String.valueOf(inai.submitted.getTime());
         
         JSONArray topology = new JSONArray();
         List<gr.ntua.cslab.celar.server.beans.structured.ModuleInfo> modulesList = inai.modules;
@@ -204,7 +204,7 @@ public class ApplicationData implements IApplicationMetadata {
 			Application appl = new Application();
 				appl.id = a.id;
 	    	    appl.description = a.description;
-	    	    appl.submitted = a.submitted.toString();
+	    	    appl.submitted  = String.valueOf(a.submitted.getTime());	    	    
 	    	    appl.vMajor = String.valueOf(a.major_Version);
 	    	    appl.vMinor = String.valueOf(a.minor_Version);
 	    	applications.add(appl);			

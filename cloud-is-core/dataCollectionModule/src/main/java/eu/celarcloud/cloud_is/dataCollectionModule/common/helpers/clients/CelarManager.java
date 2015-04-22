@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
@@ -37,7 +39,9 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
 import gr.ntua.cslab.celar.server.beans.Component;
 import gr.ntua.cslab.celar.server.beans.Metric;
+import gr.ntua.cslab.celar.server.beans.MetricValue;
 import gr.ntua.cslab.celar.server.beans.MyTimestamp;
+import gr.ntua.cslab.celar.server.beans.structured.REList;
 
 
 // TODO: Auto-generated Javadoc
@@ -565,9 +569,9 @@ public class CelarManager {
 	 *            the name
 	 * @return the string
 	 */
-	public String putMetric(String component_id, String name)
+	public String putMetric(Integer component_id, String name)
 	{
-		if(component_id == null || component_id.isEmpty())
+		if(component_id == null || component_id > 0)
 			return null;		
 		
 		URIBuilder builder = new URIBuilder();
@@ -577,7 +581,7 @@ public class CelarManager {
 	    //the output to the server
 		OutputStream  svrOutput = null;
 	    try {
-			Component c = new Component(Integer.parseInt(component_id));			
+			Component c = new Component(component_id);			
 			Metric m = new Metric(c, name);
 			
 			//m.name = name;
@@ -619,9 +623,65 @@ public class CelarManager {
 	 *            the value
 	 * @return the string
 	 */
-	public String putMetricValue(String component_id, String metricId, String timestamp, String value)
+	public String putMetricValue(Integer component_id, Integer metric_id, Map<String, String> values)
 	{
-		return null;	
+		if(component_id == null || component_id < 0)
+			return null;
+		
+		if(metric_id == null || metric_id < 0)
+			return null;
+		
+		URIBuilder builder = new URIBuilder();
+		String path = this.serverIp + this.restPath + "/metrics/values/put/";		
+	    builder.setPath(path);
+	    
+	    REList<MetricValue> valuesList = new REList<MetricValue>();
+	    Iterator it = values.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        System.out.println(pair.getKey() + " = " + pair.getValue());
+	        
+	        MetricValue m = new MetricValue();
+	        m.metrics_Id = metric_id;
+	        m.resources_Id = component_id; // TODO
+	        m.timestamp = new MyTimestamp(Long.parseLong((String) pair.getKey()));
+	        m.value = Long.parseLong((String) pair.getValue());
+	        
+	        // TODO
+	        
+	        
+	        
+	        
+	        it.remove(); // avoids a ConcurrentModificationException
+	    }
+	    
+	    
+	    //the output to the server
+		OutputStream  svrOutput = null;
+	    try {
+			//unmarshal the metric you created and write it to the output stream
+	    	valuesList.marshal(svrOutput);
+			svrOutput.close();//maybe
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	    
+	    
+	    String body = svrOutput.toString();	    
+		//
+		CloseableHttpResponse response = null;
+		RestClient client = new RestClient(this.serverIp);
+		
+		try {
+			response = client.executePost(builder.build(), client.ACCEPT_XML, body);
+		} catch (URISyntaxException e1) {
+			LOG.warn("Could Not build request URI [" + e1.getMessage() + "]");
+			e1.printStackTrace();
+		}
+		
+		return client.getContent(response);
+	    
 	}
 	
 	/**

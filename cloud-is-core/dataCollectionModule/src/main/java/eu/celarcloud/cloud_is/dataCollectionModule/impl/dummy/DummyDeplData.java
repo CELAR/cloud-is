@@ -53,7 +53,7 @@ public class DummyDeplData implements IDeploymentMetadata {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getRecentDeployments(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<Deployment> getRecentDeployments(String limit, String status) {
+	public List<Deployment> getRecentDeployments(int limit, String status) {
 		List<Deployment> deployments = new ArrayList<Deployment>();
 		Deployment deployment;
     	

@@ -90,9 +90,6 @@ public class InformationSystemServer {
 		// Start the server
 		// WARNING - The Script will block after this line
 		InformationSystemServer.server.start();
-
-		System.out.println("Exit main..");
-		System.exit(0);
 	}
 
 }

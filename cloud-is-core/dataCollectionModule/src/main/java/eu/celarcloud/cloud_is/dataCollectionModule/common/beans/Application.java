@@ -30,8 +30,12 @@ public class Application implements IBean{
 	    		JSONArray t = new JSONArray(this.topology);
 	    		application.put("topology", t); 
 	    	} 
-	    	catch (JSONException ex) {
+	    	catch (JSONException e) {
 	    		application.put("topology", this.topology); 
+	    	}
+	    	catch(NullPointerException e) {
+	    		// Check the case that topology is not present
+	    		application.put("topology", ""); 
 	    	}
 	    	
 		return application;

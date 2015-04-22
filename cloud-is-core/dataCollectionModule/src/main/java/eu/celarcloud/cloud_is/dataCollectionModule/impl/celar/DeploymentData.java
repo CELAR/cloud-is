@@ -36,6 +36,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
 import gr.ntua.cslab.celar.server.beans.*;
+import gr.ntua.cslab.celar.server.beans.structured.REList;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -73,38 +74,47 @@ public class DeploymentData implements IDeploymentMetadata {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getRecentDeployments(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<Deployment> getRecentDeployments(String limit, String status) {
-    	String response = this.cmClient.searchDeploymentsByProperty("", 0, 0, "");    	
-    	List<Deployment> deployments = new ArrayList<Deployment>();
-    	if(response == null || response.isEmpty())	
+	public List<Deployment> getRecentDeployments(int limit, String status) {
+		String response = this.cmClient.searchDeploymentsByProperty("", 0, 0, status);
+		List<Deployment> deployments = new ArrayList<Deployment>();
+		if(response == null || response.isEmpty())	
     		return deployments;
         	
+    	InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
+		
     	
-    	/*
-    	// Date format to parse date
-    	Date parsed = new Date();
-		try {
-		    SimpleDateFormat format =
-		        new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-		    parsed = format.parse(dateString);
+    	// Parse the result into objects celarBeans 
+		REList<gr.ntua.cslab.celar.server.beans.Deployment> dl = new REList<gr.ntua.cslab.celar.server.beans.Deployment>();
+        try {
+        	dl.unmarshal(stream);
+		} catch (JAXBException e) {
+			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
+			e.printStackTrace();
+		}		
+		// Get and parse application list
+        List<gr.ntua.cslab.celar.server.beans.Deployment> depls = dl.getValues();
+        
+        if(depls.size() > limit)
+        	depls = depls.subList(0, limit);          
+        
+		if(depls == null || depls.isEmpty())	
+    		return deployments;
+		
+		for (gr.ntua.cslab.celar.server.beans.Deployment d : depls) {
+			Deployment depl = new Deployment();
+	    	    depl.id = d.id;
+				depl.status = d.getState();
+				depl.startTime = depl.endTime = String.valueOf(d.start_Time.getTime());
+	    	    
+				if(d.end_Time == null)
+					depl.endTime = "-1";
+				else
+					depl.endTime = depl.endTime = String.valueOf(d.end_Time.getTime());
+	    	    
+    	    deployments.add(depl);			
 		}
-		catch(ParseException pe) {
-		    throw new IllegalArgumentException();
-		}
-    	*/
-    	
-    	// Parse response to List<Deployment>
-    	JSONArray json = new JSONArray(response);
-    	for (int i = 0; i < json.length(); ++i) {
-    	    JSONObject d = json.getJSONObject(i);
-    	    Deployment depl = new Deployment();
-	    	    depl.id = d.getString("id");
-	    	    depl.applicationId = d.getString("applicationId");
-	    	    depl.status = d.getString("status");
-	    	    depl.startTime = d.getString("startTime");
-    	    deployments.add(depl);
-    	}
-	    return deployments;
+		
+		return deployments;
 	}
 
 	/* (non-Javadoc)

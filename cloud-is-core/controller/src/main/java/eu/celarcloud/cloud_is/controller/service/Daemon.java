@@ -21,15 +21,22 @@
 package eu.celarcloud.cloud_is.controller.service;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import org.apache.catalina.LifecycleException;
 import org.slf4j.LoggerFactory;
 
+import eu.celarcloud.cloud_is.controller.container.tomcat.TomcatEmbeddedRunner;
+
+// TODO: Auto-generated Javadoc
 /**
  * The Class Daemon.
  */
 class Daemon {
 	
+	/** The Constant LOG. */
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(Daemon.class.getName());
+			
 	/**
 	 * The main method.
 	 *
@@ -51,6 +58,10 @@ class Daemon {
 			logger.warn("Service Needs Java or greater to run Smoothly, " + System.getProperty("java.version") + " is installed"
 					+ "\n\t" + "Service may crash in varius cases");
 		}
+		// Print Heap Site
+		long heapMaxSize = Runtime.getRuntime().maxMemory();		
+		LOG.info("Available Heap: " + formatSize(heapMaxSize));
+		// Load Information System Service
 		try {
 			if (args.length > 0)
 				new InformationSystemServer(args[0], args[1]);
@@ -67,5 +78,43 @@ class Daemon {
 			e.printStackTrace();
 			System.exit(0);
 		}
+		
+		// -
+		System.out.println("Exiting main..");
+		System.exit(0);
+	}
+	
+	/**
+	 * Format the size from bytes to large possible order (kb, mb, gb, tb)
+	 * Initial Idea from SO - Converting KB to MB, GB, TB dynamically (http://stackoverflow.com/a/20556766/2279200)
+	 *
+	 * @param size
+	 *            the size
+	 * @return the string
+	 */
+	public static String formatSize(long size) {
+	    String hrSize = null;
+
+	    double b = size;
+	    double k = size/1024.0;
+	    double m = ((size/1024.0)/1024.0);
+	    double g = (((size/1024.0)/1024.0)/1024.0);
+	    double t = ((((size/1024.0)/1024.0)/1024.0)/1024.0);
+
+	    DecimalFormat dec = new DecimalFormat("0.00");
+
+	    if ( t>1 ) {
+	        hrSize = dec.format(t).concat(" TB");
+	    } else if ( g>1 ) {
+	        hrSize = dec.format(g).concat(" GB");
+	    } else if ( m>1 ) {
+	        hrSize = dec.format(m).concat(" MB");
+	    } else if ( k>1 ) {
+	        hrSize = dec.format(k).concat(" KB");
+	    } else {
+	        hrSize = dec.format(b).concat(" Bytes");
+	    }
+
+	    return hrSize;
 	}
 }

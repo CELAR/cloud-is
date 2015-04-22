@@ -100,7 +100,8 @@ var initScripts = {
 							//console.log("This is node");
 							//console.log(node);
 							
-							inner.html(module.name + "->" + component.description);
+							//inner.html(module.name + "->" + component.description);
+							inner.html(component.description);
 							inner.attr("data-id", component.id);
 							inner.attr("data-component", component.id);
 							inner.attr("data-module", module.id);
@@ -439,48 +440,66 @@ var initScripts = {
 										partUrl += '/tier/' + compId;
 							    	
 							    	// Clear list boxes
-									$('.dicisionLists').html('');
+									$('.dicisionList').html('');
 									
 									// Get data to display								
 									jQuery.ajax({
 										type: 'get',
 										dataype: "json",
-										url: isserver + '/rest/deployment/' + deplId + partUrl + '/metrics',
+										url: isserver + '/rest/deployment/' + deplId + partUrl + '/decision/',
 										success: function(jsonObj) {										
 											if (jQuery.type(jsonObj) === "string")
 												jsonObj = eval(jsonObj);
 											
-											$.each(jsonObj, function(key, value) {
-												/*
-												var metricItem = $('<option></option>').attr('value', value).html(value);
+											$.each(jsonObj, function(key, decision) {												
+												var decisionItem = $('<div></div>').attr('data-dtime', decision.timestamp)
+																					.attr('data-dtype', decision.type)
+																						.html(new Date(Math.floor(decision.timestamp)) + ' : ' + decision.type)
+																						.addClass('decisionItem');
 												
 												// Append Event
-												metricItem.off('dblclick');
-												metricItem.on('dblclick', function(event) {
-													if($(this).closest('#metricsList').length > 0)
+												decisionItem.off('click');
+												decisionItem.on('click', function(event) {
+													console.log('decisionItem clicked');
+													//
+													var eventTime = parseInt($(this).attr('data-dtime'));
+													var offeset = 1 * 60 *60 * 1000; // one hour in ms
+													var lower = 0;
+													var upper = 0;
+														
+													var max = new Date($("#slider").dateRangeSlider("bounds").max).getTime();													
+													var min = new Date($("#slider").dateRangeSlider("bounds").min).getTime();
+													
+													console.log(offeset + " ## " + lower + " ## " + upper);
+													
+													var flag = true;
+													while(flag)
 													{
-														// Item resides on the left list
-														$(this).appendTo("#selectedMetricsList");
-													}
-													else
-													{
-														// Item resides on the right list
-														$(this).appendTo("#metricsList");
-													}
-													// Reset selected
-													$("#selectedMetricsList").val([]);
-													$("#metricsList").val([]);
-												});
+														console.log(min + " ## " + max);
+														
+														l = eventTime - offeset;
+														u = eventTime + offeset;
+														
+														if(u < max && l > min)
+														{
+															lower = l;
+															upper = u;
+															flag = false;
+														}
+														else
+														{
+															console.log(offeset);
+															offeset = offeset / 2;
+															console.log(offeset);
+														}
+														
+													}	
+													console.log(lower + ":" + Math.floor(lower) + " ## " + upper  + ":" + Math.floor(upper) )
+													$("#slider").dateRangeSlider("values", new Date(Math.floor(lower)), new Date(Math.floor(upper)));
+													
+												});					
 												
-												// TODO
-												// Appent to the right list
-												if(value = assignedMetrics.value) {
-													$('#selectedMetricsList').append(metricItem);
-												}
-												else {
-													$('#metricsList').append(metricItem);
-												}
-												*/
+												$('.dicisionList').append(decisionItem);
 											});
 										},
 									});

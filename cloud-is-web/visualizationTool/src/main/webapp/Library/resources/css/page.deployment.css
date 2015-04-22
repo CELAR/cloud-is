@@ -336,9 +336,12 @@
 	 height: 10px;
 }
 
+.pageMainContainer.deployment .nodeInfoPanel  .panelContent {
+    padding: 5px 10px;
+}
+
 .pageMainContainer.deployment .nodeInfoPanel .nodeInfoSection {
-	margin-bottom: 10px;
-	padding: 0px 10px;
+	margin-bottom: 10px;	
 }
 
 .pageMainContainer.deployment .nodeInfoPanel .nodeInfoSection .title{
@@ -349,6 +352,10 @@
 .pageMainContainer.deployment .metricsSelectorWrapper {
 	position: relative;
 	width: 100%;
+}
+
+.pageMainContainer.deployment .metricsSelectorSplitter {
+	height: 120px;
 }
 
 .pageMainContainer.deployment .metricsListWrapper {
@@ -381,10 +388,23 @@
 	width: 100%;
 }
 
+.pageMainContainer.deployment .nodeInfoPanel .decisionsWrapper {
+	border-top: 1px solid gray;
+    clear: both;
+    margin-top: 10px;
+}
 
+.pageMainContainer.deployment .nodeInfoPanel .decisionsWrapper .dicisionList {
+	padding-left:10px;
+}
 
+.pageMainContainer.deployment .nodeInfoPanel .decisionsWrapper .dicisionList > .decisionItem {
+	cursor: pointer;
+}
 
-
+.pageMainContainer.deployment .nodeInfoPanel .decisionsWrapper .dicisionList > .decisionItem:hover {
+	background-color: lightgray;
+}
 
 
 

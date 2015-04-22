@@ -154,7 +154,17 @@ public class DeploymentInfo
 		Loader ld = new Loader(context);
 		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		
-		List<Deployment> deployments = deplMeta.getRecentDeployments(limit, status);
+		int l = 0;
+		if(limit == null || limit.trim().isEmpty())
+			limit = "10";
+		
+		try {
+			l = Integer.parseInt(limit);
+	    } catch (NumberFormatException nfe) {
+	    	throw nfe;
+	    }
+		
+		List<Deployment> deployments = deplMeta.getRecentDeployments(l, status);
 		// Convert to json
 		JSONArray response = new JSONArray();
 		for (Deployment depl : deployments) {
