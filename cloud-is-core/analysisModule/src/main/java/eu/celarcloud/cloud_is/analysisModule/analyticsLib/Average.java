@@ -18,15 +18,15 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.analysisModule;
-
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-
-// TODO: Auto-generated Javadoc
-//http://jvminside.blogspot.com/2010/01/incremental-average-calculation.html
+package eu.celarcloud.cloud_is.analysisModule.analyticsLib;
 
 /**
  * The Class Average.
+ * 
+ * Attribution:
+ * - Moving average is inspired and uses code snippet from the 
+ * "Incremental average calculation" blog (http://jvminside.blogspot.com/2010/01/incremental-average-calculation.html)
+ * 
  */
 public class Average {
 
@@ -115,11 +115,14 @@ public class Average {
     }
          
     /**
-    * Simple Moving Average
-    *
-    * @param arg point series
-    * @param count number of points that was taken into consideration
-    */
+	 * Simple Moving Average.
+	 *
+	 * @param arg
+	 *            point series
+	 * @param count
+	 *            number of points that was taken into consideration
+	 * @return the double[]
+	 */
     public static double[] sma_2(double[] arg, int count) {
 	    double[] ret = new double[arg.length];
 	    double sum = 0;

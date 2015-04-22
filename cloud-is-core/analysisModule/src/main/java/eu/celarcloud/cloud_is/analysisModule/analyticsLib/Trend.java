@@ -18,30 +18,23 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.analysisModule;
+package eu.celarcloud.cloud_is.analysisModule.analyticsLib;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math3.stat.descriptive.rank.Median;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class Analysis.
  */
-public class Analysis {
+public class Trend {
 
 	/**
 	 * Calculate average.
 	 *
 	 * @return the double
 	 */
-	public double calculateAverage()
+	public static double calculateAverage()
 	{
 		double avg = 0.0;
 		
@@ -49,7 +42,18 @@ public class Analysis {
 		return avg;		
 	}
 	
-	public LinkedHashMap<String, String> calculateTrend(long[] stamps, double[] values, int window)
+	/**
+	 * Calculate trend.
+	 *
+	 * @param stamps
+	 *            the stamps
+	 * @param values
+	 *            the values
+	 * @param window
+	 *            the window
+	 * @return the linked hash map
+	 */
+	public static LinkedHashMap<String, String> calculateTrend(long[] stamps, double[] values, int window)
 	{
 		LinkedHashMap<String, String> hm = new LinkedHashMap<String, String>();
 		
@@ -85,5 +89,31 @@ public class Analysis {
 		
 			
 		return hm;		
+	}
+	
+	/**
+	 * Calculate trend.
+	 *
+	 * @param values
+	 *            the values
+	 * @param window
+	 *            the window
+	 * @return the linked hash map
+	 */
+	public static LinkedHashMap<String, String> calculateTrend(Number[][] values, int window)
+	{
+		LinkedHashMap<String, String> hm = new LinkedHashMap<String, String>();
+		
+		DescriptiveStatistics ds = new DescriptiveStatistics(window);
+		// Init
+		for(int i = 0; i <= window - 2; i++)
+			ds.addValue((double) values[i][1]);
+		
+		for(int i = window - 2; i <= values.length - 1; i++)
+		{
+			ds.addValue((double) values[i][1]);
+			hm.put(String.valueOf(values[i][0]), String.valueOf(ds.getMean()));
+		}
+		return hm;
 	}
 }
