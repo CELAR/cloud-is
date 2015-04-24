@@ -279,19 +279,28 @@ public class Analysis
 			json.put(metric, prop);		
 		}
 		
-		
-		// Add Information about
-		// Resizing Decisions Taken
-		// to the response		
-		List<Decision> enforcedActions = eLog.getEnforcedActions(deplId, compId, "", start_time, end_time);
+		// Check if application
+		// - is elastic
+		// - elasticity are allow / supported from the collector
 		JSONArray dc = new JSONArray();
-		for (Decision d : enforcedActions) {
-			JSONObject action = new JSONObject();
-			action.put("t", d.timestamp);
-			action.put("v", d.type);
-			dc.put(action);
-		}		
-		json.put("actions", dc);
+		if(eLog != null)
+		{
+			List<Decision> enforcedActions = eLog.getEnforcedActions(deplId, compId, "", start_time, end_time);			
+			if(enforcedActions != null)
+			{
+				// Add Information about
+				// Resizing Decisions Taken
+				// to the response
+				for (Decision d : enforcedActions) {
+					JSONObject action = new JSONObject();
+					action.put("t", d.timestamp);
+					action.put("v", d.type);
+					dc.put(action);
+				}			
+			}
+		}
+		json.put("actions", dc);		
+		
 		
 		// Add Deployment Specific Data
 		// to the response

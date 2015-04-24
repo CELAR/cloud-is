@@ -100,10 +100,8 @@ public class Trend {
 	 *            the window
 	 * @return the linked hash map
 	 */
-	public static LinkedHashMap<String, String> calculateTrend(Number[][] values, int window)
-	{
-		LinkedHashMap<String, String> hm = new LinkedHashMap<String, String>();
-		
+	public static Number[][] calculateTrend(Number[][] values, int window)
+	{		
 		DescriptiveStatistics ds = new DescriptiveStatistics(window);
 		// Init
 		for(int i = 0; i <= window - 2; i++)
@@ -112,8 +110,9 @@ public class Trend {
 		for(int i = window - 2; i <= values.length - 1; i++)
 		{
 			ds.addValue((double) values[i][1]);
-			hm.put(String.valueOf(values[i][0]), String.valueOf(ds.getMean()));
+			//hm.put(String.valueOf(values[i][0]), String.valueOf(ds.getMean()));
+			values[i][1] = ds.getMean();
 		}
-		return hm;
+		return values;
 	}
 }

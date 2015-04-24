@@ -45,15 +45,9 @@ public class AnalyticsController {
 	 */
 	public LinkedHashMap<String, String> calculateTrend(List<MetricValue> list, int window)
 	{
-		Trend analysis = new Trend();
-		long[] stamps = new long[list.size()];
-		double[] values = new double[list.size()];
 		int index = 0;
-		
-		//-
-		System.out.println("Values Before: " + list.size());
-		
-		int threshold = Math.abs(list.size() / 10);
+		int threshold;
+		Number[][] trend, sample, result = null;		
 		
 		Number[][] metrics = new Number[list.size()][2];
 		
@@ -70,15 +64,37 @@ public class AnalyticsController {
              
              ite.remove();
              index++;
-
         }
+        
+        //-
+      	System.out.println("Values Before: " + metrics.length);
+        
+     // Display raw -> trend -> sampling
+    	trend = Trend.calculateTrend(metrics, window);
+    	threshold = (int) Math.round(trend.length * 0.4);	    		
+		System.out.println("Thres: " + threshold);
+    	//sample = Sampling.largestTriangleThreeBuckets(trend, threshold);
+    	result  = Sampling.largestTriangleThreeBuckets(trend, threshold);
+
+        LinkedHashMap<String, String> res = new LinkedHashMap<String, String>();
+        for(int i = 0; i <= result.length - 1; i++)
+		{
+        	res.put(String.valueOf(result[i][0]), String.valueOf(result[i][1]));
+		}
+        
+        
+        
+        
         
 		//
 		//int threshold = 6;
-		Number[][] sample = Sampling.largestTriangleThreeBuckets(metrics, threshold);
+		//Number[][] sample = Sampling.largestTriangleThreeBuckets(metrics, threshold);
+		//Number[][] sample = metrics;
 		
 		//LinkedHashMap<String, String> res =  analysis.calculateTrend(stamps, values, window);
-		LinkedHashMap<String, String> res =  analysis.calculateTrend(sample, window);
+		//LinkedHashMap<String, String> res =  Trend.calculateTrend(sample, window);
+		//metrics = Trend.calculateTrend(metrics, window);
+		
 		
 		System.out.println("Values After: " + res.size());
 		
