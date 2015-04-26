@@ -20,21 +20,14 @@
  */
 package eu.celarcloud.cloud_is.controller.services.restful.handlers;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-//import resourceObjects.myHelloObject;
-
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 // TODO: Auto-generated Javadoc
@@ -64,10 +57,10 @@ public class Resources
 	 */
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public String sayPlainTextHello() 
+	public String get() 
 	{
 	
-		return "Hello Jersey : ";
+		return "";
 	}
 	
 	

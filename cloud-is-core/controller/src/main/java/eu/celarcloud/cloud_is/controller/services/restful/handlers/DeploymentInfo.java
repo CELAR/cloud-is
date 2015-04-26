@@ -22,10 +22,9 @@ package eu.celarcloud.cloud_is.controller.services.restful.handlers;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -34,16 +33,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-//import resourceObjects.myHelloObject;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.json.JSONArray;
 
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
@@ -52,8 +44,9 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationM
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLog;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
+//import resourceObjects.myHelloObject;
+import javax.servlet.ServletContext;
 
 
 /**
@@ -474,7 +467,8 @@ public class DeploymentInfo
 				eTime = dpl.endTime;
 		}
 		
-		// Try to parse values to long times
+		// Try to parse values to long times\
+		/*
 		long start_time, end_time;
 		try {
 			start_time = Long.parseLong(sTime);
@@ -482,6 +476,7 @@ public class DeploymentInfo
 	    } catch (NumberFormatException nfe) {
 	    	throw nfe;
 	    }
+		*/
 		
 		/*
 		 *	/tier/{cmponetId} is an optional parameter

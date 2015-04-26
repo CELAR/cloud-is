@@ -20,14 +20,9 @@
  */
 package eu.celarcloud.cloud_is.controller.services.restful.handlers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-//import org.apache.commons.collections.CollectionUtils;
-
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
@@ -44,7 +39,8 @@ import org.json.JSONObject;
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
+//import org.apache.commons.collections.CollectionUtils;
+import javax.servlet.ServletContext;
 
 // TODO: Auto-generated Javadoc
 /**

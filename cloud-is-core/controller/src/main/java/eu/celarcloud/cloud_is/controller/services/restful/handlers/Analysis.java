@@ -22,7 +22,6 @@ package eu.celarcloud.cloud_is.controller.services.restful.handlers;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -43,17 +42,12 @@ import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.controller.analyticsController.AnalyticsController;
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
-import eu.celarcloud.cloud_is.analysisModule.analyticsLib.Average;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLog;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
-import eu.celarcloud.cloud_is.dataCollectionModule.impl.dummy.TestClass;
 
 // TODO: Auto-generated Javadoc
 /**
