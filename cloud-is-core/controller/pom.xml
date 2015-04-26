@@ -70,7 +70,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-servlet</artifactId>
+			<artifactId>jersey-bundle</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>
