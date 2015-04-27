@@ -22,7 +22,6 @@ package eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource;
 
 import java.util.Properties;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ISourceLoader.
  */
@@ -119,6 +118,11 @@ public interface ISourceLoader {
 	public IDataSource loadTopologyInterface();
 	
 	
+	/**
+	 * Load elasticity log interface.
+	 *
+	 * @return the i data source
+	 */
 	public IDataSource loadElasticityLogInterface();
 	// TODO
 	// Add getter for each supported type

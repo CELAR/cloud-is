@@ -20,6 +20,7 @@
  */
 package eu.celarcloud.cloud_is.controller.services.restful.handlers;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -42,6 +43,7 @@ import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.controller.analyticsController.AnalyticsController;
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
+import eu.celarcloud.cloud_is.controller.configuration.Config;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
@@ -148,7 +150,8 @@ public class Analysis
 		// and calculate analytics (trend)
 		for (String metric : metrics) {
 			// Init analysis object
-			AnalyticsController analysis = new AnalyticsController();
+			Config sysCnf = new Config((String) context.getAttribute("configFilePath"));
+			AnalyticsController analysis = new AnalyticsController(sysCnf.export());
 			
 			// 
 			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
@@ -247,7 +250,8 @@ public class Analysis
 		// and calculate analytics (trend)
 		for (String metric : metrics) {
 			// Init analysis object
-			AnalyticsController analysis = new AnalyticsController();
+			Config sysCnf = new Config((String) context.getAttribute("configFilePath"));
+			AnalyticsController analysis = new AnalyticsController(sysCnf.export());
 			
 			// 
 			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		

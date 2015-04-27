@@ -57,7 +57,7 @@ public class Sampling {
 		}
 		int sampled_index = 0;
 		double every = (double)(data.length - 2) / (double)(threshold - 2);
-		System.out.println(": " + every);
+		//System.out.println(": " + every);
 		int a = 0, next_a = 0;
 		Number[] max_area_point = null;
 		double max_area, area;

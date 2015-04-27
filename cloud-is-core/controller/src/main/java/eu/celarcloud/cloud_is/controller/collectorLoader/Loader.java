@@ -26,7 +26,6 @@ import javax.servlet.ServletContext;
 
 import org.slf4j.LoggerFactory;
 
-import eu.celarcloud.cloud_is.controller.container.tomcat.TomcatEmbeddedRunner;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
@@ -59,6 +58,13 @@ public class Loader {
 		
 		// Get Collector's class Name
 		String cName = (String) context.getAttribute("collectorName");
+		// Check is collectorName - Possible error on configuration file
+		if(cName == null || cName.isEmpty())
+		{
+			LOG.error("Collector Name is empty. Check your configuration file for errors.");
+			return;
+		}
+			
 		// Define a class to be loaded.
 		String classNameToBeLoaded = "eu.celarcloud.cloud_is.dataCollectionModule.impl." + cName + ".CollectorLoader";
 		

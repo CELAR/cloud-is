@@ -63,11 +63,30 @@ public class Config {
 	public String getProperty(String name)
 	{
 		return this.getProperty(name, "");		
-	}
+	}	
 	
+	/**
+	 * Gets the property.
+	 *
+	 * @param name
+	 *            the name
+	 * @param def
+	 *            the def
+	 * @return the property
+	 */
 	public String getProperty(String name, String def)
 	{
 		return config.getProperty(name, def);		
+	}
+	
+	/**
+	 * Export.
+	 *
+	 * @return the properties
+	 */
+	public Properties export()
+	{
+		return this.config;
 	}
 	
 	/**

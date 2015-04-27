@@ -70,6 +70,10 @@ public class ContextInitializer implements ServletContextListener{
 		
 		// Read the ad-hoc properties files
 		String configFilePath = this.appContext.getRealPath("config"+File.separator+"server.properties");
+		// Set configuration file path to context for later use
+		this.appContext.setAttribute("configFilePath", configFilePath);
+		
+		
 		
 		//
 		readConfigurationProps(configFilePath);
@@ -175,7 +179,7 @@ public class ContextInitializer implements ServletContextListener{
 	 */
 	private void readConfigurationProps(String path)
 	{		
-		Config sysCnf = new Config(path);		
+		Config sysCnf = new Config(path);
 		// Check in what mode the Information System is working
 		// in order to further config the dataCollection Module
 		
