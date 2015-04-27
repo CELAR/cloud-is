@@ -42,10 +42,6 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-						<descriptors>
-		                    <descriptor>src/assembly/resources.xml</descriptor>
-		                	</descriptors>
-		                	<appendAssemblyId>true</appendAssemblyId><!-- This works as classifier -->
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>eu.celarcloud.cloud_is.controller.service.Daemon</mainClass>
@@ -64,6 +60,25 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+	                <descriptors>
+	                    <descriptor>src/assembly/resources.xml</descriptor>
+	                </descriptors>
+	                <appendAssemblyId>true</appendAssemblyId><!-- This works as classifier -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make shared resources</id>
+                        <phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>                        
+                    </execution>
+                </executions>
+            </plugin> 
 		</plugins>
 	</build>
 	<dependencies>
