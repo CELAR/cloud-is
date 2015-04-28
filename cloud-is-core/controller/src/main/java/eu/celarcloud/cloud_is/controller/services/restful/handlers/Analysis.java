@@ -154,14 +154,14 @@ public class Analysis
 			AnalyticsController analysis = new AnalyticsController(sysCnf.export());
 			
 			// 
-			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
+			Number[][] trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
 			JSONArray rawData = new JSONArray();
 			
-			for (String name: trend.keySet())
+			for (int i=0; i < trend.length; i++)
 			{
 				JSONObject m = new JSONObject();
-				m.put("t", name.toString());
-				m.put("v", trend.get(name).toString());
+				m.put("t", String.valueOf(trend[i][0]));
+				m.put("v", String.valueOf(trend[i][1]));
 	            rawData.put(m);
 			}
 			
@@ -254,14 +254,14 @@ public class Analysis
 			AnalyticsController analysis = new AnalyticsController(sysCnf.export());
 			
 			// 
-			LinkedHashMap<String, String> trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
+			Number[][] trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
 			JSONArray rawData = new JSONArray();
 			
-			for (String name: trend.keySet())
+			for (int i=0; i < trend.length; i++)
 			{
 				JSONObject m = new JSONObject();
-				m.put("t", name.toString());
-				m.put("v", trend.get(name).toString());
+				m.put("t", String.valueOf(trend[i][0]));
+				m.put("v", String.valueOf(trend[i][1]));
 	            rawData.put(m);
 			}
 			

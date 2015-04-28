@@ -55,7 +55,7 @@ public class AnalyticsController {
 	 *            the window
 	 * @return the linked hash map
 	 */
-	public LinkedHashMap<String, String> calculateTrend(List<MetricValue> list, int window)
+	public Number[][] calculateTrend(List<MetricValue> list, int window)
 	{
 		int index = 0;
 		int threshold;
@@ -137,17 +137,17 @@ public class AnalyticsController {
         	sample = null;
         }       
 
-        LinkedHashMap<String, String> res = new LinkedHashMap<String, String>();
-        for(int i = 0; i <= result.length - 1; i++)
-		{
-        	res.put(String.valueOf(result[i][0]), String.valueOf(result[i][1]));
-		}
-		
-        //-
-		System.out.println("Values After: " + res.size());
+//        LinkedHashMap<String, String> res = new LinkedHashMap<String, String>();
+//        for(int i = 0; i <= result.length - 1; i++)
+//		{
+//        	res.put(String.valueOf(result[i][0]), String.valueOf(result[i][1]));
+//		}
+//		
+//        //-
+//		System.out.println("Values After: " + res.size());
 		//-
 		
-		return res;
+		return result;
 	}
 	
 	/**
@@ -157,7 +157,7 @@ public class AnalyticsController {
 	 *            the list
 	 * @return the linked hash map
 	 */
-	public LinkedHashMap<String, String> calculateTrend(List<MetricValue> list)
+	public Number[][] calculateTrend(List<MetricValue> list)
 	{
 		// Get SMA window from properties
 		// Window will fall back to default 10, if property is unreadable

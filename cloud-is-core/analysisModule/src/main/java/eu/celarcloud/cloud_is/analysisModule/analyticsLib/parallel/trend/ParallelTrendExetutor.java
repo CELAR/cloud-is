@@ -60,7 +60,7 @@ public class ParallelTrendExetutor {
 					protected void afterExecute(Runnable r, Throwable t)
 					{
 						// Do some logging here
-						System.err.println("go");
+						//
 						super.afterExecute(r, t);
 					}
 				};
@@ -118,6 +118,7 @@ public class ParallelTrendExetutor {
 			trend[i][1] = sum / (i + 1);
 		}		
 		// Start Smoothing
+		long startTime = System.nanoTime();		
 		for(int i=0; i < chunkCount; i++)
 		{ 
 			int size = chunkSize;
@@ -128,6 +129,8 @@ public class ParallelTrendExetutor {
 		}
 		//-
 		terminateGenerator();
+		//
+		System.out.println("Finished Trend Calculation in: " + (System.nanoTime() - startTime));
 		
 		return trend;
 	}
