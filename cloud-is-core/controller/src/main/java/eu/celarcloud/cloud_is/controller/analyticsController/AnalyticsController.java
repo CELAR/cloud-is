@@ -27,6 +27,7 @@ import java.util.Properties;
 
 import eu.celarcloud.cloud_is.analysisModule.analyticsLib.Trend;
 import eu.celarcloud.cloud_is.analysisModule.analyticsLib.Sampling;
+import eu.celarcloud.cloud_is.analysisModule.analyticsLib.parallel.trend.ParallelTrendExetutor;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.*;
 
 // TODO: Auto-generated Javadoc
@@ -88,6 +89,8 @@ public class AnalyticsController {
       		sampling = false;
       	presampling = Boolean.parseBoolean(globalProps.getProperty("sampling.presampling", "false"));
       	
+      	Integer parallelTrendThreads = (Integer) Integer.parseInt(globalProps.getProperty("trend.parallel.threads", "1"));
+      	ParallelTrendExetutor pTrend = new ParallelTrendExetutor(parallelTrendThreads);
       	
       	System.out.println("presampling " + presampling);
       	System.out.println("sampling " + threshPercentage + sampling);
@@ -99,7 +102,8 @@ public class AnalyticsController {
       		// Display raw -> trend
       		
         	//trend = Trend.calculateTrend(metrics, window);
-    		result  = Trend.calculateTrend(metrics, window);       	
+    		//result  = Trend.calculateTrend(metrics, window);       	
+      		result  = pTrend.calculateTrend(metrics, window);       	
     		metrics = null;
       	}
       	else if(sampling && !presampling)
@@ -107,7 +111,9 @@ public class AnalyticsController {
       		// Sampling is ON, Presampling is OFF
       		// Display raw -> trend -> sampling
       		
-        	trend = Trend.calculateTrend(metrics, window);
+        	//trend = Trend.calculateTrend(metrics, window);        	
+        	trend  = pTrend.calculateTrend(metrics, window); 
+        	
         	metrics = null;
         	threshold = (int) Math.round(trend.length * threshPercentage);	    		
     		System.out.println("Thres: " + threshold);
@@ -125,7 +131,9 @@ public class AnalyticsController {
         	sample = Sampling.largestTriangleThreeBuckets(metrics, threshold);
         	metrics = null;
         	//trend = Trend.calculateTrend(sample, window);
-        	result  = Trend.calculateTrend(sample, window); 
+        	//result  = Trend.calculateTrend(sample, window);   
+        	result  = pTrend.calculateTrend(sample, window); 
+        	
         	sample = null;
         }       
 
