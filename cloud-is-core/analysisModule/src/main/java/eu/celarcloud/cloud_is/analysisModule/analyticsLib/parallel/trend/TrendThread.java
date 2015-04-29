@@ -61,8 +61,6 @@ public class TrendThread implements Runnable {
 		this.start = start;
 		this.window = window;
 		this.size = size;
-		
-		System.out.println(start +"|"+ window +"|"+ size);
 	}
 	
 	/* (non-Javadoc)
@@ -70,18 +68,21 @@ public class TrendThread implements Runnable {
 	 */
 	@Override
 	public void run() {
+		 long startTime = System.nanoTime();
+		  
+		
 		double sum = 0;
+		
+		for(int j = (this.start - this.window); j < this.start; j++)
+			sum += (double)this.initial[j][1];
 		
 		for(int i = this.start; i < (this.start + size); i++)
 		{
-			if(i == this.start)
-			{
-				for(int j = (this.start - this.window); j < this.start; j++)
-					sum += (double)this.initial[j][1];
-			}
 			sum = sum - (double)this.initial[i - this.window][1] + (double)this.initial[i][1];
 			this.destination[i][0] = this.initial[i][0];
 			this.destination[i][1] = sum / this.window;
 		}
+		
+		  System.out.println(Thread.currentThread().getName() + "::" + (System.nanoTime() - startTime));	
 	}
 }

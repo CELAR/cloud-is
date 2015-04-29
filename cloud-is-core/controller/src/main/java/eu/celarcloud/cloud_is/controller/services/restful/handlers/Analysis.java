@@ -154,9 +154,13 @@ public class Analysis
 			AnalyticsController analysis = new AnalyticsController(sysCnf.export());
 			
 			// 
+			long startTime;
+			startTime = System.nanoTime();
 			Number[][] trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
-			JSONArray rawData = new JSONArray();
+			System.out.println("Analysis in: " + (System.nanoTime() - startTime) + " ns");			
 			
+			startTime = System.nanoTime();
+			JSONArray rawData = new JSONArray();
 			for (int i=0; i < trend.length; i++)
 			{
 				JSONObject m = new JSONObject();
@@ -164,6 +168,7 @@ public class Analysis
 				m.put("v", String.valueOf(trend[i][1]));
 	            rawData.put(m);
 			}
+			System.out.println("To json in: " + (System.nanoTime() - startTime) + " ns");
 			
 			//
 			double averageValue = 0.0, maxValue = 0.0, minValue=0.0;			

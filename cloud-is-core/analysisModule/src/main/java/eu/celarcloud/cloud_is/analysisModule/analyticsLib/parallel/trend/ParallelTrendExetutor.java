@@ -21,6 +21,7 @@
 package eu.celarcloud.cloud_is.analysisModule.analyticsLib.parallel.trend;
 
 
+import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -52,7 +53,7 @@ public class ParallelTrendExetutor {
 	public ParallelTrendExetutor (int thread_num)
 	{
 		this.thread_num = thread_num;		
-		
+		/*	
 		this.executor = new ThreadPoolExecutor(this.thread_num, this.thread_num, 60, TimeUnit.SECONDS,
                 new ArrayBlockingQueue<Runnable>(10000, true),
                 new MyRejectedExecutionHandeler()) {
@@ -65,12 +66,12 @@ public class ParallelTrendExetutor {
 					}
 				};
 		
-				
-		/*		
+		*/		
+			
 		this.executor = new MyThreadPoolExecutor(this.thread_num, this.thread_num, 60, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<Runnable>(10000, true),
+                new ArrayBlockingQueue<Runnable>(1000000, true),
                 new MyRejectedExecutionHandeler());
-                */
+                
 	}
 	
 	
@@ -117,20 +118,17 @@ public class ParallelTrendExetutor {
 			trend[i][0] = values[i][0];
 			trend[i][1] = sum / (i + 1);
 		}		
-		// Start Smoothing
-		long startTime = System.nanoTime();		
+		// Start Smoothing	
 		for(int i=0; i < chunkCount; i++)
 		{ 
 			int size = chunkSize;
 			if(i ==  chunkCount - 1)
 				size = chunkSize + ((values.length - window) % chunkCount);
 				
-			this.executor.execute(new TrendThread(trend, values, window + (i * chunkSize), window, size));
+			this.executor.execute(new TrendThread(trend, Arrays.copyOfRange(values, (i * chunkSize), (i * chunkSize) + window + size), window, window, size));
 		}
 		//-
 		terminateGenerator();
-		//
-		System.out.println("Finished Trend Calculation in: " + (System.nanoTime() - startTime));
 		
 		return trend;
 	}

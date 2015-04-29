@@ -13,6 +13,7 @@
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <slf4j.version>1.7.5</slf4j.version>
   </properties>
   <build>
     <plugins>
@@ -39,5 +40,10 @@
     	<artifactId>commons-math3</artifactId>
     	<version>3.2</version>
     </dependency>
+    <dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${slf4j.version}</version>
+	</dependency>
   </dependencies>
 </project>

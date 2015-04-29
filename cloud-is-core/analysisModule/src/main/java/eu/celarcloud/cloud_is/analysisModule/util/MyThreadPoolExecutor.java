@@ -29,6 +29,9 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
+import org.slf4j.LoggerFactory;
+
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class MyThreadPoolExecutor.
@@ -37,18 +40,14 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor {
 	
 	/** The start time. */
 	private final ThreadLocal<Long> startTime  = new ThreadLocal<Long>();	
-	
-	/** The lh. */
-	Handler lh;
-	
-	/** The log. */
-	private final Logger log;
-	
+
 	/** The num tasks. */
 	private final AtomicLong numTasks = new AtomicLong();
 	
 	/** The total time. */
 	private final AtomicLong totalTime = new AtomicLong();
+	
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(MyThreadPoolExecutor.class.getName());
 	
 	/**
 	 * Instantiates a new my thread pool executor.
@@ -69,14 +68,6 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor {
 	public MyThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, RejectedExecutionHandler handler) 
 	{
 		super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, handler);
-		// TODO Auto-generated constructor stub
-		
-		//lh = new FileHandler("%t/wombat.log");
-		lh = new ConsoleHandler();
-		
-		this.log = Logger.getLogger("TimingThreadPool");
-		this.log.addHandler(lh);
-		//this.log.setLevel(Level.INFO);
 	}
 	
 	/* (non-Javadoc)
@@ -85,8 +76,8 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor {
 	protected void beforeExecute(Thread t, Runnable r) 
 	{
 		super.beforeExecute(t, r);
-		//log.fine(String.format("Thread %s: start %s", t, r));
-		//startTime.set(System.nanoTime());
+		LOG.debug(String.format("Thread %s: start %s", Thread.currentThread().getName(), r));
+		startTime.set(System.nanoTime());
 	}
 	
 	/* (non-Javadoc)
@@ -99,8 +90,7 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor {
 		    long taskTime = endTime - startTime.get();
 		    numTasks.incrementAndGet();
 		    totalTime.addAndGet(taskTime);
-		    //log.fine(String.format("Thread %s: end %s, time=%dns", t, r, taskTime));
-		    System.out.println(String.format("Thread %s, completed in %dns", t, taskTime));
+		    LOG.debug(String.format("Thread %s: end %s, time=%dns", Thread.currentThread().getName(), r, taskTime));
 		} finally {
 		    super.afterExecute(r, t);
 		}
@@ -112,8 +102,7 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor {
 	protected void terminated() 
 	{
 		try {
-		    log.info(String.format("Terminated: avg time=%dns", totalTime.get() / numTasks.get()));
-		    System.out.println(String.format("Terminated: avg time=%dns", totalTime.get() / numTasks.get()));
+			LOG.info(String.format("Terminated: avg time=%dns", totalTime.get() / numTasks.get()));
 		} finally {
 		    super.terminated();
 		}
