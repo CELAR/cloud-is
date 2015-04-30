@@ -51,7 +51,7 @@ class Daemon {
 		// TODO:NOTE
 		// Redundant Check
 		// Ensure we are running on java 7 or greater
-		if (Integer.parseInt(System.getProperty("java.version").split("\\.")[1]) < 7) {
+		if (Integer.valueOf(System.getProperty("java.version").split("\\.")[1]).intValue() < 7) {
 			// Print a WARNING
 			//Logger logger = Logger.getLogger(Daemon.class.getName());
 			org.slf4j.Logger logger = LoggerFactory.getLogger(Daemon.class.getName());

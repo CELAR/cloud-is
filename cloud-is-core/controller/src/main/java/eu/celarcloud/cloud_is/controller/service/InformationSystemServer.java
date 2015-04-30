@@ -66,7 +66,7 @@ public class InformationSystemServer {
 		//
 		
 		// Get tomcat running port from properties
-		int port = Integer.parseInt(properties.getProperty("srv.port", "0"));
+		int port = Integer.valueOf(properties.getProperty("srv.port", "0")).intValue();
 		
 		System.out.println("Starting Tomcat ..");
 		InformationSystemServer.server = new TomcatEmbeddedRunner(this.serverHome  + EMBEDDED_SERVER_PATH, port);

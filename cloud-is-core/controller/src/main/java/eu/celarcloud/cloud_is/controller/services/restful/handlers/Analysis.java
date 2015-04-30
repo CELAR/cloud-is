@@ -90,6 +90,10 @@ public class Analysis
 											@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime,
 											@QueryParam("metrics") List<String> metrics, @QueryParam("method") List<String> method) 
 	{
+		// Define measuring variables
+		// for diagnostic and profiling purposes
+		long startTime;
+		
 		/*
 		 *	/tier/{cmponetId} is an optional parameter
 		 *	If it is function will return
@@ -146,15 +150,14 @@ public class Analysis
 			metrics = Arrays.asList("cpu", "ram", "disk");
 		}
 		
+		// Init analysis object
+		Config sysCnf = new Config((String) context.getAttribute("configFilePath"));
+		AnalyticsController analysis = new AnalyticsController(sysCnf.export());
+		
 		// Iterate through selected metrics
 		// and calculate analytics (trend)
 		for (String metric : metrics) {
-			// Init analysis object
-			Config sysCnf = new Config((String) context.getAttribute("configFilePath"));
-			AnalyticsController analysis = new AnalyticsController(sysCnf.export());
-			
 			// 
-			long startTime;
 			startTime = System.nanoTime();
 			Number[][] trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
 			System.out.println("Analysis in: " + (System.nanoTime() - startTime) + " ns");			
@@ -245,19 +248,18 @@ public class Analysis
 		// create one with some default values
 		
 		System.out.println(metrics);		
-		
 		if(metrics.size() <= 0)
 		{
 			metrics = Arrays.asList("cpu", "ram", "disk");
 		}
 		
+		// Init analysis object
+		Config sysCnf = new Config((String) context.getAttribute("configFilePath"));
+		AnalyticsController analysis = new AnalyticsController(sysCnf.export());
+		
 		// Iterate through selected metrics
 		// and calculate analytics (trend)
-		for (String metric : metrics) {
-			// Init analysis object
-			Config sysCnf = new Config((String) context.getAttribute("configFilePath"));
-			AnalyticsController analysis = new AnalyticsController(sysCnf.export());
-			
+		for (String metric : metrics) {			
 			// 
 			Number[][] trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
 			JSONArray rawData = new JSONArray();

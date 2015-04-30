@@ -20,6 +20,7 @@
  */
 package eu.celarcloud.cloud_is.controller.analyticsController;
 
+import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -62,38 +63,28 @@ public class AnalyticsController {
 		Number[][] trend, sample, result = null;		
 		
 		Number[][] metrics = new Number[list.size()][2];
-		
-		
-		Iterator<MetricValue> ite = list.iterator();
 
-        /* Remove the second value of the list, while iterating over its elements,
-         * using the iterator's remove method. */
-        while(ite.hasNext()) {
-             MetricValue m = ite.next();
-             
-             metrics[index][0] = Long.parseLong(m.timestamp);
- 			 metrics[index][1] = Double.parseDouble(m.value);
-             
-             ite.remove();
-             index++;
-        }
-        
+		
+		for (MetricValue m : list) {
+			metrics[index][0] = Long.valueOf(m.timestamp).longValue();
+			metrics[index][1] = Double.valueOf(m.value).doubleValue();
+			index++;
+		}
+		list.clear();
+	    
         //-
       	System.out.println("Values Before: " + metrics.length);
       	//-
         
       	// Get Sampling properties from file
       	boolean sampling = true, presampling;
-      	float threshPercentage = (float) Float.parseFloat(globalProps.getProperty("sampling.threshhold", "1"));
+      	float threshPercentage = Float.valueOf(globalProps.getProperty("sampling.threshhold", "1")).floatValue();
       	if( threshPercentage >= 1)
       		sampling = false;
       	presampling = Boolean.parseBoolean(globalProps.getProperty("sampling.presampling", "false"));
       	
-      	Integer parallelTrendThreads = (Integer) Integer.parseInt(globalProps.getProperty("trend.parallel.threads", "1"));
+      	int parallelTrendThreads = Integer.valueOf(globalProps.getProperty("trend.parallel.threads", "1")).intValue();
       	ParallelTrendExetutor pTrend = new ParallelTrendExetutor(parallelTrendThreads);
-      	
-      	System.out.println("presampling " + presampling);
-      	System.out.println("sampling " + threshPercentage + sampling);
       	
       	// Calculate Trend According to Sampling Parameters.
       	if(!sampling)
@@ -103,23 +94,19 @@ public class AnalyticsController {
       		
         	//trend = Trend.calculateTrend(metrics, window);
     		//result  = Trend.calculateTrend(metrics, window);       	
-      		result  = pTrend.calculateTrend(metrics, window);       	
-    		metrics = null;
+      		result  = pTrend.calculateTrend(metrics, window);
       	}
       	else if(sampling && !presampling)
       	{
       		// Sampling is ON, Presampling is OFF
       		// Display raw -> trend -> sampling
-      		
-        	//trend = Trend.calculateTrend(metrics, window);        	
+
         	trend  = pTrend.calculateTrend(metrics, window); 
         	
         	metrics = null;
-        	threshold = (int) Math.round(trend.length * threshPercentage);	    		
-    		System.out.println("Thres: " + threshold);
+        	threshold = (int) Math.round(trend.length * threshPercentage);
         	//sample = Sampling.largestTriangleThreeBuckets(trend, threshold);
         	result  = Sampling.largestTriangleThreeBuckets(trend, threshold);
-        	trend = null;
       	}
       	else if(sampling && presampling)
       	{
@@ -127,26 +114,13 @@ public class AnalyticsController {
 	      	// Display raw -> sampling -> trend
       		
         	threshold = (int) Math.round(metrics.length * threshPercentage);
-    		System.out.println("Thres: " + threshold);
         	sample = Sampling.largestTriangleThreeBuckets(metrics, threshold);
         	metrics = null;
         	//trend = Trend.calculateTrend(sample, window);
         	//result  = Trend.calculateTrend(sample, window);   
         	result  = pTrend.calculateTrend(sample, window); 
-        	
-        	sample = null;
-        }       
-
-//        LinkedHashMap<String, String> res = new LinkedHashMap<String, String>();
-//        for(int i = 0; i <= result.length - 1; i++)
-//		{
-//        	res.put(String.valueOf(result[i][0]), String.valueOf(result[i][1]));
-//		}
-//		
-//        //-
-//		System.out.println("Values After: " + res.size());
-		//-
-		
+        }      
+      	
 		return result;
 	}
 	
@@ -161,7 +135,7 @@ public class AnalyticsController {
 	{
 		// Get SMA window from properties
 		// Window will fall back to default 10, if property is unreadable
-		int smaWindow = Integer.parseInt(globalProps.getProperty("trend.sma.window", "10"));
+		int smaWindow = Integer.valueOf(globalProps.getProperty("trend.sma.window", "10")).intValue();
 		
 		if(smaWindow > list.size())
 		{
@@ -174,7 +148,7 @@ public class AnalyticsController {
 		if(smaWindow == 0)
 		{
 			// Calculate window
-			long timeFrame = Math.abs(Long.parseLong(list.get(list.size() - 1).timestamp) - Long.parseLong(list.get(0).timestamp));
+			long timeFrame = Math.abs(Long.valueOf(list.get(list.size() - 1).timestamp).longValue() - Long.valueOf(list.get(0).timestamp).longValue());
 			smaWindow = 10;
 		}
 		

@@ -102,7 +102,7 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor {
 	protected void terminated() 
 	{
 		try {
-			LOG.info(String.format("Terminated: avg time=%dns", totalTime.get() / numTasks.get()));
+			LOG.info(String.format("Terminated: avg time=%d ns", totalTime.get() / numTasks.get()));
 		} finally {
 		    super.terminated();
 		}

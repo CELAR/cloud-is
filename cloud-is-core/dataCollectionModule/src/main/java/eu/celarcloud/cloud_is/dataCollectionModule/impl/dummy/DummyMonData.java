@@ -63,43 +63,38 @@ public class DummyMonData implements IMetering {
 	 */
 	@Override
 	public List<MetricValue> getMetricValues(String deplId, String name, long sTime, long eTime) {
+		// Get starting time
+		long startTime = System.nanoTime();
+		
 		List<MetricValue> list = new ArrayList<MetricValue>();
 		
-		//-		
-		//int sRate = 15 * 1000; // to ms
+		//-	
 		int sRate = Integer.parseInt(config.getProperty("metrics.rate")) * 1000; // to ms
-		//int count = (int) (Long.parseLong(eTime) - Long.parseLong(sTime)) / sRate;		
-		//int count = (int) ((eTime - sTime) / sRate);
 		int count = Integer.parseInt(config.getProperty("metrics.count"));
-		
-		// TODO
-		//count = Math.abs(count);
 		
 		double randNum = 0.0;
 		int min = 15;
 		int max = 100;
 		
-		long currTime = sTime;  //Long.parseLong(sTime);
+		long currTime = sTime; 
 		for(int i = 0; i < count; i++)
 		{
 			if(i == 0)
 			{
 				randNum = TestClass.randDouble(min, max);
-				//maxValue = randNum; minValue = randNum; averageValue  = randNum;
 			}
 			else
 			{
 				randNum = TestClass.randDoubleKnoledge((int) Math.round(randNum), min, max);
-				//averageValue = Average.incrementalAverage(averageValue, randNum);
 			}
 			
-			//rawData.put(randNum);
 			MetricValue m = new MetricValue(String.valueOf(currTime), String.valueOf(randNum));
 			list.add(m);
 			currTime += sRate;
-			//minValue = randNum < minValue ? randNum : minValue;
-			//maxValue = randNum > maxValue ? randNum : maxValue;
 		}
+		
+		// Print completion time		
+		System.out.println("Creating Random Metrics: " + (System.nanoTime() - startTime) + " ns");		
 		
 		return list;
 	}

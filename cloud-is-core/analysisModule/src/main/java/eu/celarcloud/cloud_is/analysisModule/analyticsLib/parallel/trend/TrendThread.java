@@ -22,23 +22,25 @@ package eu.celarcloud.cloud_is.analysisModule.analyticsLib.parallel.trend;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class TrendThread.
+ * The class Implement the Simple Moving average smoothing algorithm in a thread-like manner.
+ * each thread calculates the SMA for a portion of the array. Initial array is that portion. 
+ * Thread writes the result in a shared (among the threads) array. 
  */
 public class TrendThread implements Runnable {
 	
-	/** The destination. */
+	/** The calculated shared trend array*/
 	Number[][] destination;
 	
-	/** The initial. */
+	/** The array with the initial (before smoothing) values */
 	Number[][] initial;
 	
-	/** The start. */
+	/** Indicates the starting index from where the current thread will start writting the trend values in the destination array. */
 	Integer start;
 	
-	/** The window. */
+	/** The Simple Moving Average window */
 	Integer window;
 	
-	/** The size. */
+	/** The amount of values that the thread with calculate the SMA on. */
 	Integer size;
 	
 	/**
@@ -55,7 +57,7 @@ public class TrendThread implements Runnable {
 	 * @param size
 	 *            the size
 	 */
-	public TrendThread(Number[][] destination, Number[][] initial, Integer start, Integer window, Integer size){
+	public TrendThread(Number[][] destination, Number[][] initial, Integer start, Integer window, Integer size) {
 		this.destination = destination;
 		this.initial = initial;
 		this.start = start;
@@ -68,21 +70,18 @@ public class TrendThread implements Runnable {
 	 */
 	@Override
 	public void run() {
-		 long startTime = System.nanoTime();
-		  
-		
+		// Calculate the initial average
+		// This average is the (previous) knowledge that the thread needs to have / calculate
+		// In order to proceed with the smoothing of the input.
 		double sum = 0;
-		
-		for(int j = (this.start - this.window); j < this.start; j++)
+		for(int j = 0; j < this.window; j++)
 			sum += (double)this.initial[j][1];
 		
-		for(int i = this.start; i < (this.start + size); i++)
+		for(int i = this.window; i < (this.window + this.size); i++)
 		{
 			sum = sum - (double)this.initial[i - this.window][1] + (double)this.initial[i][1];
-			this.destination[i][0] = this.initial[i][0];
-			this.destination[i][1] = sum / this.window;
+			this.destination[this.start + (i - this.window)][0] = this.initial[i][0];
+			this.destination[this.start + (i - this.window)][1] = sum / this.window;
 		}
-		
-		  System.out.println(Thread.currentThread().getName() + "::" + (System.nanoTime() - startTime));	
 	}
 }

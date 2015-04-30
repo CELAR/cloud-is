@@ -110,7 +110,6 @@ public class Trend {
 		for(int i = window - 2; i <= values.length - 1; i++)
 		{
 			ds.addValue((double) values[i][1]);
-			//hm.put(String.valueOf(values[i][0]), String.valueOf(ds.getMean()));
 			values[i][1] = ds.getMean();
 		}
 		return values;

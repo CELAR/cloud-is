@@ -644,8 +644,8 @@ public class CelarManager {
 	        MetricValue m = new MetricValue();
 	        m.metrics_Id = metric_id;
 	        m.resources_Id = component_id; // TODO
-	        m.timestamp = new MyTimestamp(Long.parseLong((String) pair.getKey()));
-	        m.value = Long.parseLong((String) pair.getValue());
+	        m.timestamp = new MyTimestamp(Long.valueOf((String) pair.getKey()).longValue());
+	        m.value = Long.valueOf((String) pair.getValue()).longValue();
 	        
 	        // TODO
 	        

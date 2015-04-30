@@ -41,7 +41,6 @@ public class ParallelTrendExetutor {
 	
 	/** The executor. */
 	public ExecutorService executor; 
-			
 	
 	
 	/**
@@ -109,7 +108,7 @@ public class ParallelTrendExetutor {
 		int chunkCount = this.thread_num; // ~> thread number
 		int chunkSize = (int) Math.floor((values.length - window) / chunkCount);
 		
-		Number trend[][] = new Number[values.length][2];
+		final Number trend[][] = new Number[values.length][2];
 		// Insert initial values (smoothed??)
 		double sum = 0;
 		for(int i=0; i < window; i++)
@@ -118,18 +117,21 @@ public class ParallelTrendExetutor {
 			trend[i][0] = values[i][0];
 			trend[i][1] = sum / (i + 1);
 		}		
-		// Start Smoothing	
+		// Start Smoothing
+		int slice_start = 0, slice_end = 0;
 		for(int i=0; i < chunkCount; i++)
 		{ 
 			int size = chunkSize;
 			if(i ==  chunkCount - 1)
 				size = chunkSize + ((values.length - window) % chunkCount);
 				
-			this.executor.execute(new TrendThread(trend, Arrays.copyOfRange(values, (i * chunkSize), (i * chunkSize) + window + size), window, window, size));
+			// Define slice points
+			slice_start = (i * chunkSize);
+			slice_end = slice_start + size + window;
+			this.executor.execute(new TrendThread(trend, Arrays.copyOfRange(values, slice_start, slice_end), slice_start + window, window, size));
 		}
 		//-
 		terminateGenerator();
-		
 		return trend;
 	}
 }

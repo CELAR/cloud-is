@@ -20,6 +20,8 @@
  */
 package eu.celarcloud.cloud_is.analysisModule.analyticsLib;
 
+import org.slf4j.LoggerFactory;
+
 /**
  * Naive implementation of down sample with simple array input.
  * Copes gracefully with nulls by preserving them.
@@ -34,7 +36,7 @@ package eu.celarcloud.cloud_is.analysisModule.analyticsLib;
  * 
  */
 public class Sampling {
-	
+		
 	/**
 	 * Largest triangle three buckets.
 	 *
@@ -45,6 +47,9 @@ public class Sampling {
 	 * @return the number[][]
 	 */
 	public static Number[][] largestTriangleThreeBuckets(Number[][] data, Integer threshold) {
+		// Get starting time
+		long startTime = System.nanoTime();
+		
 		Number[][] sampled = new Number[threshold][];
 		if (data == null) {
 			throw new NullPointerException("Cannot cope with a null data input array.");
@@ -101,8 +106,11 @@ public class Sampling {
 			sampled[sampled_index++] = max_area_point;
 			a = next_a;
 		}
-		
 		sampled[sampled_index++] = data[data.length - 1];
+		
+		// Print completion time		
+		System.out.println("Sampling 'largestTriangleThreeBuckets' Completed in :" + (System.nanoTime() - startTime) + " ns");
+		
 		return sampled;
 	}
 }
