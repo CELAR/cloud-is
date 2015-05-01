@@ -105,6 +105,9 @@ public class ParallelTrendExetutor {
 	 */
 	public Number[][] calculateTrend(Number[][] values, int window)
 	{		
+		// Get starting time
+		long startTime = System.nanoTime();
+		
 		int chunkCount = this.thread_num; // ~> thread number
 		int chunkSize = (int) Math.floor((values.length - window) / chunkCount);
 		
@@ -132,6 +135,10 @@ public class ParallelTrendExetutor {
 		}
 		//-
 		terminateGenerator();
+		
+		// Print completion time		
+		System.out.println("Trend Calculation 'Parallel' Completed in :" + (System.nanoTime() - startTime) + " ns");
+		
 		return trend;
 	}
 }

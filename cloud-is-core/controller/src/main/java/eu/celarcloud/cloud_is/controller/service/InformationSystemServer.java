@@ -60,11 +60,6 @@ public class InformationSystemServer {
 		// load config properties file
 		Config properties = new Config(this.serverHome  + EMBEDDED_SERVER_PATH + CONFIG_PATH);
 		
-		//-
-		// Test, properties are accessible
-		System.out.println(properties.getProperty("test.test_prop", "Can not find property"));
-		//
-		
 		// Get tomcat running port from properties
 		int port = Integer.valueOf(properties.getProperty("srv.port", "0")).intValue();
 		
