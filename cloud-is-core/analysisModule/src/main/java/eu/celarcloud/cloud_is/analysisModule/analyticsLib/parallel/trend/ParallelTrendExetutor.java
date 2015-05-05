@@ -137,7 +137,7 @@ public class ParallelTrendExetutor {
 		terminateGenerator();
 		
 		// Print completion time		
-		System.out.println("Trend Calculation 'Parallel' Completed in :" + (System.nanoTime() - startTime) + " ns");
+		System.out.println("Trend Calculation 'Parallel' Completed in : " + (System.nanoTime() - startTime) + " ns");
 		
 		return trend;
 	}

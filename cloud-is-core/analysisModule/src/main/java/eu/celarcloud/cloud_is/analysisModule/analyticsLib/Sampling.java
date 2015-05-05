@@ -20,8 +20,6 @@
  */
 package eu.celarcloud.cloud_is.analysisModule.analyticsLib;
 
-import org.slf4j.LoggerFactory;
-
 /**
  * Naive implementation of down sample with simple array input.
  * Copes gracefully with nulls by preserving them.
@@ -109,7 +107,8 @@ public class Sampling {
 		sampled[sampled_index++] = data[data.length - 1];
 		
 		// Print completion time		
-		System.out.println("Sampling 'largestTriangleThreeBuckets' Completed in :" + (System.nanoTime() - startTime) + " ns");
+		System.out.println("Sampling 'largestTriangleThreeBuckets' Completed in : " + (System.nanoTime() - startTime) + " ns");
+		System.out.println("Downsampled " + data.length + " of data points to " + sampled.length);
 		
 		return sampled;
 	}

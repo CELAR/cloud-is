@@ -20,9 +20,6 @@
  */
 package eu.celarcloud.cloud_is.controller.analyticsController;
 
-import java.lang.reflect.Array;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -64,14 +61,14 @@ public class AnalyticsController {
 		
 		Number[][] metrics = new Number[list.size()][2];
 
-		
+		long startTime = System.nanoTime();
 		for (MetricValue m : list) {
 			metrics[index][0] = Long.valueOf(m.timestamp).longValue();
 			metrics[index][1] = Double.valueOf(m.value).doubleValue();
 			index++;
 		}
 		list.clear();
-	    
+		System.out.println("Transform to Number[][] Array : " + (System.nanoTime() - startTime) + " ns");
         //-
       	System.out.println("Values Before: " + metrics.length);
       	//-

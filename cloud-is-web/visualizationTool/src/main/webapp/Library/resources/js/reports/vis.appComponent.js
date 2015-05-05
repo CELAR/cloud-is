@@ -59,6 +59,7 @@ function appComponent (reportID) {
 	};
 
 	this.onDataReady = function(jsonObj, params){
+		var Ostart = Date.now();		
 		
 		console.log(params);
 		// Formulate metrics array
@@ -79,8 +80,10 @@ function appComponent (reportID) {
 		 var actions = jsonObj.actions;
 		 delete jsonObj['actions'];
 		 var version = jsonObj.version;
-		 delete jsonObj['version'];
+		 delete jsonObj['version'];		 
 		 $.each(jsonObj, function (mName, objData){
+			 var start = Date.now();
+			 
 			//var containerID = title + "_visualization";
 			//var outerContainerID = title + "_visualizationContainer";
 			var opts = new Object;
@@ -107,13 +110,22 @@ function appComponent (reportID) {
 			inputAdditionalData(data, objData.avg, version.tEnd);
 			
 			data = inputActions(data, actions);
+			
+			console.log("data " + (Date.now() - start) +  "milliseconds");
+			
+			var start = Date.now();
+			
 			//var container = report.find('[data-id="' + containerID + '"]')[0];
 			var container = report.find('[data-mid="' + metrics[mName] + '"]').find('.chartHolder')[0];
 			if(typeof container !== "undefined" )//|| container.length > 0) 
 				drawPerformanceLineChart(data, container);
 			else
 				console.log('Chart Container ' + 'data-mid="' + metrics[mName] + '" does not exist');
-		 });		 
+			
+			console.log("chart rentering " + (Date.now() - start) + " milliseconds");
+		 });		
+		 
+		 console.log("Page load took " + (Date.now() - Ostart) + " milliseconds"); 
 	};
 	
 	this.ajax_getAnalysisStats = function(params, onSuccess){

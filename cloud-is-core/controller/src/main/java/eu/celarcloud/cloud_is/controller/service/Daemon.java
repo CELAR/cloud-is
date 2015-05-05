@@ -26,8 +26,6 @@ import java.text.DecimalFormat;
 import org.apache.catalina.LifecycleException;
 import org.slf4j.LoggerFactory;
 
-import eu.celarcloud.cloud_is.controller.container.tomcat.TomcatEmbeddedRunner;
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class Daemon.

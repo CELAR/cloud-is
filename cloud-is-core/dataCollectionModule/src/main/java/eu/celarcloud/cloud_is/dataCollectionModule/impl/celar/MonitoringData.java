@@ -32,10 +32,8 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 public class MonitoringData implements IMetering {
 
 	/* The JCatascopia Monitoring Client Class. */
-	/** The jc client. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.Jcatascopia jcClient;
 	/* The CELAR Manager Client Class. */
-	/** The cm client. */
 	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
 	
 	
