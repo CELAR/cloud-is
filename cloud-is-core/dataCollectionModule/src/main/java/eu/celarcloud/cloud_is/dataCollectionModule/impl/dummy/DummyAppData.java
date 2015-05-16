@@ -281,7 +281,7 @@ public class DummyAppData implements IApplicationMetadata {
 		Random rand = new Random();		
 		
     	deployment = new Deployment();
-    		deployment.id = String.valueOf(rand.nextInt((9999 - 1000) + 1) + 1000);
+    		deployment.id = String.valueOf(rand.nextInt((9999 - 1000) + 1) + 1000); 
 			deployment.applicationId = appId;
 			deployment.status = "online";
 			deployment.startTime = "1413290766468";
@@ -289,7 +289,15 @@ public class DummyAppData implements IApplicationMetadata {
 		deployments.add(deployment);
     	
 		deployment = new Deployment();
-	    	deployment.id = String.valueOf(rand.nextInt((9999 - 1000) + 1) + 1000);
+	    	deployment.id = String.valueOf(rand.nextInt((9999 - 1000) + 1) + 1000) + "1"; // need to end with 1
+	    	deployment.applicationId = appId;
+			deployment.status = "offline";
+			deployment.startTime = "1413290766468";
+			deployment.endTime = "1413298766468";
+		deployments.add(deployment);
+		
+		deployment = new Deployment();
+	    	deployment.id = String.valueOf(rand.nextInt((9999 - 1000) + 1) + 1000) + "2"; // need to end with 2
 	    	deployment.applicationId = appId;
 			deployment.status = "offline";
 			deployment.startTime = "1413290766468";
