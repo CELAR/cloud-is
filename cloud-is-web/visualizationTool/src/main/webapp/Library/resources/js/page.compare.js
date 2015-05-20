@@ -180,28 +180,32 @@ $(document).ready(function(){
 					
 					// Build UI control According the response
 					
-					if(jsonObj !=null && jsonObj.topology !=null && jsonObj.topology !="")
-					{										
-						$.each(jsonObj.topology, function(key, node) {
-							var item = componentTemplate.clone();
-							
-							item.find('span').html(node.name);
-							item.attr("data-id", node.id);
-							item.attr("data-component", node.id);
-							
-							// Assign onClick Events
-							item.off('click');
-							item.on('click', function() {
-								$(this).toggleClass('selected');
+
+					if(jsonObj !=null && jsonObj !="")
+					{	
+						$.each(jsonObj, function(key, module) {
+							$.each(module.components, function(key, component) {			
+								var item = componentTemplate.clone();
 								
-								if($('.componentSelectionBar .singleComponent.selected').length > 0) {
-									$('[role="button"][data-action="commonMetrics"]').removeClass('disabled');
-								}
-								else {
-									$('[role="button"][data-action="commonMetrics"]').addClass('disabled');
-								}
-							});							
-							holder.append(item);
+								item.find('span').html(component.description);
+								item.attr("data-id", component.id);
+								item.attr("data-component", component.id);
+								item.attr("data-module", module.id);
+								
+								// Assign onClick Events
+								item.off('click');
+								item.on('click', function() {
+									$(this).toggleClass('selected');
+									
+									if($('.componentSelectionBar .singleComponent.selected').length > 0) {
+										$('[role="button"][data-action="commonMetrics"]').removeClass('disabled');
+									}
+									else {
+										$('[role="button"][data-action="commonMetrics"]').addClass('disabled');
+									}
+								});							
+								holder.append(item);
+							});
 						});
 					}
 					else
