@@ -22,6 +22,9 @@ package eu.celarcloud.cloud_is.controller.service;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.catalina.LifecycleException;
 import org.slf4j.LoggerFactory;
@@ -46,6 +49,8 @@ class Daemon {
 	 *             the lifecycle exception
 	 */
 	public static void main(final String[] args) throws IOException, LifecycleException {
+		final Object lock = new Object();
+		
 		// TODO:NOTE
 		// Redundant Check
 		// Ensure we are running on java 7 or greater
@@ -59,7 +64,12 @@ class Daemon {
 		// Print Heap Site
 		long heapMaxSize = Runtime.getRuntime().maxMemory();		
 		LOG.info("Available Heap: " + formatSize(heapMaxSize));
+		
+		/*
+		 * Start Loading Submodules
+		 */
 		// Load Information System Service
+		/*
 		try {
 			if (args.length > 0)
 				new InformationSystemServer(args[0], args[1]);
@@ -76,8 +86,63 @@ class Daemon {
 			e.printStackTrace();
 			System.exit(0);
 		}
+		*/
 		
-		// -
+		// Register shutdown hook
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				System.out.println("Shutdown Invoked..");
+				System.out.println("Notifying Block Lock..");
+				synchronized (lock) { lock.notify(); }
+			}
+		});
+		
+		// Spawn child threads (the actual processes)
+		ExecutorService es = Executors.newScheduledThreadPool(5);
+		try {
+			if (args.length > 0)
+				//new Thread(new InformationSystemServerNew(args[0], args[1])).start();
+			es.execute(new InformationSystemServer(args[0], args[1]));
+			else {
+				String workingDir = ".";
+				// String OS = System.getProperty("os.name",
+				// "generic").toLowerCase(Locale.ENGLISH);
+				// if (OS.indexOf("win") >= 0) {
+				// workingDir = "";
+				// }
+				es.execute(new InformationSystemServer(workingDir, null));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+		
+		// Set a synchronous lock, in order to
+		// Prevent 'Main' from exiting
+		try {
+			System.out.println("Setting lock and Waiting / Blocking");
+	        synchronized (lock) {
+	            while (true) {
+	                lock.wait();
+	            }
+	        }
+	    } catch (InterruptedException e) {
+	    	e.printStackTrace();
+	    }
+		
+	    // Do something after we were interrupted ...
+		System.out.println("Shutdown child processes..");
+		
+		// Shutdown child processes 	
+		es.shutdown();
+		try {
+			boolean finshed = es.awaitTermination(1, TimeUnit.MINUTES);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// all tasks have finished or the time has been reached.
+		// Exit Main
 		System.out.println("Exiting main..");
 		System.exit(0);
 	}
@@ -90,7 +155,7 @@ class Daemon {
 	 *            the size
 	 * @return the string
 	 */
-	public static String formatSize(long size) {
+	private static String formatSize(long size) {
 	    String hrSize = null;
 
 	    double b = size;

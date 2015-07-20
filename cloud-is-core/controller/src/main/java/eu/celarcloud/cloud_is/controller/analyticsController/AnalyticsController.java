@@ -103,7 +103,7 @@ public class AnalyticsController {
         	metrics = null;
         	threshold = (int) Math.round(trend.length * threshPercentage);
         	//sample = Sampling.largestTriangleThreeBuckets(trend, threshold);
-        	result  = Sampling.largestTriangleThreeBuckets(trend, threshold);
+        	result  = Sampling.largestTriangleThreeBuckets(trend, 9000);
       	}
       	else if(sampling && presampling)
       	{

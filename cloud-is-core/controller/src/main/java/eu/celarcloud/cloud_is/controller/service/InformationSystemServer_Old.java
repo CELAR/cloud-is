@@ -32,7 +32,7 @@ import eu.celarcloud.cloud_is.controller.services.restful.RestAPIembeddedWebapp;
 /**
  * The Class InformationSystemServer.
  */
-public class InformationSystemServer implements Runnable{
+public class InformationSystemServer_Old {
 	/** path to configuration file */
 	private static final String CONFIG_PATH = File.separator + "config" + File.separator + "server.properties";
 
@@ -54,7 +54,7 @@ public class InformationSystemServer implements Runnable{
 	 * @throws LifecycleException 
 	 *             org.apache.catalina.LifecycleException - In case that the tomcat container fail to start
 	 */
-	public InformationSystemServer(String serverDir, String s2) {
+	public InformationSystemServer_Old(String serverDir, String s2)	throws LifecycleException {
 		this.serverHome = serverDir;		
 		
 		// load config properties file
@@ -64,35 +64,27 @@ public class InformationSystemServer implements Runnable{
 		int port = Integer.valueOf(properties.getProperty("srv.port", "0")).intValue();
 		
 		System.out.println("Starting Tomcat ..");
-		InformationSystemServer.server = new TomcatEmbeddedRunner(this.serverHome  + EMBEDDED_SERVER_PATH, port);		
-	}
-
-	@Override
-	public void run() {
+		InformationSystemServer_Old.server = new TomcatEmbeddedRunner(this.serverHome  + EMBEDDED_SERVER_PATH, port);
+				
 		// Set WebApp to load on server container
 		/*  Set the REST API webApp
 		 *  Context path equal to '/' meaning that the webApp
 		 *  will be 'installed' under the root path
 		 */
 		RestAPIembeddedWebapp restApi = new RestAPIembeddedWebapp();
-		restApi.create(InformationSystemServer.server, "rest");
+		restApi.create(InformationSystemServer_Old.server, "rest");
 		// Print newly 'installed' webapp access url
-		System.out.println("Server on " + InformationSystemServer.server.getApplicationUrl("rest"));
+		System.out.println("Server on " + InformationSystemServer_Old.server.getApplicationUrl("rest"));
 		/*
 		 * 
 		 */
 		OrchProxyEmbeddedWebapp proxy = new OrchProxyEmbeddedWebapp();
-		proxy.create(InformationSystemServer.server, "monitoringProxy");
+		proxy.create(InformationSystemServer_Old.server, "monitoringProxy");
 		// Print newly 'installed' webApp access url
-		System.out.println("Server on " + InformationSystemServer.server.getApplicationUrl("monitoringProxy"));
+		System.out.println("Server on " + InformationSystemServer_Old.server.getApplicationUrl("monitoringProxy"));
 		// Start the server
 		// WARNING - The Script will block after this line
-		try {
-			InformationSystemServer.server.start();
-		} catch (LifecycleException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+		InformationSystemServer_Old.server.start();
 	}
 
 }
