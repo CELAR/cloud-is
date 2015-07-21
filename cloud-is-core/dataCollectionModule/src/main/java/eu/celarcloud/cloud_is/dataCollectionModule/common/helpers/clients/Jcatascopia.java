@@ -32,7 +32,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.RestClient;
 /**
  * The Class Jcatascopia.
  */
-public class Jcatascopia  {
+public class Jcatascopia {
 	
 	/** The server ip. */
 	private String serverIp;
@@ -154,18 +154,20 @@ public class Jcatascopia  {
 	 *            the tend
 	 * @return the values for time range
 	 */
-	public String getValuesForTimeRange(String metricId, String interval, String tstart, String tend)
+	public String getValuesForTimeRange(String metric_id, String interval, long tstart, long tend)
 	{	
 		// e.g. http://109.231.122.22:8080/JCatascopia-Web/restAPI/metrics/35a4d65b776041fb9320b886ef5aa7e5:cpuTotal/?interval=10000&tstrart=32278837562435
 		URIBuilder builder = new URIBuilder();
-		String path = this.serverIp + this.restPath + "metrics/" + metricId;		
+		String path = this.serverIp + this.restPath + "metrics/" + metric_id;		
 	    builder.setPath(path);
 	    
-	    builder.setParameter("interval", interval);
-		if(tstart != null && !tstart.isEmpty())
-			builder.setParameter("tstart", tstart);
-		if(tend != null && !tend.isEmpty())
-			builder.setParameter("tend", tend);
+	    // TODO check if interval is a required parameter
+	    if(interval != null && !interval.isEmpty())
+	    	builder.setParameter("interval", interval);
+		if(tstart != -1)
+			builder.setParameter("tstart", String.valueOf(tstart));
+		if(tend != -1)
+			builder.setParameter("tend", String.valueOf(tend));
 		  
 		//
 		CloseableHttpResponse response = null;

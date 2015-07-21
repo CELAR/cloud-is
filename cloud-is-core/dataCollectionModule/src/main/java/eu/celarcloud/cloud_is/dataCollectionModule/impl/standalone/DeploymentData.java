@@ -49,8 +49,8 @@ public class DeploymentData implements IDeploymentMetadata {
 			deployment.id = deplId;
 			deployment.applicationId = "";
 			deployment.status = "offline";
-			deployment.startTime = "1413290766468";
-			deployment.endTime = "1413299766468";
+			deployment.startTime = "-1";
+			deployment.endTime = "-1";
 	    return deployment;
 	}
 

@@ -18,47 +18,19 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
+
 package eu.celarcloud.cloud_is.dataCollectionModule.common.beans;
 
-import org.json.JSONObject;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Deployment.
+ * The Interface IOccurance.
  */
-public class Deployment implements IBean{
-	 
- 	/** The application id. */
- 	public String applicationId;
-	 
- 	/** The id. */
- 	public String id;
-	 
- 	/** The status. */
- 	public String status;
-	// Time in unix time stamp format (milliseconds since Jan 1, 1970)
-	 /** The end time. */
-	public String startTime, endTime;
-	 
-	 /**
-	 * Instantiates a new deployment.
-	 */
- 	public Deployment(){
-	        
-	 }
-
-	/* (non-Javadoc)
-	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.beans.IBean#toJSONObject()
-	 */
-	@Override
-	public JSONObject toJSONObject() {
-		JSONObject deployment;
-    	deployment = new JSONObject();
-	    	deployment.put("id", this.id);
-	    	deployment.put("application", this.applicationId);
-	    	deployment.put("status", this.status); 
-	    	deployment.put("sTime", this.startTime); 
-	    	deployment.put("eTime", this.endTime); 
-		return deployment;
-	}	 
+public interface IOccurance extends IBean {
+	
+	/** The timestamp. */
+	String timestamp = null;
+	
+	/** The value. */
+	String value = null;
 }

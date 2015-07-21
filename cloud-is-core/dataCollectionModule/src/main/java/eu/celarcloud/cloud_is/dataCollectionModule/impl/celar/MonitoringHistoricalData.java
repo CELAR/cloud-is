@@ -109,8 +109,8 @@ public class MonitoringHistoricalData implements IMetering {
 		
 		for (gr.ntua.cslab.celar.server.beans.MetricValue m : metrics) {
 			MetricValue metric = new MetricValue();
-				metric.timestamp = m.timestamp.toString();
-				metric.value = String.valueOf(m.value);
+				metric.timestamp = m.timestamp.getTime();
+				metric.value = (double) m.value;
 	    	applications.add(metric);			
 		}
 		

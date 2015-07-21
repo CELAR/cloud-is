@@ -20,11 +20,21 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.standalone;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.Jcatascopia;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -32,6 +42,21 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
  */
 public class MonitoringData implements IMetering {
 
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(MonitoringData.class.getName());
+	/* The JCatascopia Monitoring Client Class. */
+	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.Jcatascopia jcClient;	
+	
+	/**
+	 * Initializes the JCatascopia Rest Client.
+	 *
+	 * @param restApiUri
+	 *            the rest api uri
+	 */
+	public void init(String restApiUri) {
+		this.jcClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.Jcatascopia(restApiUri);		
+	}
+	
+	
 	@Override
 	public String getAgents(String deplId, String string) {
 		throw new java.lang.UnsupportedOperationException();
@@ -43,38 +68,63 @@ public class MonitoringData implements IMetering {
 	}
 
 	@Override
-	public List<MetricValue> getMetricValues(String deplId, String name, long sTime, long eTime) {
+	public List<MetricValue> getMetricValues(String deplId, String metric_id, long sTime, long eTime) {
+		// Get starting time
+		long startTime = System.nanoTime();
+				
 		List<MetricValue> list = new ArrayList<MetricValue>();
 		
-		//-		
-		int sRate = 15 * 1000; // to ms
-		int count = (int) (eTime - sTime) / sRate;		
+		String interval = "9500";
 		
-		double randNum = 0.0;
-		int min = 15;
-		int max = 100;
+		JSONObject response = null;
+		JSONArray values = null;
+		try {
+			response = new JSONObject(this.jcClient.getValuesForTimeRange(metric_id, interval, sTime, eTime));
+			values = response.getJSONArray("values");
+			response = null;
+    	} 
+    	catch (JSONException e) {
+    		// Missformated request
+    		LOG.warn("Missformated Response: ", e);
+    		return list;
+    		
+    	}
+    	catch(NullPointerException e) {
+    		// error
+    		LOG.warn("Error on getting data from JCatascopia: ", e);
+    		return list;
+    	}
 		
-		long currTime = sTime;
-		for(int i = 0; i < count; i++)
+		// Print completion time		
+		System.out.println("Getting Metrics from JC: " + (System.nanoTime() - startTime) + " ns");
+		
+		startTime = System.nanoTime();
+		
+		JSONObject value;
+		for(int i = 0; i < values.length(); i++)
 		{
-			if(i == 0)
-			{
-				//randNum = TestClass.randDouble(min, max);
-				//maxValue = randNum; minValue = randNum; averageValue  = randNum;
-			}
-			else
-			{
-				//randNum = TestClass.randDoubleKnoledge((int) Math.round(randNum), min, max);
-				//averageValue = Average.incrementalAverage(averageValue, randNum);
+			value = values.getJSONObject(i);
+			
+			// Since JCatascopia timestamp are NOT in unix time stamp formart
+			// we need to convert them
+			String timestamp = "";
+			DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+			try {
+			  Date dt = formatter.parse(value.getString("timestamp"));
+			  timestamp = String.valueOf(dt.getTime());
+			} catch (ParseException e) {
+			  // This can happen if you are trying to parse an invalid date, e.g., 25:19:12.
+			  // Here, you should log the error and decide what to do next
+			  e.printStackTrace();
+			  timestamp = value.getString("timestamp");
 			}
 			
-			//rawData.put(randNum);
-			MetricValue m = new MetricValue(String.valueOf(currTime), String.valueOf(randNum));
+			MetricValue m = new MetricValue(timestamp, value.getString("value"));
 			list.add(m);
-			currTime += sRate;
-			//minValue = randNum < minValue ? randNum : minValue;
-			//maxValue = randNum > maxValue ? randNum : maxValue;
 		}
+		
+		// Print completion time		
+		System.out.println("Parsing Metrics to internal structures " + (System.nanoTime() - startTime) + " ns");		
 		
 		return list;
 	}

@@ -123,9 +123,8 @@ public class DeploymentData implements IDeploymentMetadata {
 	@Override
 	public Deployment getDeployment(String deplId) {
 		String response = this.cmClient.getDeploymentInfo(deplId);
-		Deployment depl = new Deployment();
 		if(response == null || response.isEmpty())	
-    		return depl;
+    		return null;
 				
 		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
 		
@@ -136,21 +135,23 @@ public class DeploymentData implements IDeploymentMetadata {
 		} catch (JAXBException e) {
 			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
 			e.printStackTrace();
+			return null;
 		}
 		   
 		//print the entity in a structured manner
 		//you can observe all the field names and their values (in this example)
 		System.out.println(d.toString(true));
-		
-		depl.id = d.id;
-		depl.applicationId = d.application_Id;
-		depl.status = d.getState();
-		depl.startTime = String.valueOf(d.start_Time.getTime());
-		
-		if(d.end_Time == null)
-			depl.endTime = "-1";
-		else
-			depl.endTime = String.valueOf(d.end_Time.getTime());
+
+		Deployment depl = new Deployment();
+			depl.id = d.id;
+			depl.applicationId = d.application_Id;
+			depl.status = d.getState();
+			depl.startTime = String.valueOf(d.start_Time.getTime());
+			
+			if(d.end_Time == null)
+				depl.endTime = "-1";
+			else
+				depl.endTime = String.valueOf(d.end_Time.getTime());
 			
 			
 		return depl;      

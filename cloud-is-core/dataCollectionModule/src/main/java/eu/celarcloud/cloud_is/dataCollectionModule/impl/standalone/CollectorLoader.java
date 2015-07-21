@@ -20,6 +20,9 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.impl.standalone;
 
+import java.io.File;
+
+import eu.celarcloud.cloud_is.dataCollectionModule.common.EndpointConfig;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
 
@@ -37,7 +40,18 @@ public class CollectorLoader extends SourceLoader {
 
 	@Override
 	public IDataSource loadMeteringInterface() {
-		return new MonitoringData();
+		String path = this.getConfigPath() + File.separator + "standalone";
+		
+		// Load the CELAR Manager endpoint address (uri) from the configuration
+		EndpointConfig applicationEndpoint = new EndpointConfig(path + File.separator + "endpoint.jcatascopia.properties");			
+		String uri = applicationEndpoint.getUri();		
+		System.out.println("JCatascopia configured Uri is: " + uri);			
+		
+		MonitoringData temp = new MonitoringData();
+		temp.init(uri);
+		
+		// 'Return' the loaded instance
+		return temp;
 	}
 
 	/*
@@ -47,7 +61,7 @@ public class CollectorLoader extends SourceLoader {
 	 */
 	@Override
 	public IDataSource loadMeteringHistoryInterface() {
-		return new MonitoringData();
+		return this.loadMeteringInterface();
 	}
 
 	@Override
