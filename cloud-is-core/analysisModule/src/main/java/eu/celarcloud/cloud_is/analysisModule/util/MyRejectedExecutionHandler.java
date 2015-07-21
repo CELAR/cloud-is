@@ -27,7 +27,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * The Class MyRejectedExecutionHandeler.
  */
-public class MyRejectedExecutionHandeler implements RejectedExecutionHandler
+public class MyRejectedExecutionHandler implements RejectedExecutionHandler
 {
     
     /* (non-Javadoc)

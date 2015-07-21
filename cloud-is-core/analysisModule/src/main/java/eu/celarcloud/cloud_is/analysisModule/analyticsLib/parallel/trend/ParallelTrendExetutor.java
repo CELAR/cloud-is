@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import eu.celarcloud.cloud_is.analysisModule.util.MyRejectedExecutionHandeler;
+import eu.celarcloud.cloud_is.analysisModule.util.MyRejectedExecutionHandler;
 import eu.celarcloud.cloud_is.analysisModule.util.MyThreadPoolExecutor;
 
 // TODO: Auto-generated Javadoc
@@ -69,7 +69,7 @@ public class ParallelTrendExetutor {
 			
 		this.executor = new MyThreadPoolExecutor(this.thread_num, this.thread_num, 60, TimeUnit.SECONDS,
                 new ArrayBlockingQueue<Runnable>(1000000, true),
-                new MyRejectedExecutionHandeler());
+                new MyRejectedExecutionHandler());
                 
 	}
 	
@@ -137,7 +137,7 @@ public class ParallelTrendExetutor {
 		terminateGenerator();
 		
 		// Print completion time		
-		System.out.println("Trend Calculation 'Parallel' Completed in : " + (System.nanoTime() - startTime) + " ns");
+		System.out.println("Trend Calculation 'Parallel' Completed in: " + (System.nanoTime() - startTime) + " ns");
 		
 		return trend;
 	}

@@ -68,7 +68,7 @@ public class DeploymentData implements IDeploymentMetadata {
 		long currTime = sTime;
 		
 		//-
-		if(tierId == "appServer")
+		if(tierId.equals("appServer"))
 		{
 			// 07:00:00
 			instances.add(new MetricValue(String.valueOf(currTime), "2"));
@@ -97,7 +97,7 @@ public class DeploymentData implements IDeploymentMetadata {
 			// 15:00:00
 			instances.add(new MetricValue(String.valueOf(currTime), "9"));
 		}
-		else if (tierId == "database")
+		else if (tierId.equals("database"))
 		{
 			// 07:00:00
 			instances.add(new MetricValue(String.valueOf(currTime), "1"));

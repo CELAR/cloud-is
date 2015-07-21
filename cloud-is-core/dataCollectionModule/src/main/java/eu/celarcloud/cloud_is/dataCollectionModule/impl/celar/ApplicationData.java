@@ -254,7 +254,7 @@ public class ApplicationData implements IApplicationMetadata {
 				if(d.end_Time == null)
 					depl.endTime = "-1";
 				else
-					depl.endTime = depl.endTime = String.valueOf(d.end_Time.getTime());
+					depl.endTime = String.valueOf(d.end_Time.getTime());
 				
     	    deployments.add(depl);			
 		}
@@ -303,7 +303,7 @@ public class ApplicationData implements IApplicationMetadata {
 				if(d.end_Time == null)
 					depl.endTime = "-1";
 				else
-					depl.endTime = depl.endTime = String.valueOf(d.end_Time.getTime());
+					depl.endTime = String.valueOf(d.end_Time.getTime());
 	    	    
     	    deployments.add(depl);			
 		}

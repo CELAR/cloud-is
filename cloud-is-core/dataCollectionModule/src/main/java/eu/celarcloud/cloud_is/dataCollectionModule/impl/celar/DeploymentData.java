@@ -109,7 +109,7 @@ public class DeploymentData implements IDeploymentMetadata {
 				if(d.end_Time == null)
 					depl.endTime = "-1";
 				else
-					depl.endTime = depl.endTime = String.valueOf(d.end_Time.getTime());
+					depl.endTime = String.valueOf(d.end_Time.getTime());
 	    	    
     	    deployments.add(depl);			
 		}
