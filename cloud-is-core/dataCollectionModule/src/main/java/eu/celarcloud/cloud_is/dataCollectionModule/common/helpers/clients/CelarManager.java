@@ -27,6 +27,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBException;
 
@@ -35,39 +36,71 @@ import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.RestClient;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
-import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.SourceLoader;
+
 import gr.ntua.cslab.celar.server.beans.Component;
 import gr.ntua.cslab.celar.server.beans.Metric;
 import gr.ntua.cslab.celar.server.beans.MetricValue;
 import gr.ntua.cslab.celar.server.beans.MyTimestamp;
 import gr.ntua.cslab.celar.server.beans.structured.REList;
 
-
-// TODO: Auto-generated Javadoc
 /**
- * The Class CelarManager.
+ * The CELAR Manager Client Class Provides a client / wrapper to access the
+ * CELAR Manager REST API.
  */
 public class CelarManager {
 	
-	/** The server ip. */
+	/**
+	 * The server ip. 
+	 */
 	private String serverIp;
 	
-	/** The rest path. */
+	/**
+	 *The rest path.
+	 */
 	private String restPath = "";	
 	
-	/** The Constant LOG. */
+	/**
+	 * Flag indicating wherever the REST Client will add an authentication token
+	 * in the URL parameters or not.
+	 */
+	private boolean injectUserToken;
+	
+	/**
+	 * The user authentication token, which will be injected to every REST Call
+	 * as a URL parameter.
+	 */
+	private String authToken;
+	
+	/**
+ 	 *The Constant LOG.
+ 	 */
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(CelarManager.class.getName());
 	
 	/**
-	 * Instantiates a new celar manager.
+	 * Instantiates a new CELAR Manager Client.
 	 *
 	 * @param serverIp
-	 *            the server ip
+	 *            the server IP address
 	 */
 	public CelarManager(String serverIp) 
 	{
 		  this.serverIp = serverIp;
+		  this.injectUserToken = false;
+	}
+	
+	/**
+	 * Instantiates a new CELAR Manager Client.
+	 *
+	 * @param serverIp
+	 *            the server IP address
+	 * @param authToken
+	 *            the authentication token
+	 */
+	public CelarManager(String serverIp, String authToken) 
+	{
+		  this.serverIp = serverIp;
+		  this.injectUserToken = true;
+		  this.authToken = authToken;
 	}
 	
 	/*
@@ -88,8 +121,12 @@ public class CelarManager {
 			return null;		
 		
 		URIBuilder builder = new URIBuilder();
-		String path = this.serverIp + this.restPath + "/application/" + application_id;		
-	    builder.setPath(path);	
+		String path = this.serverIp + this.restPath + "/application/" + application_id;	
+		
+	    builder.setPath(path);	    
+	    // Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 		//
 		CloseableHttpResponse response = null;
@@ -112,12 +149,16 @@ public class CelarManager {
 	 *            the component_id
 	 * @return the application component dependencies
 	 */
-	public String getApplicationComponentDependencies(Integer component_id)
+	public String getApplicationComponentDependencies(int component_id)
 	{
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/application/component" + component_id + "/dependencies";
 		
 		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
+		
 		//
 		CloseableHttpResponse response = null;
 		RestClient client = new RestClient(this.serverIp);
@@ -142,12 +183,16 @@ public class CelarManager {
 	 *            the module_id
 	 * @return the application module dependencies
 	 */
-	public String getApplicationModuleDependencies(Integer module_id)
+	public String getApplicationModuleDependencies(int module_id)
 	{
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/application/module" + module_id + "/dependencies";
-		
+
 		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
+		
 		//
 		CloseableHttpResponse response = null;
 		RestClient client = new RestClient(this.serverIp);
@@ -176,7 +221,11 @@ public class CelarManager {
 		
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/application/" + application_id + "/deployments";		
-	    builder.setPath(path);	
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 		//
 		CloseableHttpResponse response = null;
@@ -216,8 +265,11 @@ public class CelarManager {
 	{
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/application/search/";
-		
-	    builder.setPath(path);	 
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 		if(submitted_start != 0)
 			builder.setParameter("submitted_start", String.valueOf(submitted_start));
@@ -257,14 +309,18 @@ public class CelarManager {
 	 *            the component_id
 	 * @return the resising actions
 	 */
-	public String getResisingActions(Integer component_id) {
+	public String getResisingActions(int component_id) {
 		
-		if(component_id != null && component_id > 0)
+		if(component_id > 0)
 			return null;		
 		
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/component/" + component_id + "/resizing_actions";		
-	    builder.setPath(path);	
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 		//
 		CloseableHttpResponse response = null;
@@ -300,7 +356,11 @@ public class CelarManager {
 		
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/deployment/" + deployment_id;		
-	    builder.setPath(path);	
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 		//
 		CloseableHttpResponse response = null;
@@ -357,20 +417,23 @@ public class CelarManager {
 	 *            the time window_end
 	 * @return the elasticity decisions
 	 */
-	public String getElasticityDecisions(String deployment_id, Integer module_id, Integer component_id, String action_name, long timeWindow_start, long timeWindow_end)
+	public String getElasticityDecisions(String deployment_id, int module_id, int component_id, String action_name, long timeWindow_start, long timeWindow_end)
 	{		
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/deployment/" + deployment_id + "/decisions";
-		
-		builder.setPath(path);	 
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 		if(timeWindow_start != 0)
 			builder.setParameter("start_time", String.valueOf(timeWindow_start));
 		if(timeWindow_end != 0)
 			builder.setParameter("end_time", String.valueOf(timeWindow_end));
-		if(component_id != null && component_id > 0)
+		if(component_id > 0)
 			builder.setParameter("component_id", String.valueOf(component_id));
-		if(module_id != null && module_id > 0)
+		if(module_id > 0)
 			builder.setParameter("module_id", String.valueOf(module_id));
 		if(action_name != null && !action_name.isEmpty())
 			builder.setParameter("action_name", action_name);
@@ -402,18 +465,21 @@ public class CelarManager {
 	 *            the time window_end
 	 * @return the deployment instatiated resources
 	 */
-	public String getDeploymentInstatiatedResources(String deployment_id, Integer component_id, long timeWindow_start, long timeWindow_end)
+	public String getDeploymentInstatiatedResources(String deployment_id, int component_id, long timeWindow_start, long timeWindow_end)
 	{
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/deployment/" + deployment_id + "/resources";
-		
-		builder.setPath(path);	 
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 		if(timeWindow_start != 0)
 			builder.setParameter("start_time", String.valueOf(timeWindow_start));
 		if(timeWindow_end != 0)
 			builder.setParameter("end_time", String.valueOf(timeWindow_end));
-		if(component_id != null && component_id > 0)
+		if(component_id > 0)
 			builder.setParameter("component_id", String.valueOf(component_id));
 				
 		//
@@ -447,8 +513,11 @@ public class CelarManager {
 	{
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/deployment/search/";
-		
-		builder.setPath(path);	 
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 		if(timeWindow_start != 0)
 			builder.setParameter("start_time", String.valueOf(timeWindow_start));
@@ -492,19 +561,22 @@ public class CelarManager {
 	 *            the action_name
 	 * @return the decisions
 	 */
-	public String getDecisions (String deployment_id, Integer module_id, Integer component_id, long timeWindow_start, long timeWindow_end, String action_name) {
+	public String getDecisions (String deployment_id, int module_id, int component_id, long timeWindow_start, long timeWindow_end, String action_name) {
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/deployment/" + deployment_id + "/decisions";
-		
-		builder.setPath(path);	 
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 		if(timeWindow_start != 0)
 			builder.setParameter("start_time", String.valueOf(timeWindow_start));
 		if(timeWindow_end != 0)
 			builder.setParameter("end_time", String.valueOf(timeWindow_end));
-		if(component_id != null && component_id > 0)
+		if(component_id > 0)
 			builder.setParameter("component_id", String.valueOf(component_id));
-		if(module_id != null && module_id > 0)
+		if(module_id > 0)
 			builder.setParameter("module_id", String.valueOf(module_id));
 		if(action_name != null && !action_name.isEmpty())
 			builder.setParameter("action_name", String.valueOf(action_name));
@@ -543,7 +615,11 @@ public class CelarManager {
 		
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/metrics/component/" + component_id;		
-	    builder.setPath(path);	
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 		//
 		CloseableHttpResponse response = null;
@@ -569,17 +645,22 @@ public class CelarManager {
 	 *            the name
 	 * @return the string
 	 */
-	public String putMetric(Integer component_id, String name)
+	public String putMetric(int component_id, String name)
 	{
-		if(component_id == null || component_id > 0)
+		if(!(component_id > 0))
 			return null;		
 		
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/metrics/put/";		
-	    builder.setPath(path);	
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 	    //the output to the server
-		OutputStream  svrOutput = null;
+		OutputStream svrOutput = null;
+		String body = "";
 	    try {
 			Component c = new Component(component_id);			
 			Metric m = new Metric(c, name);
@@ -588,14 +669,14 @@ public class CelarManager {
 
 			//unmarshal the metric you created and write it to the output stream
 			m.marshal(svrOutput);
+			body = svrOutput.toString();
 			svrOutput.close();//maybe
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	    
-	    
-	    String body = svrOutput.toString();	    
+	    	     	    
 		//
 		CloseableHttpResponse response = null;
 		RestClient client = new RestClient(this.serverIp);
@@ -615,30 +696,32 @@ public class CelarManager {
 	 *
 	 * @param component_id
 	 *            the component_id
-	 * @param metricId
-	 *            the metric id
-	 * @param timestamp
-	 *            the timestamp
-	 * @param value
-	 *            the value
+	 * @param metric_id
+	 *            the metric_id
+	 * @param values
+	 *            the values
 	 * @return the string
 	 */
-	public String putMetricValue(Integer component_id, Integer metric_id, Map<String, String> values)
+	public String putMetricValue(int component_id, int metric_id, Map<String, String> values)
 	{
-		if(component_id == null || component_id < 0)
+		if(!(component_id > 0))
 			return null;
 		
-		if(metric_id == null || metric_id < 0)
+		if(!(metric_id > 0))
 			return null;
 		
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/metrics/values/put/";		
-	    builder.setPath(path);
-	    
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
+		
 	    REList<MetricValue> valuesList = new REList<MetricValue>();
-	    Iterator it = values.entrySet().iterator();
+	    Iterator<Entry<String, String>> it = values.entrySet().iterator();
 	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
+	        Entry<String, String> pair = it.next();
 	        System.out.println(pair.getKey() + " = " + pair.getValue());
 	        
 	        MetricValue m = new MetricValue();
@@ -654,21 +737,21 @@ public class CelarManager {
 	        
 	        it.remove(); // avoids a ConcurrentModificationException
 	    }
-	    
-	    
+	    	    
 	    //the output to the server
 		OutputStream  svrOutput = null;
+		String body = "";
 	    try {
 			//unmarshal the metric you created and write it to the output stream
 	    	valuesList.marshal(svrOutput);
+	    	body = svrOutput.toString();	
 			svrOutput.close();//maybe
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	    
-	    
-	    String body = svrOutput.toString();	    
+		}
+	         
 		//
 		CloseableHttpResponse response = null;
 		RestClient client = new RestClient(this.serverIp);
@@ -704,7 +787,11 @@ public class CelarManager {
 		
 		URIBuilder builder = new URIBuilder();
 		String path = this.serverIp + this.restPath + "/metrics/" + metric_id + "/values";		
-	    builder.setPath(path);	
+
+		builder.setPath(path);
+		// Add authentication / token information to URL
+	    if(this.injectUserToken)
+	    	builder = this.addAuthTokenInformation(builder);
 		
 	    if(timeWindow_start != 0)
 			builder.setParameter("start_time", String.valueOf(timeWindow_start));
@@ -725,5 +812,18 @@ public class CelarManager {
 		}
 		
 		return client.getContent(response);
+	}
+	
+	/**
+	 * Adds the authentication token information to the 
+	 * request  URL through the URIBuilder class
+	 *
+	 * @param URIBuilder
+	 *            The URL Builder Object
+	 * @return URIBuilder
+	 */
+	private URIBuilder addAuthTokenInformation(URIBuilder builder)
+	{
+		return builder.setParameter("token", this.authToken);
 	}
 }
