@@ -39,22 +39,9 @@ import gr.ntua.cslab.celar.server.beans.structured.REList;
 /**
  * The Class TopologyData.
  */
-public class ElasticityData implements IElasticityLog {	
+public class ElasticityData extends CelarManagerEndpoint implements IElasticityLog {	
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(ElasticityData.class.getName());
-	
-	/** The cm client. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
-	
-	/**
-	 * Initializes the CELAR Manager Rest Client.
-	 *
-	 * @param restApiUri
-	 *            the rest api uri
-	 */
-	public void init(String restApiUri) {
-		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);
-	}
-	
+		
 	@Override
 	public List<Decision> getEnforcedActions(String deplId, String name,  Long sTime,  Long eTime) {
 		return null;		

@@ -21,14 +21,16 @@
 package eu.celarcloud.cloud_is.dataCollectionModule.common;
 
 
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class EndpointConfig.
  */
 public class EndpointConfig {
 	
-	/** The config. */
+	/**
+	 *  An Instance of Config Class Object
+	 *  holding the Configuration (.properties) file
+	 */
 	private Config config;
 	
 	/** The name. */
@@ -43,8 +45,12 @@ public class EndpointConfig {
 	/** The base url. */
 	public String baseUrl;
 	
+	/** The uri. */
 	private String uri;
 	
+	/**
+	 * Instantiates a new endpoint config.
+	 */
 	public EndpointConfig()
 	{
 		
@@ -62,6 +68,12 @@ public class EndpointConfig {
 		this.loadConfigFile(path);
 	}
 	
+	/**
+	 * Load config file.
+	 *
+	 * @param path
+	 *            the path
+	 */
 	public void loadConfigFile(String path)
 	{
 		String temp = null;
@@ -125,5 +137,18 @@ public class EndpointConfig {
 		}
 		
 		return url;
+	}
+	
+	
+	/**
+	 *  Return the Instance of Config Class Object
+	 *  which holds the Configuration (.properties) file
+	 *  of the endpoint
+	 *  
+	 * @return Config Class Object
+	 */
+	public Config getConfig()
+	{
+		return this.config;
 	}
 }

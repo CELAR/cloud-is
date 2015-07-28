@@ -24,6 +24,8 @@ import java.util.List;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.exception.CommonException;
+import eu.celarcloud.cloud_is.dataCollectionModule.impl.celar.exception.MisformattedResponse;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -54,8 +56,9 @@ public interface IDeploymentMetadata extends IDataSource{
 	 * @param deplId
 	 *            the depl id
 	 * @return the deployment
+	 * @throws CommonException 
 	 */
-	public Deployment getDeployment(String deplId);
+	public Deployment getDeployment(String deplId) throws CommonException;
 	
 	/**
 	 * Gets the deployment instances.

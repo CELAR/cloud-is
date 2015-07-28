@@ -23,33 +23,26 @@ package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
+import eu.celarcloud.cloud_is.dataCollectionModule.impl.celar.exception.MisformattedResponse;
+import eu.celarcloud.cloud_is.dataCollectionModule.impl.celar.exception.NullObject;
 
 /**
  * The Class TopologyData.
  */
-public class TopologyData implements ITopology {	
+public class TopologyData extends CelarManagerEndpoint  implements ITopology {	
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(TopologyData.class.getName());
-	
-	/** The cm client. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
-	
-	/**
-	 * Initializes the CELAR Manager Rest Client.
-	 *
-	 * @param restApiUri
-	 *            the rest api uri
-	 */
-	public void init(String restApiUri) {
-		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);
-	}
-	
+		
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology#getTopology(java.lang.String)
 	 */
 	@Override
-	public String getTopology(String deplId) {
+	public String getTopology(String deplId) throws MisformattedResponse, NullObject {
+		//
 		DeploymentData deplDataReferer = new DeploymentData();
 		deplDataReferer.init(this.cmClient);
+		
+		// Load the Deployment
+		
 		
 		String appId = deplDataReferer.getDeployment(deplId).applicationId;
 		if(appId == null || appId.isEmpty())	

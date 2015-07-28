@@ -40,23 +40,10 @@ import gr.ntua.cslab.celar.server.beans.structured.REList;
 /**
  * The Class MonitoringHistoricalData.
  */
-public class MonitoringHistoricalData implements IMetering {
+public class MonitoringHistoricalData extends CelarManagerEndpoint implements IMetering {
 	
 	/** The Constant LOG. */
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(MonitoringHistoricalData.class.getName());	
-	
-	/** The app. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
-	
-	/**
-	 * Initializes the CELAR Manager Rest Client.
-	 *
-	 * @param restApiUri
-	 *            the rest api uri
-	 */
-	public void init(String restApiUri) {
-		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);		
-	}
 	
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering#getAgents(java.lang.String, java.lang.String)

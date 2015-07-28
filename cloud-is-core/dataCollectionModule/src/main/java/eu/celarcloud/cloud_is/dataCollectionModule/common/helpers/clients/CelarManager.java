@@ -98,9 +98,12 @@ public class CelarManager {
 	 */
 	public CelarManager(String serverIp, String authToken) 
 	{
-		  this.serverIp = serverIp;
-		  this.injectUserToken = true;
-		  this.authToken = authToken;
+		  this(serverIp);
+		  if(authToken != null && !authToken.isEmpty())
+		  {
+			  this.injectUserToken = true;
+			  this.authToken = authToken;
+		  }
 	}
 	
 	/*

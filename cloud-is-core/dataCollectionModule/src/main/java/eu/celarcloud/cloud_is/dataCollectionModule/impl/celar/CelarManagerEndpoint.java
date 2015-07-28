@@ -18,23 +18,49 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource;
+package eu.celarcloud.cloud_is.dataCollectionModule.impl.celar;
 
-import eu.celarcloud.cloud_is.dataCollectionModule.common.exception.CommonException;
+import org.slf4j.LoggerFactory;
+
+import eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface ITopology.
+ * The Class CelarManagerEndpoint.
  */
-public interface ITopology extends IDataSource{	
+public abstract class CelarManagerEndpoint {
+	/** The Constant LOG. */
+	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(ApplicationData.class.getName());
+	
+	/** The app. */
+	protected CelarManager cmClient;
 	
 	/**
-	 * Gets the topology.
+	 * Initialises the CELAR Manager Rest Client.
 	 *
-	 * @param deplId
-	 *            the depl id
-	 * @return the topology
-	 * @throws CommonException
+	 * @param restApiUri
+	 *            the rest api uri
 	 */
-	public String getTopology(String deplId) throws CommonException;
+	public void init(String restApiUri) {
+		this.cmClient = new CelarManager(restApiUri);		
+	}
+	
+	/**
+	 * Inits the.
+	 *
+	 * @param cm
+	 *            the cm
+	 */
+	public void init(CelarManager cm) {
+		this.cmClient = cm;		
+	}
+	
+	/**
+	 * Gets the cm client.
+	 *
+	 * @return the cm client
+	 */
+	protected CelarManager getCmClient() {
+		return cmClient;
+	}
 }

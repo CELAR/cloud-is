@@ -35,6 +35,8 @@ import org.slf4j.LoggerFactory;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
+import eu.celarcloud.cloud_is.dataCollectionModule.impl.celar.exception.MisformattedResponse;
+import eu.celarcloud.cloud_is.dataCollectionModule.impl.celar.exception.NullObject;
 import gr.ntua.cslab.celar.server.beans.*;
 import gr.ntua.cslab.celar.server.beans.structured.REList;
 
@@ -42,33 +44,8 @@ import gr.ntua.cslab.celar.server.beans.structured.REList;
 /**
  * The Class CelarApplication.
  */
-public class DeploymentData implements IDeploymentMetadata {
-	
-	/** The app. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
-	
+public class DeploymentData extends CelarManagerEndpoint implements IDeploymentMetadata {
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(DeploymentData.class.getName());
-	
-	/**
-	 * Initializes the CELAR Manager Rest Client.
-	 *
-	 * @param restApiUri
-	 *            the rest api uri
-	 */
-	public void init(String restApiUri) {
-		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);		
-	}
-
-	/**
-	 * Inits the.
-	 *
-	 * @param cm
-	 *            the cm
-	 */
-	public void init(eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cm) {
-		this.cmClient = cm;		
-	}
-	
 
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getRecentDeployments(java.lang.String, java.lang.String)
@@ -121,10 +98,11 @@ public class DeploymentData implements IDeploymentMetadata {
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplication#getDeployment(java.lang.String)
 	 */
 	@Override
-	public Deployment getDeployment(String deplId) {
+	public Deployment getDeployment(String deplId) throws MisformattedResponse, NullObject {
 		String response = this.cmClient.getDeploymentInfo(deplId);
+		Deployment depl = new Deployment();
 		if(response == null || response.isEmpty())	
-    		return null;
+			throw new NullObject("");
 				
 		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
 		
@@ -135,14 +113,14 @@ public class DeploymentData implements IDeploymentMetadata {
 		} catch (JAXBException e) {
 			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
 			e.printStackTrace();
-			return null;
+			throw new MisformattedResponse("Misformatted response [ " + e.getMessage() + " ]");
 		}
 		   
 		//print the entity in a structured manner
 		//you can observe all the field names and their values (in this example)
 		System.out.println(d.toString(true));
 
-		Deployment depl = new Deployment();
+		//Deployment depl = new Deployment();
 			depl.id = d.id;
 			depl.applicationId = d.application_Id;
 			depl.status = d.getState();

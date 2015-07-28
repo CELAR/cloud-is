@@ -48,6 +48,16 @@ public class MonitoringData implements IMetering {
 	}
 	
 	/**
+	 * Inits the.
+	 *
+	 * @param cm
+	 *            the cm
+	 */
+	public void init(eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cm) {
+		this.cmClient = cm;		
+	}
+	
+	/**
 	 * Load monitoring client.
 	 *
 	 * @param deplId

@@ -42,33 +42,12 @@ import gr.ntua.cslab.celar.server.beans.structured.REList;
 /**
  * The Class CelarApplication.
  */
-public class ApplicationData implements IApplicationMetadata {
+public class ApplicationData extends CelarManagerEndpoint implements IApplicationMetadata{
 	
 	/** The Constant LOG. */
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(ApplicationData.class.getName());
 	
-	/** The app. */
-	private eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cmClient;
 	
-	/**
-	 * Initializes the CELAR Manager Rest Client.
-	 *
-	 * @param restApiUri
-	 *            the rest api uri
-	 */
-	public void init(String restApiUri) {
-		this.cmClient = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(restApiUri);		
-	}
-	
-	/**
-	 * Inits the.
-	 *
-	 * @param cm
-	 *            the cm
-	 */
-	public void init(eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager cm) {
-		this.cmClient = cm;		
-	}
 
 	/* (non-Javadoc)
 	 * @see eu.celarcloud.cloud_is.dataCollectionModule.services.application.IApplication#getUserApplications()

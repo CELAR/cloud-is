@@ -35,6 +35,8 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONArray;
 
+import com.sun.jersey.api.client.ClientResponse.Status;
+
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
@@ -45,6 +47,15 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMe
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLog;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.exception.CommonException;
+
+
+
+
+
+
+
+
 //import resourceObjects.myHelloObject;
 import javax.servlet.ServletContext;
 
@@ -178,13 +189,18 @@ public class DeploymentInfo
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{deplId}")
-	public Response getDeploymentInfo(@PathParam("deplId") String deplId) 
+	public Response getDeploymentInfo(@PathParam("deplId") String deployment_id) 
 	{
 		Loader ld = new Loader(context);
 		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		
 		Deployment d;
-		d = deplMeta.getDeployment(deplId);
+		try {
+			d = deplMeta.getDeployment(deployment_id);
+		} catch (CommonException e) {
+			String err_message = "Deployment " + deployment_id + " does not exist";
+			return Response.status(Status.NOT_FOUND).entity(err_message).build();
+		}
 		
 		//return response
 		return Response.ok(d.toJSONObject().toString(), MediaType.APPLICATION_JSON).build();
@@ -200,13 +216,18 @@ public class DeploymentInfo
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{deplId}/topology")
-	public Response getDeploymentTopology(@PathParam("deplId") String deplId) 
+	public Response getDeploymentTopology(@PathParam("deplId") String deployment_id) 
 	{		
 		Loader ld = new Loader(context);
 		ITopology topology = (ITopology) ld.getDtCollectorInstance(DataSourceType.TOPOLOGY);
 		
 		String response;
-		response = topology.getTopology(deplId);
+		try {
+			response = topology.getTopology(deployment_id);
+		} catch (CommonException e) {
+			String err_message = "Topology for Deployment " + deployment_id + " does not exist";
+			return Response.status(Status.NOT_FOUND).entity(err_message).build();
+		}
 		
 		//return response;
 		return Response.ok(response, MediaType.APPLICATION_JSON).build();
@@ -215,7 +236,7 @@ public class DeploymentInfo
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{deplId}{compId : (/tier/[^/]+?)?}/decision/{name : ([^/]+?)?}")
-	public Response getDeploymentDecisions(@PathParam("deplId") String deplId, @PathParam("compId") String compId, @PathParam("name") String name,
+	public Response getDeploymentDecisions(@PathParam("deplId") String deployment_id, @PathParam("compId") String compId, @PathParam("name") String name,
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
 		Loader ld = new Loader(context);
@@ -226,7 +247,13 @@ public class DeploymentInfo
 			IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 			
 			// Get deployment informations
-			Deployment dpl = deplMeta.getDeployment(deplId);		
+			Deployment dpl;
+			try {
+				dpl = deplMeta.getDeployment(deployment_id);
+			} catch (CommonException e) {
+				String err_message = "Deployment " + deployment_id + " does not exist";
+				return Response.status(Status.NOT_FOUND).entity(err_message).build();
+			}		
 			
 			// Specify the time windows for which
 			// the analysis will take place
@@ -278,7 +305,7 @@ public class DeploymentInfo
 			 //System.out.println("action name: " + name);	
 		}
 		
-		List<Decision> decisions = elasticityLog.getEnforcedActions(deplId, compId, name, start_time, end_time);
+		List<Decision> decisions = elasticityLog.getEnforcedActions(deployment_id, compId, name, start_time, end_time);
 		
 		JSONArray json = new JSONArray();
 		for (Decision  decision: decisions)
@@ -291,7 +318,7 @@ public class DeploymentInfo
 	/**
 	 * Gets the deployment instances.
 	 *
-	 * @param deplId
+	 * @param deployment_id
 	 *            the depl id
 	 * @param compId
 	 *            the comp id
@@ -304,14 +331,20 @@ public class DeploymentInfo
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{deplId}{compId : (/tier/[^/]+?)?}/instances")
-	public Response getDeploymentInstances(@PathParam("deplId") String deplId, @PathParam("compId") String compId, 
+	public Response getDeploymentInstances(@PathParam("deplId") String deployment_id, @PathParam("compId") String compId, 
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
 		Loader ld = new Loader(context);
 		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		
 		// Get deployment informations
-		Deployment dpl = deplMeta.getDeployment(deplId);		
+		Deployment dpl;
+		try {
+			dpl = deplMeta.getDeployment(deployment_id);
+		} catch (CommonException e1) {
+			String err_message = "Deployment " + deployment_id + " does not exist";
+			return Response.status(Status.NOT_FOUND).entity(err_message).build();
+		}		
 		
 		// Specify the time windows for which
 		// the analysis will take place
@@ -348,10 +381,11 @@ public class DeploymentInfo
 		
 		List<MetricValue> instances = null;
 		try {
-			 instances = deplMeta.getDeploymentInstances(deplId, compId, start_time, end_time);
+			 instances = deplMeta.getDeploymentInstances(deployment_id, compId, start_time, end_time);
 		}
 		catch(java.lang.UnsupportedOperationException e) {
-			return Response.noContent().build();
+			String err_message = "Deployment " + deployment_id + " has no Instances";
+			return Response.status(Status.NOT_FOUND).entity(err_message).build();
 		}
 		
 		JSONArray json = new JSONArray();
@@ -365,7 +399,7 @@ public class DeploymentInfo
 	/**
 	 * Gets the deployment cost.
 	 *
-	 * @param deplId
+	 * @param deployment_id
 	 *            the depl id
 	 * @param compId
 	 *            the comp id
@@ -378,7 +412,7 @@ public class DeploymentInfo
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{deplId}{compId : (/tier/[^/]+?)?}/cost")
-	public Response getDeploymentCost(@PathParam("deplId") String deplId, @PathParam("compId") String compId, 
+	public Response getDeploymentCost(@PathParam("deplId") String deployment_id, @PathParam("compId") String compId, 
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
 		Loader ld = new Loader(context);
@@ -389,7 +423,13 @@ public class DeploymentInfo
 			IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 			
 			// Get deployment informations
-			Deployment dpl = deplMeta.getDeployment(deplId);		
+			Deployment dpl;
+			try {
+				dpl = deplMeta.getDeployment(deployment_id);
+			} catch (CommonException e) {
+				String err_message = "Deployment " + deployment_id + " does not exist";
+				return Response.status(Status.NOT_FOUND).entity(err_message).build();
+			}		
 			
 			// Specify the time windows for which
 			// the analysis will take place
@@ -427,10 +467,11 @@ public class DeploymentInfo
 		
 		List<MetricValue> costData = null;
 		try {
-			costData = mon.getDeploymentCost(deplId, compId, start_time, end_time);
+			costData = mon.getDeploymentCost(deployment_id, compId, start_time, end_time);
 		}
 		catch(java.lang.UnsupportedOperationException e) {
-			return Response.noContent().build();
+			String err_message = "Cost Data Not Available for Deployment " + deployment_id;
+			return Response.status(Status.NOT_FOUND).entity(err_message).build();
 		}
 		
 				
@@ -445,7 +486,7 @@ public class DeploymentInfo
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{deplId}{compId : (/tier/[^/]+?)?}/metrics")
-	public Response getDeploymentAvailableMetrics(@PathParam("deplId") String deplId, @PathParam("compId") String compId, 
+	public Response getDeploymentAvailableMetrics(@PathParam("deplId") String deployment_id, @PathParam("compId") String compId, 
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
 		Loader ld = new Loader(context);
@@ -456,7 +497,13 @@ public class DeploymentInfo
 			IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 			
 			// Get deployment informations
-			Deployment dpl = deplMeta.getDeployment(deplId);		
+			Deployment dpl;
+			try {
+				dpl = deplMeta.getDeployment(deployment_id);
+			} catch (CommonException e) {
+				String err_message = "Deployment " + deployment_id + " does not exist";
+				return Response.status(Status.NOT_FOUND).entity(err_message).build();
+			}		
 			
 			// Specify the time windows for which
 			// the analysis will take place
@@ -496,10 +543,11 @@ public class DeploymentInfo
 		
 		List<String> metricNames = null;
 		try {
-			metricNames = mon.getAvailableMetrics(deplId, compId);
+			metricNames = mon.getAvailableMetrics(deployment_id, compId);
 		}
 		catch(java.lang.UnsupportedOperationException e) {
-			return Response.noContent().build();
+			String err_message = "No Metrics Available for Deployment " + deployment_id;
+			return Response.status(Status.NOT_FOUND).entity(err_message).build();
 		}
 		
 		JSONArray json = new JSONArray();
