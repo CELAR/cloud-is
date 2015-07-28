@@ -41,6 +41,8 @@ import javax.ws.rs.core.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.sun.jersey.api.client.ClientResponse.Status;
+
 import eu.celarcloud.cloud_is.controller.analyticsController.AnalyticsController;
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.controller.configuration.Config;
@@ -50,6 +52,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceTyp
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDeploymentMetadata;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLog;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
+import eu.celarcloud.cloud_is.dataCollectionModule.common.exception.CommonException;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -71,7 +74,7 @@ public class Analysis
 	/**
 	 * Gets the app stats.
 	 *
-	 * @param deplId
+	 * @param deployment_id
 	 *            the depl id
 	 * @param compId
 	 *            the comp id
@@ -86,7 +89,7 @@ public class Analysis
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{deplId}{compId : (/tier/[^/]+?)?}")
-	public Response deploymentMetricAnalytics(@PathParam("deplId") String deplId, @PathParam("compId") String compId, 
+	public Response deploymentMetricAnalytics(@PathParam("deplId") String deployment_id, @PathParam("compId") String compId, 
 											@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime,
 											@QueryParam("metrics") List<String> metrics, @QueryParam("method") List<String> method) 
 	{
@@ -116,7 +119,13 @@ public class Analysis
 		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
 		
 		// Get deployment informations
-		Deployment dpl = deplMeta.getDeployment(deplId);		
+		Deployment dpl;
+		try {
+			dpl = deplMeta.getDeployment(deployment_id);
+		} catch (CommonException e) {
+			String err_message = "Deployment " + deployment_id + " does not exist";
+			return Response.status(Status.NOT_FOUND).entity(err_message).build();
+		}		
 		
 		// Specify the time windows for which
 		// the analysis will take place
@@ -159,7 +168,7 @@ public class Analysis
 		for (String metric : metrics) {
 			// 
 			startTime = System.nanoTime();
-			Number[][] trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
+			Number[][] trend = analysis.calculateTrend(monitor.getMetricValues(deployment_id, metric, start_time, end_time));		
 			System.out.println("Analysis in: " + (System.nanoTime() - startTime) + " ns");			
 			
 			startTime = System.nanoTime();
@@ -193,7 +202,7 @@ public class Analysis
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{deplId}{compId : (/tier/[^/]+?)?}/stats")
-	public Response deploymentAnalyticsReport(@PathParam("deplId") String deplId, @PathParam("compId") String compId, 
+	public Response deploymentAnalyticsReport(@PathParam("deplId") String deployment_id, @PathParam("compId") String compId, 
 											@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime,
 											@QueryParam("metrics") List<String> metrics) 
 	{
@@ -221,7 +230,13 @@ public class Analysis
 		IElasticityLog eLog = (IElasticityLog) ld.getDtCollectorInstance(DataSourceType.ELASTICITY);
 		
 		// Get deployment informations
-		Deployment dpl = deplMeta.getDeployment(deplId);		
+		Deployment dpl;
+		try {
+			dpl = deplMeta.getDeployment(deployment_id);
+		} catch (CommonException e) {
+			String err_message = "Deployment " + deployment_id + " does not exist";
+			return Response.status(Status.NOT_FOUND).entity(err_message).build();
+		}		
 		
 		// Specify the time windows for which
 		// the analysis will take place
@@ -261,7 +276,7 @@ public class Analysis
 		// and calculate analytics (trend)
 		for (String metric : metrics) {			
 			// 
-			Number[][] trend = analysis.calculateTrend(monitor.getMetricValues(deplId, metric, start_time, end_time));		
+			Number[][] trend = analysis.calculateTrend(monitor.getMetricValues(deployment_id, metric, start_time, end_time));		
 			JSONArray rawData = new JSONArray();
 			
 			for (int i=0; i < trend.length; i++)
@@ -290,7 +305,7 @@ public class Analysis
 		JSONArray dc = new JSONArray();
 		if(eLog != null)
 		{
-			List<Decision> enforcedActions = eLog.getEnforcedActions(deplId, compId, "", start_time, end_time);			
+			List<Decision> enforcedActions = eLog.getEnforcedActions(deployment_id, compId, "", start_time, end_time);			
 			if(enforcedActions != null)
 			{
 				// Add Information about
