@@ -132,7 +132,7 @@ function appComponent (reportID) {
 		// Build Request part url
 		var partUrl = '';
 		
-		var compId = params.compId.trim();
+		var compId = String(params.compId).trim();
 		if(!(compId.length === 0 || !compId))
 			partUrl += '/tier/' + compId;
 		

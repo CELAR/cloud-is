@@ -183,7 +183,7 @@ var populateDeploymentSearchResults = function(jsonData) {
 var clearAppSpecificDeplSearch = function() {
 	$('form[name="deploymentSearchForm"] span[data-name="appId"]').html('');
 	$('form[name="deploymentSearchForm"] span[data-name="appId"]').closest('div').addClass('noDisplay');
-	$('form[name="deploymentSearchForm"] input[name="appId"][type="hidden"]').val('');
+	$('form[name="deploymentSearchForm"] input[name="application_id"][type="hidden"]').val('');
 	
 	// TODO
 	// Remove appId parameter from Browser url
