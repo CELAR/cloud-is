@@ -20,6 +20,7 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource;
 
+import java.util.HashMap;
 import java.util.Properties;
 
 /**
@@ -81,6 +82,13 @@ public interface ISourceLoader {
 	 */
 	public String getDataPath();
 	
+	/**
+	 * Inject parameters.
+	 *
+	 * @param params
+	 *            the params
+	 */
+	public void injectParameters(HashMap<String,String> params);
 	
 	/**
 	 * Load app meta interface.

@@ -28,8 +28,6 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
@@ -102,34 +100,40 @@ public class DeploymentData extends CelarManagerEndpoint implements IDeploymentM
 		String response = this.cmClient.getDeploymentInfo(deplId);
 		Deployment depl = new Deployment();
 		if(response == null || response.isEmpty())	
-			throw new NullObject("");
+			throw new NullObject("Response is Empty");
 				
 		InputStream stream = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
 		
 		//unmarshal an ApplicationInfo Entity
-		gr.ntua.cslab.celar.server.beans.Deployment d = new gr.ntua.cslab.celar.server.beans.Deployment();
+		//gr.ntua.cslab.celar.server.beans.Deployment d = new gr.ntua.cslab.celar.server.beans.Deployment();
+		gr.ntua.cslab.celar.server.beans.structured.DeploymentInfo di = new gr.ntua.cslab.celar.server.beans.structured.DeploymentInfo();
+		
 		try {
-			d.unmarshal(stream);
+			di.unmarshal(stream);
 		} catch (JAXBException e) {
 			LOG.warn("Misformatted response [ " + e.getMessage() + " ]");
 			e.printStackTrace();
 			throw new MisformattedResponse("Misformatted response [ " + e.getMessage() + " ]");
+		} catch (Exception e) {
+			LOG.warn("Could not parse response [ " + e.getMessage() + " ]");
+			e.printStackTrace();
+			throw new NullObject("Could not parse response");
 		}
 		   
 		//print the entity in a structured manner
 		//you can observe all the field names and their values (in this example)
-		System.out.println(d.toString(true));
+		System.out.println(di.toString(true));
 
 		//Deployment depl = new Deployment();
-			depl.id = d.id;
-			depl.applicationId = d.application_Id;
-			depl.status = d.getState();
-			depl.startTime = String.valueOf(d.start_Time.getTime());
+			depl.id = di.id;
+			depl.applicationId = di.application_Id;
+			depl.status = di.getState();
+			depl.startTime = String.valueOf(di.start_Time.getTime());
 			
-			if(d.end_Time == null)
+			if(di.end_Time == null)
 				depl.endTime = "-1";
 			else
-				depl.endTime = String.valueOf(d.end_Time.getTime());
+				depl.endTime = String.valueOf(di.end_Time.getTime());
 			
 			
 		return depl;      

@@ -392,15 +392,46 @@ public class CelarManager {
 	{
 		InputStream stream = new ByteArrayInputStream(this.getDeploymentInfo(deployment_id).getBytes(StandardCharsets.UTF_8));
 		
-		//unmarshal an ApplicationInfo Entity
-		gr.ntua.cslab.celar.server.beans.Deployment inai = new gr.ntua.cslab.celar.server.beans.Deployment();
+		//unmarshal an DeploymentInfo Entity
+		gr.ntua.cslab.celar.server.beans.structured.DeploymentInfo di = new gr.ntua.cslab.celar.server.beans.structured.DeploymentInfo();
 		try {
-			inai.unmarshal(stream);
+			di.unmarshal(stream);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	    
-		return inai.orchestrator_IP;
+		}
+		
+		/*
+		 *  TODO: Temporary Hack!
+		 *  
+		 *  Check the Orchestrator IP validity
+		 *  If empty | null | invalid try to parse it from State Object
+		 */
+		if(di.orchestrator_IP.isEmpty() || di.orchestrator_IP == null) {
+			String orchestrator_IP = null;
+			Map<String, String> state;
+			
+			state = di.stateMap;			
+			String regex = "orchestrator-*:hostname";
+			  
+			for (String key : state.keySet())
+			{
+			  if (key.matches(regex))
+			  {				
+			     orchestrator_IP = state.get(key);
+			     System.out.println(key + " --- " + orchestrator_IP);
+			  }
+			}
+			
+			
+			if(orchestrator_IP.isEmpty() || orchestrator_IP == null)
+				return null;
+			else
+				return orchestrator_IP;
+		}
+		else {
+			return di.orchestrator_IP;
+		}
 	}
 	
 	/**
@@ -730,8 +761,8 @@ public class CelarManager {
 	        MetricValue m = new MetricValue();
 	        m.metrics_Id = metric_id;
 	        m.resources_Id = component_id; // TODO
-	        m.timestamp = new MyTimestamp(Long.valueOf((String) pair.getKey()).longValue());
-	        m.value = Long.valueOf((String) pair.getValue()).longValue();
+	        m.timestamp = new MyTimestamp(Long.valueOf(pair.getKey()).longValue());
+	        m.value = Long.valueOf(pair.getValue()).longValue();
 	        
 	        // TODO
 	        

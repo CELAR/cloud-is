@@ -82,7 +82,8 @@ public class CollectorLoader extends SourceLoader {
 		String auth = applicationEndpoint.getConfig().getProperty("auth");
 		if(auth != null && !auth.isEmpty())
 		{
-			String authToken = null;
+			String authToken = this.params.get("token");
+			// TODO: Mind to add a check for null authToken --> if null throw unauthendicatedError 
 			temp.init(new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(uri, authToken));
 		}
 		else
@@ -113,7 +114,8 @@ public class CollectorLoader extends SourceLoader {
 		String auth = applicationEndpoint.getConfig().getProperty("auth");		
 		if(auth != null && !auth.isEmpty())
 		{
-			String authToken = null;
+			String authToken = this.params.get("token");
+			// TODO: Mind to add a check for null authToken --> if null throw unauthendicatedError 
 			CMclientHelper = new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(cmUri, authToken);
 		}
 		else
@@ -150,7 +152,8 @@ public class CollectorLoader extends SourceLoader {
 		String auth = applicationEndpoint.getConfig().getProperty("auth");
 		if(auth != null && !auth.isEmpty())
 		{
-			String authToken = null;
+			String authToken = this.params.get("token");
+			// TODO: Mind to add a check for null authToken --> if null throw unauthendicatedError 
 			monitoringHistoricalData.init(new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(uri, authToken));
 		}
 		else
@@ -179,7 +182,8 @@ public class CollectorLoader extends SourceLoader {
 		String auth = applicationEndpoint.getConfig().getProperty("auth");
 		if(auth != null && !auth.isEmpty())
 		{
-			String authToken = null;
+			String authToken = this.params.get("token");
+			// TODO: Mind to add a check for null authToken --> if null throw unauthendicatedError 
 			topologyData.init(new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(uri, authToken));
 		}
 		else
@@ -208,7 +212,8 @@ public class CollectorLoader extends SourceLoader {
 		String auth = applicationEndpoint.getConfig().getProperty("auth");
 		if(auth != null && !auth.isEmpty())
 		{
-			String authToken = null;
+			String authToken = this.params.get("token");
+			// TODO: Mind to add a check for null authToken --> if null throw unauthendicatedError 
 			elasticityData.init(new eu.celarcloud.cloud_is.dataCollectionModule.common.helpers.clients.CelarManager(uri, authToken));
 		}
 		else

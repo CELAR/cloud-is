@@ -20,6 +20,7 @@
  */
 package eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource;
 
+import java.util.HashMap;
 import java.util.Properties;
 
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,10 @@ public abstract class SourceLoader implements ISourceLoader  {
 	 * 		data:	The Data Folder Path
 	 *  
 	 */
-	protected Properties globalProps = null;	
+	protected Properties globalProps = null;
+	
+	/** The params. */
+	protected HashMap<String, String> params= null;
 	
 	/** The Constant LOG. */
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(SourceLoader.class.getName());
@@ -119,6 +123,14 @@ public abstract class SourceLoader implements ISourceLoader  {
 		if(this.globalProps != null)
 			path = this.globalProps.getProperty("dataPath");
 		return path;		
+	}
+	
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#injectParameters(java.util.HashMap)
+	 */
+	public void injectParameters(HashMap<String,String> params)
+	{
+		this.params = params;
 	}
 	
 	/* (non-Javadoc)
@@ -217,5 +229,8 @@ public abstract class SourceLoader implements ISourceLoader  {
 	 */
 	public abstract IDataSource loadTopologyInterface();
 	
+	/* (non-Javadoc)
+	 * @see eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader#loadElasticityLogInterface()
+	 */
 	public abstract IDataSource loadElasticityLogInterface();
 }
