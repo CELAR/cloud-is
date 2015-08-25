@@ -20,12 +20,26 @@ $(document).ready(function(){
      /*
       * Fill up Running Deployments
       */
-     jQuery.ajax({
+     ajaxRequest(
+    	isserver + '/rest/deployment/recent',
+        'get',
+        null,
+        'json',
+        recentDeployments,
+		function(jsonObj) {
+			// error
+			
+		},
+        null
+    );
+    /*     
+    jQuery.ajax({
  		type: 'get',
  		dataype: "json",
  		url: isserver + '/rest/deployment/recent',
  		success: recentDeployments
  	});
+     */
      
      /*
       * Fill up Latest Actions

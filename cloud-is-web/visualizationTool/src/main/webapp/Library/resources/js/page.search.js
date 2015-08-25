@@ -306,6 +306,21 @@ $(document).ready(function(){
 		$('input[name="submitted_end"]').val(v);
 		
 		// Ajax Post form
+		ajaxRequest(
+			isserver + '/rest/application/search',
+	        'get',
+	        $(this).serialize(),
+	        'json',
+	        function(jsonResponse) {
+				populateApplicationSearchResults(jsonResponse);				
+			},
+			function(jsonObj) {
+				// error
+				
+			},
+	        null
+        );
+		/*
 		$.ajax({
 			type: 'get',
 			dataype: "application/json",
@@ -315,7 +330,7 @@ $(document).ready(function(){
 				populateApplicationSearchResults(jsonResponse);				
 			}
 		});	 
-		
+		*/
 		
 		$('input[name="submitted_start_dp"]').attr('disabled', false);
 		$('input[name="submitted_end_dp"]').attr('disabled', false);
@@ -353,6 +368,22 @@ $(document).ready(function(){
 		$('input[name="end_time"]').val(v);
 		
 		// Ajax Post form
+		ajaxRequest(
+			isserver + '/rest/deployment/search',
+	        'get',
+	        $(this).serialize(),
+	        'json',
+	        function(jsonResponse) {
+				console.log(jsonResponse);
+				populateDeploymentSearchResults(jsonResponse);				
+			},
+			function(jsonObj) {
+				// error
+				
+			},
+	        null
+        );
+		/*
 		$.ajax({
 			type: 'get',
 			dataype: "application/json",
@@ -363,7 +394,7 @@ $(document).ready(function(){
 				populateDeploymentSearchResults(jsonResponse);				
 			}
 		});
-		
+		*/
 		
 		$('input[name="start_time_dp"]').attr('disabled', false);
 		$('input[name="end_time_dp"]').attr('disabled', false);

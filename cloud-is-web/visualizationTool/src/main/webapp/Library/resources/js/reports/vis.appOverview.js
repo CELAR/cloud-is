@@ -307,7 +307,7 @@ function appOverview () {
 		
 		$.when(
 				// Get data to display
-				/*
+				/* This is old code
 				jQuery.ajax({
 					type: 'get',
 					dataype: "json",
@@ -321,6 +321,24 @@ function appOverview () {
 				*/
 				
 				// Get Application Servers (tier) Instance Count (over the time) data
+				
+				ajaxRequest(
+						isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'appServer' + '/instances',
+    		        'get',
+    		        null,
+    		        'json',
+    		        function(jsonResponse){
+						if(jQuery.type(jsonResponse) === "string")
+							jsonResponse = $.parseJSON(jsonResponse);
+						combinedJSON.instances['appServer'] = jsonResponse;
+					},
+    				function(jsonObj) {
+    					// error
+    					
+    				},
+    		        null
+		        ),
+				/*
 				jQuery.ajax({
 					type: 'get',
 					dataype: "json",
@@ -331,8 +349,28 @@ function appOverview () {
 						combinedJSON.instances['appServer'] = jsonResponse;
 					}
 				}),
-				
+				*/
+		        	        
+		        
 				// Get Database Servers (tier) Instance Count (over the time) data
+		        
+		        ajaxRequest(
+		        	isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'database' + '/instances',
+    		        'get',
+    		        null,
+    		        'json',
+    		        function(jsonResponse){
+						if(jQuery.type(jsonResponse) === "string")
+							jsonResponse = $.parseJSON(jsonResponse);
+						combinedJSON.instances['database'] = jsonResponse;
+					},
+    				function(jsonObj) {
+    					// error
+    					
+    				},
+    		        null
+		        ),
+		        /*
 				jQuery.ajax({
 					type: 'get',
 					dataype: "json",
@@ -343,8 +381,27 @@ function appOverview () {
 						combinedJSON.instances['database'] = jsonResponse;
 					}
 				}),
+				*/
 				
 				// Get Application Servers (tier) Cost (over the time) data
+		        
+		        ajaxRequest(
+		        	isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'appServer' + '/cost',
+    		        'get',
+    		        null,
+    		        'json',
+    		        function(jsonResponse){
+						if(jQuery.type(jsonResponse) === "string")
+							jsonResponse = $.parseJSON(jsonResponse);
+						combinedJSON.cost['appServer'] = jsonResponse;
+					},
+    				function(jsonObj) {
+    					// error
+    					
+    				},
+    		        null
+		        ),
+		        /*
 				jQuery.ajax({
 					type: 'get',
 					dataype: "json",
@@ -355,8 +412,28 @@ function appOverview () {
 						combinedJSON.cost['appServer'] = jsonResponse;
 					}
 				}),
+				*/
 				
 				// Get Database Servers (tier) Cost (over the time) data
+		        
+		        ajaxRequest(
+		        	isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'database' + '/cost',
+    		        'get',
+    		        null,
+    		        'json',
+    		        function(jsonResponse){
+						if(jQuery.type(jsonResponse) === "string")
+							jsonResponse = $.parseJSON(jsonResponse);
+						combinedJSON.cost['database'] = jsonResponse;
+					},
+    				function(jsonObj) {
+    					// error
+    					
+    				},
+    		        null
+		        )
+		        
+		        /*
 				jQuery.ajax({
 					type: 'get',
 					dataype: "json",
@@ -367,6 +444,7 @@ function appOverview () {
 						combinedJSON.cost['database'] = jsonResponse;
 					}
 				})
+				*/
 				
 		).then(function() {
 			console.log(combinedJSON);			

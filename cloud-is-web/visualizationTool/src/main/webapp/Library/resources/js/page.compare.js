@@ -27,11 +27,13 @@ $(document).ready(function(){
 		$('.cd-popup .applicationList').html('');
 		$('.cd-popup .versionList').html('');
 		//
-		jQuery.ajax({
-			type : 'get',
-			dataype : "json",
-			url : isserver + '/rest/application/',
-			success : function(jsonObj) {
+		
+		ajaxRequest(
+				isserver + '/rest/application/',
+	        'get',
+	        null,
+	        'json',
+	        function(jsonObj) {
 				if (jQuery.type(jsonObj) === "string")
 					jsonObj = eval(jsonObj);
 				
@@ -64,8 +66,24 @@ $(document).ready(function(){
 				{
 					wellHolder.append('<span>Nothing to show</span>');
 				}
+			},
+			function(jsonObj) {
+				// error
+				
+			},
+	        null
+        );
+		
+		/*
+		jQuery.ajax({
+			type : 'get',
+			dataype : "json",
+			url : isserver + '/rest/application/',
+			success : function(jsonObj) {
+				
 			}
 		});
+		*/
 	});
 	
 	//close popup
@@ -105,11 +123,13 @@ $(document).ready(function(){
 			
 			// Get additional info from the service
 			// eg. Deployments (/{appId}/deployment)
-			jQuery.ajax({
-				type : 'get',
-				dataype : "json",
-				url : isserver + '/rest/application/' + $(this).find('span[data-name="appCombId"]').html() + '/deployment',
-				success : function(jsonObj) {
+			
+			ajaxRequest(
+					isserver + '/rest/application/' + $(this).find('span[data-name="appCombId"]').html() + '/deployment',
+		        'get',
+		        null,
+		        'json',
+		        function(jsonObj) {
 					if (jQuery.type(jsonObj) === "string")
 						jsonObj = eval(jsonObj);
 					
@@ -117,8 +137,24 @@ $(document).ready(function(){
 						wellItem.find('span[data-name="deployment"]').html(jsonObj[0].id);
 					else
 						wellItem.find('span[data-name="deployment"]').html("No Eligible Deployemen Found");
+				},
+				function(jsonObj) {
+					// error
+					
+				},
+		        null
+	        );
+			
+			/*
+			jQuery.ajax({
+				type : 'get',
+				dataype : "json",
+				url : isserver + '/rest/application/' + $(this).find('span[data-name="appCombId"]').html() + '/deployment',
+				success : function(jsonObj) {
+					
 				}
 			});
+			*/
 						
 			// Assign onClick Events
 			wellItem.off('click');
@@ -170,11 +206,13 @@ $(document).ready(function(){
 			
 			// Get the topology (components) of the
 			// version => deployment and fill the side bar
-			jQuery.ajax({
-				type : 'get',
-				dataype : "json",
-				url : isserver + '/rest/deployment/' + deplId + '/topology',
-				success : function(jsonObj) {
+			
+			ajaxRequest(
+				isserver + '/rest/deployment/' + deplId + '/topology',
+		        'get',
+		        null,
+		        'json',
+		        function(jsonObj) {
 					if (jQuery.type(jsonObj) === "string")
 						jsonObj = eval(jsonObj);
 					
@@ -212,8 +250,24 @@ $(document).ready(function(){
 					{
 						wellHolder.append('<span>Nothing to show</span>');
 					}
+				},
+				function(jsonObj) {
+					// error
+					
+				},
+		        null
+	        );
+			
+			/*
+			jQuery.ajax({
+				type : 'get',
+				dataype : "json",
+				url : isserver + '/rest/deployment/' + deplId + '/topology',
+				success : function(jsonObj) {
+					
 				}
 			});
+			*/
 			
 			// if no error, show content
 			$('#chartBuilder .noContentNotice').addClass('noDisplay');
@@ -242,11 +296,12 @@ $(document).ready(function(){
 		// Get additional info from the service
 		// eg. Deployments (/{appId}/deployment)
 		
-		jQuery.ajax({
-			type : 'get',
-			dataype : "json",
-			url : isserver + '/rest/compare/commonMetrics?data=' + JSON.stringify(dataObject),
-			success : function(jsonObj) {
+		ajaxRequest(
+				isserver + '/rest/compare/commonMetrics?data=' + JSON.stringify(dataObject),
+	        'get',
+	        null,
+	        'json',
+	        function(jsonObj) {
 				if (jQuery.type(jsonObj) === "string")
 					jsonObj = eval(jsonObj);
 				
@@ -269,8 +324,24 @@ $(document).ready(function(){
 					wellItem.removeClass('noDisplay');
 					wellHolder.append(wellItem);
 				});
+			},
+			function(jsonObj) {
+				// error
+				
+			},
+	        null
+        );
+		
+		/*
+		jQuery.ajax({
+			type : 'get',
+			dataype : "json",
+			url : isserver + '/rest/compare/commonMetrics?data=' + JSON.stringify(dataObject),
+			success : function(jsonObj) {
+				
 			}
 		});
+		*/
 		
 	});	
 	

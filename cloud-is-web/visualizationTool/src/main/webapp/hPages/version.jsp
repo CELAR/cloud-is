@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>CELAR IS | Version</title>
 	<!--bootstrap script -->
-	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/script.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/bootstrap.js"></script>
 	<script type="text/javascript">
 		var isserver = "<%=pageContext.findAttribute("isserver")%>";	
 		var wcserver = window.location.protocol + "//" + window.location.host + "<%=request.getContextPath()%>/";
@@ -19,7 +19,8 @@
 		*/		
 		isServerValidation();
 	</script>
-	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>	
+	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+	<script type="application/javascript" src="<%=request.getContextPath()%>/Library/resources/js/util.ajax.js"></script>	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/util.ui.tabber.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/page.version.js"></script>
 	
@@ -37,21 +38,22 @@
 		<span data-appID><%=pageContext.findAttribute("appId")%></span>
 	</div>
 	<div class="page">
-		<div class="headInfoBar">
-			<div class="notification dashboard-notice noDisplay">
-				<button type="button" class="close" style="padding-right:50px">&times;</button>
-				<strong>{{alert.title}}</strong> 
-				<span></span>
-				<div class="pull-right small ng-binding" style="padding-right:10px">1 alert(s)</div>
-	    	</div>
-	    	<div class="infoContent">
-	    	
-	    	</div>
-	    	<div class="pageTitle">
-	    		<div class="title">
-	    			Version
+		<div class="headInfoBar background dark">
+			<div class="noDisplay"></div>
+	    	<div class="visualFeedback">
+	    		<div class="loadingIndicator noDisplay">
+				  <div></div>
+				  <div></div>
+				  <div></div>
+				  <div></div>
+	    		</div>
+	    		<div class="globalNotification noDisplay">
+	    			<div class="ntf">
+	    				<div class="ntf_message"></div>
+	    			</div>
 	    		</div>
 	    	</div>
+	    	<div class="noDisplay"></div>
     	</div>
 	    <div class="navbar pageNavMenu">
 	      <div class="navbar-inner">

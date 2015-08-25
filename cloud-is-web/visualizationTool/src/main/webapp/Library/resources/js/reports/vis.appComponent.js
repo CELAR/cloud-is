@@ -143,12 +143,27 @@ function appComponent (reportID) {
 		});
 		
 		// Get data to display
+		ajaxRequest(
+			isserver + '/rest/analysis/' + params.deplId + partUrl + '/stats/' + "?" + qString,
+	        'get',
+	        null,
+	        'json',
+	        onSuccess,
+			function(jsonObj) {
+				// error
+				
+			},
+	        null
+        );
+		
+		/*
 		jQuery.ajax({
 			type: 'get',
 			dataype: "json",
 			url: isserver + '/rest/analysis/' + params.deplId + partUrl + '/stats/' + "?" + qString,
 			success: onSuccess
 		});
+		*/
 	};
 }
 

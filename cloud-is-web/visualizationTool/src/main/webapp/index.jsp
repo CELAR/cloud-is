@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>CELAR IS | DashBoard</title>
 	<!--bootstrap script -->
-	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/script.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/bootstrap.js"></script>
 	<script type="text/javascript">
 		var isserver = "<%=pageContext.findAttribute("isserver")%>";	
 		var wcserver = window.location.protocol + "//" + window.location.host + "<%=request.getContextPath()%>/";
@@ -27,28 +27,34 @@
 	<link href="<%=request.getContextPath()%>/Library/resources/css/page.index.css" rel="stylesheet">
 	
 	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+	<script type="application/javascript" src="<%=request.getContextPath()%>/Library/resources/js/util.ajax.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/Library/resources/js/page.index.js"></script>   
 </head>
 
 <body>
 	<div class="page">
-		<div class="headInfoBar">
-			<div class="notification dashboard-notice noDisplay">
-				<button type="button" class="close" style="padding-right:50px">&times;</button>
-				<strong>{{alert.title}}</strong> 
-				<span></span>
-				<div class="pull-right small ng-binding" style="padding-right:10px">1 alert(s)</div>
+		<div class="headInfoBar background dark">
+			<div class="appHeader noDisplay">
+    			<img class="appLogo" src="<%=request.getContextPath()%>/Library/media/cellar_small_logo.png">
+    			<span class="appTitle"> > </span><span class="appTitle">Information System</span>
 	    	</div>
-	    	<div class="infoContent background dark">
-	    		<div class="appHeader noDisplay">
-	    			<img class="appLogo" src="<%=request.getContextPath()%>/Library/media/cellar_small_logo.png">
-	    			<span class="appTitle"> > </span><span class="appTitle">Information System</span>
-		    	</div>
-		    	<div class="appAbout mn  noDisplay" style="float:right">
-	    			<div class="mnItem"><a class="plain" href="#"><span>Help</span></a></div>
-	    			<div class="mnItem seperator"><span>|</span></div>
-	    			<div class="mnItem"><a class="plain" href="#"><span>About</span></a></div>
-		    	</div>
+	    	<div class="visualFeedback">
+	    		<div class="loadingIndicator noDisplay">
+				  <div></div>
+				  <div></div>
+				  <div></div>
+				  <div></div>
+	    		</div>
+	    		<div class="globalNotification noDisplay">
+	    			<div class="ntf">
+	    				<div class="ntf_message"></div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    	<div class="appAbout mn  noDisplay" style="float:right">
+    			<div class="mnItem"><a class="plain" href="#"><span>Help</span></a></div>
+    			<div class="mnItem seperator"><span>|</span></div>
+    			<div class="mnItem"><a class="plain" href="#"><span>About</span></a></div>
 	    	</div>
     	</div>
 	    <div class="navbar pageNavMenu background dark">

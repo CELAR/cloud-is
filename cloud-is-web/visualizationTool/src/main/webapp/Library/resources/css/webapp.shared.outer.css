@@ -87,13 +87,6 @@ a.plain:hover, a.plain:active {
 
 
 .page .headInfoBar {
-	/*
-	position: absolute;
-	left: 100px;
-	right: 0px;
-	top:0px;
-	height: 100px;
-	*/
 	height: 50px;
     left: 0;
     position: absolute;
@@ -101,23 +94,103 @@ a.plain:hover, a.plain:active {
     top: 0;
 }
 
-.page .notification {
-	position: absolute;
-	left: 0px;
-	right: 0px;
-	top:0px;
-	height: 20px;	
+.page .headInfoBar > .visualFeedback {
+	/*
+	height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+	*/	
 }
 
-.page .infoContent {
-	/*
-	position: absolute;
-	left: 0px;
-	right: 0px;
-	top: 20px;
+/*
+*	Global Notification
+*/
+.page .visualFeedback  > .globalNotification {
 	height: 40px;
-	*/	
-    height: 50px;
+    margin: 5px auto 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.page .visualFeedback  > .globalNotification  > .ntf{
+	border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    text-align: center;
+    margin: auto;
+}
+
+.page .visualFeedback  > .globalNotification  > .ntf.success{
+	border-color: #003300;
+	background-color: #00CC00;
+}
+
+.page .visualFeedback  > .globalNotification  > .ntf.info{
+	border-color: #000099;
+	background-color: #3340FF;	
+}
+
+.page .visualFeedback  > .globalNotification  > .ntf.warning{
+	border-color: #CC6200;
+	background-color: #FF9500;	
+}
+
+.page .visualFeedback  > .globalNotification  > .ntf.error{
+	border-color: #990000;
+	background-color: #FF3333;	
+}
+
+.page .globalNotification  > .ntf > .ntf_message {
+	padding: 2px 4px;
+}
+
+/*
+*	Loading Indicator
+*/
+.page .visualFeedback  > .loadingIndicator {
+	height: 40px;
+    margin: 10px auto 0;
+    overflow: hidden;
+    position: relative;
+    width: 300px;	
+}
+
+.page .visualFeedback  > .loadingIndicator div {
+  	position: absolute;
+  	bottom: 0;
+  	left: -20px;    
+    height: 10px;    
+    width: 10px;
+    background-color: lightgray;
+    animation: 4s cubic-bezier(0.2, 0.64, 0.81, 0.23) 0s normal none infinite running move;
+  	/*border-radius: 50%;*/
+}
+
+.page .visualFeedback  > .loadingIndicator div:nth-child(2) {
+  	animation-delay: 150ms;
+}
+
+.page .visualFeedback  > .loadingIndicator div:nth-child(3) {
+  	animation-delay: 300ms;
+}	
+
+.page .visualFeedback  > .loadingIndicator div:nth-child(4) {
+  	animation-delay: 450ms;
+}
+
+@keyframes move {
+  	0% {left: 0%;}
+  	75% {left:100%;}
+  	100% {left:100%;}
+}
+
+/*
+*	Dead Code
+*
+.page .infoContent {
+	height: 50px;
     left: 0;
     position: absolute;
     right: 0;
@@ -155,15 +228,12 @@ a.plain:hover, a.plain:active {
 .page .infoContent .appAbout.mn > .mnItem {
     display: inline-block;
 }
+*/
 
+/*
+*	Dead Code
+*
 .page .pageTitle {
-	/*
-	position: absolute;
-	left: 0px;
-	right: 0px;
-	top: 60px;
-	height: 40px;
-	*/
 	border-left: 2px solid #2f2f2f;
     border-top: 2px solid #2f2f2f;
     height: 40px;
@@ -181,6 +251,7 @@ a.plain:hover, a.plain:active {
 	font-size: 150%;
 	padding-left: 15px;
 }
+*/
 
 .page > .navbar {
 	

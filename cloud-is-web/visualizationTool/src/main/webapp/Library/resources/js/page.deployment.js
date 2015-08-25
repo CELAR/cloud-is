@@ -79,6 +79,70 @@ var initScripts = {
 
 		console.log('initAnalysis');
 		// Load App Structure Tree Navigator
+		
+		ajaxRequest(
+				isserver + '/rest/deployment/' + deplId + '/topology',
+		        'get',
+		        null,
+		        'json',
+		        function(jsonObj) {
+					if (jQuery.type(jsonObj) === "string")
+						jsonObj = eval(jsonObj);
+					
+					// Build UI control According the response
+					var context = $('.appComponentList');
+					var wellHolder = context.find('.well > .wellContentHolder');
+
+					if(jsonObj !=null && jsonObj !="")
+					{	
+						$.each(jsonObj, function(key, module) {
+							$.each(module.components, function(key, component) {
+								var wellItem = context.find('.well > .wellItemTemplate').clone();
+								var inner = wellItem.find('span');
+								//console.log("This is node");
+								//console.log(node);
+								
+								//inner.html(module.name + "->" + component.description);
+								inner.html(component.description);
+								inner.attr("data-id", component.id);
+								inner.attr("data-component", component.id);
+								inner.attr("data-module", module.id);
+								
+								// Assign onClick Events
+								inner.off('click');
+								inner.on('click', onClick_component);	
+								
+								wellHolder.append(wellItem);
+							});
+						});
+					}
+					else
+					{
+						wellHolder.append('<span>Nothing to show</span>');
+					}
+					$('.appComponentList').removeClass('noDisplay');
+					
+					// Add click event to overview pane / report
+					context.find('span[data-id="overview"]').off('click');
+					context.find('span[data-id="overview"]').on('click', onClick_component);
+					
+					// Load Charts API
+					chartsApiWating();
+					initScripts.initChartsAPI(chartsApiLoaded);
+				},
+				function(jsonObj) {
+					// TODO: Try to remove duplicate code
+					// Build UI control According the response
+					var context = $('.appComponentList');
+					var wellHolder = context.find('.well > .wellContentHolder');
+					
+					wellHolder.append('<span>Nothing to show</span>');
+					$('.appComponentList').removeClass('noDisplay');
+				},
+		        null);
+		
+		
+		/*
 		jQuery.ajax({
 			type : 'get',
 			dataype : "json",
@@ -129,6 +193,7 @@ var initScripts = {
 				initScripts.initChartsAPI(chartsApiLoaded);
 			}
 		});
+		*/
 	},
 	'initMonitoring' : function() {
 		console.log('initMonitoring');
@@ -154,11 +219,12 @@ var initScripts = {
 			deplId = urlParams.deplID;
 		
 		//initTime Control
-		jQuery.ajax({
-			type : 'get',
-			dataype : "json",
-			url : isserver + '/rest/deployment/' + deplId,
-			success : function(jsonObj) {
+		ajaxRequest(
+			isserver + '/rest/deployment/' + deplId,
+	        'get',
+	        null,
+	        'json',
+	        function(jsonObj) {
 				if (jQuery.type(jsonObj) === "string")
 					jsonObj = eval(jsonObj);
 				
@@ -210,19 +276,38 @@ var initScripts = {
 				    });
 				    
 				}
+			},
+			function(jsonObj) {
+				
+			},
+	        null
+	    );
+		
+		
+		/*
+		jQuery.ajax({
+			type : 'get',
+			dataype : "json",
+			url : isserver + '/rest/deployment/' + deplId,
+			success : function(jsonObj) {
+				
 			}
 		});	
+		*/
 		
 		// Makes use of jspumb library
 		jsPlumb.ready(function() {
 			// your jsPlumb related init code goes here  
 			
 			// Load App Structure
-			jQuery.ajax({
-				type : 'get',
-				dataype : "json",
-				url : isserver + '/rest/deployment/' + deplId + '/topology',
-				success : function(jsonObj) {
+			
+			ajaxRequest(
+				isserver + '/rest/deployment/' + deplId + '/topology',
+		        'get',
+		        null,
+		        'json',
+		        function(jsonObj) {
+					// Success
 					if (jQuery.type(jsonObj) === "string")
 						jsonObj = eval(jsonObj);
 					
@@ -515,8 +600,26 @@ var initScripts = {
 					{
 						context.append('<span>Nothing to show</span>');
 					}
+				},
+				function(jsonObj) {
+					// error
+					
+				},
+		        null
+	        );
+			
+			
+			
+			/*
+			jQuery.ajax({
+				type : 'get',
+				dataype : "json",
+				url : isserver + '/rest/deployment/' + deplId + '/topology',
+				success : function(jsonObj) {
+					
 				}
 			});
+			*/
 		});
 		
 		// Set 'Apply' Button enent handler
@@ -540,12 +643,14 @@ var initScripts = {
 		    		qString	+= '&sTime=' + new Date(values.min).getTime();
 		    		qString	+= '&eTime=' + new Date(values.max).getTime();	    		
 		    		
-					jQuery.ajax({
-						type: 'get',
-						dataype: "json",
-						url: isserver + '/rest/analysis/' + urlParams.deplID + '/tier/' + tier + "?" + qString,
-						success: function(jsonResponse) {
-							if(jQuery.type(jsonResponse) === "string")
+		    		ajaxRequest(
+	    				isserver + '/rest/deployment/' + deplId + '/topology',
+	    		        'get',
+	    		        null,
+	    		        'json',
+	    		        function(jsonObj) {
+	    					// Success
+	    					if(jQuery.type(jsonResponse) === "string")
 								jsonResponse = $.parseJSON(jsonResponse);
 							
 							// Draw a chart below the component
@@ -617,9 +722,26 @@ var initScripts = {
 							var googleChart = new google.visualization.LineChart(chart[0]);
 							googleChart.draw(data, options);
 							
-							//chart.removeClass('noDisplay');						
+							//chart.removeClass('noDisplay');	
+	    				},
+	    				function(jsonObj) {
+	    					// error
+	    					
+	    				},
+	    		        null
+    		        );
+		    		
+		    		
+		    		/*
+					jQuery.ajax({
+						type: 'get',
+						dataype: "json",
+						url: isserver + '/rest/analysis/' + urlParams.deplID + '/tier/' + tier + "?" + qString,
+						success: function(jsonResponse) {
+												
 						}
-					})
+					});
+					*/
 	        	}
 	        });
 		});
@@ -745,6 +867,8 @@ var onClick_component = function() {
 	var templType = $(this).data('templtype');
 	var reportID = $(this).data('id');
 	var title = $(this).html();
+	
+	var deplId = urlParams.deplID;
 
 	// Avoid to add the same report multiple time
 	if ($('.analyticsReports [data-reportid="' + reportID + '"]').length > 0) {
@@ -755,12 +879,13 @@ var onClick_component = function() {
 	data['type'] = templType;
 	data['template'] = template;
 
-	jQuery.ajax({
-		type : 'get',
-		dataype : "json",
-		data : data,
-		url : wcserver + '/ajax/analytics/reports/template',
-		success : function(jsonObj) {
+	ajaxRequest(
+		isserver + '/rest/deployment/' + deplId + '/topology',
+        'get',
+        null,
+        'json',
+        function(jsonObj) {
+			// Success
 			// Build UI control According the response
 			var well = $('.analyticsReports.well');
 			var item = well.find('.wellItemTemplate').clone();
@@ -878,9 +1003,26 @@ var onClick_component = function() {
 
 			// Fix height
 			$(window).trigger('resize');
+		},
+		function(jsonObj) {
+			// error
+			
+		},
+        null
+    );
+	
+	/*
+	jQuery.ajax({
+		type : 'get',
+		dataype : "json",
+		data : data,
+		url : wcserver + '/ajax/analytics/reports/template',
+		success : function(jsonObj) {
+			
 
 		}
 	});
+	*/
 }
 
 var resizeReports = function() {
