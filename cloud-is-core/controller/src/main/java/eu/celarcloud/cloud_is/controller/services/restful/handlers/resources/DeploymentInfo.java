@@ -18,18 +18,15 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.controller.services.restful.handlers;
+package eu.celarcloud.cloud_is.controller.services.restful.handlers.resources;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -38,6 +35,7 @@ import org.json.JSONArray;
 import com.sun.jersey.api.client.ClientResponse.Status;
 
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
+import eu.celarcloud.cloud_is.controller.services.restful.handlers.RestHandler;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.MetricValue;
@@ -48,33 +46,14 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IElasticityLo
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ITopology;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.exception.CommonException;
-
-
-
-
-
-
-
-
 //import resourceObjects.myHelloObject;
-import javax.servlet.ServletContext;
 
 
 /**
  * The Class DeploymentInfo.
  */
 @Path("/deployment")
-public class DeploymentInfo 
-{	
-	
-	/** The http request. */
-	@Context HttpServletRequest httpRequest;
-	
-	/** The http response. */
-	@Context HttpServletResponse httpResponse;
-	
-	/** The context. */
-	@Context ServletContext context;
+public class DeploymentInfo extends RestHandler {	
 	
 	/**
 	 * Gets the user applications.
@@ -86,7 +65,8 @@ public class DeploymentInfo
 	@Path("/")
 	public Response getUserDeployments() 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
+		
 		IDeploymentMetadata dep = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		List<Deployment> deployments = dep.getUserDeployments();
 		
@@ -127,7 +107,7 @@ public class DeploymentInfo
 		System.out.println(formattedDate);
 		*/
 		
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		List<Deployment> deployments = app.searchDeployments(application_id, start_time, end_time, status);
@@ -155,7 +135,7 @@ public class DeploymentInfo
 	@Path("/recent")
 	public Response recentDeployments(@QueryParam("limit") String limit, @QueryParam("status") String status) 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		
 		int l = 0;
@@ -191,7 +171,7 @@ public class DeploymentInfo
 	@Path("/{deplId}")
 	public Response getDeploymentInfo(@PathParam("deplId") String deployment_id) 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		
 		Deployment d;
@@ -218,7 +198,7 @@ public class DeploymentInfo
 	@Path("/{deplId}/topology")
 	public Response getDeploymentTopology(@PathParam("deplId") String deployment_id) 
 	{		
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		ITopology topology = (ITopology) ld.getDtCollectorInstance(DataSourceType.TOPOLOGY);
 		
 		String response;
@@ -239,7 +219,7 @@ public class DeploymentInfo
 	public Response getDeploymentDecisions(@PathParam("deplId") String deployment_id, @PathParam("compId") String compId, @PathParam("name") String name,
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IElasticityLog elasticityLog = (IElasticityLog) ld.getDtCollectorInstance(DataSourceType.ELASTICITY);
 		
 		// Load the Deployment Data if only ONE of start - end timestamps are empty
@@ -334,7 +314,7 @@ public class DeploymentInfo
 	public Response getDeploymentInstances(@PathParam("deplId") String deployment_id, @PathParam("compId") String compId, 
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		
 		// Get deployment informations
@@ -415,7 +395,7 @@ public class DeploymentInfo
 	public Response getDeploymentCost(@PathParam("deplId") String deployment_id, @PathParam("compId") String compId, 
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IMetering mon = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING_HISTORY);
 		
 		// Load the Deployment Data if only ONE of start - end timestamps are empty
@@ -489,7 +469,7 @@ public class DeploymentInfo
 	public Response getDeploymentAvailableMetrics(@PathParam("deplId") String deployment_id, @PathParam("compId") String compId, 
 										@QueryParam("sTime") String sTime, @QueryParam("eTime") String eTime) 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IMetering mon = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING_HISTORY);
 		
 		// Load the Deployment Data if only ONE of start - end timestamps are empty

@@ -18,25 +18,22 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.controller.services.restful.handlers;
+package eu.celarcloud.cloud_is.controller.services.restful.handlers.resources;
 
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.json.JSONArray;
 
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
+import eu.celarcloud.cloud_is.controller.services.restful.handlers.RestHandler;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Application;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
@@ -47,19 +44,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IApplicationM
  * The Class Application.
  */
 @Path("/application")
-public class ApplicationInfo 
-{
-	
-	/** The http request. */
-	@Context HttpServletRequest httpRequest;
-	
-	/** The http response. */
-	@Context HttpServletResponse httpResponse;
-	
-	/** The context. */
-	@Context ServletContext context;
-
-	
+public class ApplicationInfo  extends RestHandler {	
 	/**
 	 * Gets the user applications.
 	 *
@@ -70,7 +55,7 @@ public class ApplicationInfo
 	@Path("/")
 	public Response getUserApplications() 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		List<Application> applications = app.getUserApplications();
 		
@@ -96,7 +81,7 @@ public class ApplicationInfo
 	@Path("/{appId}")
 	public Response getApplication(@PathParam("appId") String appId) 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		//String.format("%010d", uniqueId)
@@ -120,7 +105,7 @@ public class ApplicationInfo
 	@Path("/{appId}/version")
 	public Response getApplicationVersions(@PathParam("appId") String appId) 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		String response;
@@ -148,7 +133,7 @@ public class ApplicationInfo
 	@Path("/{appId}{verId : (/version/[^/]+?)?}/deployment")
 	public Response getApplicationDeployments(@PathParam("appId") String appId, @PathParam("versId") String versId) 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		List<Deployment> deployments = app.getApplicationDeployments(appId);
@@ -178,7 +163,7 @@ public class ApplicationInfo
 	@Path("/{appId}/topology")
 	public Response getApplicationTopology(@PathParam("appId") String appId) 
 	{
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		String response;
@@ -226,7 +211,7 @@ public class ApplicationInfo
 		*/
 		
 		
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(DataSourceType.APPLICATION);
 		
 		List<Application> applications = app.searchApplications(submitted_start, submitted_end, description, module_name, component_description, provided_resource_id);

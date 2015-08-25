@@ -18,16 +18,14 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.controller.services.restful.handlers;
+package eu.celarcloud.cloud_is.controller.services.restful.handlers.resources;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.servlet.ServletContext;
+
+import eu.celarcloud.cloud_is.controller.services.restful.handlers.RestHandler;
 
 
 // TODO: Auto-generated Javadoc
@@ -35,19 +33,7 @@ import javax.servlet.ServletContext;
  * The Class Resources.
  */
 @Path("/resources")
-public class Resources 
-{	
-	
-	/** The http request. */
-	@Context HttpServletRequest httpRequest;
-	
-	/** The http response. */
-	@Context HttpServletResponse httpResponse;
-	
-	/** The context. */
-	@Context ServletContext context;
-	
-	
+public class Resources extends RestHandler {	
 
 	// This method is called if TEXT_PLAIN is request
 	/**

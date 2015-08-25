@@ -18,18 +18,15 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.controller.services.restful.handlers;
+package eu.celarcloud.cloud_is.controller.services.restful.handlers.resources;
 
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -37,28 +34,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
+import eu.celarcloud.cloud_is.controller.services.restful.handlers.RestHandler;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IMetering;
 //import org.apache.commons.collections.CollectionUtils;
-import javax.servlet.ServletContext;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class AppCompare.
  */
 @Path("/compare")
-public class AppCompare 
-{
-	
-	/** The http request. */
-	@Context HttpServletRequest httpRequest;
-	
-	/** The http response. */
-	@Context HttpServletResponse httpResponse;
-	
-	/** The context. */
-	@Context ServletContext context;
-
+public class AppCompare  extends RestHandler {
 	// This method is called if TEXT_PLAIN is request
 	/**
 	 * Say plain text hello.
@@ -70,7 +56,7 @@ public class AppCompare
 	@Path("/commonMetrics")
 	public Response getCommonMetrics(@QueryParam("data") String data) 
 	{		
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IMetering mon = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING_HISTORY);
 		
 		JSONArray json = new JSONArray();

@@ -18,23 +18,17 @@
  * limitations under the License.
  * --------------------------------------------------------------------------------------------------------------
  */
-package eu.celarcloud.cloud_is.controller.services.restful.handlers;
+package eu.celarcloud.cloud_is.controller.services.restful.handlers.resources;
 
-import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -46,6 +40,7 @@ import com.sun.jersey.api.client.ClientResponse.Status;
 import eu.celarcloud.cloud_is.controller.analyticsController.AnalyticsController;
 import eu.celarcloud.cloud_is.controller.collectorLoader.Loader;
 import eu.celarcloud.cloud_is.controller.configuration.Config;
+import eu.celarcloud.cloud_is.controller.services.restful.handlers.RestHandler;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Decision;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.beans.Deployment;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.DataSourceType;
@@ -59,18 +54,7 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.exception.CommonExcept
  * The Class AppAnalysis.
  */
 @Path("/analysis")
-public class Analysis 
-{
-	
-	/** The http request. */
-	@Context HttpServletRequest httpRequest;
-	
-	/** The http response. */
-	@Context HttpServletResponse httpResponse;
-	
-	/** The context. */
-	@Context ServletContext context;
-	
+public class Analysis  extends RestHandler {	
 	/**
 	 * Gets the app stats.
 	 *
@@ -114,7 +98,7 @@ public class Analysis
 		}		
 		
 		// Load the appropriate Data Collectors
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
 		
@@ -223,7 +207,7 @@ public class Analysis
 		}		
 		
 		// Load the appropriate Data Collectors
-		Loader ld = new Loader(context);
+		Loader ld = this.getLoader(context);
 		//IApplicationMetadata app = (IApplicationMetadata) ld.getDtCollectorInstance(ISourceLoader.TYPE_APPLICATION);
 		IDeploymentMetadata deplMeta = (IDeploymentMetadata) ld.getDtCollectorInstance(DataSourceType.DEPLOYMENT);
 		IMetering monitor = (IMetering) ld.getDtCollectorInstance(DataSourceType.MONITORING);
