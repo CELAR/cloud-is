@@ -21,8 +21,7 @@
 package eu.celarcloud.cloud_is.controller.collectorLoader;
 
 import java.io.File;
-
-import javax.servlet.ServletContext;
+import java.util.HashMap;
 
 import org.slf4j.LoggerFactory;
 
@@ -31,33 +30,54 @@ import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.IDataSource;
 import eu.celarcloud.cloud_is.dataCollectionModule.common.dtSource.ISourceLoader;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Loader.
  */
 public class Loader {
+	
+	/** The Constant LOG. */
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(Loader.class.getName());
+	
+	/**
+	 * An enumerator of all acceptable parameters
+	 * that loader class can get / read at the initialisation
+	 */
+	public static enum parameters {
+		
+		/** The collector name. */
+		COLLECTOR_NAME,
+		
+		/** The root path. */
+		ROOT_PATH,
+		
+		/** The temp data path. */
+		TEMP_DATA_PATH,
+		
+		/** The client auth token. */
+		CLIENT_AUTH_TOKEN
+	}
 	
 	/** The Data source loader. */
 	private ISourceLoader DataSourceLoader;
 	
-	/** The context. */
-	private ServletContext context;
+	/** Parameters in a <Key, Value> format. */
+	private HashMap<String, String> params;	
 	
 	/**
 	 * Instantiates a new loader.
 	 *
-	 * @param context
-	 *            the context
+	 * @param params
+	 *            Initialisation parameter in a <Key, Value> format            
 	 */
-	public Loader(ServletContext context)
-	{		
+	public Loader(HashMap<String, String> params)
+	{
+		this.params = params;
+		
 		Object classInstance = null;
 		
-		// Store context for future use
-		this.context = context;
-		
 		// Get Collector's class Name
-		String cName = (String) context.getAttribute("collectorName");
+		String cName = (String) this.params.get(Loader.getParameterName(Loader.parameters.COLLECTOR_NAME));
 		// Check is collectorName - Possible error on configuration file
 		if(cName == null || cName.isEmpty())
 		{
@@ -98,21 +118,66 @@ public class Loader {
             e.printStackTrace();
         }
 		
-        this.DataSourceLoader = (ISourceLoader) classInstance;      
+        this.DataSourceLoader = (ISourceLoader) classInstance;
 	}	
 		
 	/**
-	 * Gets the dt collector instance.
+	 * Gets the Data Collector instance.
 	 *
-	 * @param DataSourceType type
-	 *            the collection interface type
+	 * @param type
+	 *            the type
 	 * @return the appropriate data collector instance
 	 */
 	public IDataSource getDtCollectorInstance(DataSourceType type)
-	{       
-        String configPath = context.getRealPath("config"+File.separator);
+	{ 
+		String configPath = this.params.get(Loader.getParameterName(Loader.parameters.ROOT_PATH)) + "config" + File.separator;
+		this.DataSourceLoader.init(configPath, this.params.get(Loader.getParameterName(Loader.parameters.TEMP_DATA_PATH)));
         
-        this.DataSourceLoader.init(configPath, (String) this.context.getAttribute("gDataPath"));        
-		return this.DataSourceLoader.getDtCollectorInstance(type);
+        HashMap<String, String> dataSourceParams = new HashMap<String, String>();
+        dataSourceParams.put("token", this.params.get(Loader.getParameterName(Loader.parameters.CLIENT_AUTH_TOKEN)));
+        
+        this.DataSourceLoader.injectParameters(dataSourceParams);		
+        return this.DataSourceLoader.getDtCollectorInstance(type);
+	}
+	
+	/**
+	 * Resolve the Parameter String name
+	 * based on the parameters enumerator value.
+	 *
+	 * @param p
+	 *            A parameter enumerator value to be resolved
+	 * @return the parameter name
+	 */
+	public static String getParameterName(parameters p) {		
+		String name = null;
+		switch(p)
+		{
+			case COLLECTOR_NAME :
+			{
+				name = "collectorName";
+				break;
+			}
+			case ROOT_PATH :
+			{
+				name = "ROOT_PATH";
+				break;
+			}
+			case TEMP_DATA_PATH :
+			{
+				name = "TEMP_DATA_PATH";
+				break;
+			}
+			case CLIENT_AUTH_TOKEN :
+			{
+				name = "CLIENT_AUTH_TOKEN";
+				break;
+			}
+			default :
+			{
+				LOG.error("Unsupported input");
+				break;
+			}
+		}
+		return name;		
 	}
 }
