@@ -283,6 +283,9 @@ function appOverview () {
 			qString	+= '&metrics=' + metric;	
 		});
 		
+		
+		
+		
 		//-
 		// Build Request Parameters			
 		/*		
@@ -305,6 +308,11 @@ function appOverview () {
 		var cost = {} ; // Build holder for cost data
 		combinedJSON['cost'] = cost;
 		
+		// Pass the authendication token to the IS Server // requests if exists.
+		var reqParams = {};
+		if (("token" in urlParams))
+			reqParams['token'] =  urlParams.token;
+		
 		$.when(
 				// Get data to display
 				/* This is old code
@@ -320,12 +328,13 @@ function appOverview () {
 				}),
 				*/
 				
+				
 				// Get Application Servers (tier) Instance Count (over the time) data
 				
 				ajaxRequest(
-						isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'appServer' + '/instances',
+					isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'appServer' + '/instances',
     		        'get',
-    		        null,
+    		        reqParams,
     		        'json',
     		        function(jsonResponse){
 						if(jQuery.type(jsonResponse) === "string")
@@ -357,7 +366,7 @@ function appOverview () {
 		        ajaxRequest(
 		        	isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'database' + '/instances',
     		        'get',
-    		        null,
+    		        reqParams,
     		        'json',
     		        function(jsonResponse){
 						if(jQuery.type(jsonResponse) === "string")
@@ -388,7 +397,7 @@ function appOverview () {
 		        ajaxRequest(
 		        	isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'appServer' + '/cost',
     		        'get',
-    		        null,
+    		        reqParams,
     		        'json',
     		        function(jsonResponse){
 						if(jQuery.type(jsonResponse) === "string")
@@ -419,7 +428,7 @@ function appOverview () {
 		        ajaxRequest(
 		        	isserver + '/rest/deployment/' + params.deplId + '/tier/' + 'database' + '/cost',
     		        'get',
-    		        null,
+    		        reqParams,
     		        'json',
     		        function(jsonResponse){
 						if(jQuery.type(jsonResponse) === "string")

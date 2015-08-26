@@ -1,3 +1,16 @@
+var urlParams;
+(window.onpopstate = function () {
+    var match,
+        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query  = window.location.search.substring(1);
+
+    urlParams = {};
+    while (match = search.exec(query))
+       urlParams[decode(match[1])] = decode(match[2]);
+})();
+
 $(document).ready(function(){
      $.each($('.paneHolder .tile[data-adjust="tileHeight"]'), function(){
     	 var objHeight = 0;
@@ -15,7 +28,11 @@ $(document).ready(function(){
      setHeadBarBeanInfo('[data-type="applications"]', "4");
      setHeadBarBeanInfo('[data-type="deployments"]', "12");
      
-     
+	// Pass the authendication token to the IS Server 
+     // requests if exists.
+	var reqParams = {};
+	if (("token" in urlParams))
+		reqParams['token'] =  urlParams.token;
      
      /*
       * Fill up Running Deployments
@@ -23,7 +40,7 @@ $(document).ready(function(){
      ajaxRequest(
     	isserver + '/rest/deployment/recent',
         'get',
-        null,
+        reqParams,
         'json',
         recentDeployments,
 		function(jsonObj) {

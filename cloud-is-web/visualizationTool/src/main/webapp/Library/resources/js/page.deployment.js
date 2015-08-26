@@ -76,6 +76,12 @@ var initScripts = {
 		var deplId = 0;
 		if (("deplID" in urlParams))
 			deplId = urlParams.deplID;
+		
+		// Pass the authendication token to the IS Server
+		// requests if exists.
+		var reqParams = {};
+		if (("token" in urlParams))
+			reqParams['token'] =  urlParams.token;
 
 		console.log('initAnalysis');
 		// Load App Structure Tree Navigator
@@ -83,7 +89,7 @@ var initScripts = {
 		ajaxRequest(
 				isserver + '/rest/deployment/' + deplId + '/topology',
 		        'get',
-		        null,
+		        reqParams,
 		        'json',
 		        function(jsonObj) {
 					if (jQuery.type(jsonObj) === "string")
@@ -218,11 +224,17 @@ var initScripts = {
 		if (("deplID" in urlParams))
 			deplId = urlParams.deplID;
 		
+		// Pass the authendication token to the IS Server
+		// requests if exists.
+		var reqParams = {};
+		if (("token" in urlParams))
+			reqParams['token'] =  urlParams.token;
+		
 		//initTime Control
 		ajaxRequest(
 			isserver + '/rest/deployment/' + deplId,
 	        'get',
-	        null,
+	        reqParams,
 	        'json',
 	        function(jsonObj) {
 				if (jQuery.type(jsonObj) === "string")
@@ -299,12 +311,19 @@ var initScripts = {
 		jsPlumb.ready(function() {
 			// your jsPlumb related init code goes here  
 			
+			// Pass the authendication token to the IS Server 
+			// requests if exists.
+			var reqParams = {};
+			if (("token" in urlParams))
+				reqParams['token'] =  urlParams.token;
+			
+			
 			// Load App Structure
 			
 			ajaxRequest(
 				isserver + '/rest/deployment/' + deplId + '/topology',
 		        'get',
-		        null,
+		        reqParams,
 		        'json',
 		        function(jsonObj) {
 					// Success
@@ -419,9 +438,16 @@ var initScripts = {
 									$('#metricsList').html('');
 									$('#selectedMetricsList').html('');
 									
+									// Pass the authendication token to the IS Server
+									// requests if exists.
+									var reqParams = {};
+									if (("token" in urlParams))
+										reqParams['token'] =  urlParams.token;
+									
 									// Get data to display								
 									jQuery.ajax({
 										type: 'get',
+										data: reqParams,
 										dataype: "json",
 										url: isserver + '/rest/deployment/' + deplId + partUrl + '/metrics',
 										success: function(jsonObj) {										
@@ -524,12 +550,19 @@ var initScripts = {
 									if(!(compId.length === 0 || !compId))
 										partUrl += '/tier/' + compId;
 							    	
+									// Pass the authendication token to the IS Server 
+									// requests if exists.
+									var reqParams = {};
+									if (("token" in urlParams))
+										reqParams['token'] =  urlParams.token;									
+									
 							    	// Clear list boxes
 									$('.dicisionList').html('');
 									
 									// Get data to display								
 									jQuery.ajax({
 										type: 'get',
+										data: reqParams,
 										dataype: "json",
 										url: isserver + '/rest/deployment/' + deplId + partUrl + '/decision/',
 										success: function(jsonObj) {										
@@ -643,10 +676,16 @@ var initScripts = {
 		    		qString	+= '&sTime=' + new Date(values.min).getTime();
 		    		qString	+= '&eTime=' + new Date(values.max).getTime();	    		
 		    		
+		    		// Pass the authendication token to the IS Server 
+		    		// requests if exists.
+		    		var reqParams = {};
+		    		if (("token" in urlParams))
+		    			reqParams['token'] =  urlParams.token;
+		    		
 		    		ajaxRequest(
 	    				isserver + '/rest/deployment/' + deplId + '/topology',
 	    		        'get',
-	    		        null,
+	    		        reqParams,
 	    		        'json',
 	    		        function(jsonObj) {
 	    					// Success
@@ -875,14 +914,22 @@ var onClick_component = function() {
 		return null;
 	}
 
+	/*
 	data = {};
 	data['type'] = templType;
 	data['template'] = template;
-
+	 */
+	
+	// Pass the authendication token to the IS Server 
+	// requests if exists.
+	var reqParams = {};
+	if (("token" in urlParams))
+		reqParams['token'] =  urlParams.token;
+	
 	ajaxRequest(
 		isserver + '/rest/deployment/' + deplId + '/topology',
         'get',
-        null,
+        reqParams,
         'json',
         function(jsonObj) {
 			// Success

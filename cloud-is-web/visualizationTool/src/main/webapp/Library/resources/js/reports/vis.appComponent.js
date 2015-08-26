@@ -142,11 +142,16 @@ function appComponent (reportID) {
 			qString	+= '&metrics=' + metric.name;	
 		});
 		
+		// Pass the authendication token to the IS Server // requests if exists.
+		var reqParams = {};
+		if (("token" in urlParams))
+			reqParams['token'] =  urlParams.token;
+		
 		// Get data to display
 		ajaxRequest(
 			isserver + '/rest/analysis/' + params.deplId + partUrl + '/stats/' + "?" + qString,
 	        'get',
-	        null,
+	        reqParams,
 	        'json',
 	        onSuccess,
 			function(jsonObj) {

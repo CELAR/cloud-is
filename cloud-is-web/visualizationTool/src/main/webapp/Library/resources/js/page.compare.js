@@ -28,10 +28,16 @@ $(document).ready(function(){
 		$('.cd-popup .versionList').html('');
 		//
 		
+		// Pass the authendication token to the IS Server 
+		// requests if exists.
+		var reqParams = {};
+		if (("token" in urlParams))
+			reqParams['token'] =  urlParams.token;
+		
 		ajaxRequest(
-				isserver + '/rest/application/',
+			isserver + '/rest/application/',
 	        'get',
-	        null,
+	        reqParams,
 	        'json',
 	        function(jsonObj) {
 				if (jQuery.type(jsonObj) === "string")
@@ -121,13 +127,20 @@ $(document).ready(function(){
 			wellItem.find('span[data-name="appCombId"]').html($(this).find('span[data-name="appCombId"]').html());
 			wellItem.find('span[data-name="version"]').html($(this).find('span[data-name="version"]').html());			
 			
+			
+			// Pass the authendication token to the IS Server 
+			// requests if exists.
+			var reqParams = {};
+			if (("token" in urlParams))
+				reqParams['token'] =  urlParams.token;
+			
 			// Get additional info from the service
 			// eg. Deployments (/{appId}/deployment)
 			
 			ajaxRequest(
-					isserver + '/rest/application/' + $(this).find('span[data-name="appCombId"]').html() + '/deployment',
+				isserver + '/rest/application/' + $(this).find('span[data-name="appCombId"]').html() + '/deployment',
 		        'get',
-		        null,
+		        reqParams,
 		        'json',
 		        function(jsonObj) {
 					if (jQuery.type(jsonObj) === "string")
@@ -204,13 +217,19 @@ $(document).ready(function(){
 			// Main content holder / Components list
 			var holder = wellItem.find('.versionItemMain');
 			
+			// Pass the authendication token to the IS Server 
+			// requests if exists.
+			var reqParams = {};
+			if (("token" in urlParams))
+				reqParams['token'] =  urlParams.token;
+			
 			// Get the topology (components) of the
 			// version => deployment and fill the side bar
 			
 			ajaxRequest(
 				isserver + '/rest/deployment/' + deplId + '/topology',
 		        'get',
-		        null,
+		        reqParams,
 		        'json',
 		        function(jsonObj) {
 					if (jQuery.type(jsonObj) === "string")
@@ -273,9 +292,6 @@ $(document).ready(function(){
 			$('#chartBuilder .noContentNotice').addClass('noDisplay');
 			$('#chartBuilder .comparissonContent').removeClass('noDisplay');
 		});
-		
-		
-		
 	});
 	
 	$('[role="button"][data-action="commonMetrics"]').off('click');
@@ -293,13 +309,19 @@ $(document).ready(function(){
 			}			
 		});
 		
+		// Pass the authendication token to the IS Server 
+		// requests if exists.
+		var reqParams = {};
+		if (("token" in urlParams))
+			reqParams['token'] =  urlParams.token;
+		
 		// Get additional info from the service
 		// eg. Deployments (/{appId}/deployment)
 		
 		ajaxRequest(
-				isserver + '/rest/compare/commonMetrics?data=' + JSON.stringify(dataObject),
+			isserver + '/rest/compare/commonMetrics?data=' + JSON.stringify(dataObject),
 	        'get',
-	        null,
+	        reqParams,
 	        'json',
 	        function(jsonObj) {
 				if (jQuery.type(jsonObj) === "string")
@@ -353,12 +375,18 @@ $(document).ready(function(){
 			//Build Metrics Array / metrics requests string
 			metricId = $(this).html();
 			qString	+= '&metrics=' + metricId;
-			// Init combine jsaon object
+			// Init combined json object
 			combinedJSON[metricId] = {};
 		});
 		
 		
 		function analyticsRequests(){
+			// Pass the authendication token to the IS Server 
+			// requests if exists.
+			var reqParams = {};
+			if (("token" in urlParams))
+				reqParams['token'] =  urlParams.token;			
+			
 		    var requests = [];
         	$.each($('.versionComponent'), function() {
 				if($(this).find('.singleComponent.selected').length > 0)
@@ -369,6 +397,7 @@ $(document).ready(function(){
 						// Get Application Servers (tier) Instance Count (over the time) data
 						 var promise = $.ajax({
 							type: 'get',
+							data: reqParams,
 							dataype: "json",
 							url: isserver + '/rest/analysis/' + deplId + '/tier/' + compId + '?' + qString,
 							success: function(jsonResponse){

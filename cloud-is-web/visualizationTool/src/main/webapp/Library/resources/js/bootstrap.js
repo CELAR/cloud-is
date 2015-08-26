@@ -93,7 +93,7 @@ var contentLoading_get = function()
 *   	data['code'] -> for Notification Severity Indicator {error, warning, info, success}
 *   	data['msg'] -> message
 */
-function showNotification(data, duration) {
+var showNotification = function(data, duration) {
 
 	var notificationContainer = $(".globalNotification");
     var notification = notificationContainer.find(".ntf");
@@ -138,7 +138,7 @@ function showNotification(data, duration) {
 /*
  * Clears the Notification
  */
-function clearNotification() {
+var clearNotification = function() {
 	var notificationContainer = $(".globalNotification");
 	var notification = notificationContainer.find(".ntf");
     var notificationMessage = notification.find(".ntf_message");

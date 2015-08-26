@@ -305,11 +305,18 @@ $(document).ready(function(){
 			v ='';			
 		$('input[name="submitted_end"]').val(v);
 		
+		// Pass the authendication token to the IS Server 
+		// requests if exists.
+		var reqParams = $(this).serialize();
+		if (("token" in urlParams))
+			reqParams += "&token=" + urlParams.token;
+		
+		
 		// Ajax Post form
 		ajaxRequest(
 			isserver + '/rest/application/search',
 	        'get',
-	        $(this).serialize(),
+	        reqParams,
 	        'json',
 	        function(jsonResponse) {
 				populateApplicationSearchResults(jsonResponse);				
@@ -367,11 +374,17 @@ $(document).ready(function(){
 			v ='';			
 		$('input[name="end_time"]').val(v);
 		
+		// Pass the authendication token to the IS Server 
+		// requests if exists.
+		var reqParams = $(this).serialize();
+		if (("token" in urlParams))
+			reqParams += "&token=" + urlParams.token;
+		
 		// Ajax Post form
 		ajaxRequest(
 			isserver + '/rest/deployment/search',
 	        'get',
-	        $(this).serialize(),
+	        reqParams,
 	        'json',
 	        function(jsonResponse) {
 				console.log(jsonResponse);
